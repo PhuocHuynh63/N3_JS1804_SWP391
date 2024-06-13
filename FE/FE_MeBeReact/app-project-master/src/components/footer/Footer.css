@@ -1,0 +1,8 @@
+footer {
+    position: relative;
+    top: 67px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(214, 214, 214, 0.393);
+    background-color: rgba(247, 247, 247, 0.295);
+    box-shadow: -4px -2px 0 rgba(0, 0, 0, 0.1);
+}

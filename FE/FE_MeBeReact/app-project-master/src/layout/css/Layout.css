@@ -1,0 +1,26 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100%;
+    gap: 2.5rem;
+    /* Equivalent to space-y-10 in Tailwind CSS */
+}
+
+.layout-main {
+    display: flex;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.nav-side {
+    width: 13%;
+    height: 80vh;
+}
+
+.main-content {
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+    top: 115.6px;
+}
