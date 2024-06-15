@@ -13,7 +13,6 @@ const LoginPage = ({ show, handleClose }) => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
-  //redux thường
   const onFinish = (values) => {
     console.log("Success:", values);
     userService
@@ -21,11 +20,9 @@ const LoginPage = ({ show, handleClose }) => {
       .then((response) => {
         console.log(response.data);
         message.success("Login successfully");
-        //Lưu thông tin vào local storage
         localService.set(response.data.metadata);
         dispatch(setLoginAction(response.data.metadata));
 
-        //Chuyển hướng người dùng tới trang chủ
         if (response.data.metadata.role !== "admin") {
           navigate("/");
         } else {
@@ -39,10 +36,10 @@ const LoginPage = ({ show, handleClose }) => {
       });
   };
 
-  //end
   const onFinishFailed = (errorInfo) => {
     console.log(`Failed:`, errorInfo);
   };
+
   return (
     <Modal show={show} onHide={handleClose} size="xl" centered>
       <div className="login-modal-content">
@@ -176,7 +173,7 @@ const LoginPage = ({ show, handleClose }) => {
                                     <Button
                                       id="btn-signin"
                                       className="btn btn-dark btn-lg"
-                                      type="submit"
+                                      type="submit" // Changed from htmlType to type
                                     >
                                       Đăng nhập
                                     </Button>
