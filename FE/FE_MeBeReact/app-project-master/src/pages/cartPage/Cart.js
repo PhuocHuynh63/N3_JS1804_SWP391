@@ -91,7 +91,7 @@ const CartPage = ({ show, handleClose }) => {
                     <p>Tổng cộng: <span id="total-price">1075000₫</span></p>
                 </div>
                 <div className="cart-actions">
-                    <button className="view-cart-btn">Xem giỏ hàng</button>
+                    <a href="/cart" className="view-cart-btn">Xem giỏ hàng</a>
                     <button className="checkout-btn">Thanh toán</button>
                 </div>
             </div>

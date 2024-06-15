@@ -1,0 +1,172 @@
+.cart-details.container.py-5.mt-5 {
+    width: 100%;
+    max-width: 1030px;
+    margin: 0 auto;
+    font-family: "Roboto", sans-serif;
+    padding: 0 !important;
+    color: #333;
+}
+
+.breadcrumb-item a {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.breadcrumb-item.active {
+    font-size: 13.3px;
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    content: ">";
+}
+
+/* Cart detail */
+
+.cart-item .row {
+    display: flex;
+    align-items: center;
+}
+
+.cart-item {
+    height: fit-content;
+}
+
+.col-md-3:first-child {
+    height: 110px;
+    width: 130px;
+}
+
+.col-md-3:nth-child(2) {
+    width: 320px;
+}
+
+.col-md-3:nth-child(3) {
+    width: 110px;
+}
+
+.col-md-3:last-child {
+    width: 120px;
+}
+
+.col-md-3 img {
+    height: 110px;
+    width: 150px;
+}
+
+.col-md-3 h5 {
+    margin-bottom: 2px;
+    font-size: 15.4px;
+}
+
+.col-md-3 p {
+    font-size: 13.3px;
+    margin-bottom: 8px;
+}
+
+.col-md-3 p:nth-child(3) {
+    font-size: 11px;
+}
+
+.btn.btn-link.p-0 {
+    font-size: 14px;
+}
+
+.cart-details .cart-item {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.cart-details .cart-item .price {
+    font-size: 14px;
+    color: #e74c3c;
+}
+
+.form-control {
+    text-align: center;
+    font-size: 14px;
+    height: 28px;
+    width: 40px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border: 1px solid #33333361;
+}
+
+.input-group-append,
+.input-group-prepend,
+.btn.btn-outline-secondary {
+    height: 28px;
+    width: 28px;
+    padding: 0;
+}
+
+.btn.btn-outline-secondary {
+    border-radius: 2.4px;
+}
+
+/* Cart summary */
+.cart-summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    border: 1px solid #ddd;
+    padding: 25px 0px 15px 15px;
+}
+
+#cart-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.cart-summary .description {
+    margin-top: 3px;
+}
+
+.description {
+    font-size: 14px;
+}
+
+#summary {
+    border-top: 1px solid rgba(0, 0, 0, 0.123);
+    padding-top: 10px;
+    width: 95%;
+}
+
+.cart-summary .price {
+    font-size: 15px;
+    color: #e74c3c;
+}
+
+.cart-summary h5 {
+    margin-top: 20px;
+    font-size: 17px;
+}
+
+.form-check {
+    margin-top: 8px;
+}
+
+.form-check-label {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border: none;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 95.67%;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
