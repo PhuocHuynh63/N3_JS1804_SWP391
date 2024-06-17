@@ -16,8 +16,12 @@ public enum ErrorCode {
     PRODUCT_ATTRIBUTE_NO_EXIST(1009, "Product attribute does not exist"),
     PRODUCT_ATTRIBUTE_EXIST(1010, "Product attribute exist"),
     ORDER_NO_EXIST(1011, "Order does not exist"),
+    ORDER_NOT_CANCEL(1014, "Order cannot be cancelled"),
     INVENTORY_NO_EXIST(1012, "Inventory does not exist"),
     INVENTORY_QUANTITY_END(1013, "Inventory quantity out"),
+    REVIEW_NOT_FOUND(1015, "Review does not exist"),
+
+
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;
 

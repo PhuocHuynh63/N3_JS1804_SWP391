@@ -60,18 +60,9 @@ CREATE TABLE category (
 
 INSERT INTO category ([name], [slug])
 VALUES
-    (N'Combo Đồ Sơ Sinh', N'combo-do-so-sinh'),
-    (N'Máy Móc Thiết Yếu', N'may-moc-thiet-yeu'),
     (N'Sữa & Bình Sữa', N'sua-binh-sua'),
-    (N'Ăn Dặm', N'an-dam'),
     (N'Bỉm Tã - Vệ Sinh', N'bim-ta-ve-sinh'),
-    (N'Bé Ngủ', N'be-ngu'),
-    (N'Thời Trang Cho Bé', N'thoi-trang-cho-be'),
-    (N'Hóa Mỹ Phẩm', N'hoa-my-pham'),
-    (N'Xe Đẩy - Đồ Chơi', N'xe-day-do-choi'),
-    (N'Thuốc & Vitamin', N'thuoc-vitamin'),
-    (N'Đồ Cho Mẹ', N'do-cho-me'),
-    (N'Đồ Dùng Gia Đình', N'do-dung-gia-dinh');
+    (N'Đồ Cho Mẹ', N'do-cho-me')
 
 -- Tạo bảng SubCategory
 CREATE TABLE subcategory (
@@ -84,49 +75,29 @@ CREATE TABLE subcategory (
 
 INSERT INTO subcategory (parent_id, [name], slug)
 VALUES
-   -- Ăn dặm
-   (4, N'Bánh ăn dặm', N'banh-an-dam'),
-   (4, N'Bột ăn dặm', N'bot-an-dam'),
-   (4, N'Cháo tươi', N'chao-tuoi'),
-   (4, N'Sữa chua-váng sữa-phomai', N'sua-chua-vang-sua-phomai'),
-   (4, N'Trà-nước', N'tra-nuoc'),
-   (4, N'Gia vị ăn dặm', N'gia-vi-an-dam'),
-   (4, N'Soup-canh ăn dặm', N'soup-canh-an-dam'),
-   (4, N'Thìa-bát-khay', N'thia-bat-khay'),
-   (4, N'Ghế ăn dặm', N'ghe-an-dam'),
-   (4, N'Yếm ăn dặm', N'yem-an-dam'),
-   (4, N'Đồ chế biến', N'do-che-bien'),
-   (4, N'Dụng cụ chế biến', N'dung-cu-che-bien'),
+
+	--Sữa & Bình sữa
+	(1, N'Sữa bột', N'sua-bot'),
+	(1, N'Sữa pha sẵn', N'sua-pha-san'),
+	(1, N'Bình sữa', N'binh-sua'),
+	(1, N'Phụ kiện bình sữa', N'phu-kien-binh-sua'),
+	(1, N'Núm ti', N'num-ti'),
+
 
    -- Bỉm tả-vệ sinh
-   (5, N'Bỉm tả', N'bim-ta'),
-   (5, N'Quần đóng bỉm', N'quan-dong-bim'),
-   (5, N'Quần bỏ bỉm', N'quan-bo-bim'),
-   (5, N'Bỉm người lớn', N'bim-nguoi-lon'),
-   (5, N'Bô', N'bo'),
-   (5, N'Chậu tắm/chậu rửa mặt', N'chau-tam-chau-rua-mat'),
-   (5, N'Chăm sóc răng miệng', N'cham-soc-rang-mieng'),
-   (5, N'Sữa tắm/gội', N'sua-tam-goi'),
-   (5, N'Khăn ướt/khăn khô', N'khan-uot-khan-kho'),
-   (5, N'Khăn vải', N'khan-vai'),
-   (5, N'Cắt tóc-cắt móng', N'cat-toc-cat-mong'),
-   (5, N'Vệ sinh tai mũi họng', N've-sinh-tai-mui-hong'),
+   (2, N'Bỉm tả', N'bim-ta'),
+   (2, N'Bỉm người lớn', N'bim-nguoi-lon'),
+   (2, N'Bô', N'bo'),
+   (2, N'Chăm sóc răng miệng', N'cham-soc-rang-mieng'),
+   (2, N'Sữa tắm/gội', N'sua-tam-goi'),
 
-   -- Hóa mỹ phẩm
-   (8, N'Dầu gội-sữa tắm', N'dau-goi-sua-tam'),
-   (8, N'Chống muỗi-côn trùng', N'chong-muoi-con-trung'),
-   (8, N'Kem dưỡng da', N'kem-duong-da'),
-   (8, N'Nước rửa tay', N'nuoc-rua-tay'),
-   (8, N'Nước giặt xả', N'nuoc-giat-xa'),
-   (8, N'Nước rửa bình', N'nuoc-rua-binh'),
-   (8, N'Xịt diệt khuẩn', N'xit-diet-khuan'),
-   (8, N'Khử mùi', N'khu-mui'),
 
-   -- Đồ Dùng Gia Đình
-   (12, N'KỆ - TỦ - MÓC TREO', N'ke-tu-moc-treo'),
-   (12, N'GIỎ ĐỰNG ĐỒ', N'gio-dung-do'),
-   (12, N'ĐỒ DÙNG NHÀ BẾP', N'do-dung-nha-bep'),
-   (12, N'BÀN GHẾ', N'ban-ghe');
+   --Đồ cho mẹ
+   (3, N'Sữa bầu', N'sua-bau'),
+   (3, N'Vitamin cho mẹ', N'vitamin-cho-me'),
+   (3, N'Gối bầu', N'goi-bau'),
+   (3, N'Phụ kiện cho mẹ', N'phu-kien-cho-me')
+
 
 
 -- Tạo bảng ProductAttribute
@@ -198,17 +169,13 @@ CREATE TABLE product (
 
 INSERT INTO product (subcategory_id, slug, name, images, [description], price, sale_price, [status], total_sold, product_view)
 VALUES
-    (14, N'sbps-nuvi-grow-110ml-1y', N'SBPS Nuvi Grow 110ml 1Y+', N'nuvi_grow.jpg', N'DINH DƯỠNG TỐI ƯU CHIỀU CAO', 32000.00, 0, N'Còn hàng', 0, 0),
-    (14, N'sua-nuvi-grow-iq-step-3-900g', N'Sữa Nuvi Grow IQ Step 3 900g', N'nuvi_grow_iq_step3.jpg', N'Sữa bột Nuvi Grow IQ Step 3 với công thức IQ Advance', 385000.00, 370000.00, N'Còn hàng', 0, 0),
-    (15, N'sua-bot-dielac-grow-plus-2-400g', N'Sữa bột Dielac Grow Plus 2 400g', N'dielac_grow_plus_2.jpg', N'Sữa bột Dielac Grow Plus 2 400g dành cho trẻ từ 1-2 tuổi', 135000.00, 130000.00, N'Còn hàng', 0, 0),
-    (15, N'sua-bot-dielac-alpha-gold-iq-step-3-900g', N'Sữa bột Dielac Alpha Gold IQ Step 3 900g', N'dielac_alpha_gold_iq_step3.jpg', N'Sữa bột Dielac Alpha Gold IQ Step 3 900g cho trẻ từ 1-2 tuổi', 405000.00, 390000.00, N'Còn hàng', 0, 0),
-    (16, N'sua-pha-san-nestle-nan-optipro-so-4-lon-800ml', N'Sữa pha sẵn Nestle NAN Optipro Số 4 lon 800ml', N'nan_optipro_4.jpg', N'Sữa pha sẵn Nestle NAN Optipro Số 4 lon 800ml phù hợp với trẻ từ 2 tuổi trở lên', 85000.00, 0, N'Còn hàng', 0, 0),
-    (16, N'sua-pha-san-nestle-nan-optipro-so-3-6x800ml', N'Sữa pha sẵn Nestle NAN Optipro Số 3 6x800ml', N'nan_optipro_3.jpg', N'Lốc 6 lon sữa pha sẵn Nestle NAN Optipro Số 3 800ml cho trẻ từ 1-2 tuổi', 465000.00, 450000.00, N'Còn hàng', 0, 0),
-    (23, N'banh-bi-gerber-puffs-cac-vi-42g', N'Bánh bi Gerber Puffs các vị 42g', N'gerber_puffs.jpg', N'Bánh bi Gerber Puffs các vị 42g dành cho bé từ 8 tháng tuổi', 75000.00, 0, N'Còn hàng', 0, 0),
-    (23, N'banh-an-dam-pigeon-vi-trai-cay-12m-14g', N'Bánh ăn dặm Pigeon vị trái cây 12M+ 14g', N'pigeon_fruit.jpg', N'Bánh ăn dặm Pigeon vị trái cây 12M+ 14g cho bé từ 12 tháng tuổi', 30000.00, 28000.00, N'Còn hàng', 0, 0),
-    (24, N'bot-an-dam-ridielac-gold-gao-sua-4m-200g', N'Bột ăn dặm Ridielac Gold gạo sữa 4M+ 200g', N'ridielac_gold_rice_milk.jpg', N'Bột ăn dặm Ridielac Gold gạo sữa 4M+ 200g dành cho bé từ 4 tháng tuổi', 65000.00, 60000.00, N'Còn hàng', 0, 0),
-    (24, N'bot-an-dam-hipp-organic-rau-cu-250g', N'Bột ăn dặm HiPP Organic rau củ 250g', N'hipp_organic_vegetable.jpg', N'Bột ăn dặm HiPP Organic rau củ 250g cho bé từ 6 tháng tuổi', 145000.00, 0, N'Còn hàng', 0, 0);
-
+    (1, N'sbps-nuvi-grow-110ml-1y', N'SBPS Nuvi Grow 110ml 1Y+', N'nuvi_grow.jpg', N'DINH DƯỠNG TỐI ƯU CHIỀU CAO', 32000.00, 0, N'Còn hàng', 0, 0),
+    (1, N'sua-nuvi-grow-iq-step-3-900g', N'Sữa Nuvi Grow IQ Step 3 900g', N'nuvi_grow_iq_step3.jpg', N'Sữa bột Nuvi Grow IQ Step 3 với công thức IQ Advance', 385000.00, 370000.00, N'Còn hàng', 0, 0),
+    (1, N'sua-bot-dielac-grow-plus-2-400g', N'Sữa bột Dielac Grow Plus 2 400g', N'dielac_grow_plus_2.jpg', N'Sữa bột Dielac Grow Plus 2 400g dành cho trẻ từ 1-2 tuổi', 135000.00, 130000.00, N'Còn hàng', 0, 0),
+    (1, N'sua-bot-dielac-alpha-gold-iq-step-3-900g', N'Sữa bột Dielac Alpha Gold IQ Step 3 900g', N'dielac_alpha_gold_iq_step3.jpg', N'Sữa bột Dielac Alpha Gold IQ Step 3 900g cho trẻ từ 1-2 tuổi', 405000.00, 390000.00, N'Còn hàng', 0, 0),
+    (1, N'sua-pha-san-nestle-nan-optipro-so-4-lon-800ml', N'Sữa pha sẵn Nestle NAN Optipro Số 4 lon 800ml', N'nan_optipro_4.jpg', N'Sữa pha sẵn Nestle NAN Optipro Số 4 lon 800ml phù hợp với trẻ từ 2 tuổi trở lên', 85000.00, 0, N'Còn hàng', 0, 0),
+    (1, N'sua-pha-san-nestle-nan-optipro-so-3-6x800ml', N'Sữa pha sẵn Nestle NAN Optipro Số 3 6x800ml', N'nan_optipro_3.jpg', N'Lốc 6 lon sữa pha sẵn Nestle NAN Optipro Số 3 800ml cho trẻ từ 1-2 tuổi', 465000.00, 450000.00, N'Còn hàng', 0, 0)
+    
 -- Tạo bảnh Inventory
 CREATE TABLE inventory (
 	inventory_id INT PRIMARY KEY IDENTITY(1,1),
