@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -76,7 +76,7 @@ public class ProductController {
     }
 
     //Response a product by id
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     ProductResponse productById(@PathVariable("id") int id) {
         return productService.getProductByIdResponse(id);
     }
