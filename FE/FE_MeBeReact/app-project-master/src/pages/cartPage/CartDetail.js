@@ -9,7 +9,7 @@ export default function CartDetail() {
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <NavLink to={"/"}>
-                Trang chủ
+              Trang chủ
             </NavLink>
           </li>
           <li class="breadcrumb-item active" aria-current="page">

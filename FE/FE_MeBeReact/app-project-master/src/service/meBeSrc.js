@@ -6,12 +6,16 @@ export const meBeSrc = {
     },
 
     getProductDetail: (productId) => {
-        console.log(productId)
+        // console.log(productId)
         return https.get(`/product/${productId}`);
     },
 
     getListCategory: () => {
         return https.get(`/category`);
+    },
+
+    getListCategoryId: (categoryId) => {
+        return https.get(`/category${categoryId}/product`);
     },
 
 }
