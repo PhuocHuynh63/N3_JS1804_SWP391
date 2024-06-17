@@ -143,7 +143,6 @@ export default function Header() {
                                 </button>
 
                             }></UserDropdown>
-                        {console.log(`Cái này là dropdown ${user}`)}
                         <span className="icons-header" onClick={handleShowCart}>
                             <i className="fa-solid fa-cart-shopping"></i>
                         </span>

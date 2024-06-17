@@ -23,20 +23,20 @@ export default function DetailPage() {
             });
     }, [productId])
 
-    useEffect(() => {
-        if (product.subCategory && product.subCategory.category) {
-            meBeSrc.getListCategory(product.subCategory.category)
-                .then((res) => {
-                    const filterProducts = res.data.filter((item) => item._id !== productId.slice(0, 4))
-                    setRelatedProducts(filterProducts)
-                    console.log(filterProducts);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
+    // useEffect(() => {
+    //     if (product.subCategory && product.subCategory.category) {
+    //         meBeSrc.getListCategory(product.subCategory.category)
+    //             .then((res) => {
+    //                 const filterProducts = res.data.filter((item) => item._id !== productId.slice(0, 4))
+    //                 setRelatedProducts(filterProducts)
+    //                 console.log(filterProducts);
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err);
+    //             })
+    //     }
 
-    }, [product])
+    // }, [product])
 
     return (
         <div className='productdetail-container'>
