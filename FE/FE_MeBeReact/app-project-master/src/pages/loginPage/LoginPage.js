@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginPage.css";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { localService } from "../../service/localService";
 import { setLoginAction } from "../../redux/action/UserAction";
 import { Input, Form, message } from "antd";
@@ -13,6 +13,7 @@ const LoginPage = ({ show, handleClose }) => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
+  //Gọi lấy dữ liệu user từ API
   const onFinish = (values) => {
     console.log("Success:", values);
     userService
@@ -20,8 +21,8 @@ const LoginPage = ({ show, handleClose }) => {
       .then((response) => {
         console.log(response.data);
         message.success("Login successfully");
-        localService.set(response.data.metadata);
-        dispatch(setLoginAction(response.data.metadata));
+        localService.set(response.data);
+        dispatch(setLoginAction(response.data));
 
         if (response.data.metadata.role !== "admin") {
           navigate("/");
