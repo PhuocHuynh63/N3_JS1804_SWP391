@@ -19,6 +19,9 @@ public enum ErrorCode {
     ORDER_NOT_CANCEL(1014, "Order cannot be cancelled"),
     INVENTORY_NO_EXIST(1012, "Inventory does not exist"),
     INVENTORY_QUANTITY_END(1013, "Inventory quantity out"),
+    REVIEW_NOT_FOUND(1015, "Review does not exist"),
+
+
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;
 
