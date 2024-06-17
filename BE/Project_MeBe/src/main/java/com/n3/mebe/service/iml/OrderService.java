@@ -1,6 +1,7 @@
 package com.n3.mebe.service.iml;
 
 
+import com.n3.mebe.dto.request.order.CancelOrderRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.entity.Order;
@@ -25,6 +26,7 @@ public class OrderService implements IOrderService {
     @Autowired
     private UserService userService;
 
+
     public Order getOrder(int orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NO_EXIST));
@@ -40,6 +42,47 @@ public class OrderService implements IOrderService {
     public Order createOrder(OrderRequest orderRequest) {
         User user = new User();
         Order order = new Order();
+        String status = "Pending"; // trạng thái đầu tiên khi mới tạo order
+
+        // Neu khong phai la guess thi kiem User bang ID
+        if (orderRequest.getGuess() != null){
+            String roll = "guess";
+
+            // lay guess tu request de tao ra USER moi
+            user.setFirstName(orderRequest.getGuess().getFirstName());
+            user.setLastName(orderRequest.getGuess().getLastName());
+            user.setEmail(orderRequest.getGuess().getEmail());
+            user.setBirthOfDate(orderRequest.getGuess().getBirthOfDate());
+            user.setPhoneNumber(orderRequest.getGuess().getPhoneNumber());
+            user.setRole(roll);
+        }else {
+            user = userService.getUserById(orderRequest.getUserId());
+        }
+
+        order.setUser(user);
+        //   order.setVoucher(); --> chua them vao
+
+        order.setStatus(status);
+
+        order.setDeliveryFee(orderRequest.getDeliveryFee());
+        order.setTotalAmount(orderRequest.getTotalAmount());
+        order.setOrderType(orderRequest.getOrderType());
+        order.setPaymentStatus(orderRequest.getPaymentStatus());
+        order.setNote(orderRequest.getNote());
+
+        Date now = new Date();
+
+        order.setCreatedAt(now);
+        order.setUpdatedAt(now);
+
+        return orderRepository.save(order);
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Update Orders">
+    @Override
+    public Order updateOrder(int orId, OrderRequest orderRequest) {
+        Order order = getOrder(orId);
+        User user =  new User();
 
         // Neu khong phai la guess thi kiem User bang ID
         if (orderRequest.getGuess() != null){
@@ -67,44 +110,22 @@ public class OrderService implements IOrderService {
         order.setNote(orderRequest.getNote());
 
         Date now = new Date();
-
-        order.setCreatedAt(now);
         order.setUpdatedAt(now);
 
         return orderRepository.save(order);
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Update Orders">
+    // <editor-fold default state="collapsed" desc="Cancel Order">
     @Override
-    public Order updateOrder(int orId, OrderRequest orderRequest) {
-        Order order = getOrder(orId);
-        User user =  new User();
-
-
-        // Neu khong phai la guess thi kiem User bang ID
-        if (orderRequest.getGuess() != null){
-            String roll = "guess";
-
-            // lay guess tu request de tao ra USER moi
-            user.setFirstName(orderRequest.getGuess().getFirstName());
-            user.setLastName(orderRequest.getGuess().getLastName());
-            user.setEmail(orderRequest.getGuess().getEmail());
-            user.setBirthOfDate(orderRequest.getGuess().getBirthOfDate());
-            user.setPhoneNumber(orderRequest.getGuess().getPhoneNumber());
-            user.setRole(roll);
+    public Order cancelOrder(int orderId, CancelOrderRequest request) {
+        Order order = getOrder(orderId);
+        String status = order.getStatus();
+        if (!status.equals("Pending") && !status.equals("Processing") && !status.equals("Awaiting Payment")) {
+            throw new AppException(ErrorCode.ORDER_NOT_CANCEL);
         }else {
-            user = userService.getUserById(orderRequest.getUserId());
+            status = "Canceled";
         }
-
-        order.setUser(user);
-        //   order.setVoucher(); --> chua them vao
-
-        order.setStatus(orderRequest.getStatus());
-        order.setDeliveryFee(orderRequest.getDeliveryFee());
-        order.setTotalAmount(orderRequest.getTotalAmount());
-        order.setOrderType(orderRequest.getOrderType());
-        order.setPaymentStatus(orderRequest.getPaymentStatus());
-        order.setNote(orderRequest.getNote());
+        order.setStatus(status);
 
         Date now = new Date();
         order.setUpdatedAt(now);
@@ -149,5 +170,28 @@ public class OrderService implements IOrderService {
         }
 
         return orderResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Order by orderId">
+    @Override
+    public OrderResponse getOrderResponse(int orId) {
+        Order order = getOrder(orId);
+
+        OrderResponse orderResponse = new OrderResponse();
+
+        orderResponse.setOrderId(order.getOrderId());
+        orderResponse.setUser(order.getUser());
+        orderResponse.setVoucher(order.getVoucher());
+        orderResponse.setStatus(order.getStatus());
+        orderResponse.setDeliveryFee(order.getDeliveryFee());
+        orderResponse.setTotalAmount(order.getTotalAmount());
+        orderResponse.setDepositeAmount(order.getDepositeAmount());
+        orderResponse.setOrderType(order.getOrderType());
+        orderResponse.setPaymentStatus(order.getPaymentStatus());
+        orderResponse.setNote(order.getNote());
+        orderResponse.setCreatedAt(order.getCreatedAt());
+        orderResponse.setUpdatedAt(order.getUpdatedAt());
+
+        return orderResponse;
     }// </editor-fold>
 }
