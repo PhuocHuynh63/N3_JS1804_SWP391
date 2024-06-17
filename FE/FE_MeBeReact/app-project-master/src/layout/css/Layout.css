@@ -4,7 +4,6 @@
     min-height: 100vh;
     height: 100%;
     gap: 2.5rem;
-    /* Equivalent to space-y-10 in Tailwind CSS */
 }
 
 .layout-main {
@@ -23,4 +22,6 @@
     flex-grow: 1;
     width: 100%;
     top: 115.6px;
+    height: auto;
+
 }

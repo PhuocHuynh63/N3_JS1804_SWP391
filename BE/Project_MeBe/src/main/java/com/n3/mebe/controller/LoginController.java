@@ -8,36 +8,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/login")
 public class LoginController {
 
     @Autowired
-    ILoginService loginServiceImp;
+    private ILoginService loginService;
 
     @Autowired
-    JwtUtilHelper jwtUtilHelper;
+    private JwtUtilHelper jwtUtilHelper;
 
-    @PostMapping("/signin")
+    @PostMapping
     public ResponseEntity<?> signin(@RequestParam String username, @RequestParam String password) {
         ResponseData responseData = new ResponseData();
 
-        /* Lấy key
-        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String encrypKey = Encoders.BASE64.encode(secretKey.getEncoded());
-        System.out.println(encrypKey);
-        */
-
-        if(loginServiceImp.checkLogin(username, password)) {
+        if (loginService.checkLogin(username, password)) {
             String token = jwtUtilHelper.genarateToken(username);
             responseData.setData(token);
+            responseData.setSuccess(true);
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
         } else {
-            responseData.setData("username or password is incorrect");
+            responseData.setData("Username or password is incorrect");
             responseData.setSuccess(false);
+            return new ResponseEntity<>(responseData, HttpStatus.UNAUTHORIZED);
         }
-
-        return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
-
-
 }
