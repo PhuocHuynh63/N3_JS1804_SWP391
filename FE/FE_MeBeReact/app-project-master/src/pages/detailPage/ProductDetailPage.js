@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
+import { meBeSrc } from '../../service/meBeSrc';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProductDetail.css";
-import { NavLink } from 'react-router-dom';
 
 export default function DetailPage() {
+
+    const [product, setProduct] = useState({})
+    const { productCode } = useParams();
+
+    useEffect(() => {
+        meBeSrc.getProductDetail(productCode)
+            .then((res) => {
+                setProduct(res.data)
+                console.log(res.data);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }, [productCode])
 
     return (
         <div className='productdetail-container'>
@@ -43,7 +57,7 @@ export default function DetailPage() {
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <h3>Set 2 bodysuit xanh phối be</h3>
+                        <h3>{product.name}</h3>
                         <p className="text-danger">Còn hàng</p>
                         <p><strong>Mã sản phẩm:</strong> NB2524-TB2-UO1-MG-OM</p>
                         <div className='price'>
@@ -110,7 +124,7 @@ export default function DetailPage() {
                                 <div className="rating-stars">★★★★★</div>
                                 <p>Nous Admin: Cảm ơn Anh/Chị đã tin tưởng và lựa chọn mua hàng tại Nous. Nous hy vọng anh/chị có trải nghiệm mua sắm thú vị và sự yêu mến, ủng hộ Nous trong thời gian tới ạ. Mọi ý kiến đóng góp của anh/chị Nous sẽ tiếp thu và hoàn thiện hơn trong tương lai. Chúc Em bé và gia đình mình luôn mạnh khỏe, hạnh phúc nhé ạ ❤️❤️❤️</p>
                             </div>
-                            <button className="btn btn-outline-secondary mt-3">Xem thêm đánh giá</button>
+                            <button className="btn-review">Xem thêm đánh giá</button>
                         </div>
                         <div className="tab-pane fade" id="image" role="tabpanel" aria-labelledby="image-tab">
                             <p>Hình ảnh đánh giá sản phẩm.</p>
@@ -122,8 +136,8 @@ export default function DetailPage() {
                     <h4>Sản phẩm liên quan</h4>
                     <div className="row">
                         {/* Repeat similar product cards for each related product */}
-                        <div className="col-md-3">
-                            <div className="card">
+                        <div className="col-md-3 product">
+                            <div className="card justify-content-center align-items-center">
                                 <img src="/images/ao.pnj.webp" className="card-img-top" alt="Related Product 1" />
                                 <div className="card-body">
                                     <h5 className="card-title">Bodysuit 1</h5>
@@ -131,8 +145,8 @@ export default function DetailPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-3">
-                            <div className="card">
+                        <div className="col-md-3 product">
+                            <div className="card justify-content-center align-items-center">
                                 <img src="/images/ao.pnj.webp" className="card-img-top" alt="Related Product 2" />
                                 <div className="card-body">
                                     <h5 className="card-title">Bodysuit 2</h5>
@@ -140,8 +154,8 @@ export default function DetailPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-3">
-                            <div className="card">
+                        <div className="col-md-3 product">
+                            <div className="card justify-content-center align-items-center">
                                 <img src="/images/ao.pnj.webp" className="card-img-top" alt="Related Product 3" />
                                 <div className="card-body">
                                     <h5 className="card-title">Bodysuit 3</h5>
@@ -149,8 +163,8 @@ export default function DetailPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-3">
-                            <div className="card">
+                        <div className="col-md-3 product">
+                            <div className="card justify-content-center align-items-center">
                                 <img src="/images/ao.pnj.webp" className="card-img-top" alt="Related Product 4" />
                                 <div className="card-body">
                                     <h5 className="card-title">Bodysuit 4</h5>
@@ -164,7 +178,7 @@ export default function DetailPage() {
                     <h4>Sản phẩm đã xem</h4>
                     <div className="row">
                         {/* Repeat similar product cards for each viewed product */}
-                        <div className="col-md-3">
+                        <div className="col-md-3 product">
                             <div className="card">
                                 <img src="/images/ao.pnj.webp" className="card-img-top" alt="Viewed Product 1" />
                                 <div className="card-body">

@@ -1,6 +1,6 @@
 import { https } from "./config"
 
-export const adornicaServ = {
+export const meBeSrc = {
     getProduct: () => {
         return https.get(`/product`);
     },

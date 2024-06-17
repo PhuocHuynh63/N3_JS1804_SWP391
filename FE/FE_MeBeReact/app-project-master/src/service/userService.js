@@ -1,21 +1,28 @@
 import axios from "axios";
-import { BASE_URL, configHeader } from "./config"
+import { BASE_URL, configHeader } from "./config";
 
 export const userService = {
-    postLogin: (loginForm) => {
-        return axios({
-            url: `${BASE_URL}/login`,
-            method: "POST",
-            headers: configHeader(),
-            data: loginForm,
-        })
+    postLogin: async (loginForm) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/login`, null, {
+                params: loginForm,  // Using params to match @RequestParam in backend
+                headers: configHeader()
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error logging in:', error);
+            throw error;
+        }
     },
-    postSignUp: (signUpForm) => {
-        return axios({
-            url: `${BASE_URL}/register`,
-            method: "POST",
-            headers: configHeader(),
-            data: signUpForm,
-        })
+    postSignUp: async (signUpForm) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/register`, signUpForm, {
+                headers: configHeader()
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error signing up:', error);
+            throw error;
+        }
     }
-}
+};
