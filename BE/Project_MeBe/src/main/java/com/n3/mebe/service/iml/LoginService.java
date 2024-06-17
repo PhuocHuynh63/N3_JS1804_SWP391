@@ -50,7 +50,19 @@ public class LoginService implements ILoginService {
     @Override
     public boolean checkLogin(String userName, String password) {
         User user = userRepository.findByUsername(userName);
-        System.out.println("Nó nhảy vào đây");
         return passwordEncoder.matches(password, user.getPassword()); //Tham số đầu tiên là chưa được mã hoá, tham số sau đã được mã hoá
     }
+
+//
+//    @Override
+//    public boolean checkLogin(String userName, String password) {
+//        if (userName == null || password == null) {
+//            return false;
+//        }else if (userName.equals("user1") && password.equals("123")){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
+
 }

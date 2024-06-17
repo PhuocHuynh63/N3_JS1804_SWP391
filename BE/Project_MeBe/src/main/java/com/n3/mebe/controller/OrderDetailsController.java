@@ -22,12 +22,15 @@ public class OrderDetailsController {
 
 
     @PostMapping("/create")
-    public OrderDetail create(@RequestBody OrderDetailsRequest request) {
+    public OrderDetail createOrderDetail(@RequestBody OrderDetailsRequest request) {
         return orderDetailsService.createOrderDetail(request);
     }
 
 
-
+    @PostMapping("/update/")
+    public OrderDetail updateOrderDetail(@RequestBody OrderDetailsRequest request) {
+        return orderDetailsService.createOrderDetail(request);
+    }
 
     @GetMapping("/list")
     public List<OrderDetailsResponse> getListOrderDetails() {
