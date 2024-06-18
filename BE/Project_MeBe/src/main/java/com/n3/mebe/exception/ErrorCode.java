@@ -20,7 +20,7 @@ public enum ErrorCode {
     INVENTORY_NO_EXIST(1012, "Inventory does not exist"),
     INVENTORY_QUANTITY_END(1013, "Inventory quantity out"),
     REVIEW_NOT_FOUND(1015, "Review does not exist"),
-
+    ORDER_DETAILS_NO_EXIST(1016, "Order details does not exist"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;
