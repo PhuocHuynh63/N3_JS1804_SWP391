@@ -34,7 +34,7 @@ public class ProductAttributeService implements IProductAttributeService {
 
     // <editor-fold default state="collapsed" desc="Create Product Attribute">
     @Override
-    public ProductAttribute createProductAttribute(ProductAttributeRequest request) {
+    public String createProductAttribute(ProductAttributeRequest request) {
 
         //check xem có tồn tại Product attribute với type và value giống không
         if (productAttributeRepository.existsByTypeAndValue(request.getType(), request.getValue()) ){
@@ -45,12 +45,13 @@ public class ProductAttributeService implements IProductAttributeService {
         productAttribute.setType(request.getType());
         productAttribute.setValue(request.getValue());
 
-        return productAttributeRepository.save(productAttribute);
+        productAttributeRepository.save(productAttribute);
+        return "Đã tạo product attribute thành công";
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update Product Attribute">
     @Override
-    public ProductAttribute updateProductAttribute(int id, ProductAttributeRequest request) {
+    public String updateProductAttribute(int id, ProductAttributeRequest request) {
 
         // lấy product attribute ra nêu không có thì thông báo lỗi
         ProductAttribute productAttribute = getProductAttributeById(id);
@@ -58,7 +59,8 @@ public class ProductAttributeService implements IProductAttributeService {
         productAttribute.setType(request.getType());
         productAttribute.setValue(request.getValue());
 
-        return productAttributeRepository.save(productAttribute);
+        productAttributeRepository.save(productAttribute);
+        return "Đã cập nhập product attribute thành công";
     }// </editor-fold>
 
 

@@ -61,7 +61,7 @@ public class InventoryService implements IInventoryService {
 
     // <editor-fold default state="collapsed" desc="Create Inventory">
     @Override
-    public Inventory createInventory(int prId, InventoryRequest inventoryRequest) {
+    public String createInventory(int prId, InventoryRequest inventoryRequest) {
 
 
         Product product = productService.getProductById(prId);
@@ -78,12 +78,13 @@ public class InventoryService implements IInventoryService {
         inventory.setSizeAttributeId(size);
         inventory.setQuantity(inventoryRequest.getQuantity());
 
-        return inventoryRepository.save(inventory);
+        inventoryRepository.save(inventory);
+        return "Đã tao inventory thành công";
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update Inventory">
     @Override
-    public Inventory updateInventory(int prIdSku, InventoryRequest inventoryRequest) {
+    public String updateInventory(int prIdSku, InventoryRequest inventoryRequest) {
 
 
         Inventory inventory = inventoryRepository.findById(prIdSku)
@@ -98,7 +99,8 @@ public class InventoryService implements IInventoryService {
         inventory.setSizeAttributeId(size);
         inventory.setQuantity(inventoryRequest.getQuantity());
 
-        return inventoryRepository.save(inventory);
+        inventoryRepository.save(inventory);
+        return "Đã cập nhập inventory thành công";
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Delete Inventory">

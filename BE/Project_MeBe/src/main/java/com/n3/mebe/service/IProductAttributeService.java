@@ -10,9 +10,9 @@ public interface IProductAttributeService {
 
     List<ProductAttributeResponse> getProductAttributesAll();
 
-    ProductAttribute createProductAttribute(ProductAttributeRequest productAttributeRequest);
+    String createProductAttribute(ProductAttributeRequest productAttributeRequest);
 
-    ProductAttribute updateProductAttribute(int id, ProductAttributeRequest productAttributeRequest);
+    String updateProductAttribute(int id, ProductAttributeRequest productAttributeRequest);
 
     void deleteProductAttribute(int id);
 

@@ -27,13 +27,13 @@ public class UserController {
 
     //sign up user
     @PostMapping("/signup")
-    public User createUser(@RequestBody @Valid UserCreateRequest request) {
+    public String createUser(@RequestBody @Valid UserCreateRequest request) {
         return userService.createUser(request);
     }
 
     //Update user by id
     @PutMapping("/{user_id}")
-    public User updatetUser(@PathVariable("user_id") int user_id, @RequestBody UserUpdateRequest request) {
+    public String updatetUser(@PathVariable("user_id") int user_id, @RequestBody UserUpdateRequest request) {
         return userService.updateUserById(user_id , request);
     }
 

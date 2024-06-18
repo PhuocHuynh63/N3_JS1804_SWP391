@@ -18,13 +18,14 @@ public interface IProductService {
 
     List<Product> getListProductBySubCateName(String cate);
 
-//    Product createProduct(ProductRequest productRequest);
-
     boolean createProduct(MultipartFile file, int subCategory, String slug, String name, String description, float price, float salePrice, String status, int totalSold, int productView);
 
-    Product updateProduct(int id, ProductRequest productRequest);
+    String updateProduct(int id, ProductRequest productRequest);
 
     void deleteProduct(int id);
+
+    List<ProductResponse> getProductResponseList(String cate);
+
 
     List<ProductResponse> getListProductByIdOrName(int id, String name);
 }
