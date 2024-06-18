@@ -95,7 +95,7 @@ public class OrderDetailsService implements IOrderDetailsService {
         return "Update Order Detail thành công";
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Update Order Details">
+    // <editor-fold default state="collapsed" desc="update Multiple Order Details Details">
     @Override
     @Transactional
     public String updateMultipleOrderDetails(List<UpdateOrderDetailsRequest> requests) {
@@ -125,7 +125,6 @@ public class OrderDetailsService implements IOrderDetailsService {
 
             orderDetailsResponse.setOdId(orderDetail.getOdId());
             orderDetailsResponse.setOrder(orderDetail.getOrder());
-            orderDetailsResponse.setProduct(orderDetail.getProduct());
             orderDetailsResponse.setInventory(orderDetail.getInventory());
             orderDetailsResponse.setQuantity(orderDetail.getQuantity());
             orderDetailsResponse.setPrice(orderDetail.getPrice());
@@ -149,7 +148,6 @@ public class OrderDetailsService implements IOrderDetailsService {
 
             orderDetailsResponse.setOdId(orderDetail.getOdId());
             orderDetailsResponse.setOrder(orderDetail.getOrder());
-            orderDetailsResponse.setProduct(orderDetail.getProduct());
             orderDetailsResponse.setInventory(orderDetail.getInventory());
             orderDetailsResponse.setQuantity(orderDetail.getQuantity());
             orderDetailsResponse.setPrice(orderDetail.getPrice());
