@@ -8,5 +8,8 @@ import org.springframework.stereotype.Repository;
 public interface ICategoryRepository extends JpaRepository<Category, Integer> {
     boolean existsByName(String name);
     Category findByName(String name);
+<<<<<<< HEAD
 
+=======
+>>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
 }

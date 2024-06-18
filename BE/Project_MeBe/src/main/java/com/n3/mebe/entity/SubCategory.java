@@ -25,7 +25,11 @@ public class SubCategory {
 
     private String name;
 
+<<<<<<< HEAD
     private String image;
+=======
+    private String slug;
+>>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
 
     @OneToMany(mappedBy = "subCategory")
     private Set<Product> product;

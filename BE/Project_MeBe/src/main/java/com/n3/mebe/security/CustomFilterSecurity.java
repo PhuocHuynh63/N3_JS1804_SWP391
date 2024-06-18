@@ -39,7 +39,11 @@ public class CustomFilterSecurity {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Khai báo ứng dụng không được dùng session
                 .and()
                 .authorizeHttpRequests() //authorizeHttpRequests: Can thiệp người dùng truy cập
+<<<<<<< HEAD
                 .requestMatchers("/login/**", "/user/**", "/category/**", "/sub_category/**", "/product/**") //requestMatchers: Chỉ định đường dẫn người dùng không được truy cập
+=======
+                .requestMatchers("/login/**", "user/**") //requestMatchers: Chỉ định đường dẫn người dùng không được truy cập
+>>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
                                                 //**: là tất cả
                 .permitAll()        //permitAll: Không cần chứng thực
                                     //authenticated: Bắt chứng thực
