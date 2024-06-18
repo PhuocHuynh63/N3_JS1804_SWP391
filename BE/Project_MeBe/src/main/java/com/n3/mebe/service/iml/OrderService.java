@@ -43,7 +43,7 @@ public class OrderService implements IOrderService {
     // <editor-fold default state="collapsed" desc="Create Orders">
     @Override
     @Transactional
-    public Order createOrder(OrderRequest orderRequest) {
+    public String createOrder(OrderRequest orderRequest) {
         User user = new User();
         Order order = new Order();
         String status = "Pending"; // trạng thái đầu tiên khi mới tạo order
@@ -78,14 +78,14 @@ public class OrderService implements IOrderService {
 
         order.setCreatedAt(now);
         order.setUpdatedAt(now);
-
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        return "Create Order thành công";
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update Orders">
     @Override
     @Transactional
-    public Order updateOrder(int orId, OrderRequest orderRequest) {
+    public String updateOrder(int orId, OrderRequest orderRequest) {
         Order order = getOrder(orId);
         User user =  new User();
 
@@ -116,11 +116,11 @@ public class OrderService implements IOrderService {
 
         Date now = new Date();
         order.setUpdatedAt(now);
-
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        return "Update order thành công";
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Cancel Order">
+    // <editor-fold default state="collapsed" desc="Cancel Order của người dùng">
     @Override
     @Transactional
     public String cancelOrder(int orderId, CancelOrderRequest request) {
@@ -150,6 +150,7 @@ public class OrderService implements IOrderService {
 
     // <editor-fold default state="collapsed" desc="Confirm Order">
     @Override
+    @Transactional
     public String setStatusOrder(OrderStatusRequest request) {
        Order order = getOrder(request.getOrderId());
        String msg = "";

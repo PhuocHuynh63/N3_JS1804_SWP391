@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface IUserService {
 
-    User createUser(UserCreateRequest request);
+    String createUser(UserCreateRequest request);
     List<UserResponse> getAllUser();
     User getUserById(int id);
     UserResponse getUserByIdResponse(int id);
-    User updateUserById(int id, UserUpdateRequest request);
+    String updateUserById(int id, UserUpdateRequest request);
     void deleteUserById(int id);
 
 }

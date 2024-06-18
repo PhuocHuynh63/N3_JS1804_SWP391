@@ -30,14 +30,14 @@ public class OrderController {
 
     //Create order
     @PostMapping("/create")
-    public Order createOrder(@RequestBody OrderRequest orderRequest) {
+    public String createOrder(@RequestBody OrderRequest orderRequest) {
         return orderService.createOrder(orderRequest);
     }
 
 
     //Update order by id
     @PutMapping("/update/orId={id}")
-    public Order updateOrder(@PathVariable("id") int orId, @RequestBody OrderRequest orderRequest) {
+    public String updateOrder(@PathVariable("id") int orId, @RequestBody OrderRequest orderRequest) {
         return orderService.updateOrder(orId , orderRequest);
     }
 

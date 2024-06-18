@@ -10,9 +10,9 @@ public interface IInventoryService {
 
 
 
-    Inventory createInventory(int prId, InventoryRequest inventoryRequest);
+    String createInventory(int prId, InventoryRequest inventoryRequest);
 
-    Inventory updateInventory(int prIdSku, InventoryRequest inventoryRequest);
+    String updateInventory(int prIdSku, InventoryRequest inventoryRequest);
 
     void deleteInventory(int id);
 

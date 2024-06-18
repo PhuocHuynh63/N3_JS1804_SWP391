@@ -2,6 +2,7 @@ package com.n3.mebe.controller;
 
 
 import com.n3.mebe.dto.response.subcategory.SubCategoryResponse;
+import com.n3.mebe.service.ISubCategoryService;
 import com.n3.mebe.service.iml.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 public class SubCategoryController {
 
     @Autowired
-    private SubCategoryService subCategoryService;
+    private ISubCategoryService subCategoryService;
 
 
     /**

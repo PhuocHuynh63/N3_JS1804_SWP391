@@ -67,7 +67,7 @@ public class SubCategoryService implements ISubCategoryService {
            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
 
 
-           subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
+//           subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
            //lấy ra category tên cha
            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
 
@@ -92,6 +92,7 @@ public class SubCategoryService implements ISubCategoryService {
         for (SubCategory subCategory : subCategories) {
             SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
 
+//            subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
             //lấy ra category tên cha
             subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
 
