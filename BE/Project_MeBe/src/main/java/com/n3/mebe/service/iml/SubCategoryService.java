@@ -40,14 +40,13 @@ public class SubCategoryService implements ISubCategoryService {
         return subCategoryRepository.save(subCategory);
     }// </editor-fold>
 
-
-    // <editor-fold default state="collapsed" desc="Create User">
+    // <editor-fold default state="collapsed" desc="Update SubCategory">
     @Override
     public SubCategory updateSubCategory(SubCategoryRequest request) {
         return null;
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Create User">
+    // <editor-fold default state="collapsed" desc="Delete SubCategory">
     @Override
     public void deleteSubCategory(int subCategoryId) {
 
@@ -67,6 +66,8 @@ public class SubCategoryService implements ISubCategoryService {
        for (SubCategory subCategory : subCategories) {
            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
 
+
+           subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
            //lấy ra category tên cha
            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
 
@@ -74,6 +75,30 @@ public class SubCategoryService implements ISubCategoryService {
            subCategoryResponse.setImage(subCategory.getImage());
            subCategoryResponses.add(subCategoryResponse);
        }
+
+        return subCategoryResponses;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get SubCategories Response By cateParent Name">
+    @Override
+    public List<SubCategoryResponse> getSubCategoriesResponse(String categoryParentName) {
+
+        Category category = icategoryRepository.findByName(categoryParentName);
+
+        List<SubCategory> subCategories = subCategoryRepository.findByCategory(category);
+
+        List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
+
+        for (SubCategory subCategory : subCategories) {
+            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
+
+            //lấy ra category tên cha
+            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
+
+            subCategoryResponse.setName(subCategory.getName());
+            subCategoryResponse.setImage(subCategory.getImage());
+            subCategoryResponses.add(subCategoryResponse);
+        }
 
         return subCategoryResponses;
     }// </editor-fold>

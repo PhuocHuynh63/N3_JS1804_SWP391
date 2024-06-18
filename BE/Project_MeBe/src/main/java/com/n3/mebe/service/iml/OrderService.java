@@ -3,6 +3,7 @@ package com.n3.mebe.service.iml;
 
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
+import com.n3.mebe.dto.request.order.OrderStatusRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.User;
@@ -10,6 +11,8 @@ import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IOrderRepository;
 import com.n3.mebe.service.IOrderService;
+import jakarta.transaction.Transactional;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +42,7 @@ public class OrderService implements IOrderService {
 
     // <editor-fold default state="collapsed" desc="Create Orders">
     @Override
+    @Transactional
     public Order createOrder(OrderRequest orderRequest) {
         User user = new User();
         Order order = new Order();
@@ -80,6 +84,7 @@ public class OrderService implements IOrderService {
 
     // <editor-fold default state="collapsed" desc="Update Orders">
     @Override
+    @Transactional
     public Order updateOrder(int orId, OrderRequest orderRequest) {
         Order order = getOrder(orId);
         User user =  new User();
@@ -117,26 +122,56 @@ public class OrderService implements IOrderService {
 
     // <editor-fold default state="collapsed" desc="Cancel Order">
     @Override
-    public Order cancelOrder(int orderId, CancelOrderRequest request) {
+    @Transactional
+    public String cancelOrder(int orderId, CancelOrderRequest request) {
         Order order = getOrder(orderId);
         String status = order.getStatus();
+        String msg = "";
         if (!status.equals("Pending") && !status.equals("Processing") && !status.equals("Awaiting Payment")) {
             throw new AppException(ErrorCode.ORDER_NOT_CANCEL);
         }else {
             status = "Canceled";
+            msg = "Hủy thành công";
+            order.setStatus(status);
+
+            Date now = new Date();
+            order.setUpdatedAt(now);
+
+            orderRepository.save(order);
         }
-        order.setStatus(status);
-
-        Date now = new Date();
-        order.setUpdatedAt(now);
-
-        return orderRepository.save(order);
+        return msg;
     }// </editor-fold>
 
 
     @Override
     public void deleteOrder(String orderId) {
     }
+
+
+    // <editor-fold default state="collapsed" desc="Confirm Order">
+    @Override
+    public String setStatusOrder(OrderStatusRequest request) {
+       Order order = getOrder(request.getOrderId());
+       String msg = "";
+
+
+
+       String status = ""; //Đang xử lý
+
+
+
+
+
+
+
+
+       order.setStatus(status);
+       orderRepository.save(order);
+
+       return msg;
+    }// </editor-fold>
+
+
 
 
     /**

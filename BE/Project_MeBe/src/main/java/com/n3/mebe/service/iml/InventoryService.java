@@ -39,13 +39,19 @@ public class InventoryService implements IInventoryService {
     // <editor-fold default state="collapsed" desc="Update Quantity Inventory By Id">
     public void updateQuantity(int quanti, int inventoryId) throws AppException {
         Inventory inventory = getInventoryById(inventoryId);
-        int updateQuanti = inventory.getQuantity() - quanti;
+        int updateQuantity = inventory.getQuantity() - quanti;
 
-        if (updateQuanti < 0) {
+        if (updateQuantity < 0) {
             throw new AppException(ErrorCode.INVENTORY_QUANTITY_END);
         }
-        inventory.setQuantity(updateQuanti);
+        inventory.setQuantity(updateQuantity);
         inventoryRepository.save(inventory);
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Inventory By Product">
+    public Inventory getInventoryByProduct(int productId) {
+        Product product = productService.getProductById(productId);
+        return inventoryRepository.findByProduct(product);
     }// </editor-fold>
 
     /**
@@ -124,4 +130,44 @@ public class InventoryService implements IInventoryService {
         }
         return inventoryResponseList;
     }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Inventory Response By Id">
+    @Override
+    public InventoryResponse getInventoryResponseById(int id) {
+        Inventory inventory = getInventoryById(id);
+
+        InventoryResponse inventoryResponse = new InventoryResponse();
+        inventoryResponse.setProductSkuId(inventory.getInId());
+        inventoryResponse.setProduct(inventory.getProduct());
+        inventoryResponse.setSizeAttributeId(inventory.getSizeAttributeId());
+        inventoryResponse.setColorAttributeId(inventory.getColorAttributeId());
+        inventoryResponse.setQuantity(inventory.getQuantity());
+
+        return inventoryResponse;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Inventory Response By ProductId">
+    @Override
+    public InventoryResponse getInventoryResponseByProductId(int prId) {
+
+        Inventory inventory = getInventoryByProduct(prId);
+        if (inventory == null) {
+            return null;
+        }
+        InventoryResponse inventoryResponse = new InventoryResponse();
+        inventoryResponse.setProductSkuId(inventory.getInId());
+        inventoryResponse.setProduct(inventory.getProduct());
+        inventoryResponse.setSizeAttributeId(inventory.getSizeAttributeId());
+        inventoryResponse.setColorAttributeId(inventory.getColorAttributeId());
+        inventoryResponse.setQuantity(inventory.getQuantity());
+
+        return inventoryResponse;
+    }// </editor-fold>
+
+
+
+
+
+
+
 }

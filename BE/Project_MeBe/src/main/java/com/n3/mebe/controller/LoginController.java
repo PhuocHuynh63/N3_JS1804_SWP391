@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -20,7 +21,7 @@ public class LoginController {
     @Autowired
     JwtUtilHelper jwtUtilHelper;
 
-    @PostMapping("/signin")
+    @PostMapping()
     public ResponseEntity<?> signin(@RequestParam String username, @RequestParam String password) {
         ResponseData responseData = new ResponseData();
 

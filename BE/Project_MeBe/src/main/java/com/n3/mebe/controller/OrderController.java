@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -40,7 +41,7 @@ public class OrderController {
 
     //Cancel order by id
     @PutMapping("/cancel/orId={id}")
-    public Order cancelOrder(@PathVariable("id") int id, @RequestBody CancelOrderRequest request) {
+    public String cancelOrder(@PathVariable("id") int id, @RequestBody CancelOrderRequest request) {
         return orderService.cancelOrder(id, request);
     }
 

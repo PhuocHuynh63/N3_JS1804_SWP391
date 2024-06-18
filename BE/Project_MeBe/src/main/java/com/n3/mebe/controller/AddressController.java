@@ -4,18 +4,19 @@ import com.n3.mebe.dto.request.address.CreateAddressRequest;
 import com.n3.mebe.dto.request.address.UpdateAddressRequest;
 import com.n3.mebe.dto.response.address.AddressResponse;
 import com.n3.mebe.entity.Address;
-import com.n3.mebe.service.iml.AddressSerivce;
+import com.n3.mebe.service.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/address")
 public class AddressController {
 
     @Autowired
-    private AddressSerivce  addressSerivce;
+    private IAddressService addressSerivce;
 
     /**
      *  Request from client
@@ -23,13 +24,13 @@ public class AddressController {
      */
 
     @PostMapping("/create_address/user_id={userId}")
-    Address CreateAddress(@RequestBody CreateAddressRequest request, @PathVariable("userId") int userId) {
+    Address createAddress(@RequestBody CreateAddressRequest request, @PathVariable("userId") int userId) {
         return addressSerivce.createAddress(userId, request);
     }
 
 
     @PutMapping("/update_address/address_id={id}")
-    Address CreateAddress(@RequestBody UpdateAddressRequest request, @PathVariable("id") int addressId) {
+    Address updateAddress(@RequestBody UpdateAddressRequest request, @PathVariable("id") int addressId) {
         return addressSerivce.updateAddress(addressId, request);
     }
 

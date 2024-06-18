@@ -4,10 +4,7 @@ package com.n3.mebe.controller;
 import com.n3.mebe.dto.response.subcategory.SubCategoryResponse;
 import com.n3.mebe.service.iml.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,10 +40,13 @@ public class SubCategoryController {
         return subCategoryService.getSubCategoriesResponse();
     }
 
-    @GetMapping("/listByNameCategory")
-    public List<SubCategoryResponse> listByNameCategory() {
-        return subCategoryService.getSubCategoriesResponse();
+    @GetMapping("/list/{cate}")
+    public List<SubCategoryResponse> listByNameCategory(@PathVariable("cate") String cate) {
+        return subCategoryService.getSubCategoriesResponse(cate);
     }
+
+
+
 }
 
 
