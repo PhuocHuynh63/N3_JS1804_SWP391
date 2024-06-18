@@ -30,6 +30,11 @@
     margin-top: 60px;
 }
 
+.category-icon p {
+    margin-top: 7px;
+    width: 70px;
+}
+
 .category-icon {
     background-color: #f0f0f0;
     border-radius: 50%;

@@ -19,35 +19,35 @@ export default function HomePage() {
                 <h2>SẢN PHẨM CHO BÉ MỚI VỀ</h2>
                 <p>Nếu bạn còn băn khoăn khi lựa chọn sữa cho bé, hãy để MeBe giúp bạn nhé!</p>
 
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="product-item">
-                                    <img src="images/ao.pnj.webp" alt="Sản phẩm 1" class="img-fluid" />
+                <div className="carousel-inner">
+                    <div className="carousel-item active">
+                        <div className="row">
+                            <div className="col-md-3">
+                                <div className="product-item">
+                                    <img src="images/ao.pnj.webp" alt="Sản phẩm 1" className="img-fluid" />
                                     <h3>Sản phẩm 1</h3>
                                     <p>Giá: 500,000 VND</p>
-                                    <a href="#" class="btn btn-outline-dark">Chi tiết</a>
+                                    <a href="#" className="btn btn-outline-dark">Chi tiết</a>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="product-item">
-                                    <img src="images/ao.pnj.webp" alt="Sản phẩm 1" class="img-fluid" />
+                            <div className="col-md-3">
+                                <div className="product-item">
+                                    <img src="images/ao.pnj.webp" alt="Sản phẩm 1" className="img-fluid" />
                                     <h3>Sản phẩm 1</h3>
                                     <p>Giá: 500,000 VND</p>
-                                    <a href="#" class="btn btn-outline-dark">Chi tiết</a>
+                                    <a href="#" className="btn btn-outline-dark">Chi tiết</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className='carousel-control-prev'>
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Previous</span>
                 </div>
                 <div className='carousel-control-next'>
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Next</span>
                 </div>
             </section>
         </div>

@@ -11,7 +11,7 @@ public class SubCategoryRequest {
 
     private String categoryParentName;
     private String name;
-    private String slug;
+    private String image;
 
 
 }

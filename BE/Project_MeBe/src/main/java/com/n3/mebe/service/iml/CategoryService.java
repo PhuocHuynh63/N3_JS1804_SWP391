@@ -90,4 +90,13 @@ public class CategoryService implements ICategoryService {
         }
         return categoriesResponse;
     } //</editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Category By Name">
+    @Override
+    public Category getCategoryByName(String name) {
+        return icategoryRepository.findByName(name);
+    } //</editor-fold>
+
+
+
 }

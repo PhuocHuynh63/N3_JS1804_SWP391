@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -50,4 +51,8 @@ public class CategoryController {
         return categoryService.getListCategory();
     }
 
+    @GetMapping("/{name}")
+    public Category getCategoryByName(@PathVariable("name") String name) {
+        return categoryService.getCategoryByName(name);
+    }
 }

@@ -11,11 +11,15 @@ export const meBeSrc = {
     },
 
     getListCategory: () => {
-        return https.get(`/category`);
+        return https.get(`/category/list`);
     },
 
-    getListCategoryId: (categoryId) => {
-        return https.get(`/category${categoryId}/product`);
+    getCategoryByName: (name) => {
+        return https.get(`/category/${name}`);
+    },
+
+    getListSubCategory: () => {
+        return https.get(`/sub_category/list_all`);
     },
 
 }
