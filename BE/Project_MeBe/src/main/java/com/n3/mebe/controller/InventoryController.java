@@ -4,6 +4,7 @@ package com.n3.mebe.controller;
 import com.n3.mebe.dto.request.product.InventoryRequest;
 import com.n3.mebe.dto.response.product.InventoryResponse;
 import com.n3.mebe.entity.Inventory;
+import com.n3.mebe.service.IInventoryService;
 import com.n3.mebe.service.iml.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,14 @@ public class InventoryController {
 
 
     @Autowired
-    private InventoryService inventoryService;
+    private IInventoryService inventoryService;
 
 
     /**
      *  Request from Client
      *
      */
+
     @PostMapping("/create/{id}")
     public Inventory createInventory(@PathVariable("id") int prId, @RequestBody InventoryRequest request) {
         return inventoryService.createInventory(prId, request);

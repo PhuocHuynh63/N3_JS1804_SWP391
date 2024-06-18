@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -55,5 +56,5 @@ public class Order {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "order")
-    private Set<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails;
 }

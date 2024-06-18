@@ -240,13 +240,11 @@ CREATE TABLE [order] (
 CREATE TABLE order_detail (
     order_detail_id  INT PRIMARY KEY IDENTITY(1,1),
     order_id INT,
-    product_id INT,
     inventory_id  INT,
     quantity INT,
 	price DECIMAL(10, 2),
     sale_price  DECIMAL(10, 2),
     FOREIGN KEY (order_id) REFERENCES [order](order_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id),
 	FOREIGN KEY (inventory_id) REFERENCES inventory(inventory_id)
 );
 
@@ -297,14 +295,14 @@ VALUES
 (3, 2, N'Shipping', 0.00, 1200000.00, 1200000.00, N'Online', N'Paid', N'Giao hàng nhanh');
 
 -- Thêm dữ liệu vào bảng order_detail
-INSERT INTO order_detail (order_id, product_id, inventory_id, quantity, price, sale_price)
+INSERT INTO order_detail (order_id, inventory_id, quantity, price, sale_price)
 VALUES
-(1, 1, 1, 2, 32000.00, 0),
-(1, 1, 2, 1, 32000.00, 0),
-(2, 2, 4, 3, 135000.00, 130000.00),
-(2, 2, 5, 1, 135000.00, 130000.00),
-(3, 1, 3, 5, 32000.00, 0),
-(3, 2, 4, 1, 135000.00, 130000.00);
+(1, 1, 2, 32000.00, 0),
+(1, 2, 1, 32000.00, 0),
+(2, 4, 3, 135000.00, 130000.00),
+(2, 5, 1, 135000.00, 130000.00),
+(3, 3, 5, 32000.00, 0),
+(3, 4, 1, 135000.00, 130000.00);
 
 
 -- Thêm dữ liệu vào bảng payment

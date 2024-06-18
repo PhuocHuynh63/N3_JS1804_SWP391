@@ -1,7 +1,10 @@
 package com.n3.mebe.dto.request.order;
 
 
+import com.n3.mebe.entity.OrderDetail;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class OrderRequest {
@@ -21,5 +24,6 @@ public class OrderRequest {
     private String orderType;
     private String paymentStatus;
     private String note;
+
 
 }

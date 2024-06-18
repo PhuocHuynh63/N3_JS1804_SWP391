@@ -153,22 +153,13 @@ public class OrderService implements IOrderService {
     public String setStatusOrder(OrderStatusRequest request) {
        Order order = getOrder(request.getOrderId());
        String msg = "";
-
-
-
-       String status = ""; //Đang xử lý
-
-
-
-
-
-
-
-
-       order.setStatus(status);
+       if(order.getStatus().isEmpty()){
+           return "Update Status không thành công";
+       }
+       order.setStatus(request.getStatus());
        orderRepository.save(order);
 
-       return msg;
+       return "Update status "+ request.getStatus() + "thành công";
     }// </editor-fold>
 
 
