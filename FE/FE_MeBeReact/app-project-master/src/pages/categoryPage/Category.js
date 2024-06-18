@@ -4,7 +4,7 @@ import { meBeSrc } from '../../service/meBeSrc';
 import { useParams } from 'react-router-dom';
 
 export default function Category() {
-    // Initialize category as an object
+    //Call API to get category
     const [category, setCategory] = useState({});
     const { name } = useParams();
 
@@ -18,26 +18,31 @@ export default function Category() {
             });
     }, [name]);
 
-    const [isActive, setIsActive] = useState(false);
-    useEffect(() => {
-        setIsActive(category.name === name);
-    }, [category, name]);
-
     // Call API to get subCategory
     const [subCategories, setSubCategories] = useState([]);
-    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         meBeSrc.getListSubCategory()
             .then((res) => {
                 const filteredSubCategories = res.data.filter((subCategory) => subCategory.category_parent === category.name);
                 setSubCategories(filteredSubCategories);
-                console.log(subCategories)
             }).catch((err) => {
                 console.log('Error fetching subcategories', err);
             });
     }, [category.name]);
 
+    //Call API to get products
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        meBeSrc.getProduct()
+            .then((res) => {
+                const filteredProducts = res.data.filter((product) => product.category === category.name).slice(0, 3);
+                setProducts(filteredProducts);
+            }).catch((err) => {
+                console.log('Error fetching products', err);
+            });
+    }, []);
     return (
         <div className="category-container">
             <div className="category-header">
@@ -45,54 +50,31 @@ export default function Category() {
                 <div className="category-icons">
                     {subCategories.map((subCategory) => (
                         <div className="category-icon" key={subCategory.name}>
-                            <img src={subCategory.image} alt={subCategory.name} />
-                            <p>{subCategory.name}</p>
+                            <a href=''>
+                                <img src={subCategory.image} alt={subCategory.name} />
+                                <p>{subCategory.name}</p>
+                            </a>
                         </div>
                     ))}
                 </div>
             </div>
-            <div className="category-section">
-                <h3>Bộ tay dài</h3>
-                <div className="products">
-                    <div className="product">
-                        <img src="link-to-image" alt="Product 1" />
-                        <p>Bộ dài chui đầu màu vàng</p>
-                        <p>195,000đ</p>
-                    </div>
-                    <div className="product">
-                        <img src="link-to-image" alt="Product 2" />
-                        <p>Bộ dài chui đầu cổ bèo màu hồng nhạt</p>
-                        <p>195,000đ</p>
-                    </div>
-                    <div className="product">
-                        <img src="link-to-image" alt="Product 3" />
-                        <p>Bộ dài chui đầu màu xanh nhạt</p>
-                        <p>195,000đ</p>
+
+            {subCategories.map((subCategory) => (
+                <div className="category-section" key={subCategory.name}>
+                    <h3>{subCategory.name}</h3>
+                    <a href="#" className="view-more">Xem thêm</a>
+                    <div className="products">
+                        {products.map((product) => (
+                            <div className="product" key={product.id}>
+                                <img src={`/images/${product.images}`} alt={product.name} />
+                                <p>{product.name}</p>
+                                <p>{product.price}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
-                <a href="#" className="view-more">Xem thêm</a>
-            </div>
-            <div className="category-section">
-                <h3>Bộ bodysuite tay dài</h3>
-                <div className="products">
-                    <div className="product">
-                        <img src="link-to-image" alt="Product 4" />
-                        <p>Bộ bodysuite tay dài</p>
-                        <p>195,000đ</p>
-                    </div>
-                    <div className="product">
-                        <img src="link-to-image" alt="Product 5" />
-                        <p>Bộ bodysuite tay dài</p>
-                        <p>195,000đ</p>
-                    </div>
-                    <div className="product">
-                        <img src="link-to-image" alt="Product 6" />
-                        <p>Bộ bodysuite tay dài</p>
-                        <p>195,000đ</p>
-                    </div>
-                </div>
-                <a href="#" className="view-more">Xem thêm</a>
-            </div>
+            ))}
+
         </div>
     );
 }

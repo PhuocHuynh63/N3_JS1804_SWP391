@@ -125,7 +125,6 @@ public class OrderDetailsService implements IOrderDetailsService {
 
             orderDetailsResponse.setOdId(orderDetail.getOdId());
             orderDetailsResponse.setOrder(orderDetail.getOrder());
-            orderDetailsResponse.setProduct(orderDetail.getProduct());
             orderDetailsResponse.setInventory(orderDetail.getInventory());
             orderDetailsResponse.setQuantity(orderDetail.getQuantity());
             orderDetailsResponse.setPrice(orderDetail.getPrice());
@@ -149,7 +148,6 @@ public class OrderDetailsService implements IOrderDetailsService {
 
             orderDetailsResponse.setOdId(orderDetail.getOdId());
             orderDetailsResponse.setOrder(orderDetail.getOrder());
-            orderDetailsResponse.setProduct(orderDetail.getProduct());
             orderDetailsResponse.setInventory(orderDetail.getInventory());
             orderDetailsResponse.setQuantity(orderDetail.getQuantity());
             orderDetailsResponse.setPrice(orderDetail.getPrice());

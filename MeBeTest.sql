@@ -78,10 +78,10 @@ VALUES
 
 	--Sữa & Bình sữa
 	(1, N'Sữa bột', N'/images/sua_bot-modified.png'),
-	(1, N'Sữa pha sẵn', N'sua-pha-san'),
-	(1, N'Bình sữa', N'binh-sua'),
-	(1, N'Phụ kiện bình sữa', N'phu-kien-binh-sua'),
-	(1, N'Núm ti', N'num-ti'),
+	(1, N'Sữa pha sẵn', N'/images/sua-bot-pha-san-modified.png'),
+	(1, N'Bình sữa', N'/images/binh_sua-modified.png'),
+	(1, N'Phụ kiện bình sữa', N'/images/phu_kien_binh_sua.png'),
+	(1, N'Núm ti', N'/images/num_ti.png'),
 
 
    -- Bỉm tả-vệ sinh
@@ -169,13 +169,17 @@ CREATE TABLE product (
 
 INSERT INTO product (subcategory_id, slug, name, images, [description], price, sale_price, [status], total_sold, product_view)
 VALUES
-    (1, N'sbps-nuvi-grow-110ml-1y', N'SBPS Nuvi Grow 110ml 1Y+', N'nuvi_grow.jpg', N'DINH DƯỠNG TỐI ƯU CHIỀU CAO', 32000.00, 0, N'Còn hàng', 0, 0),
-    (1, N'sua-nuvi-grow-iq-step-3-900g', N'Sữa Nuvi Grow IQ Step 3 900g', N'nuvi_grow_iq_step3.jpg', N'Sữa bột Nuvi Grow IQ Step 3 với công thức IQ Advance', 385000.00, 370000.00, N'Còn hàng', 0, 0),
-    (1, N'sua-bot-dielac-grow-plus-2-400g', N'Sữa bột Dielac Grow Plus 2 400g', N'dielac_grow_plus_2.jpg', N'Sữa bột Dielac Grow Plus 2 400g dành cho trẻ từ 1-2 tuổi', 135000.00, 130000.00, N'Còn hàng', 0, 0),
-    (1, N'sua-bot-dielac-alpha-gold-iq-step-3-900g', N'Sữa bột Dielac Alpha Gold IQ Step 3 900g', N'dielac_alpha_gold_iq_step3.jpg', N'Sữa bột Dielac Alpha Gold IQ Step 3 900g cho trẻ từ 1-2 tuổi', 405000.00, 390000.00, N'Còn hàng', 0, 0),
-    (1, N'sua-pha-san-nestle-nan-optipro-so-4-lon-800ml', N'Sữa pha sẵn Nestle NAN Optipro Số 4 lon 800ml', N'nan_optipro_4.jpg', N'Sữa pha sẵn Nestle NAN Optipro Số 4 lon 800ml phù hợp với trẻ từ 2 tuổi trở lên', 85000.00, 0, N'Còn hàng', 0, 0),
-    (1, N'sua-pha-san-nestle-nan-optipro-so-3-6x800ml', N'Sữa pha sẵn Nestle NAN Optipro Số 3 6x800ml', N'nan_optipro_3.jpg', N'Lốc 6 lon sữa pha sẵn Nestle NAN Optipro Số 3 800ml cho trẻ từ 1-2 tuổi', 465000.00, 450000.00, N'Còn hàng', 0, 0)
-    
+   
+    (1, N'san-pham-dinh-duong-cong-thuc-chuan-so-3-withmom-cesar', N'Sản phẩm dinh dưỡng công thức Withmom Cesar số 3', N'sua-withmom-cesar-so-3.webp', N'Sữa tươi loại 1-A không kháng sinh 17,54% (Hàn Quốc, theo tiêu chuẩn số lượng vi khuẩn), lactose, dextrin, dầu ăn hỗn hợp [dầu đậu nành, dầu dừa, dầu chế biến 6,02% (dầu cọ, dầu hướng dương)', 799.000, 700.000, N'Còn hàng', 0, 0),
+    (1, N'sua-aptamil-duc-so-3', N'Sữa Aptamil Đức số 3', N'sua-Aptamil-duc.jpg', N'Lấy đầy muỗng sữa và gạt ngang miệng (1 muỗng Aptamil 3 gạt ngang tương đương 5g sữa) đong 4 muỗng sữa pha với 120ml nước được dung dịch 130ml sữa.', 595.000, 0, N'Còn hàng', 0, 0),
+    (1, N'sua-bot-aptamil-essensis-organic-so-1', N'Sữa Aptamil Đức số 3', N'sua-Aptamil-Essensis-Organic-1.jpg', N'Sữa Aptamil Essensis Organic số 1 - dòng sữa công thức cao cấp dành cho trẻ', 1295.000, 0, N'Còn hàng', 0, 0),
+
+	(2, N'sua-bot-pha-san-nan-115ml', N'Sữa bột pha sẵn Nan 115ml (vỉ 9 hộp)', N'sua-pha-san-nan-1.jpg', N'Cung cấp hệ dưỡng chất thiết yếu cho sự phát triển toàn diện của trẻ 2 hộp 180ml cung cấp gần 40% Nhu cầu Đạm mỗi ngày', 83.000, 0, N'Không có sẵn', 0, 0),
+    (2, N'sua-phat-trien-chieu-cao-150ml', N'Sữa phát triển chiều cao 150ml Lốc 3 Vegemil Greenbia Hikids *24', N'sua-Vegemil-Greenbia-Hikids-1.jpg', N'Sữa nước Vegemil Greenbia HiKids Hàn tăng chiều cao & tăng cân, bổ sung sữa non tăng đề kháng cho bé từ 1 tuổi (1 lốc 3 hộp - 150ml/hộp)', 126.000, 120.000, N'Còn hàng', 0, 0),
+    (2, N'sua-nuoc-fruto-vi-mam-xoi-6m', N'Sữa nước Fruto vị mâm xôi 6M', N'sua-nuoc-Fruto-mam-xoi-1.jpg', N'Sữa bột nguyên kem, mâm xôi nghiền, bột gạo, đường fructose, maltodextrin, prebiotic-inulin, nước.', 34.900, 29.900, N'Còn hàng', 0, 0),
+
+	(3, N'sbps-nuvi-grow-110ml-1y', N'SBPS Nuvi Grow 110ml 1Y+','/images/sbps_nuvi_grow_180ml.webp', N'DINH DƯỠNG TỐI ƯU CHIỀU CAO', 32000.00, 0, N'Còn hàng', 0, 0),
+    (3, N'sua-nuvi-grow-iq-step-3-900g', N'Sữa Nuvi Grow IQ Step 3 900g', N'nuvi_grow_iq_step3.jpg', N'Sữa bột Nuvi Grow IQ Step 3 với công thức IQ Advance', 385000.00, 370000.00, N'Còn hàng', 0, 0)
 -- Tạo bảnh Inventory
 CREATE TABLE inventory (
 	inventory_id INT PRIMARY KEY IDENTITY(1,1),

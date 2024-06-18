@@ -60,6 +60,4 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<Review> reviewsProducts;
 
-    @OneToMany(mappedBy = "product")
-    private Set<OrderDetail> orderDetails;
 }

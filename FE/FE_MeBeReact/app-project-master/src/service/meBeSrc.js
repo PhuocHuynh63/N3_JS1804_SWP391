@@ -2,7 +2,7 @@ import { https } from "./config"
 
 export const meBeSrc = {
     getProduct: () => {
-        return https.get(`/product`);
+        return https.get(`/product/list`);
     },
 
     getProductDetail: (productId) => {

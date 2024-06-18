@@ -91,7 +91,7 @@ export default function Header() {
                                 <a className="nav-link" href="/about">Giới Thiệu MeBe</a>
                             </li>
                             {categories.map((category) => (
-                                <li className="nav-item dropdown">
+                                <li className="nav-item dropdown" key={category.name}>
                                     <NavLink to={`/category/${category.name}`} className="nav-link dropdown-toggle">
                                         {category.name}
                                     </NavLink>

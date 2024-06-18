@@ -1,4 +1,5 @@
 .category-container {
+    margin: 48px 233px 0 233px;
     padding: 20px;
     font-family: Arial, sans-serif;
 }
@@ -11,13 +12,15 @@
     margin-bottom: 20px;
 }
 
+
+/* Category icons */
 .category-icons {
     display: flex;
     justify-content: space-around;
     margin-bottom: 40px;
 }
 
-.category-icon:first-child {
+.category-icon {
     flex-direction: column;
     display: flex;
     justify-content: center;
@@ -25,14 +28,22 @@
     margin-bottom: 40px;
 }
 
-.category-icon img:first-child {
+.category-icon img {
     width: 70px;
-    margin-top: 60px;
+    margin-top: 48px;
+    cursor: pointer;
 }
 
 .category-icon p {
     margin-top: 7px;
-    width: 70px;
+    width: 150px;
+    color: rgb(82, 82, 82);
+    cursor: pointer;
+}
+
+.category-icon:hover p {
+    color: #c2b57f;
+    transition: all 0.2s;
 }
 
 .category-icon {
