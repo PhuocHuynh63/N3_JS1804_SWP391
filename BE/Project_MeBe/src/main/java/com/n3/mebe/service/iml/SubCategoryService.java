@@ -36,7 +36,11 @@ public class SubCategoryService implements ISubCategoryService {
 
         subCategory.setCategory(category);
         subCategory.setName(request.getName());
+<<<<<<< HEAD
+        subCategory.setImage(request.getImage());
+=======
         subCategory.setSlug(request.getSlug());
+>>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
         return subCategoryRepository.save(subCategory);
     }// </editor-fold>
 
@@ -71,10 +75,38 @@ public class SubCategoryService implements ISubCategoryService {
            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
 
            subCategoryResponse.setName(subCategory.getName());
+<<<<<<< HEAD
+           subCategoryResponse.setImage(subCategory.getImage());
+=======
            subCategoryResponse.setSlug(subCategory.getSlug());
+>>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
            subCategoryResponses.add(subCategoryResponse);
        }
 
         return subCategoryResponses;
     }// </editor-fold>
+<<<<<<< HEAD
+
+
+    // <editor-fold default state="collapsed" desc="Get SubCategories Response">
+    @Override
+    public List<SubCategoryResponse> getSubCategoriesResponse() {
+        List<SubCategory> subCategories = subCategoryRepository.findAll();
+        List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
+
+        for (SubCategory subCategory : subCategories) {
+            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
+
+            //lấy ra category tên cha
+            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
+
+            subCategoryResponse.setName(subCategory.getName());
+            subCategoryResponse.setImage(subCategory.getImage());
+            subCategoryResponses.add(subCategoryResponse);
+        }
+
+        return subCategoryResponses;
+    // </editor-fold>
+=======
+>>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
 }

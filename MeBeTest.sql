@@ -69,15 +69,19 @@ CREATE TABLE subcategory (
     subcategory_id INT PRIMARY KEY IDENTITY(1,1),
     parent_id INT,
     [name] NVARCHAR(100),
-    slug NVARCHAR(MAX),
+    [image] NVARCHAR(MAX),
     FOREIGN KEY (parent_id) REFERENCES category(category_id)
 );
 
-INSERT INTO subcategory (parent_id, [name], slug)
+INSERT INTO subcategory (parent_id, [name], [image])
 VALUES
 
 	--Sữa & Bình sữa
+<<<<<<< HEAD
+	(1, N'Sữa bột', N'/images/sua_bot-modified.png'),
+=======
 	(1, N'Sữa bột', N'sua-bot'),
+>>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
 	(1, N'Sữa pha sẵn', N'sua-pha-san'),
 	(1, N'Bình sữa', N'binh-sua'),
 	(1, N'Phụ kiện bình sữa', N'phu-kien-binh-sua'),

@@ -54,7 +54,7 @@ const LoginPage = ({ show, handleClose }) => {
                       <img
                         className="img-fluid rounded-start w-100 h-100 object-fit-cover"
                         loading="lazy"
-                        src="../images/Logo_Login.jpg"
+                        src="/images/login.jpg"
                         alt="Welcome back you've been missed!"
                       />
                     </div>
