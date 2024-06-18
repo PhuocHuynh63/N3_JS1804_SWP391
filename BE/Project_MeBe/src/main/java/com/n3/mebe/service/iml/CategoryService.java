@@ -83,6 +83,7 @@ public class CategoryService implements ICategoryService {
 
 
             CategoryResponse categoryResponse = new CategoryResponse();
+
             categoryResponse.setCategoryId(category.getCategoryId());
             categoryResponse.setName(category.getName());
             categoryResponse.setSlug(category.getSlug());
@@ -93,8 +94,16 @@ public class CategoryService implements ICategoryService {
 
     // <editor-fold default state="collapsed" desc="Get Category By Name">
     @Override
-    public Category getCategoryByName(String name) {
-        return icategoryRepository.findByName(name);
+    public CategoryResponse getCategoryByName(String name) {
+
+        Category category = icategoryRepository.findByName(name);
+
+        CategoryResponse categoryResponse = new CategoryResponse();
+        categoryResponse.setCategoryId(category.getCategoryId());
+        categoryResponse.setName(category.getName());
+        categoryResponse.setSlug(category.getSlug());
+
+        return categoryResponse;
     } //</editor-fold>
 
 

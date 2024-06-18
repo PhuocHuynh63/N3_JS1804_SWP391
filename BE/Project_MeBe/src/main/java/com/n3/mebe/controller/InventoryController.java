@@ -10,32 +10,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/inventory")
 public class InventoryController {
 
 
     @Autowired
-    private InventoryService productSkuService;
+    private InventoryService inventoryService;
 
 
     /**
      *  Request from Client
      *
      */
-    @PostMapping("/create/product_id={id}")
+    @PostMapping("/create/{id}")
     public Inventory createInventory(@PathVariable("id") int prId, @RequestBody InventoryRequest request) {
-        return productSkuService.createInventory(prId, request);
+        return inventoryService.createInventory(prId, request);
     }
 
-    @PutMapping("/update/productSku_id={id}")
+    @PutMapping("/update/{id}")
     public Inventory updateInventory(@PathVariable("id") int prIdSku, @RequestBody InventoryRequest request) {
-        return productSkuService.updateInventory(prIdSku, request);
+        return inventoryService.updateInventory(prIdSku, request);
     }
 
-    @DeleteMapping("/delete/productSku_id={id}")
-    public void updateInventory(@PathVariable("id") int prIdSku) {
-        productSkuService.deleteInventory(prIdSku);
+    @DeleteMapping("/delete/{id}")
+    public void deleteInventory(@PathVariable("id") int prIdSku) {
+        inventoryService.deleteInventory(prIdSku);
     }
 
 
@@ -47,7 +48,17 @@ public class InventoryController {
 
     @GetMapping("/list")
     public List<InventoryResponse> getInventoryList() {
-        return productSkuService.getAllInventory();
+        return inventoryService.getAllInventory();
+    }
+
+    @GetMapping("/{id}")
+    public InventoryResponse getInventoryById(@PathVariable("id") int id) {
+        return inventoryService.getInventoryResponseById(id);
+    }
+
+    @GetMapping("/{prId}")
+    public InventoryResponse getInventoryByProductId(@PathVariable("prId") int prId) {
+        return inventoryService.getInventoryResponseByProductId(prId);
     }
 
 }

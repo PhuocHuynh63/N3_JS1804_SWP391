@@ -52,7 +52,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{name}")
-    public Category getCategoryByName(@PathVariable("name") String name) {
+    public CategoryResponse getCategoryByName(@PathVariable("name") String name) {
         return categoryService.getCategoryByName(name);
     }
 }

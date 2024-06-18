@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/order_details")
 public class OrderDetailsController {
@@ -18,8 +19,7 @@ public class OrderDetailsController {
     @Autowired
     private OrderDetailsService orderDetailsService;
 
-
-
+    
 
     @PostMapping("/create")
     public OrderDetail createOrderDetail(@RequestBody OrderDetailsRequest request) {

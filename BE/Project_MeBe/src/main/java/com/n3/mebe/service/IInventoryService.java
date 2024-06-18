@@ -8,11 +8,18 @@ import java.util.List;
 
 public interface IInventoryService {
 
-    List<InventoryResponse> getAllInventory();
+
 
     Inventory createInventory(int prId, InventoryRequest inventoryRequest);
 
     Inventory updateInventory(int prIdSku, InventoryRequest inventoryRequest);
 
     void deleteInventory(int id);
+
+    List<InventoryResponse> getAllInventory();
+
+    InventoryResponse getInventoryResponseById(int id);
+
+
+    InventoryResponse getInventoryResponseByProductId(int prId);
 }

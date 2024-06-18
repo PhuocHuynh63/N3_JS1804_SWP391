@@ -16,4 +16,6 @@ public interface ISubCategoryService {
 
     void deleteSubCategory(int subCategoryId);
 
+    List<SubCategoryResponse> getSubCategoriesResponse(String categoryParentName);
+
 }
