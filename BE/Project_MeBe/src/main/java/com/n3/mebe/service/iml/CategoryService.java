@@ -90,7 +90,6 @@ public class CategoryService implements ICategoryService {
         }
         return categoriesResponse;
     } //</editor-fold>
-<<<<<<< HEAD
 
     // <editor-fold default state="collapsed" desc="Get Category By Name">
     @Override
@@ -100,6 +99,4 @@ public class CategoryService implements ICategoryService {
 
 
 
-=======
->>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
 }

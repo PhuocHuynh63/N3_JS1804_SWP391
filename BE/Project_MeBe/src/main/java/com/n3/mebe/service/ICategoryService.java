@@ -16,10 +16,7 @@ public interface ICategoryService {
 
     void deleteCategory(int cateId);
 
-<<<<<<< HEAD
     // <editor-fold default state="collapsed" desc="Get Category By Name">
     Category getCategoryByName(String name) //</editor-fold>
     ;
-=======
->>>>>>> a69cb649d3ba6b1025674b237b9b5ba5c3946db0
 }
