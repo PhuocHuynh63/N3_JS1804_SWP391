@@ -6,7 +6,6 @@ package com.n3.mebe.controller;
 import com.n3.mebe.dto.request.product.ProductAttributeRequest;
 import com.n3.mebe.dto.response.product.ProductAttributeResponse;
 import com.n3.mebe.entity.ProductAttribute;
-import com.n3.mebe.service.IProductAttributeService;
 import com.n3.mebe.service.iml.ProductAttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import java.util.List;
 public class ProductAttributeController {
 
     @Autowired
-    private IProductAttributeService productAttributeService;
+    private ProductAttributeService productAttributeService;
 
     /**
      * Request from Client
@@ -28,13 +27,13 @@ public class ProductAttributeController {
 
     //Create a product
     @PostMapping("/create")
-    String createProductAttribute(@RequestBody ProductAttributeRequest request) {
+    ProductAttribute createProduct(@RequestBody ProductAttributeRequest request) {
         return  productAttributeService.createProductAttribute(request);
     }
 
     //Update a product by id
     @PutMapping("/update_product_attribute={id}")
-    String updateProductAttribute(@PathVariable("id") int id, @RequestBody ProductAttributeRequest request) {
+    ProductAttribute updateProduct(@PathVariable("id") int id, @RequestBody ProductAttributeRequest request) {
         return productAttributeService.updateProductAttribute(id, request);
     }
 

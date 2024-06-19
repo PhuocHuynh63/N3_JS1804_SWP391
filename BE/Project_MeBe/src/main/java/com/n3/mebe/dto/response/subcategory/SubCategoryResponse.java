@@ -10,9 +10,11 @@ import java.util.Set;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SubCategoryResponse {
 
-//    private int subCategoryId;
+    private int subCategoryId;
     private String category_parent;
     private String name;
     private String image;

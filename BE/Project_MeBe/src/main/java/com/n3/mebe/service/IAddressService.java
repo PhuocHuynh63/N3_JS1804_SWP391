@@ -13,9 +13,9 @@ public interface IAddressService {
 
     List<AddressResponse> getAddressesUser(int userId);
 
-    String createAddress(int userId,CreateAddressRequest request);
+    Address createAddress(int userId,CreateAddressRequest request);
 
-    String updateAddress(int addressId, UpdateAddressRequest address);
+    Address updateAddress(int addressId, UpdateAddressRequest address);
 
     void deleteAddress(int addressId);
 

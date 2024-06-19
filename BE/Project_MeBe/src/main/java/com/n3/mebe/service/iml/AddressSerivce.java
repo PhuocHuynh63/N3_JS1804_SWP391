@@ -34,7 +34,7 @@ public class AddressSerivce implements IAddressService {
 
     // <editor-fold default state="collapsed" desc="Create Address">
     @Override
-    public String createAddress(int id,CreateAddressRequest request) {
+    public Address createAddress(int id,CreateAddressRequest request) {
 
         // lấy user dựa vào id của user
         User user = userRepository.findById(id)
@@ -50,13 +50,12 @@ public class AddressSerivce implements IAddressService {
         address.setDistrict(request.getDistrict());
         address.setWard(request.getWard());
 
-        addressRepository.save(address);
-        return "Address created";
+        return addressRepository.save(address);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update Address">
     @Override
-    public String updateAddress(int addressId, UpdateAddressRequest request) {
+    public Address updateAddress(int addressId, UpdateAddressRequest request) {
 
         // Lấy ra địa chỉ dựa vào Id của địa chỉ
         Address address = addressRepository.findById(addressId)
@@ -68,9 +67,9 @@ public class AddressSerivce implements IAddressService {
         address.setCity(request.getCity());
         address.setDistrict(request.getDistrict());
         address.setWard(request.getWard());
-        addressRepository.save(address);
 
-        return "Address updated";
+
+        return addressRepository.save(address);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Delete Address">

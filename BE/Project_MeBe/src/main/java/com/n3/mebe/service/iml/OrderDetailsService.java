@@ -95,7 +95,7 @@ public class OrderDetailsService implements IOrderDetailsService {
         return "Update Order Detail thành công";
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="update Multiple Order Details Details">
+    // <editor-fold default state="collapsed" desc="Update Order Details">
     @Override
     @Transactional
     public String updateMultipleOrderDetails(List<UpdateOrderDetailsRequest> requests) {
