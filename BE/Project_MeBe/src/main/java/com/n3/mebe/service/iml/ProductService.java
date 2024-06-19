@@ -208,5 +208,61 @@ public class ProductService implements IProductService {
         return productResponseList;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Get List Product Created At Desc">
+    @Override
+    public List<ProductResponse> getListProductCreatedAtDesc() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAllProductByCreatedAtAsc();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get List Product Created At Asc">
+    @Override
+    public List<ProductResponse> getListProductCreatedAtAsc() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAllProductByCreatedAtDesc();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
 
 }
