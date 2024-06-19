@@ -18,4 +18,5 @@ public class SubCategoryResponse {
     private String category_parent;
     private String name;
     private String image;
+    private String image2;
 }
