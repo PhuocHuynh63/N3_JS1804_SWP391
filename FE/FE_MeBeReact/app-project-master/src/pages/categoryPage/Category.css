@@ -90,7 +90,6 @@
     margin-bottom: 20px;
 }
 
-/* Product */
 .products {
     display: flex;
     justify-content: space-between;
@@ -104,6 +103,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 200px;
+    margin-bottom: 20px;
+
 }
 
 .product img {
