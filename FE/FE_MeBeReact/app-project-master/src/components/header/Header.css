@@ -191,7 +191,7 @@ header {
     opacity: 0;
     visibility: hidden;
     width: 600px;
-    transform: translateY(-20px);
+    transform: translateY(-1000px);
 }
 
 .nav-link.dropdown-toggle {
@@ -200,6 +200,11 @@ header {
 }
 
 .nav-link.dropdown-toggle:hover {
+    color: #c2b57f;
+    font-weight: 500;
+}
+
+.nav-link.dropdown-toggle.active {
     color: #c2b57f;
     font-weight: 500;
 }
@@ -226,7 +231,7 @@ header {
 }
 
 .dropdown-item_title:hover {
-    font-size: 16px;
+    transform: scale(2);
     color: black;
 }
 
