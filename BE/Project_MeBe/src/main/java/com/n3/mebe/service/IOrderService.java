@@ -17,6 +17,8 @@ public interface IOrderService {
 
     String cancelOrder(int orderId , CancelOrderRequest cancelOrderRequest);
 
+    Order getOrder(int orId);
+
     OrderResponse getOrderResponse(int orId);
 
     void deleteOrder(String orderId);

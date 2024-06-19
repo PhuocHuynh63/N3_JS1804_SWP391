@@ -29,7 +29,7 @@ public class OrderService implements IOrderService {
     @Autowired
     private UserService userService;
 
-
+    @Override
     public Order getOrder(int orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NO_EXIST));

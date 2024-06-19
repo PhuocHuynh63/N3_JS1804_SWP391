@@ -27,4 +27,8 @@ public interface IProductService {
     void deleteProduct(int id);
 
     List<ProductResponse> getListProductByIdOrName(int id, String name);
+
+    List<ProductResponse> getListProductCreatedAtDesc();
+
+    List<ProductResponse> getListProductCreatedAtAsc();
 }

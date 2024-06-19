@@ -94,6 +94,18 @@ public class ProductController {
         return productService.getListProductByIdOrName(id, name);
     }
 
+    //Response list a product sort by create at asc
+    @GetMapping("/list/creat_at_acs")
+    List<ProductResponse> sortProductAsc() {
+        return productService.getListProductCreatedAtAsc();
+    }
+
+    //Response list a product sort by create at desc
+    @GetMapping("/list/creat_at_desc")
+    List<ProductResponse> sortProductDesc() {
+        return productService.getListProductCreatedAtDesc();
+    }
+
 
 
 }
