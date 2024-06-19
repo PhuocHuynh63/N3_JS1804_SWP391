@@ -1,0 +1,77 @@
+.logo img {
+    height: 40px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000;
+}
+
+.search input {
+    padding: 5px;
+}
+
+.account a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #000;
+}
+
+.breadcrumbs {
+    padding: 10px 20px;
+    background-color: #f7f7f7;
+}
+
+.filters {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px 20px;
+    background-color: #f7f7f7;
+}
+
+.filters button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.product-item {
+    width: 30%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.product-item img {
+    width: 100%;
+    height: auto;
+}
+
+.product-item p {
+    margin: 5px 0;
+}
+
+footer {
+    padding: 20px;
+    background-color: #f7f7f7;
+    text-align: center;
+}

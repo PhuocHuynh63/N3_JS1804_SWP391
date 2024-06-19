@@ -4,7 +4,7 @@ import { meBeSrc } from '../../service/meBeSrc';
 import { useParams } from 'react-router-dom';
 
 export default function Category() {
-    //Call API to get category
+    // Call API to get category by name
     const [category, setCategory] = useState({});
     const { name } = useParams();
 
@@ -31,18 +31,18 @@ export default function Category() {
             });
     }, [category.name]);
 
-    //Call API to get products
+    // Call API to get products
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         meBeSrc.getProduct()
             .then((res) => {
-                const filteredProducts = res.data.filter((product) => product.category === category.name).slice(0, 3);
-                setProducts(filteredProducts);
+                setProducts(res.data);
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
-    }, []);
+    }, [category.name]);
+
     return (
         <div className="category-container">
             <div className="category-header">
@@ -59,21 +59,34 @@ export default function Category() {
                 </div>
             </div>
 
-            {subCategories.map((subCategory) => (
-                <div className="category-section" key={subCategory.name}>
-                    <h3>{subCategory.name}</h3>
-                    <a href="#" className="view-more">Xem thêm</a>
-                    <div className="products">
-                        {products.map((product) => (
-                            <div className="product" key={product.id}>
-                                <img src={`/images/${product.images}`} alt={product.name} />
-                                <p>{product.name}</p>
-                                <p>{product.price}</p>
-                            </div>
-                        ))}
+            {subCategories.map((subCategory) => {
+                const filteredProducts = products.filter(product => product.subCategory.name === subCategory.name).slice(0, 3);
+                return (
+                    <div className="category-section" key={subCategory.name}>
+                        <div className='title'>
+                            <h3>{subCategory.name}</h3>
+                            <a href="#">Xem thêm →</a>
+                        </div>
+                        <div className="products">
+                            <a href=''>
+                                <img id='banner' src={subCategory.image2} alt={subCategory.name} />
+                            </a>
+                            {filteredProducts.map((product) => (
+                                <div className="product" key={product.id}>
+                                    <a href=''>
+                                        <img src={`/images/${product.images}`} alt={product.name} />
+                                        <p>{product.name}</p>
+                                        <p className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.price.toLocaleString('vi-VN')}.000₫</p>
+                                        {product.salePrice > 0 && (
+                                            <p>{product.salePrice.toLocaleString('vi-VN')}.000₫</p>
+                                        )}
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
 
         </div>
     );
