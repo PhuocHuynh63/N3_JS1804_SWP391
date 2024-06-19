@@ -27,12 +27,12 @@ public class InventoryController {
      */
 
     @PostMapping("/create/{id}")
-    public String createInventory(@PathVariable("id") int prId, @RequestBody InventoryRequest request) {
+    public Inventory createInventory(@PathVariable("id") int prId, @RequestBody InventoryRequest request) {
         return inventoryService.createInventory(prId, request);
     }
 
     @PutMapping("/update/{id}")
-    public String updateInventory(@PathVariable("id") int prIdSku, @RequestBody InventoryRequest request) {
+    public Inventory updateInventory(@PathVariable("id") int prIdSku, @RequestBody InventoryRequest request) {
         return inventoryService.updateInventory(prIdSku, request);
     }
 

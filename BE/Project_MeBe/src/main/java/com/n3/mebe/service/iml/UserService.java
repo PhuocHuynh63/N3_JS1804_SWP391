@@ -33,7 +33,7 @@ public class UserService implements IUserService {
 
     // <editor-fold default state="collapsed" desc="Create User">
     @Override
-    public String createUser(UserCreateRequest request){
+    public User createUser(UserCreateRequest request){
         User user = new User();
         String role = "member";
         int point = 0;
@@ -62,13 +62,13 @@ public class UserService implements IUserService {
         user.setCreateAt(now);
         user.setUpdateAt(now);
         user.setDeleteAt(null);
-        iUserRepository.save(user);
-        return "Đã tạo user thành công";
+
+        return iUserRepository.save(user);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update User By Id">
     @Override
-    public String updateUserById(int id, UserUpdateRequest request){
+    public User updateUserById(int id, UserUpdateRequest request){
 
         User user = getUserById(id);
 
@@ -86,8 +86,8 @@ public class UserService implements IUserService {
         Date now = new Date();
         user.setUpdateAt(now);
 
-        iUserRepository.save(user);
-        return "Đã update user thành công";
+
+        return  iUserRepository.save(user);
     }// </editor-fold>
 
 

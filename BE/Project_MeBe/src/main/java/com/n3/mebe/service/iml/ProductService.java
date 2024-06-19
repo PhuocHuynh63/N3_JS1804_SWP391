@@ -74,7 +74,7 @@ public class ProductService implements IProductService {
 
     //  <editor-fold default state="collapsed" desc="Update Product">
     @Override
-    public String updateProduct(int id, ProductRequest productRequest) {
+    public Product updateProduct(int id, ProductRequest productRequest) {
         Product product = iProductRespository.findById(id).
                 orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
 
@@ -92,8 +92,7 @@ public class ProductService implements IProductService {
         Date now = new Date();
         product.setUpdateAt(now);
 
-        iProductRespository.save(product);
-        return "Đã cập nhập product thành công";
+        return  iProductRespository.save(product);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Delete Product">
@@ -152,7 +151,6 @@ public class ProductService implements IProductService {
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product Response By SubCate">
-    @Override
     public List<ProductResponse> getProductResponseList(String cate) {
         List<ProductResponse> productResponseList = new ArrayList<>();
 

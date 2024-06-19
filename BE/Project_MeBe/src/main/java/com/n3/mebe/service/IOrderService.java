@@ -12,8 +12,8 @@ public interface IOrderService {
 
     List<OrderResponse> getOrdersList();
 
-    String createOrder(OrderRequest orderRequest);
-    String updateOrder(int orId, OrderRequest orderRequest);
+    Order createOrder(OrderRequest orderRequest);
+    Order updateOrder(int orId, OrderRequest orderRequest);
 
     String cancelOrder(int orderId , CancelOrderRequest cancelOrderRequest);
 

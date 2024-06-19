@@ -24,13 +24,13 @@ public class AddressController {
      */
 
     @PostMapping("/create_address/user_id={userId}")
-    public String createAddress(@RequestBody CreateAddressRequest request, @PathVariable("userId") int userId) {
+    Address createAddress(@RequestBody CreateAddressRequest request, @PathVariable("userId") int userId) {
         return addressSerivce.createAddress(userId, request);
     }
 
 
     @PutMapping("/update_address/address_id={id}")
-    public String updateAddress(@RequestBody UpdateAddressRequest request, @PathVariable("id") int addressId) {
+    Address updateAddress(@RequestBody UpdateAddressRequest request, @PathVariable("id") int addressId) {
         return addressSerivce.updateAddress(addressId, request);
     }
 
@@ -42,7 +42,7 @@ public class AddressController {
 
     //Response address by user ID
     @GetMapping("/user_id={id}")
-    public List<AddressResponse> getAddressByUserId(@PathVariable int id) {
+    List<AddressResponse> getAddressByUserId(@PathVariable int id) {
         return addressSerivce.getAddressesUser(id);
     }
 }
