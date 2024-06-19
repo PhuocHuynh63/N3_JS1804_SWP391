@@ -70,33 +70,33 @@ CREATE TABLE subcategory (
     parent_id INT,
     [name] NVARCHAR(100),
     [image] NVARCHAR(MAX),
+	[image2] NVARCHAR(MAX),
     FOREIGN KEY (parent_id) REFERENCES category(category_id)
 );
 
-INSERT INTO subcategory (parent_id, [name], [image])
+INSERT INTO subcategory (parent_id, [name], [image], [image2])
 VALUES
 
 	--Sữa & Bình sữa
-	(1, N'Sữa bột', N'/images/sua_bot-modified.png'),
-	(1, N'Sữa pha sẵn', N'/images/sua-bot-pha-san-modified.png'),
-	(1, N'Bình sữa', N'/images/binh_sua-modified.png'),
-	(1, N'Phụ kiện bình sữa', N'/images/phu_kien_binh_sua.png'),
-	(1, N'Núm ti', N'/images/num_ti.png'),
+	(1, N'Sữa bột', N'/images/sua_bot-modified.png', '/images/sua-bot.jpg'),
+	(1, N'Sữa pha sẵn', N'/images/sua-bot-pha-san-modified.png', '/images/sua_pha_san.jpg'),
+	(1, N'Bình sữa', N'/images/binh_sua-modified.png', '/images/binh_sua.jpg'),
+	(1, N'Phụ kiện bình sữa', N'/images/phu_kien_binh_sua.png', '/images/phu_kien_binh_sua.jpg'),
+	(1, N'Núm ti', N'/images/num_ti.png', '/images/num_ti.png'),
 
 
    -- Bỉm tả-vệ sinh
-   (2, N'Bỉm tả', N'bim-ta'),
-   (2, N'Bỉm người lớn', N'bim-nguoi-lon'),
-   (2, N'Bô', N'bo'),
-   (2, N'Chăm sóc răng miệng', N'cham-soc-rang-mieng'),
-   (2, N'Sữa tắm/gội', N'sua-tam-goi'),
+   (2, N'Bỉm tả', N'/images/bim_ta_logo.png', '/images/bim_ta.webp'),
+   (2, N'Bỉm người lớn', N'/images/bim_nguoi_lon_logo.png', '/images/bim_ta_nguoi_lon.jpg'),
+   (2, N'Bô', N'/images/bo_hinh_thu-logo.png', '/images/bo-cho-be.jpg'),
+   (2, N'Chăm sóc răng miệng', N'/images/cham_soc_rang-logo.png', '/images/cham_soc_rang_mieng.jpg'),
+   (2, N'Sữa tắm/gội', N'/images/sua_tam_cho_tre_logo.png', '/images/tam_goi.jpg'),
 
 
    --Đồ cho mẹ
-   (3, N'Sữa bầu', N'sua-bau'),
-   (3, N'Vitamin cho mẹ', N'vitamin-cho-me'),
-   (3, N'Gối bầu', N'goi-bau'),
-   (3, N'Phụ kiện cho mẹ', N'phu-kien-cho-me')
+   (3, N'Sữa bầu', N'/images/sua_bau-logo.png', '/images/sua_me.jpg'),
+   (3, N'Vitamin cho mẹ', N'/images/vitamin_cho_me_logo.png', '/images/vitamin_cho_me.jpg'),
+   (3, N'Phụ kiện cho mẹ', N'/images/mieng_lot_tham_sua.png', '/images/phu_kien_cho_me.webp')
 
 
 
