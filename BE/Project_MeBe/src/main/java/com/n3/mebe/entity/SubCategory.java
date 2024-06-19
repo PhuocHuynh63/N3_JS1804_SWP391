@@ -27,6 +27,8 @@ public class SubCategory {
 
     private String image;
 
+    private String image2;
+
     @OneToMany(mappedBy = "subCategory")
     private Set<Product> product;
 }
