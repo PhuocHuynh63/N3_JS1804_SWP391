@@ -46,7 +46,7 @@ export default function SubCategory() {
             <div className="breadcrumbs">
                 <NavLink to="/">
                     Trang chủ
-                </NavLink> / Bé 3-24 tháng bộ dài tay (14)
+                </NavLink>
             </div>
             <div className="filters">
                 <button>Bộ lọc <i className="fa-solid fa-filter"></i></button>
@@ -147,17 +147,18 @@ export default function SubCategory() {
                 {products.map((product) => {
                     const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(2);
                     return (
-                        <div className="product-item" key={product.product_id}>
-                            <img src={product.images} alt={product.name} />
-                            {/* Added discount display */}
-                            <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
-                            <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' />
-                            <p>{product.name}</p>
-                            <span className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.price.toLocaleString('vi-VN')}₫</span>
-                            {product.salePrice > 0 && (
-                                <span className="price-line_through">{product.salePrice.toLocaleString('vi-VN')}₫</span>
-                            )}
-                        </div>
+                        <a href={`/product/${product.productId}`}>
+                            <div className="product-item" key={product.product_id}>
+                                <img src={product.images} alt={product.name} />
+                                <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
+                                <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' />
+                                <p>{product.name}</p>
+                                <span className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.salePrice > 0 ? product.salePrice.toLocaleString('vi-VN') : product.price.toLocaleString('vi-VN')}₫</span>
+                                {product.salePrice > 0 && (
+                                    <span className="price-line_through">{product.price.toLocaleString('vi-VN')}₫</span>
+                                )}
+                            </div>
+                        </a>
                     );
                 })}
             </div>

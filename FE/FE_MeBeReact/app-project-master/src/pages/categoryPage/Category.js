@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Category.css';
 import { meBeSrc } from '../../service/meBeSrc';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 export default function Category() {
     // Call API to get category by name
@@ -50,7 +50,7 @@ export default function Category() {
                 <div className="category-icons">
                     {subCategories.map((subCategory) => (
                         <div className="category-icon" key={subCategory.name}>
-                            <a href=''>
+                            <a href={`/subcategory/${subCategory.name}`}>
                                 <img src={subCategory.image} alt={subCategory.name} />
                                 <p>{subCategory.name}</p>
                             </a>
@@ -68,15 +68,15 @@ export default function Category() {
                             <a href={`/subcategory/${subCategory.name}`}>Xem thêm →</a>
                         </div>
                         <div className="products">
-                            <a href=''>
+                            <a href={`/subcategory/${subCategory.name}`}>
                                 <img id='banner' src={subCategory.image2} alt={subCategory.name} />
                             </a>
                             {filteredProducts.map((product) => (
                                 <div className="product" key={product.id}>
-                                    <a href=''>
+                                    <a href={`/product/${product.productId}`}>
                                         <img src={`${product.images}`} alt={product.name} />
                                         <p>{product.name}</p>
-                                        <p className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.price.toLocaleString('vi-VN')}.000₫</p>
+                                        <p className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.price.toLocaleString('vi-VN')}</p>
                                         {product.salePrice > 0 && (
                                             <p>{product.salePrice.toLocaleString('vi-VN')}₫</p>
                                         )}
@@ -88,6 +88,6 @@ export default function Category() {
                 );
             })}
 
-        </div>
+        </div >
     );
 }
