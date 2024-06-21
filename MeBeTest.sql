@@ -68,35 +68,36 @@ VALUES
 CREATE TABLE subcategory (
     subcategory_id INT PRIMARY KEY IDENTITY(1,1),
     parent_id INT,
+	[slug] NVARCHAR(MAX),
     [name] NVARCHAR(100),
     [image] NVARCHAR(MAX),
 	[image2] NVARCHAR(MAX),
     FOREIGN KEY (parent_id) REFERENCES category(category_id)
 );
 
-INSERT INTO subcategory (parent_id, [name], [image], [image2])
+INSERT INTO subcategory (parent_id, slug, [name], [image], [image2])
 VALUES
 
 	--Sữa & Bình sữa
-	(1, N'Sữa bột', N'https://i.pinimg.com/564x/04/67/41/046741880cb159d847b238ef9bec6b10.jpg', 'https://i.pinimg.com/564x/0b/3a/d2/0b3ad277ac077fd6cb73ad819392acb9.jpg'),
-	(1, N'Sữa pha sẵn', N'https://i.pinimg.com/564x/69/6e/0c/696e0c73fa7978a14dee8713cb693123.jpg', 'https://i.pinimg.com/736x/4c/7e/22/4c7e22ad99ab10035ffa370bff1978a1.jpg'),
-	(1, N'Bình sữa', N'https://babi1.com/wp-content/uploads/2022/11/2402.jpg', 'https://maunhi.com/wp-content/uploads/2021/10/240825257_916385525641235_7817464745646276515_n.jpg'),
-	(1, N'Phụ kiện bình sữa', N'https://hegen.com.vn/wp-content/uploads/2022/01/1600x1600_adaptation-27-1.jpg', 'https://bizweb.dktcdn.net/100/443/377/products/z3592549188508-316ac8a34779b42571c014cb184145c2-1658729354355.jpg?v=1693585236580'),
-	(1, N'Núm ti', N'https://www.spectrababy.vn/images/products/2021/06/15/original/num-ty-moi_1623725125.jpg', 'https://bizweb.dktcdn.net/100/358/258/files/num-vu-gia-singlemum-vn-1.jpg?v=1610293301938'),
+	(1, 'sua-bot', N'Sữa bột', N'https://i.pinimg.com/564x/04/67/41/046741880cb159d847b238ef9bec6b10.jpg', 'https://i.pinimg.com/564x/0b/3a/d2/0b3ad277ac077fd6cb73ad819392acb9.jpg'),
+	(1, 'sua-pha-san', N'Sữa pha sẵn', N'https://i.pinimg.com/564x/69/6e/0c/696e0c73fa7978a14dee8713cb693123.jpg', 'https://i.pinimg.com/736x/4c/7e/22/4c7e22ad99ab10035ffa370bff1978a1.jpg'),
+	(1, 'binh-sua', N'Bình sữa', N'https://babi1.com/wp-content/uploads/2022/11/2402.jpg', 'https://maunhi.com/wp-content/uploads/2021/10/240825257_916385525641235_7817464745646276515_n.jpg'),
+	(1, 'phu-kien-binh-sua', N'Phụ kiện bình sữa', N'https://hegen.com.vn/wp-content/uploads/2022/01/1600x1600_adaptation-27-1.jpg', 'https://bizweb.dktcdn.net/100/443/377/products/z3592549188508-316ac8a34779b42571c014cb184145c2-1658729354355.jpg?v=1693585236580'),
+	(1, 'num-ti', N'Núm ti', N'https://www.spectrababy.vn/images/products/2021/06/15/original/num-ty-moi_1623725125.jpg', 'https://bizweb.dktcdn.net/100/358/258/files/num-vu-gia-singlemum-vn-1.jpg?v=1610293301938'),
 
 
    -- Bỉm tả-vệ sinh
-   (2, N'Bỉm tả', N'https://ss-images.saostar.vn/wwebp700/pc/1640784062534/saostar-y33ekt3p69b4rbxl.png', 'https://www.moby.com.vn/data/bt9/bim-ta-dan-moony-newborn-90-mieng-duoi-5kg-1634871497.jpg'),
-   (2, N'Bỉm người lớn', N'https://img.lazcdn.com/g/p/4c1043a068797e91d5f6940349c6af5b.jpg_720x720q80.jpg', 'https://cdn-v2.kidsplaza.vn/media/catalog/product/b/i/bim-dan-nguoi-lon-sunmate-a2-m10-1.jpg'),
-   (2, N'Bô', N'https://danhchobeyeu.com/media/data/product/royalcare/RC-8828-bo-tre-em-hinh-thu-co-banh-xe-2-trong-1-Royalcare%20-8828-mau-xanh-duong.jpg', 'https://file.hstatic.net/1000279312/file/bo_ve_sinh_co_lung_tua_cho_be_viet_nhat__3._.jpg'),
-   (2, N'Chăm sóc răng miệng', N'https://oralmart.vn/wp-content/uploads/1.6-8-1659344783283-247x296.jpg', 'https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/49137a9a2cff05c3dd2852620a1bb2e8.jpg?imageView2/2/w/800/q/70/format/webp'),
-   (2, N'Sữa tắm/gội', N'https://bizweb.dktcdn.net/100/421/012/products/sua-tam-goi-toan-than-cho-be-cetaphil-400ml-hoa-cuc-1-1678728068614.png?v=1678728072270', 'https://www.shopeggy.com/cdn/shop/products/B2B7056_540x.jpg?v=1616188731'),
+   (2, 'bim-ta', N'Bỉm tả', N'https://ss-images.saostar.vn/wwebp700/pc/1640784062534/saostar-y33ekt3p69b4rbxl.png', 'https://www.moby.com.vn/data/bt9/bim-ta-dan-moony-newborn-90-mieng-duoi-5kg-1634871497.jpg'),
+   (2, 'bim-nguoi-lon', N'Bỉm người lớn', N'https://img.lazcdn.com/g/p/4c1043a068797e91d5f6940349c6af5b.jpg_720x720q80.jpg', 'https://cdn-v2.kidsplaza.vn/media/catalog/product/b/i/bim-dan-nguoi-lon-sunmate-a2-m10-1.jpg'),
+   (2, 'bo', N'Bô', N'https://danhchobeyeu.com/media/data/product/royalcare/RC-8828-bo-tre-em-hinh-thu-co-banh-xe-2-trong-1-Royalcare%20-8828-mau-xanh-duong.jpg', 'https://file.hstatic.net/1000279312/file/bo_ve_sinh_co_lung_tua_cho_be_viet_nhat__3._.jpg'),
+   (2, 'cham-soc-rang-mieng', N'Chăm sóc răng miệng', N'https://oralmart.vn/wp-content/uploads/1.6-8-1659344783283-247x296.jpg', 'https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/49137a9a2cff05c3dd2852620a1bb2e8.jpg?imageView2/2/w/800/q/70/format/webp'),
+   (2, 'sua-tam-goi', N'Sữa tắm/gội', N'https://bizweb.dktcdn.net/100/421/012/products/sua-tam-goi-toan-than-cho-be-cetaphil-400ml-hoa-cuc-1-1678728068614.png?v=1678728072270', 'https://www.shopeggy.com/cdn/shop/products/B2B7056_540x.jpg?v=1616188731'),
 
 
    --Đồ cho mẹ
-   (3, N'Sữa bầu', N'https://www.acfc.com.vn/wp/wp-content/uploads/2022/06/top-10-loai-sua-cho-ba-bau-tot-nhat-hien-nay-10-1.jpg', 'https://i1-suckhoe.vnecdn.net/2019/08/06/three-week-old-baby-died-after-4738-9850-1565084585.png?w=1020&h=0&q=100&dpr=1&fit=crop&s=qtEB9ILQZD6Lh3TKhpDNnA'),
-   (3, N'Vitamin cho mẹ', N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9TnBsVBaqpMT_xX8XVqB484Tsz1cyVDTKJg&s', 'https://i.pinimg.com/564x/5a/d6/cc/5ad6cc0165266256a8e95fae2786fe22.jpg'),
-   (3, N'Phụ kiện cho mẹ', N'https://down-my.img.susercontent.com/file/95337ec902bf1522abbd3c424e1a0cb3', 'https://media.licdn.com/dms/image/D5622AQES46cuduYRLw/feedshare-shrink_1280/0/1700718448613?e=1721865600&v=beta&t=wdwjLSksF3S3XZa0sG8gf7MgCLIDGYVGBcpz2cx5B_Q')
+   (3, 'sua-bau', N'Sữa bầu', N'https://www.acfc.com.vn/wp/wp-content/uploads/2022/06/top-10-loai-sua-cho-ba-bau-tot-nhat-hien-nay-10-1.jpg', 'https://i1-suckhoe.vnecdn.net/2019/08/06/three-week-old-baby-died-after-4738-9850-1565084585.png?w=1020&h=0&q=100&dpr=1&fit=crop&s=qtEB9ILQZD6Lh3TKhpDNnA'),
+   (3, 'vitamin-cho-me', N'Vitamin cho mẹ', N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9TnBsVBaqpMT_xX8XVqB484Tsz1cyVDTKJg&s', 'https://i.pinimg.com/564x/5a/d6/cc/5ad6cc0165266256a8e95fae2786fe22.jpg'),
+   (3, 'phu-kien-cho-me', N'Phụ kiện cho mẹ', N'https://down-my.img.susercontent.com/file/95337ec902bf1522abbd3c424e1a0cb3', 'https://media.licdn.com/dms/image/D5622AQES46cuduYRLw/feedshare-shrink_1280/0/1700718448613?e=1721865600&v=beta&t=wdwjLSksF3S3XZa0sG8gf7MgCLIDGYVGBcpz2cx5B_Q')
 
 
 
