@@ -10,6 +10,10 @@ export const meBeSrc = {
         return https.get(`/product/${productId}`);
     },
 
+    getProductBySubCategory: (subCategoryId) => {
+        return https.get(`/product/list_subcate=${subCategoryId}`);
+    },
+
     getListCategory: () => {
         return https.get(`/category/list`);
     },
@@ -21,5 +25,6 @@ export const meBeSrc = {
     getListSubCategory: () => {
         return https.get(`/sub_category/list_all`);
     },
+
 
 }
