@@ -45,7 +45,10 @@ public class SubCategoryController {
         return subCategoryService.getSubCategoriesResponse(cate);
     }
 
-
+    @GetMapping("/{slug}")
+    public List<SubCategoryResponse> getSubCategoryBySlug(@PathVariable("slug") String slug) {
+        return subCategoryService.getSubCategoriesBySlug(slug);
+    }
 
 }
 

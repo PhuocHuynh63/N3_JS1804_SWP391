@@ -71,7 +71,7 @@ public class SubCategoryService implements ISubCategoryService {
            subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
            //lấy ra category tên cha
            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
-
+           subCategoryResponse.setSlug(subCategory.getSlug());
            subCategoryResponse.setName(subCategory.getName());
            subCategoryResponse.setImage(subCategory.getImage());
            subCategoryResponse.setImage2(subCategory.getImage2());
@@ -97,6 +97,7 @@ public class SubCategoryService implements ISubCategoryService {
             //lấy ra category tên cha
             subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
 
+            subCategoryResponse.setSlug(subCategory.getSlug());
             subCategoryResponse.setName(subCategory.getName());
             subCategoryResponse.setImage(subCategory.getImage());
             subCategoryResponse.setImage2(subCategory.getImage2());
@@ -106,5 +107,25 @@ public class SubCategoryService implements ISubCategoryService {
         return subCategoryResponses;
     }// </editor-fold>
 
+public List<SubCategoryResponse> getSubCategoriesBySlug (String slug) {
+    List<SubCategory> subCategories = subCategoryRepository.findBySlug(slug);
 
+    List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
+
+    for (SubCategory subCategory : subCategories) {
+        SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
+
+        subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
+        //lấy ra category tên cha
+        subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
+
+        subCategoryResponse.setSlug(subCategory.getSlug());
+        subCategoryResponse.setName(subCategory.getName());
+        subCategoryResponse.setImage(subCategory.getImage());
+        subCategoryResponse.setImage2(subCategory.getImage2());
+        subCategoryResponses.add(subCategoryResponse);
+    }
+
+    return subCategoryResponses;
+}
 }
