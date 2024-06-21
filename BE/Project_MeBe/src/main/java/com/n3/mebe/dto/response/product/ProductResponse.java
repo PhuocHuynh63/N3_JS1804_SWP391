@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ProductResponse {
 
+    private int productId;
     private SubCategory subCategory;
     private String slug;
     private String name;

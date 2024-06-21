@@ -74,25 +74,38 @@ public class ProductService implements IProductService {
 
     //  <editor-fold default state="collapsed" desc="Update Product">
     @Override
-    public Product updateProduct(int id, ProductRequest productRequest) {
+    public boolean updateProduct(int id, MultipartFile file, int subCategoryId, String slug, String name, String description, float price, float salePrice, String status, int totalSold, int productView) {
         Product product = iProductRespository.findById(id).
                 orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
+        boolean isInsertedSuccess = false;
+        try {
+            boolean isSaveFileSuccess = fileServiceImp.saveFile(file);
+            if(isSaveFileSuccess) {
+                product.setImages(file.getOriginalFilename());
 
+                SubCategory subCategory = iSubCategoryRepository.findBySubCateId(subCategoryId);
+                product.setSubCategory(subCategory);
 
-        product.setImages(productRequest.getFile().getOriginalFilename());
-        product.setSubCategory(productRequest.getSubCategory());
-        product.setSlug(productRequest.getSlug());
-        product.setName(productRequest.getName());
-        product.setDescription(productRequest.getDescription());
-        product.setPrice(productRequest.getPrice());
-        product.setSalePrice(productRequest.getSalePrice());
-        product.setStatus(productRequest.getStatus());
-        product.setTotalSold(productRequest.getTotalSold());
-        product.setProductView(productRequest.getProductView());
-        Date now = new Date();
-        product.setUpdateAt(now);
+                product.setSlug(slug);
+                product.setName(name);
+                product.setDescription(description);
+                product.setPrice(price);
+                product.setSalePrice(salePrice);
+                product.setStatus(status);
+                product.setTotalSold(totalSold);
+                product.setProductView(productView);
 
-        return  iProductRespository.save(product);
+                Date now = new Date();
+                product.setCreateAt(now);
+                product.setUpdateAt(now);
+
+                iProductRespository.save(product);
+                isInsertedSuccess = true;
+            }
+        } catch (Exception e) {
+            System.out.println("Error in insert product" + e.getMessage());
+        }
+        return isInsertedSuccess;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Delete Product">
@@ -108,10 +121,33 @@ public class ProductService implements IProductService {
      *
      */
 
-    // <editor-fold default state="collapsed" desc="GetList Product">
+    // <editor-fold default state="collapsed" desc="Get List Product">
     @Override
-    public List<Product> getListProduct() {
-        return iProductRespository.findAll();
+    public List<ProductResponse> getListProduct() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAll();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setProductId(product.getProductId());
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="GetList Product Id">
@@ -127,7 +163,7 @@ public class ProductService implements IProductService {
 
         ProductResponse productResponse = new ProductResponse();
 
-
+        productResponse.setProductId(product.getProductId());
         productResponse.setSubCategory(product.getSubCategory());
         productResponse.setSlug(product.getSlug());
         productResponse.setName(product.getName());
@@ -144,20 +180,16 @@ public class ProductService implements IProductService {
         return productResponse;
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Get List Product By SubCate Name">
-    @Override
-    public List<Product> getListProductBySubCateName(String cateName) {
-        return iProductRespository.findBySubCategoryCategoryName(cateName);
-    }// </editor-fold>
-
     // <editor-fold default state="collapsed" desc="Get List Product Response By SubCate">
+    @Override
     public List<ProductResponse> getProductResponseList(String cate) {
         List<ProductResponse> productResponseList = new ArrayList<>();
 
-        List<Product> productList = getListProductBySubCateName(cate);
+        List<Product> productList = iProductRespository.findBySubCategoryCategoryName(cate);
         for (Product product : productList) {
             ProductResponse productResponse = new ProductResponse();
 
+            productResponse.setProductId(product.getProductId());
             productResponse.setSubCategory(product.getSubCategory());
             productResponse.setSlug(product.getSlug());
             productResponse.setName(product.getName());
@@ -190,6 +222,7 @@ public class ProductService implements IProductService {
         for(Product product : productList) {
             ProductResponse productResponse = new ProductResponse();
 
+            productResponse.setProductId(product.getProductId());
             productResponse.setSubCategory(product.getSubCategory());
             productResponse.setSlug(product.getSlug());
             productResponse.setName(product.getName());
@@ -245,6 +278,94 @@ public class ProductService implements IProductService {
         for (Product product : productList) {
             ProductResponse productResponse = new ProductResponse();
 
+            productResponse.setProductId(product.getProductId());
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get List Product By Price Desc">
+    @Override
+    public List<ProductResponse> getListProductByPriceDesc() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAllProductByPriceDesc();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setProductId(product.getProductId());
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get List Product By Price Acs">
+    @Override
+    public List<ProductResponse> getListProductByPriceAcs() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAllProductByPriceAsc();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setProductId(product.getProductId());
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="sort Product By Price Min To Max">
+    @Override
+    public List<ProductResponse> sortProductByPriceMinToMax(float min, float max) {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.sortProductByPriceMinToMax(min, max);
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setProductId(product.getProductId());
             productResponse.setSubCategory(product.getSubCategory());
             productResponse.setSlug(product.getSlug());
             productResponse.setName(product.getName());

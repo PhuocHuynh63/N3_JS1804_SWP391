@@ -53,8 +53,18 @@ public class ProductController {
 
     //Update a product by id
     @PutMapping("/update_product={id}")
-    Product updateProduct(@PathVariable("id") int id, @RequestBody ProductRequest productRequest) {
-        return productService.updateProduct(id, productRequest);
+    boolean updateProduct(@PathVariable("id") int id,
+                          @RequestParam MultipartFile file,
+                          @RequestParam int subCategory,
+                          @RequestParam String slug,
+                          @RequestParam String name,
+                          @RequestParam String description,
+                          @RequestParam float price,
+                          @RequestParam float salePrice,
+                          @RequestParam String status,
+                          @RequestParam int totalSold,
+                          @RequestParam int productView) {
+        return productService.updateProduct(id ,file, subCategory, slug, name, description, price, salePrice, status, totalSold, productView);
     }
 
 
@@ -72,7 +82,7 @@ public class ProductController {
 
     //Response list product
     @GetMapping("/list")
-    List<Product> listProduct() {
+    List<ProductResponse> listProduct() {
         return productService.getListProduct();
     }
 
@@ -96,15 +106,32 @@ public class ProductController {
 
     //Response list a product sort by create at asc
     @GetMapping("/list/creat_at_acs")
-    List<ProductResponse> sortProductAsc() {
+    List<ProductResponse> sortCreatAtAsc() {
         return productService.getListProductCreatedAtAsc();
     }
 
     //Response list a product sort by create at desc
     @GetMapping("/list/creat_at_desc")
-    List<ProductResponse> sortProductDesc() {
+    List<ProductResponse> sortCreatAtDesc() {
         return productService.getListProductCreatedAtDesc();
     }
+
+    @GetMapping("/list/price_desc")
+    List<ProductResponse> sortProductByPriceDesc() {
+        return productService.getListProductCreatedAtDesc();
+    }
+
+    @GetMapping("/list/price_asc")
+    List<ProductResponse> sortProductByPriceAsc() {
+        return productService.getListProductCreatedAtAsc();
+    }
+
+    @GetMapping("/list/sort_min_max")
+    List<ProductResponse> sortProductByPriceAsc(@RequestParam float min, @RequestParam float max) {
+        return productService.sortProductByPriceMinToMax(min, max);
+    }
+
+
 
 
 

@@ -13,11 +13,13 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>Project_MeBe</name>
     <description>Project_MeBe</description>
+
     <properties>
-        <java.version>22</java.version>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>-17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,11 +60,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.n3</groupId>
-            <artifactId>mebe</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>org.modelmapper</groupId>
@@ -100,54 +97,6 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.10.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.10.1</version>
-            <scope>test</scope>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-engine -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite-engine</artifactId>
-            <version>1.10.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>1.10.1</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
 
@@ -167,5 +116,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
