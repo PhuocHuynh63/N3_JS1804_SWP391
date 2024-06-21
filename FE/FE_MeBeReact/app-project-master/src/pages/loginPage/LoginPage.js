@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { localService } from "../../service/localService";
 import { setLoginAction } from "../../redux/action/UserAction";
 import { Input, Form, message } from "antd";
+import bannerLogin from "../../images/Logo_Login.jpg"
 
 const LoginPage = ({ show, handleClose }) => {
   let dispatch = useDispatch();
@@ -54,7 +55,7 @@ const LoginPage = ({ show, handleClose }) => {
                       <img
                         className="img-fluid rounded-start w-100 h-100 object-fit-cover"
                         loading="lazy"
-                        src="/images/Logo_Login.jpg"
+                        src={bannerLogin}
                         alt="Welcome back you've been missed!"
                       />
                     </div>

@@ -65,7 +65,7 @@ export default function Category() {
                     <div className="category-section" key={subCategory.name}>
                         <div className='title'>
                             <h3>{subCategory.name}</h3>
-                            <a href="#">Xem thêm →</a>
+                            <a href={`/subcategory/${subCategory.name}`}>Xem thêm →</a>
                         </div>
                         <div className="products">
                             <a href=''>
@@ -74,11 +74,11 @@ export default function Category() {
                             {filteredProducts.map((product) => (
                                 <div className="product" key={product.id}>
                                     <a href=''>
-                                        <img src={`/images/${product.images}`} alt={product.name} />
+                                        <img src={`${product.images}`} alt={product.name} />
                                         <p>{product.name}</p>
                                         <p className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.price.toLocaleString('vi-VN')}.000₫</p>
                                         {product.salePrice > 0 && (
-                                            <p>{product.salePrice.toLocaleString('vi-VN')}.000₫</p>
+                                            <p>{product.salePrice.toLocaleString('vi-VN')}₫</p>
                                         )}
                                     </a>
                                 </div>
