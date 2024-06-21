@@ -1,6 +1,0 @@
-username,password,isSuccess
-user1,123,true
-user1, 1234, false
-user1, , false
- , 123, false
-, , false
