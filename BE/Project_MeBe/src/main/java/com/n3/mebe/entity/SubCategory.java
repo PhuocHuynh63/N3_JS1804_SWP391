@@ -23,6 +23,8 @@ public class SubCategory {
     @JoinColumn(name = "parent_id")
     private Category category;
 
+    private String slug;
+
     private String name;
 
     private String image;

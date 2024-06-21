@@ -87,7 +87,7 @@ public class ProductController {
     }
 
     //Response a product by id
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     ProductResponse productById(@PathVariable("id") int id) {
         return productService.getProductByIdResponse(id);
     }
