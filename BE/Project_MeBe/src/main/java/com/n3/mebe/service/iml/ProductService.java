@@ -185,7 +185,7 @@ public class ProductService implements IProductService {
     public List<ProductResponse> getProductResponseList(String cate) {
         List<ProductResponse> productResponseList = new ArrayList<>();
 
-        List<Product> productList = iProductRespository.findBySubCategoryCategoryName(cate);
+        List<Product> productList = iProductRespository.findBySubCategoryName(cate);
         for (Product product : productList) {
             ProductResponse productResponse = new ProductResponse();
 

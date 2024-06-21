@@ -93,7 +93,7 @@ public class ProductController {
     }
 
     //Response product_subcategory
-    @GetMapping("/list_cate={cate}")
+    @GetMapping("/list_subcate={cate}")
     List<ProductResponse> listProductBySubCate(@PathVariable("cate") String cate) {
         return productService.getProductResponseList(cate);
     }
