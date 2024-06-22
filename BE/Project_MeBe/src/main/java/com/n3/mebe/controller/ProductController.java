@@ -105,13 +105,13 @@ public class ProductController {
     }
 
     //Response list a product sort by create at asc
-    @GetMapping("/list/creat_at_acs")
+    @GetMapping("/list/create_at_acs")
     List<ProductResponse> sortCreatAtAsc() {
         return productService.getListProductCreatedAtAsc();
     }
 
     //Response list a product sort by create at desc
-    @GetMapping("/list/creat_at_desc")
+    @GetMapping("/list/create_at_desc")
     List<ProductResponse> sortCreatAtDesc() {
         return productService.getListProductCreatedAtDesc();
     }

@@ -250,6 +250,7 @@ public class ProductService implements IProductService {
         for (Product product : productList) {
             ProductResponse productResponse = new ProductResponse();
 
+            productResponse.setProductId(product.getProductId());
             productResponse.setSubCategory(product.getSubCategory());
             productResponse.setSlug(product.getSlug());
             productResponse.setName(product.getName());
