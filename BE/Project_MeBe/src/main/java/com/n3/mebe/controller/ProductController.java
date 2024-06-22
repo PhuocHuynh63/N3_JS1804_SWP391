@@ -99,9 +99,9 @@ public class ProductController {
     }
 
     //Response list a product by id or name
-    @GetMapping("/search")
-    List<ProductResponse> searchProduct(@RequestParam String name) {
-        return productService.getListProductByName(name);
+    @GetMapping("/search_product={id}_name={name}")
+    List<ProductResponse> searchProduct(@PathVariable("id") int id, @PathVariable("name") String name) {
+        return productService.getListProductByIdOrName(id, name);
     }
 
     //Response list a product sort by create at asc
