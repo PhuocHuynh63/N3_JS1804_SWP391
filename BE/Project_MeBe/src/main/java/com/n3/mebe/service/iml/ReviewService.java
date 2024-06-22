@@ -99,6 +99,7 @@ public class ReviewService implements IReviewService {
 
             ReviewResponse reviewResponse = new ReviewResponse();
 
+            reviewResponse.setReviewId(review.getReviewId());
             reviewResponse.setUser(review.getUser());
             reviewResponse.setProduct(review.getProduct());
             reviewResponse.setRate(review.getRate());
@@ -120,6 +121,7 @@ public class ReviewService implements IReviewService {
 
         ReviewResponse reviewResponse = new ReviewResponse();
 
+        reviewResponse.setReviewId(review.getReviewId());
         reviewResponse.setUser(review.getUser());
         reviewResponse.setProduct(review.getProduct());
         reviewResponse.setRate(review.getRate());
