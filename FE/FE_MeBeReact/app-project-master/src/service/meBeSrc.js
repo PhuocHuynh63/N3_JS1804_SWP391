@@ -30,5 +30,7 @@ export const meBeSrc = {
         return https.get(`/sub_category/list_all`);
     },
 
-
+    getProductLastest: ()=>{
+        return https.get(`/product/list/creat_at_desc`);
+    },
 }
