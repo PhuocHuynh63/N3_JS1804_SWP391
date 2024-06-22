@@ -26,19 +26,19 @@ public class InventoryController {
      *
      */
 
-    @PostMapping("/create/{id}")
-    public Inventory createInventory(@PathVariable("id") int prId, @RequestBody InventoryRequest request) {
+    @PostMapping("/create/{prId}")
+    public Inventory createInventory(@PathVariable("prId") int prId, @RequestBody InventoryRequest request) {
         return inventoryService.createInventory(prId, request);
     }
 
-    @PutMapping("/update/{id}")
-    public Inventory updateInventory(@PathVariable("id") int prIdSku, @RequestBody InventoryRequest request) {
-        return inventoryService.updateInventory(prIdSku, request);
+    @PutMapping("/update/{invenId}")
+    public Inventory updateInventory(@PathVariable("invenId") int invenId, @RequestBody InventoryRequest request) {
+        return inventoryService.updateInventory(invenId, request);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteInventory(@PathVariable("id") int prIdSku) {
-        inventoryService.deleteInventory(prIdSku);
+    @DeleteMapping("/delete/{invenId}")
+    public void deleteInventory(@PathVariable("invenId") int invenId) {
+        inventoryService.deleteInventory(invenId);
     }
 
 
@@ -53,8 +53,8 @@ public class InventoryController {
         return inventoryService.getAllInventory();
     }
 
-    @GetMapping("/{id}")
-    public InventoryResponse getInventoryById(@PathVariable("id") int id) {
+    @GetMapping("/{invenId}")
+    public InventoryResponse getInventoryById(@PathVariable("invenId") int id) {
         return inventoryService.getInventoryResponseById(id);
     }
 

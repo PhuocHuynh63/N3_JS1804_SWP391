@@ -23,15 +23,21 @@ public class AddressController {
      *
      */
 
-    @PostMapping("/create_address/user_id={userId}")
+    @PostMapping("/create/{userId}")
     Address createAddress(@RequestBody CreateAddressRequest request, @PathVariable("userId") int userId) {
         return addressSerivce.createAddress(userId, request);
     }
 
 
-    @PutMapping("/update_address/address_id={id}")
-    Address updateAddress(@RequestBody UpdateAddressRequest request, @PathVariable("id") int addressId) {
+    @PutMapping("/update/{adrId}")
+    Address updateAddress(@RequestBody UpdateAddressRequest request, @PathVariable("adrId") int addressId) {
         return addressSerivce.updateAddress(addressId, request);
+    }
+
+    @DeleteMapping("/delete/{adrId}")
+    String deteleAddress(@PathVariable("adrId") int addressId) {
+        addressSerivce.deleteAddress(addressId);
+        return "Deleted Address successfully";
     }
 
 
@@ -41,8 +47,8 @@ public class AddressController {
      */
 
     //Response address by user ID
-    @GetMapping("/user_id={id}")
-    List<AddressResponse> getAddressByUserId(@PathVariable int id) {
+    @GetMapping("/list/{userId}")
+    List<AddressResponse> getAddressByUserId(@PathVariable("userId") int id) {
         return addressSerivce.getAddressesUser(id);
     }
 }
