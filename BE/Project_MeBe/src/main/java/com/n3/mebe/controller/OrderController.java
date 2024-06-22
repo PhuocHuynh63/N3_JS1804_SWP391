@@ -49,7 +49,7 @@ public class OrderController {
 
     //Cancel order by id
     @PutMapping("/status")
-    public String cancelOrder(@RequestBody OrderStatusRequest request) {
+    public String updateStatusOrder(@RequestBody OrderStatusRequest request) {
         return orderService.setStatusOrder(request);
     }
 
@@ -62,6 +62,12 @@ public class OrderController {
     @GetMapping("/list")
     public List<OrderResponse> getOrdersList() {
         return orderService.getOrdersList();
+    }
+
+
+    @GetMapping("/{ordId}")
+    public OrderResponse getOrderResponseById(@PathVariable int ordId) {
+        return orderService.getOrderResponse(ordId);
     }
 
 

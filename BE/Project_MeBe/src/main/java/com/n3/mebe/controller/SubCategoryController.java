@@ -11,7 +11,9 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/sub_category")
-public class SubCategoryController {
+public class
+
+SubCategoryController {
 
     @Autowired
     private SubCategoryService subCategoryService;
@@ -21,11 +23,11 @@ public class SubCategoryController {
      *  Request from Client
      *
      */
-
-    @GetMapping("/create_subcategory")
-    public SubCategoryResponse createSubCategory() {
-        return null;
-    }
+//
+//    @GetMapping("/create")
+//    public SubCategoryResponse createSubCategory() {
+//        return null;
+//    }
 
 
 
