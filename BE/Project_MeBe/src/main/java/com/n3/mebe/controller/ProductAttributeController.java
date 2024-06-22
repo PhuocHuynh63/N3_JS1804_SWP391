@@ -32,13 +32,13 @@ public class ProductAttributeController {
     }
 
     //Update a product by id
-    @PutMapping("/update_product_attribute={id}")
+    @PutMapping("/update/{id}")
     ProductAttribute updateProduct(@PathVariable("id") int id, @RequestBody ProductAttributeRequest request) {
         return productAttributeService.updateProductAttribute(id, request);
     }
 
     //Delete product by id
-    @DeleteMapping("/delete/product_attribute={id}")
+    @DeleteMapping("/delete/{id}")
     String deleteProduct(@PathVariable("id") int id) {
         productAttributeService.deleteProductAttribute(id);
         return "Product deleted";
@@ -56,7 +56,7 @@ public class ProductAttributeController {
     }
 
     //Response a product by id
-    @GetMapping("/product_attribute={id}")
+    @GetMapping("/{id}")
     ProductAttributeResponse productAttributeById(@PathVariable("id") int id) {
         return productAttributeService.getProductAttributesById(id);
     }

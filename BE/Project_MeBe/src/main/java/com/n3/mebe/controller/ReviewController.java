@@ -23,8 +23,8 @@ public class ReviewController {
         return reviewService.getReviewAll();
     }
 
-    @GetMapping("/list{id}")
-    public ReviewResponse listReviewById(@PathVariable("id") int id) {
+    @GetMapping("/{id}")
+    public ReviewResponse reviewResponseById(@PathVariable("id") int id) {
         return reviewService.getReviewResponse(id);
     }
 
