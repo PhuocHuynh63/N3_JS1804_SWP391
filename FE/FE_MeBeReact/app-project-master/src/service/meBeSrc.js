@@ -10,8 +10,8 @@ export const meBeSrc = {
         return https.get(`/product/${productId}`);
     },
 
-    getProductBySubCategory: (subCategoryId) => {
-        return https.get(`/product/list_subcate=${subCategoryId}`);
+    getProductBySubCategory: (slug) => {
+        return https.get(`/product/list_subcate=${slug}`);
     },
 
     getListCategory: () => {
@@ -19,7 +19,11 @@ export const meBeSrc = {
     },
 
     getCategoryByName: (name) => {
-        return https.get(`/category/${name}`);
+        return https.get(`/category/name=${name}`);
+    },
+
+    getCategoryBySlug: (slug) => {
+        return https.get(`/category/slug=${slug}`);
     },
 
     getListSubCategory: () => {

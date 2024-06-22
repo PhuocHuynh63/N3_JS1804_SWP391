@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout Component={HomePage} />} />
           <Route path="/product/:productId" element={<Layout Component={DetailPage} />} />
-          <Route path="/category/:name" element={<Layout Component={Category} />} />
+          <Route path="/category/:slug" element={<Layout Component={Category} />} />
           <Route path="/subcategory/:subCategoryId" element={<Layout Component={SubCategory} />} />
           <Route path="/cart" element={<Layout Component={CartDetail} />} />
           {/* <Route path="/" element={<About />} /> */}
