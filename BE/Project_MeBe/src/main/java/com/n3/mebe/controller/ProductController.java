@@ -93,9 +93,9 @@ public class ProductController {
     }
 
     //Response product_subcategory
-    @GetMapping("/list_subcate={cate}")
-    List<ProductResponse> listProductBySubCate(@PathVariable("cate") String cate) {
-        return productService.getProductResponseList(cate);
+    @GetMapping("/list_subcate={slug}")
+    List<ProductResponse> listProductBySubCate(@PathVariable("slug") String slug) {
+        return productService.getProductResponseList(slug);
     }
 
     //Response list a product by id or name

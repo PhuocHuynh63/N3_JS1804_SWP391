@@ -52,8 +52,13 @@ public class CategoryController {
         return categoryService.getListCategory();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name={name}")
     public CategoryResponse getCategoryByName(@PathVariable("name") String name) {
         return categoryService.getCategoryByName(name);
+    }
+
+    @GetMapping("/slug={slug}")
+    public CategoryResponse getCategoryBySlug(@PathVariable("slug") String slug) {
+        return categoryService.getCategoryBySlug(slug);
     }
 }
