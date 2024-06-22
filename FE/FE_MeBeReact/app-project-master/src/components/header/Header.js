@@ -92,7 +92,7 @@ export default function Header() {
                                 <a className="nav-link" href="/about">Giới Thiệu MeBe</a>
                             </li>
                             <li className="nav-item dropdown">
-                                <NavLink to={`/category/Sữa & Bình Sữa`} className="nav-link dropdown-toggle">
+                                <NavLink to={`/category/sua-binh-sua`} className="nav-link dropdown-toggle">
                                     Sữa & Bình Sữa
                                 </NavLink>
 
@@ -110,7 +110,7 @@ export default function Header() {
                             </li>
 
                             <li className="nav-item dropdown">
-                                <NavLink to={`/category/Bỉm Tã - Vệ Sinh`} className="nav-link dropdown-toggle">
+                                <NavLink to={`/category/bim-ta-ve-sinh`} className="nav-link dropdown-toggle">
                                     Bỉm tã & Dụng cụ vệ sinh
                                 </NavLink>
 
@@ -127,7 +127,7 @@ export default function Header() {
                             </li>
 
                             <li className="nav-item dropdown">
-                                <NavLink to={`/category/Đồ cho mẹ`} className="nav-link dropdown-toggle">
+                                <NavLink to={`/category/do-cho-me`} className="nav-link dropdown-toggle">
                                     Đồ cho mẹ
                                 </NavLink>
 

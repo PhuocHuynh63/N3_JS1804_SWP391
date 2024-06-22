@@ -6,17 +6,17 @@ import { NavLink, useParams } from 'react-router-dom';
 export default function Category() {
     // Call API to get category by name
     const [category, setCategory] = useState({});
-    const { name } = useParams();
+    const { slug } = useParams();
 
     useEffect(() => {
-        meBeSrc.getCategoryByName(name)
+        meBeSrc.getCategoryBySlug(slug)
             .then((res) => {
                 setCategory(res.data);
             })
             .catch((err) => {
                 console.log("Error fetching category", err);
             });
-    }, [name]);
+    }, [slug]);
 
     // Call API to get subCategory
     const [subCategories, setSubCategories] = useState([]);
@@ -50,7 +50,7 @@ export default function Category() {
                 <div className="category-icons">
                     {subCategories.map((subCategory) => (
                         <div className="category-icon" key={subCategory.name}>
-                            <a href={`/subcategory/${subCategory.name}`}>
+                            <a href={`/subcategory/${subCategory.slug}`}>
                                 <img src={subCategory.image} alt={subCategory.name} />
                                 <p>{subCategory.name}</p>
                             </a>
@@ -65,10 +65,10 @@ export default function Category() {
                     <div className="category-section" key={subCategory.name}>
                         <div className='title'>
                             <h3>{subCategory.name}</h3>
-                            <a href={`/subcategory/${subCategory.name}`}>Xem thêm →</a>
+                            <a href={`/subcategory/${subCategory.slug}`}>Xem thêm →</a>
                         </div>
                         <div className="products">
-                            <a href={`/subcategory/${subCategory.name}`}>
+                            <a href={`/subcategory/${subCategory.slug}`}>
                                 <img id='banner' src={subCategory.image2} alt={subCategory.name} />
                             </a>
                             {filteredProducts.map((product) => (
