@@ -27,7 +27,7 @@ public interface IProductService {
 
     List<ProductResponse> getProductResponseList(String cate);
 
-    List<ProductResponse> getListProductByName(String name);
+    List<ProductResponse> getListProductByIdOrName(int id, String name);
 
     List<ProductResponse> getListProductCreatedAtDesc();
 

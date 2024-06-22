@@ -18,12 +18,15 @@ public class ReviewController {
     @Autowired
     private IReviewService reviewService;
 
+    @GetMapping("/list")
+    public List<ReviewResponse> listReview() {
+        return reviewService.getReviewAll();
+    }
 
-    /**
-     * Request to Client
-     *
-     */
-
+    @GetMapping("/list{id}")
+    public ReviewResponse listReviewById(@PathVariable("id") int id) {
+        return reviewService.getReviewResponse(id);
+    }
 
     @PostMapping("/create")
     public Review create(ReviewRequest request) {
@@ -39,24 +42,5 @@ public class ReviewController {
     public String delete(@PathVariable("id") int id) {
         reviewService.deleteReview(id);
         return "Deleted";
-    }
-
-
-
-
-    /**
-     * Response to Client
-     *
-     */
-
-
-    @GetMapping("/list")
-    public List<ReviewResponse> listReview() {
-        return reviewService.getReviewAll();
-    }
-
-    @GetMapping("/{id}")
-    public ReviewResponse reviewResponseById(@PathVariable("id") int id) {
-        return reviewService.getReviewResponse(id);
     }
 }

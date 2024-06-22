@@ -19,10 +19,7 @@ public interface IProductRespository extends JpaRepository<Product, Integer> {
 
     List<Product> findBySubCategorySlug(String slug);
 
-
-    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
-    List<Product> findProductByName(@Param("name") String name);
-
+    List<Product> findByProductIdOrName(int productId, String name);
 
     @Query("SELECT p FROM Product p ORDER BY p.createAt DESC")
     List<Product> findAllProductByCreatedAtDesc();

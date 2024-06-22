@@ -209,10 +209,10 @@ public class ProductService implements IProductService {
         return productResponseList;
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Get List Product By  Name">
+    // <editor-fold default state="collapsed" desc="Get List Product By Id Or Name">
     @Override
-    public List<ProductResponse> getListProductByName(String name) {
-        List<Product> productList = iProductRespository.findProductByName(name);
+    public List<ProductResponse> getListProductByIdOrName(int id, String name) {
+        List<Product> productList = iProductRespository.findByProductIdOrName(id, name);
 
         if(productList == null) {
             throw new AppException(ErrorCode.PRODUCT_NO_EXIST);
