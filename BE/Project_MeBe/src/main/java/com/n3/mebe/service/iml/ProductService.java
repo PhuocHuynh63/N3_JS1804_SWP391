@@ -182,10 +182,10 @@ public class ProductService implements IProductService {
 
     // <editor-fold default state="collapsed" desc="Get List Product Response By SubCate">
     @Override
-    public List<ProductResponse> getProductResponseList(String cate) {
+    public List<ProductResponse> getProductResponseList(String slug) {
         List<ProductResponse> productResponseList = new ArrayList<>();
 
-        List<Product> productList = iProductRespository.findBySubCategoryName(cate);
+        List<Product> productList = iProductRespository.findBySubCategorySlug(slug);
         for (Product product : productList) {
             ProductResponse productResponse = new ProductResponse();
 

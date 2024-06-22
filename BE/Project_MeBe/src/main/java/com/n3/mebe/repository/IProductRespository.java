@@ -17,7 +17,7 @@ public interface IProductRespository extends JpaRepository<Product, Integer> {
 
     Product findByName(String name);
 
-    List<Product> findBySubCategoryName(String categoryName);
+    List<Product> findBySubCategorySlug(String slug);
 
     List<Product> findByProductIdOrName(int productId, String name);
 

@@ -106,6 +106,18 @@ public class CategoryService implements ICategoryService {
         return categoryResponse;
     } //</editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Get Category By Slug">
+    @Override
+    public CategoryResponse getCategoryBySlug(String slug) {
 
+        Category category = icategoryRepository.findBySlug(slug);
+
+        CategoryResponse categoryResponse = new CategoryResponse();
+        categoryResponse.setCategoryId(category.getCategoryId());
+        categoryResponse.setName(category.getName());
+        categoryResponse.setSlug(category.getSlug());
+
+        return categoryResponse;
+    } //</editor-fold>
 
 }
