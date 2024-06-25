@@ -8,6 +8,8 @@ import com.n3.mebe.util.ConstEmail;
 import com.n3.mebe.util.DataUtils;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -30,11 +32,16 @@ public class SendMailService implements ISendMailService {
             response.setTo(user.getEmail());
             response.setSubject(ConstEmail.SEND_MAIL_SUBJECT.CLIENT_REGISTER);
 
+            String password = DataUtils.generateTempPwd(6);
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            String encodedPassword = encoder.encode(password);
+            user.setPassword(encodedPassword);
+
             Map<String, Object> props = new HashMap<>();
             props.put("firstName", user.getFirstName());
             props.put("lastName", user.getLastName());
             props.put("username", user.getUsername());
-            props.put("password", DataUtils.generateTempPwd(6));
+            props.put("password", password);
             response.setProps(props);
 
             mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.CLIENT_REGISTER);

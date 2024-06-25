@@ -16,6 +16,7 @@ import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IAddressRepository;
 import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IOrderRepository;
+import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.IOrderService;
 import jakarta.transaction.Transactional;
 import org.aspectj.weaver.ast.Or;
@@ -37,6 +38,10 @@ public class OrderService implements IOrderService {
 
     @Autowired
     private IAddressRepository addressRepository;
+
+    @Autowired
+    private IUserRepository iUserRepository;
+
 
     @Autowired
     private UserService userService;
@@ -106,9 +111,7 @@ public class OrderService implements IOrderService {
         address.setUser(user);
         address.setTitle("Address");
         address.setAddress(orderRequest.getGuess().getAddress());
-        address.setCity(orderRequest.getGuess().getCity());
-        address.setDistrict(orderRequest.getGuess().getDistrict());
-        address.setWard(orderRequest.getGuess().getWard());
+
         addressRepository.save(address); // Save Address for guess user
     }
 
@@ -137,6 +140,7 @@ public class OrderService implements IOrderService {
             user.setBirthOfDate(orderRequest.getGuess().getBirthOfDate());
             user.setPhoneNumber(orderRequest.getGuess().getPhoneNumber());
             user.setRole(roll);
+            iUserRepository.save(user);
             //save địa chỉ của guess
             saveGuessUserAddress(orderRequest, user);
         }else {

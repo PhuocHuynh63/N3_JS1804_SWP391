@@ -87,9 +87,7 @@ public class UserService implements IUserService {
             response.setDefault(address.isDefault());
             response.setTitle(address.getTitle());
             response.setAddress(address.getAddress());
-            response.setCity(address.getCity());
-            response.setDistrict(address.getDistrict());
-            response.setWard(address.getWard());
+
 
             addressResponsesList.add(response);
         }
