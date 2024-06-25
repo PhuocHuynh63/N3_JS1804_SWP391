@@ -30,7 +30,7 @@
    |---------------------|-----------------|----------------|--------------------|--------------------|--------------------|
    |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |      T1 - T6.1     |                    |                    |
    |Huỳnh Minh Phước     |      Member     |    SE171830    |      T6.2 - T10    |                    |                    |
-   |Hứa Đình Thuận       |      Member     |    SE171787    |      T1 - T14.2    |                    |                    |
+   |Hứa Đình Thuận       |      Member     |    SE171787    |     T11 - T14.2    |                    |                    |
    |Nguyễn Chí Thành     |      Member     |    SE171820    |      T15 - T20     |                    |                    |
    |Nguyễn Trường Phi Vũ |      Member     |    SE17xxxx    |     T21 - T25.2    |                    |                    |
    |Lâm Xuân Thái        |      Member     |    SE17xxxx    |     T26 - T37.3    |                    |                    |
