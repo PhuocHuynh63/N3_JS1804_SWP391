@@ -9,7 +9,5 @@ public class UserAddressResponse {
     private boolean isDefault;
     private String title;
     private String address;
-    private String city;
-    private String district;
-    private String ward;
+
 }

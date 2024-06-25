@@ -38,18 +38,16 @@ CREATE TABLE [address] (
     is_default BIT,
     title NVARCHAR(100),
     [address] NVARCHAR(255),
-    city NVARCHAR(100),
-	district NVARCHAR(100),
-	ward NVARCHAR(100),
+
     FOREIGN KEY ([user_id]) REFERENCES [user]([user_id])
 );
 
-INSERT INTO [address] ([user_id], is_default, title, [address], city, district, ward)
+INSERT INTO [address] ([user_id], is_default, title, [address])
 VALUES
-    (1, 1, N'Nhà riêng', N'123 Đường ABC', N'Hà Nội', N'Quận Hoàn Kiếm', N'Phường Hàng Trống'),
-    (1, 0, N'Văn phòng', N'456 Đường XYZ', N'Hà Nội', N'Quận Hai Bà Trưng', N'Phường Bạch Đằng'),
-    (2, 1, N'Nhà riêng', N'789 Đường DEF', N'Hồ Chí Minh', N'Quận 1', N'Phường Bến Nghé'),
-    (3, 1, N'Nhà riêng', N'147 Đường GHI', N'Đà Nẵng', N'Quận Hải Châu', N'Phường Thanh Bình')
+    (1, 1, N'Nhà riêng', N'123 Đường ABC'),
+    (1, 0, N'Văn phòng', N'456 Đường XYZ'),
+    (2, 1, N'Nhà riêng', N'789 Đường DEF'),
+    (3, 1, N'Nhà riêng', N'147 Đường GHI')
 
 -- Tạo bảng Category
 CREATE TABLE category (
