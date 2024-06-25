@@ -4,15 +4,17 @@ package com.n3.mebe.service.iml;
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.order.OrderStatusRequest;
+import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.dto.response.order.OrderUserResponse;
 import com.n3.mebe.dto.response.user.UserAddressResponse;
 import com.n3.mebe.dto.response.user.UserOrderResponse;
 import com.n3.mebe.dto.response.user.UserResponse;
-import com.n3.mebe.entity.Order;
-import com.n3.mebe.entity.User;
+import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.repository.IAddressRepository;
+import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IOrderRepository;
 import com.n3.mebe.service.IOrderService;
 import jakarta.transaction.Transactional;
@@ -31,7 +33,16 @@ public class OrderService implements IOrderService {
     private IOrderRepository orderRepository;
 
     @Autowired
+    private IOrderDetailsRepository orderDetailsRepository;
+
+    @Autowired
+    private IAddressRepository addressRepository;
+
+    @Autowired
     private UserService userService;
+    @Autowired
+    private ProductService productService;
+
 
     @Override
     public Order getOrder(int orderId) {
@@ -70,6 +81,37 @@ public class OrderService implements IOrderService {
     }// </editor-fold>
 
 
+    // <editor-fold default state="collapsed" desc="save OrderDetails">
+    private void saveOrderDetails(List<OrderDetailsRequest> items, Order order) {
+        for (OrderDetailsRequest item : items) {
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(order);
+
+            Product product = productService.getProductById(item.getProductId());
+
+            orderDetail.setProduct(product);
+
+            //trừ số lượng trong product
+            productService.reduceProductQuantity(item.getQuantity(), product.getProductId());
+            orderDetail.setQuantity(item.getQuantity());
+
+            orderDetail.setPrice(item.getPrice());
+            orderDetail.setSalePrice(item.getSalePrice());
+            orderDetailsRepository.save(orderDetail);
+        }
+    }
+
+    private void saveGuessUserAddress(OrderRequest orderRequest, User user) {
+        Address address = new Address();
+        address.setUser(user);
+        address.setTitle("Address");
+        address.setAddress(orderRequest.getGuess().getAddress());
+        address.setCity(orderRequest.getGuess().getCity());
+        address.setDistrict(orderRequest.getGuess().getDistrict());
+        address.setWard(orderRequest.getGuess().getWard());
+        addressRepository.save(address); // Save Address for guess user
+    }
+
     /**
      *  Request from Client
      *
@@ -78,7 +120,9 @@ public class OrderService implements IOrderService {
     // <editor-fold default state="collapsed" desc="Create Orders">
     @Override
     @Transactional
-    public Order createOrder(OrderRequest orderRequest) {
+    public boolean createOrder(OrderRequest orderRequest) {
+        boolean check = false;
+
         User user = new User();
         Order order = new Order();
         String status = "Pending"; // trạng thái đầu tiên khi mới tạo order
@@ -86,7 +130,6 @@ public class OrderService implements IOrderService {
         // Neu khong phai la guess thi kiem User bang ID
         if (orderRequest.getGuess() != null){
             String roll = "guess";
-
             // lay guess tu request de tao ra USER moi
             user.setFirstName(orderRequest.getGuess().getFirstName());
             user.setLastName(orderRequest.getGuess().getLastName());
@@ -94,15 +137,16 @@ public class OrderService implements IOrderService {
             user.setBirthOfDate(orderRequest.getGuess().getBirthOfDate());
             user.setPhoneNumber(orderRequest.getGuess().getPhoneNumber());
             user.setRole(roll);
+            //save địa chỉ của guess
+            saveGuessUserAddress(orderRequest, user);
         }else {
             user = userService.getUserById(orderRequest.getUserId());
-        }
 
+        }
         order.setUser(user);
         //   order.setVoucher(); --> chua them vao
 
         order.setStatus(status);
-
 
         order.setTotalAmount(orderRequest.getTotalAmount());
         order.setOrderType(orderRequest.getOrderType());
@@ -113,8 +157,11 @@ public class OrderService implements IOrderService {
 
         order.setCreatedAt(now);
         order.setUpdatedAt(now);
+        orderRepository.save(order);
+        saveOrderDetails(orderRequest.getItem(), order);
+        check = true;
 
-        return orderRepository.save(order);
+        return check;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update Orders">

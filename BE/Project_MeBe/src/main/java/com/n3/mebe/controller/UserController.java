@@ -37,7 +37,6 @@ public class UserController {
         return userService.updateUserById(user_id , request);
     }
 
-
     @PutMapping("/change_password/{user_id}")
     public String changePasswordUser(@PathVariable("user_id") int user_id,
                               @RequestParam String passwordOld,

@@ -18,15 +18,6 @@ public class ReviewController {
     @Autowired
     private IReviewService reviewService;
 
-    @GetMapping("/list")
-    public List<ReviewResponse> listReview() {
-        return reviewService.getReviewAll();
-    }
-
-    @GetMapping("/{id}")
-    public ReviewResponse reviewResponseById(@PathVariable("id") int id) {
-        return reviewService.getReviewResponse(id);
-    }
 
     @PostMapping("/create")
     public Review create(@RequestBody ReviewRequest request) {

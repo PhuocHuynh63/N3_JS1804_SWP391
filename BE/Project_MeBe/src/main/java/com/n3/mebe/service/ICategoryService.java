@@ -10,14 +10,5 @@ public interface ICategoryService {
 
     List<CategoryResponse> getListCategory();
 
-    Category createCategory(CategoryRequest request);
-
-    Category updateCategory(int cateId, CategoryRequest request);
-
-    void deleteCategory(int cateId);
-
-    // <editor-fold default state="collapsed" desc="Get Category By Name">
-    CategoryResponse getCategoryByName(String name); //</editor-fold>
-
     CategoryResponse getCategoryBySlug(String slug);
 }

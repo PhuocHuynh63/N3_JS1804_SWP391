@@ -3,13 +3,17 @@ package com.n3.mebe.controller;
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.order.OrderStatusRequest;
+import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
 import com.n3.mebe.dto.request.product.ProductRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.Product;
+import com.n3.mebe.service.IOrderDetailsService;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.iml.OrderService;
+import com.n3.mebe.service.iml.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +26,9 @@ public class OrderController {
     @Autowired
     private IOrderService orderService;
 
+    @Autowired
+    private IOrderDetailsService orderDetailsService;
+
 
     /**
      *  Request from Client
@@ -30,8 +37,15 @@ public class OrderController {
 
     //Create order
     @PostMapping("/create")
-    public Order createOrder(@RequestBody OrderRequest orderRequest) {
-        return orderService.createOrder(orderRequest);
+    public String createOrder(@RequestBody OrderRequest orderRequest) {
+        String mss;
+        boolean success = orderService.createOrder(orderRequest);
+        if(success){
+            mss = "Create Order Success";
+        }else{
+            mss = "Create Order Failed";
+        }
+        return mss;
     }
 
 
@@ -63,6 +77,6 @@ public class OrderController {
     public List<OrderResponse> getOrdersList() {
         return orderService.getOrdersList();
     }
-    
+
 
 }
