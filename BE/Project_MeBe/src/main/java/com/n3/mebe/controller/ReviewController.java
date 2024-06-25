@@ -29,12 +29,12 @@ public class ReviewController {
     }
 
     @PostMapping("/create")
-    public Review create(ReviewRequest request) {
+    public Review create(@RequestBody ReviewRequest request) {
         return reviewService.addReview(request);
     }
 
     @PutMapping("/update/reviewId={id}")
-    public Review update(@PathVariable("id") int id, ReviewRequest request) {
+    public Review update(@PathVariable("id") int id, @RequestBody ReviewRequest request) {
         return reviewService.updateReview(id, request);
     }
 

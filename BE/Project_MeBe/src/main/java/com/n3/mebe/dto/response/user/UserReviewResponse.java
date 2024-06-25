@@ -1,19 +1,18 @@
-package com.n3.mebe.dto.request.review;
+package com.n3.mebe.dto.response.user;
 
 import com.n3.mebe.entity.Product;
-import com.n3.mebe.entity.User;
 import lombok.Data;
 
 import java.util.Date;
 
 
 @Data
-public class ReviewRequest {
+public class UserReviewResponse {
 
     private int reviewId;
-    private int userId;
-    private int productId;
+    private Product product;
     private String rate;
     private String comment;
-
+    private Date createAt;
+    private Date updateAt;
 }

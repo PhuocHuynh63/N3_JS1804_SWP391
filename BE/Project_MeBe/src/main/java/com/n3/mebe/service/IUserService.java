@@ -16,4 +16,9 @@ public interface IUserService {
     User updateUserById(int id, UserUpdateRequest request);
     void deleteUserById(int id);
 
+    String changePassword(int id, String oldPassword, String newPassword);
+
+    User getUserByEmail(String email);
+
+    UserResponse getUserByUserNameResponse(String username);
 }

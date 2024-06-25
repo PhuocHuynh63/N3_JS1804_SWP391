@@ -102,6 +102,7 @@ public class AddressSerivce implements IAddressService {
             addressUserResponse.setLastName(address.getUser().getLastName());
             addressUserResponse.setPhoneNumber(address.getUser().getPhoneNumber());
             addressUserResponse.setAvatar(address.getUser().getAvatar());
+            addressUserResponse.setEmail(address.getUser().getEmail());
 
             //add user Response ở trên vào
             addressResponse.setUser(addressUserResponse);

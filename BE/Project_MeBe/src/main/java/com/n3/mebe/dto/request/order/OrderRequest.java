@@ -18,9 +18,7 @@ public class OrderRequest {
     private int voucherId;
 
     private String status;
-    private float deliveryFee;
     private float totalAmount;
-    private float depositeAmount;
     private String orderType;
     private String paymentStatus;
     private String note;

@@ -38,22 +38,11 @@ public class OrderDetailsController {
         return orderDetailsService.updateOrderDetail(request);
     }
 
-    @PutMapping("/update_multiple/")
-    public String updateOrderDetail(@RequestBody List<UpdateOrderDetailsRequest> request) {
-        return orderDetailsService.updateMultipleOrderDetails(request);
-    }
-
-
 
     /**
      *  Response from Client
      *
      */
-
-    @GetMapping("/list")
-    public List<OrderDetailsResponse> getListOrderDetails() {
-        return orderDetailsService.getAllOrderDetails();
-    }
 
 
     @GetMapping("/list/orderId={id}")

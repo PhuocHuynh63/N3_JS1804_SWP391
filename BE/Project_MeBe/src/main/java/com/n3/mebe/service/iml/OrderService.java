@@ -5,6 +5,10 @@ import com.n3.mebe.dto.request.order.CancelOrderRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.order.OrderStatusRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
+import com.n3.mebe.dto.response.order.OrderUserResponse;
+import com.n3.mebe.dto.response.user.UserAddressResponse;
+import com.n3.mebe.dto.response.user.UserOrderResponse;
+import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.exception.AppException;
@@ -34,6 +38,37 @@ public class OrderService implements IOrderService {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NO_EXIST));
     }
+
+
+    // <editor-fold default state="collapsed" desc="Get UserOrderResponse By Id Response">
+    public OrderUserResponse getUserByIdResponse(int id){
+
+        OrderUserResponse userResponse = new OrderUserResponse();
+
+        User user = userService.getUserById(id);
+
+        userResponse.setId(user.getUserId());
+        userResponse.setAvatar(user.getAvatar());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setFirstName(user.getFirstName());
+        userResponse.setLastName(user.getLastName());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setPassword(user.getPassword());
+        userResponse.setRole(user.getRole());
+        userResponse.setBirthOfDate(user.getBirthOfDate());
+        userResponse.setPhoneNumber(user.getPhoneNumber());
+        userResponse.setPoint(user.getPoint());
+
+        List<UserAddressResponse> addressResponses = userService.getUserAddresses(user.getUserId());
+        userResponse.setListAddress(addressResponses);
+
+        userResponse.setCreateAt(user.getCreateAt());
+        userResponse.setUpdateAt(user.getUpdateAt());
+        userResponse.setDeleteAt(user.getDeleteAt());
+
+        return userResponse;
+    }// </editor-fold>
+
 
     /**
      *  Request from Client
@@ -68,7 +103,7 @@ public class OrderService implements IOrderService {
 
         order.setStatus(status);
 
-        order.setDeliveryFee(orderRequest.getDeliveryFee());
+
         order.setTotalAmount(orderRequest.getTotalAmount());
         order.setOrderType(orderRequest.getOrderType());
         order.setPaymentStatus(orderRequest.getPaymentStatus());
@@ -108,7 +143,7 @@ public class OrderService implements IOrderService {
         //   order.setVoucher(); --> chua them vao
 
         order.setStatus(orderRequest.getStatus());
-        order.setDeliveryFee(orderRequest.getDeliveryFee());
+
         order.setTotalAmount(orderRequest.getTotalAmount());
         order.setOrderType(orderRequest.getOrderType());
         order.setPaymentStatus(orderRequest.getPaymentStatus());
@@ -163,8 +198,6 @@ public class OrderService implements IOrderService {
     }// </editor-fold>
 
 
-
-
     /**
      *  Response from Client
      *
@@ -180,12 +213,12 @@ public class OrderService implements IOrderService {
             OrderResponse orderResponse = new OrderResponse();
 
             orderResponse.setOrderId(order.getOrderId());
-            orderResponse.setUser(order.getUser());
+            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
-            orderResponse.setDeliveryFee(order.getDeliveryFee());
+
             orderResponse.setTotalAmount(order.getTotalAmount());
-            orderResponse.setDepositeAmount(order.getDepositeAmount());
+
             orderResponse.setOrderType(order.getOrderType());
             orderResponse.setPaymentStatus(order.getPaymentStatus());
             orderResponse.setNote(order.getNote());
@@ -206,12 +239,14 @@ public class OrderService implements IOrderService {
         OrderResponse orderResponse = new OrderResponse();
 
         orderResponse.setOrderId(order.getOrderId());
-        orderResponse.setUser(order.getUser());
+
+
+        orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
         orderResponse.setVoucher(order.getVoucher());
         orderResponse.setStatus(order.getStatus());
-        orderResponse.setDeliveryFee(order.getDeliveryFee());
+
         orderResponse.setTotalAmount(order.getTotalAmount());
-        orderResponse.setDepositeAmount(order.getDepositeAmount());
+
         orderResponse.setOrderType(order.getOrderType());
         orderResponse.setPaymentStatus(order.getPaymentStatus());
         orderResponse.setNote(order.getNote());
@@ -220,4 +255,9 @@ public class OrderService implements IOrderService {
 
         return orderResponse;
     }// </editor-fold>
+
+
+
+
+
 }

@@ -20,6 +20,5 @@ public interface IInventoryService {
 
     InventoryResponse getInventoryResponseById(int id);
 
-
     InventoryResponse getInventoryResponseByProductId(int prId);
 }
