@@ -23,10 +23,13 @@ public class OrderDetailsService implements IOrderDetailsService {
 
     @Autowired
     private OrderService orderService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private ProductService productService;
+
     @Autowired
     private InventoryService inventoryService;
 
@@ -112,29 +115,6 @@ public class OrderDetailsService implements IOrderDetailsService {
      *
      */
 
-    // <editor-fold default state="collapsed" desc="get All Order Details">
-    @Override
-    public List<OrderDetailsResponse> getAllOrderDetails() {
-
-        List<OrderDetail> orderDetailList = orderDetailsRepository.findAll();
-
-        List<OrderDetailsResponse> responses = new ArrayList<>();
-
-        for (OrderDetail orderDetail : orderDetailList) {
-            OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
-
-            orderDetailsResponse.setOdId(orderDetail.getOdId());
-            orderDetailsResponse.setOrder(orderDetail.getOrder());
-            orderDetailsResponse.setInventory(orderDetail.getInventory());
-            orderDetailsResponse.setQuantity(orderDetail.getQuantity());
-            orderDetailsResponse.setPrice(orderDetail.getPrice());
-            orderDetailsResponse.setSalePrice(orderDetail.getSalePrice());
-
-            responses.add(orderDetailsResponse);
-        }
-
-        return responses;
-    }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get Order Details by Order ID">
     @Override
@@ -147,7 +127,9 @@ public class OrderDetailsService implements IOrderDetailsService {
             OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
 
             orderDetailsResponse.setOdId(orderDetail.getOdId());
-            orderDetailsResponse.setOrder(orderDetail.getOrder());
+
+
+            orderDetailsResponse.setOrder(orderService.getOrderResponse(orderDetail.getOdId()));
             orderDetailsResponse.setInventory(orderDetail.getInventory());
             orderDetailsResponse.setQuantity(orderDetail.getQuantity());
             orderDetailsResponse.setPrice(orderDetail.getPrice());

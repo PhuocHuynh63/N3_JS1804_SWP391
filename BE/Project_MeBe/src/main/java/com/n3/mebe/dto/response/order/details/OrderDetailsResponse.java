@@ -1,6 +1,7 @@
 package com.n3.mebe.dto.response.order.details;
 
 
+import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.entity.Inventory;
 import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.Product;
@@ -11,8 +12,7 @@ public class OrderDetailsResponse {
 
     private int odId;
 
-    private Order order;
-    private Product product;
+    private OrderResponse order;
     private Inventory inventory;
 
     private int quantity;

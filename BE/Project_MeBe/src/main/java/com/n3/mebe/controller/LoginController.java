@@ -22,7 +22,8 @@ public class LoginController {
     JwtUtilHelper jwtUtilHelper;
 
     @PostMapping()
-    public ResponseEntity<?> signin(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> signin(@RequestParam String username,
+                                    @RequestParam String password) {
         ResponseData responseData = new ResponseData();
 
         /* Lấy key

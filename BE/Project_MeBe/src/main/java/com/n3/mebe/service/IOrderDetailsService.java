@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IOrderDetailsService {
 
-     List<OrderDetailsResponse> getAllOrderDetails();
+    
 
      String createOrderDetail(List<OrderDetailsRequest> request);
 

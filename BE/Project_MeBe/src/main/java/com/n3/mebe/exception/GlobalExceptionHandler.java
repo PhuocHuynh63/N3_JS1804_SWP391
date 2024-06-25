@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiRespones> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         String enumkey = e.getFieldError().getDefaultMessage();
 
-        ErrorCode errorCode = ErrorCode.INVALITE_MESSAGE_KEY;
+        ErrorCode errorCode = ErrorCode.INVALIDATE_MESSAGE_KEY;
 
         try {
             errorCode = ErrorCode.valueOf(enumkey);

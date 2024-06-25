@@ -3,6 +3,7 @@ package com.n3.mebe.service.iml;
 import com.n3.mebe.dto.request.review.ReviewRequest;
 import com.n3.mebe.dto.request.subcategory.SubCategoryRequest;
 import com.n3.mebe.dto.response.review.ReviewResponse;
+import com.n3.mebe.dto.response.user.UserReviewResponse;
 import com.n3.mebe.entity.Category;
 import com.n3.mebe.entity.Review;
 import com.n3.mebe.entity.SubCategory;
@@ -113,6 +114,30 @@ public class ReviewService implements IReviewService {
         return reviewResponses;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Get List Review by UserId">
+    @Override
+    public List<ReviewResponse> getReviewList(int userId) {
+        List<Review> reviews = reviewRepository.findByUserUserId(userId);
+
+        List<ReviewResponse> reviewResponses = new ArrayList<>();
+
+        for (Review review : reviews) {
+
+            ReviewResponse reviewResponse = new ReviewResponse();
+
+            reviewResponse.setReviewId(review.getReviewId());
+            reviewResponse.setUser(review.getUser());
+            reviewResponse.setProduct(review.getProduct());
+            reviewResponse.setRate(review.getRate());
+            reviewResponse.setComment(review.getComment());
+
+            Date now =new Date();
+            review.setCreateAt(now);
+            review.setUpdateAt(now);
+            reviewResponses.add(reviewResponse);
+        }
+        return reviewResponses;
+    }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get Review By ID">
     @Override

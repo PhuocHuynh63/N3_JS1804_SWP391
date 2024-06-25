@@ -9,6 +9,9 @@ import java.util.List;
 public interface IReviewService {
 
     List<ReviewResponse> getReviewAll();
+
+    List<ReviewResponse> getReviewList(int userId);
+
     Review getReview(int id);
     ReviewResponse getReviewResponse(int id);
     Review addReview(ReviewRequest review);
