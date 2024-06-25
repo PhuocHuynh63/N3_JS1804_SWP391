@@ -12,7 +12,8 @@ public interface IOrderService {
 
     List<OrderResponse> getOrdersList();
 
-    Order createOrder(OrderRequest orderRequest);
+    boolean createOrder(OrderRequest orderRequest);
+
     Order updateOrder(int orId, OrderRequest orderRequest);
 
     String cancelOrder(int orderId , CancelOrderRequest cancelOrderRequest);

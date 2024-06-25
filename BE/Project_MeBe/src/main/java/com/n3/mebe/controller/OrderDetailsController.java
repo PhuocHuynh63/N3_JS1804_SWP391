@@ -21,24 +21,6 @@ public class OrderDetailsController {
     @Autowired
     private IOrderDetailsService orderDetailsService;
 
-
-    /**
-     *  Request from Client
-     *
-     */
-
-    @PostMapping("/create")
-    public String createOrderDetail(@RequestBody List<OrderDetailsRequest> request) {
-        return orderDetailsService.createOrderDetail(request);
-    }
-
-
-    @PutMapping("/update/")
-    public String updateOrderDetail(@RequestBody UpdateOrderDetailsRequest request) {
-        return orderDetailsService.updateOrderDetail(request);
-    }
-
-
     /**
      *  Response from Client
      *

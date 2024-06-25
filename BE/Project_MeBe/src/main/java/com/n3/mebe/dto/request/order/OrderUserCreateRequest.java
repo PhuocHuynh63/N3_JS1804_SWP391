@@ -17,4 +17,12 @@ public class OrderUserCreateRequest {
     @JsonFormat(pattern = "dd/MM/yyyy") //format date
     private Date birthOfDate;
     private String phoneNumber;
+
+
+    //địa chỉ của guess
+    private String address;
+    private String city;
+    private String district;
+    private String ward;
+
 }

@@ -22,8 +22,8 @@ public class OrderDetail {
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "inventory_id")
-    private Inventory inventory;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     private int quantity;
 

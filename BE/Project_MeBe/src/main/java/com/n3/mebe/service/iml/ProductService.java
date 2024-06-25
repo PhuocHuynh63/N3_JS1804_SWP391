@@ -37,6 +37,30 @@ public class ProductService implements IProductService {
      *
      */
 
+    // <editor-fold default state="collapsed" desc="Reduce Update Quantity Product By Id">
+    public void reduceProductQuantity(int quanti, int prId) throws AppException {
+        Product product = getProductById(prId);
+        int updateQuantity = product.getQuantity() - quanti;
+
+        if (updateQuantity < 0) {
+            throw new AppException(ErrorCode.PRODUCT_QUANTITY_END);
+        }
+        product.setQuantity(updateQuantity);
+        iProductRespository.save(product);
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Increase Quantity Product By Id">
+    public void increaseProductQuantity(int quanti, int prId) throws AppException {
+        Product product = getProductById(prId);
+        int updateQuantity = product.getQuantity() + quanti;
+
+        product.setQuantity(updateQuantity);
+        iProductRespository.save(product);
+    }// </editor-fold>
+
+
+
+
     // <editor-fold default state="collapsed" desc="Create Product">
     @Override
     public boolean createProduct(MultipartFile file, int subCategoryId, String slug, String name, String description, float price, float salePrice, String status, int totalSold, int productView) {

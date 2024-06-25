@@ -22,27 +22,6 @@ public class CategoryController {
 
 
     /**
-     *  Request from Client
-     *
-     */
-
-    @PostMapping("/create_cate")
-    public Category createCategory(@RequestBody CategoryRequest request) {
-        return categoryService.createCategory(request);
-    }
-
-    @PutMapping("/update_cate/cateId={id}")
-    public Category updateCategory(@PathVariable("id") int id, @RequestBody CategoryRequest request) {
-        return categoryService.updateCategory(id,request);
-    }
-
-    @DeleteMapping("/delete_cate/cateId={id}")
-    public void deleteCategory(@PathVariable("id") int id) {
-        categoryService.deleteCategory(id);
-    }
-
-
-    /**
      * Response to Client
      *
      */
@@ -50,11 +29,6 @@ public class CategoryController {
     @GetMapping("/list")
     public List<CategoryResponse> list() {
         return categoryService.getListCategory();
-    }
-
-    @GetMapping("/name={name}")
-    public CategoryResponse getCategoryByName(@PathVariable("name") String name) {
-        return categoryService.getCategoryByName(name);
     }
 
     @GetMapping("/slug={slug}")

@@ -8,8 +8,7 @@ public class OrderDetailsRequest {
 
 
     //Chi lay ve Id
-    private int orderId;
-    private int inventoryId;
+    private int productId;
     private int quantity;
     private float price;
     private float salePrice;

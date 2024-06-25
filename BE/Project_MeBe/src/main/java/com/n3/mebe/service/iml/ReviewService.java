@@ -89,56 +89,6 @@ public class ReviewService implements IReviewService {
      */
 
 
-    // <editor-fold default state="collapsed" desc="Get All Review">
-    @Override
-    public List<ReviewResponse> getReviewAll() {
-        List<Review> reviews = reviewRepository.findAll();
-
-        List<ReviewResponse> reviewResponses = new ArrayList<>();
-
-        for (Review review : reviews) {
-
-            ReviewResponse reviewResponse = new ReviewResponse();
-
-            reviewResponse.setReviewId(review.getReviewId());
-            reviewResponse.setUser(review.getUser());
-            reviewResponse.setProduct(review.getProduct());
-            reviewResponse.setRate(review.getRate());
-            reviewResponse.setComment(review.getComment());
-
-            Date now =new Date();
-            review.setCreateAt(now);
-            review.setUpdateAt(now);
-            reviewResponses.add(reviewResponse);
-        }
-        return reviewResponses;
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="Get List Review by UserId">
-    @Override
-    public List<ReviewResponse> getReviewList(int userId) {
-        List<Review> reviews = reviewRepository.findByUserUserId(userId);
-
-        List<ReviewResponse> reviewResponses = new ArrayList<>();
-
-        for (Review review : reviews) {
-
-            ReviewResponse reviewResponse = new ReviewResponse();
-
-            reviewResponse.setReviewId(review.getReviewId());
-            reviewResponse.setUser(review.getUser());
-            reviewResponse.setProduct(review.getProduct());
-            reviewResponse.setRate(review.getRate());
-            reviewResponse.setComment(review.getComment());
-
-            Date now =new Date();
-            review.setCreateAt(now);
-            review.setUpdateAt(now);
-            reviewResponses.add(reviewResponse);
-        }
-        return reviewResponses;
-    }// </editor-fold>
-
     // <editor-fold default state="collapsed" desc="Get Review By ID">
     @Override
     public ReviewResponse getReviewResponse(int id) {

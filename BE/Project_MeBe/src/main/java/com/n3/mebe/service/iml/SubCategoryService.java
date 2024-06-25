@@ -23,35 +23,6 @@ public class SubCategoryService implements ISubCategoryService {
     @Autowired
     private ICategoryRepository icategoryRepository;
 
-    /**
-     *  Request from Client
-     *
-     */
-
-    // <editor-fold default state="collapsed" desc="Create SubCategory">
-    @Override
-    public SubCategory createSubCategory(SubCategoryRequest request) {
-        Category category = icategoryRepository.findByName(request.getCategoryParentName());
-        SubCategory subCategory = new SubCategory();
-
-        subCategory.setCategory(category);
-        subCategory.setName(request.getName());
-        subCategory.setImage(request.getImage());
-        subCategory.setImage2(subCategory.getImage2());
-        return subCategoryRepository.save(subCategory);
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="Update SubCategory">
-    @Override
-    public SubCategory updateSubCategory(SubCategoryRequest request) {
-        return null;
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="Delete SubCategory">
-    @Override
-    public void deleteSubCategory(int subCategoryId) {
-
-    }// </editor-fold>
 
     /**
      *  Response to Client
@@ -107,25 +78,27 @@ public class SubCategoryService implements ISubCategoryService {
         return subCategoryResponses;
     }// </editor-fold>
 
-public List<SubCategoryResponse> getSubCategoriesBySlug (String slug) {
-    List<SubCategory> subCategories = subCategoryRepository.findBySlug(slug);
+    // <editor-fold default state="collapsed" desc="Get SubCategories Response By Slug">
+        @Override
+        public List<SubCategoryResponse> getSubCategoriesBySlug(String slug) {
+        List<SubCategory> subCategories = subCategoryRepository.findBySlug(slug);
 
-    List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
+        List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
 
-    for (SubCategory subCategory : subCategories) {
-        SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
+        for (SubCategory subCategory : subCategories) {
+            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
 
-        subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
-        //lấy ra category tên cha
-        subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
+            subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
+            //lấy ra category tên cha
+            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
 
-        subCategoryResponse.setSlug(subCategory.getSlug());
-        subCategoryResponse.setName(subCategory.getName());
-        subCategoryResponse.setImage(subCategory.getImage());
-        subCategoryResponse.setImage2(subCategory.getImage2());
-        subCategoryResponses.add(subCategoryResponse);
-    }
+            subCategoryResponse.setSlug(subCategory.getSlug());
+            subCategoryResponse.setName(subCategory.getName());
+            subCategoryResponse.setImage(subCategory.getImage());
+            subCategoryResponse.setImage2(subCategory.getImage2());
+            subCategoryResponses.add(subCategoryResponse);
+        }
 
-    return subCategoryResponses;
-}
+        return subCategoryResponses;
+        }// </editor-fold>
 }

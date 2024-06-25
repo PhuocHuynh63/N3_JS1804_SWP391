@@ -9,13 +9,5 @@ import java.util.List;
 
 public interface IOrderDetailsService {
 
-    
-
-     String createOrderDetail(List<OrderDetailsRequest> request);
-
-    String updateOrderDetail(UpdateOrderDetailsRequest request);
-
-    String updateMultipleOrderDetails(List<UpdateOrderDetailsRequest> request);
-
      List<OrderDetailsResponse> getOrderDetailsById(int orderId);
 }
