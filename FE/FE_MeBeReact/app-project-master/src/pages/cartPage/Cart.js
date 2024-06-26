@@ -1,8 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import "./Cart.css";
+import { NavLink } from "react-router-dom";
 
 const CartPage = ({ show, handleClose }) => {
+    const [cartItems, setCartItems] = useState([]);
+
+    useEffect(() => {
+        const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        setCartItems(storedCartItems);
+    }, [show]);
+
+    // Update quantity of an item in the cart
+    const updateQuantity = (productId, change) => {
+        const updatedCartItems = cartItems.map(item => {
+            if (item.productId === productId) {
+                const newQuantity = item.quantity + change;
+                if (newQuantity > 0) {
+                    item.quantity = newQuantity;
+                    item.totalPrice = item.price * newQuantity;
+                }
+            }
+            return item;
+        }).filter(item => item.quantity > 0); // Remove items with 0 quantity
+        setCartItems(updatedCartItems);
+        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    }
+
+    // Get total quantity of items in the cart
+    const getTotalQuantity = () => {
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
+    };
+
+    // Get total price of items in the cart
+    const getTotalPrice = () => {
+        return cartItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('vi-VN');
+    };
+
+    // Remove item from cart
+    const handleRemoveItem = (productId) => {
+        const updatedCartItems = cartItems.filter(item => item.productId !== productId);
+        setCartItems(updatedCartItems);
+        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    }
+
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
             <div className="cart-container">
@@ -21,81 +62,51 @@ const CartPage = ({ show, handleClose }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div className="product-info">
-                                    <img src="https://via.placeholder.com/50" alt="Product Image" />
-                                    <div>
-                                        <p>Gạc Răng Miệng Chippi Baby</p>
-                                        <p>Default Title</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="price">110000</td>
-                            <td>
-                                <div className="quantity-control">
-                                    <button className="minus-btn">-</button>
-                                    <input type="text" className="quantity" value="2" readOnly />
-                                    <button className="plus-btn">+</button>
-                                </div>
-                            </td>
-                            <td className="subtotal">220000</td>
-                            <td><button className="remove-btn">×</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div className="product-info">
-                                    <img src="https://via.placeholder.com/50" alt="Product Image" />
-                                    <div>
-                                        <p>Bộ quần áo dài tay Nous petit (trắng/hồng)</p>
-                                        <p>0-3M - Trắng</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="price">195000</td>
-                            <td>
-                                <div className="quantity-control">
-                                    <button className="minus-btn">-</button>
-                                    <input type="text" className="quantity" value="4" readOnly />
-                                    <button className="plus-btn">+</button>
-                                </div>
-                            </td>
-                            <td className="subtotal">780000</td>
-                            <td><button className="remove-btn">×</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div className="product-info">
-                                    <img src="https://via.placeholder.com/50" alt="Product Image" />
-                                    <div>
-                                        <p>Bánh AD Little Spoon vị cam quýt 30g</p>
-                                        <p>Default Title</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="price">75000</td>
-                            <td>
-                                <div className="quantity-control">
-                                    <button className="minus-btn">-</button>
-                                    <input type="text" className="quantity" value="1" readOnly />
-                                    <button className="plus-btn">+</button>
-                                </div>
-                            </td>
-                            <td className="subtotal">75000</td>
-                            <td><button className="remove-btn">×</button></td>
-                        </tr>
+                        {cartItems.length === 0 ? (
+                            <p className="empty-cart">Giỏ hàng của bạn đang trống, nhấn vào
+                                <a href="/"> đây </a>
+                                để tiếp tục mua hàng
+                            </p>
+                        ) : (
+                            cartItems.map((item, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <div className="product-info">
+                                            <img src={item.images} alt={item.name} />
+                                            <div>
+                                                <p>{item.name}</p>
+                                                <p>{item.size}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="price">{item.price.toLocaleString('vi-VN')}₫</td>
+                                    <td>
+                                        <div className="quantity-control">
+                                            <button className="minus-btn" onClick={() => updateQuantity(item.productId, -1)}>-</button>
+                                            <input type="text" className="quantity" value={item.quantity} readOnly />
+                                            <button className="plus-btn" onClick={() => updateQuantity(item.productId, 1)}>+</button>
+                                        </div>
+                                    </td>
+                                    <td className="subtotal">{item.totalPrice.toLocaleString('vi-VN')}₫</td>
+                                    <td><button className="remove-btn" onClick={() => handleRemoveItem(item.productId)}>×</button></td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
                 <div className="cart-summary">
-                    <p>Số lượng: <span id="total-quantity">7</span> sản phẩm</p>
-                    <p>Tổng cộng: <span id="total-price">1075000₫</span></p>
+                    <p>Số lượng: <span id="total-quantity">{getTotalQuantity()}</span> sản phẩm</p>
+                    <p>Tổng cộng: <span id="total-price">{getTotalPrice()}₫</span></p>
                 </div>
                 <div className="cart-actions">
                     <a href="/cart" className="view-cart-btn">Xem giỏ hàng</a>
-                    <button className="checkout-btn">Thanh toán</button>
+                    <NavLink to={"/checkout"}>
+                        <button className="checkout-btn">Thanh toán</button>
+                    </NavLink>
                 </div>
             </div>
         </Modal>
-    )
+    );
 }
+
 export default CartPage;

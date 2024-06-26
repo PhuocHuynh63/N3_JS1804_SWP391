@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 1030px;
     margin: 0 auto;
-    font-family: "Roboto", sans-serif;
+    font-family: Arial, sans-serif;
     padding: 0 !important;
     color: #333;
 }
@@ -169,4 +169,41 @@
 
 .btn-primary:hover {
     background-color: #2980b9;
+}
+
+.cart-summary a {
+    width: 95%;
+    background-color: #c4c659d5;
+    color: white;
+    border-radius: 3px;
+    margin-top: 10px;
+    padding: 6px 0;
+    font-size: 17px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.cart-summary a:hover {
+    width: 95%;
+    background-color: #c4c659;
+    color: white;
+}
+
+.cart-detail_emty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    color: #333;
+}
+
+.cart-detail_emty img {
+    margin-top: 47px;
+}
+
+.cart-detail_emty a {
+    color: #a9a668;
+    font-size: 17px;
+    margin-top: 19px;
 }

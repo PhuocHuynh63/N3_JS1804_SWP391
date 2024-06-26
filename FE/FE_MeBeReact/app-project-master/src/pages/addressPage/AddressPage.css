@@ -1,0 +1,104 @@
+/* address header */
+.address-container {
+    margin-top: 65px;
+    padding-left: 60px;
+    border-left: 1px solid #8d8d8dbb;
+    width: 52em;
+    height: auto;
+}
+
+.address-header {
+    font-size: 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0 8px;
+    height: 80px;
+    border-bottom: 1px solid #8d8d8dbb;
+}
+
+.address-header .btn-address {
+    margin-right: 15px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    color: rgb(247, 247, 247);
+    background-color: #bfb287cb;
+    font-size: 17px;
+}
+
+.address-header .btn-address:hover {
+    background-color: #bfb287;
+    transition: all 0.3s;
+}
+
+/* address Title */
+p.address-title {
+    font-size: 19px;
+    margin: 10px 0 0 10px;
+}
+
+.address-item {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 15px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #8d8d8d4b;
+}
+
+.address-item_location {
+    margin: 0;
+}
+
+.address-text_default {
+    text-align: center;
+    width: 75px;
+    border: 1px solid red;
+    color: red;
+    margin-top: 6px;
+}
+
+.address-item_right {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.address-btn_update {
+    width: 90px;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: transparent;
+    color: rgba(21, 130, 255, 0.733);
+    font-size: 17px;
+    font-weight: normal;
+}
+
+.address-btn_delete {
+    border: none;
+    background-color: transparent;
+    color: rgba(21, 130, 255, 0.733);
+    font-size: 17px;
+    font-weight: normal;
+}
+
+.address-btn_update:hover,
+.address-btn_delete:hover {
+    color: rgb(21, 130, 255);
+
+}
+
+.address-btn_default {
+    border: 1px solid #8d8d8d3c;
+    border-radius: 3px;
+    padding: 3px 9px;
+}
+
+.address-btn_default:hover {
+    background-color: #8d8d8d3c;
+    color: rgb(65, 65, 65);
+    transition: all 0.3s;
+}

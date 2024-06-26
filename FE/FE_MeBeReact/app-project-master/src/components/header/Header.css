@@ -252,3 +252,11 @@ header {
     background-color: #c2b57f96;
     color: #ffffff;
 }
+
+.form-floating.mb-3 #username {
+    text-align: left;
+}
+
+.form-floating.mb-3 #password {
+    text-align: left;
+}

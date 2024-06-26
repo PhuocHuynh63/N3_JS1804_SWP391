@@ -1,0 +1,278 @@
+.order-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 80px 233px;
+    background-color: #f9f9f9;
+}
+
+.order-left,
+.order-right {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-left {
+    flex: 2;
+    margin-right: 20px;
+}
+
+.order-right {
+    width: 470px;
+}
+
+.order-left_top h3 {
+    margin: 0;
+}
+
+.order-left_top p {
+    margin: 0;
+    color: grey;
+}
+
+.order-left_body {
+    height: 320px;
+}
+
+.order-left_body h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.order-input {
+    width: 100%;
+    padding: 10px 10px 10px 15px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.order-summary {
+    text-align: center;
+}
+
+.order-summary h4 {
+    margin-bottom: 20px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.order-item_img {
+    position: relative;
+    width: 65px;
+    height: 65px;
+}
+
+.order-item_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.order-item_img span {
+    position: absolute;
+    width: 27px;
+    height: 27px;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+    background-color: #a4a4a4d0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-item p {
+    margin-left: 10px;
+    font-size: 17px;
+    flex: 1;
+    text-align: left;
+}
+
+.order-item p:last-child {
+    text-align: right;
+    flex: 0;
+}
+
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.order-total span:first-child {
+    font-size: 18px;
+    color: #515151;
+}
+
+.order-total span:last-child {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.order-summary .voucher {
+    display: flex;
+    align-items: center;
+}
+
+.order-summary .voucher .order-input {
+    width: 310px;
+    height: 50px;
+    /* padding: 10px 10px 10px 15px; */
+    margin: 10px 0;
+    margin-right: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.order-summary .voucher .order-button {
+    height: 50px;
+    padding: 10px 20px;
+    margin: 20px 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.order-summary .voucher .order-button:hover {
+    background-color: #007bffcf;
+}
+
+.order-button:hover {
+    background-color: #0056b3;
+}
+
+.input-error {
+    border-color: red;
+}
+
+.error-text {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.order-input-group {
+    margin-bottom: 15px;
+}
+
+.order-left_address {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 632px;
+}
+
+.order-left_address h4 {
+    padding: 17px 0px 17px 16px;
+    font-size: 22px;
+    background-color: #f7f6f6;
+    color: #505050;
+    margin: 0;
+}
+
+.order-left_address .order-input-group {
+    margin-top: 7px;
+    width: 605px;
+}
+
+.order-left_address .order-input-group .order-input.street {
+    margin-left: 15px;
+    width: 590px;
+}
+
+.order-select-group {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 7px;
+}
+
+.order-left_address .order-select-group .order-input-group {
+    margin-left: 4px;
+}
+
+.order-left_address .order-select-group .order-input-group:first-child {
+    margin-left: 15px;
+}
+
+.order-left_address .order-select-group .order-select {
+    width: 180px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.order-name {
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+.order-input.firstname {
+    width: 180px;
+    margin-right: 13px;
+}
+
+.order-input.lastname {
+    width: 440px;
+}
+
+.order-email_phone {
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+.order-input.email {
+    width: 340px;
+    margin-right: 13px;
+}
+
+.order-input.phone {
+    position: absolute;
+    width: 280px;
+}
+
+.order-input.note {
+    width: 632px;
+}
+
+.order-input.street {
+    width: 633px;
+}
+
+.order-navigate {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.order-navigate a {
+    font-weight: 500;
+}
+
+.order-navigate button {
+    margin-right: 10px;
+    background-color: #d0c16cd3;
+    color: white;
+    font-size: 17px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+}
+
+.order-navigate button:hover {
+    background-color: #d0c16c;
+    transition: all 0.2s;
+}

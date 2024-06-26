@@ -115,7 +115,13 @@
     margin-top: 20px;
 }
 
-.view-cart-btn,
+.view-cart-btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
 .checkout-btn {
     padding: 10px 20px;
     border: none;
@@ -132,4 +138,14 @@
 .view-cart-btn:hover,
 .checkout-btn:hover {
     opacity: 0.9;
+}
+
+
+.empty-cart {
+    margin-top: 10px;
+    position: relative;
+    top: 50%;
+    right: -34%;
+    font-size: 15px;
+    /* width: 1000px; */
 }

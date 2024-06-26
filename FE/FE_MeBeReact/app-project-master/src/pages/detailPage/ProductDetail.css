@@ -1,16 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-
 .productdetail-container {
     width: 100%;
     max-width: 1060px;
-    /* Adjust the max-width as needed */
     margin: 0 auto;
-    /* Center the container */
     font-family: "Roboto", sans-serif;
     padding: 0;
     color: #333;
-    /* Center text */
 }
 
 .product-details {
@@ -20,8 +14,6 @@
     padding-top: 30px !important;
 }
 
-/* Other existing styles... */
-
 .breadcrumb {
     background: none;
     padding: 0;
@@ -30,7 +22,6 @@
 .breadcrumb-item+.breadcrumb-item::before {
     content: ">";
 }
-
 
 a {
     text-decoration: none;
@@ -49,29 +40,27 @@ a {
     font-weight: 500;
 }
 
-.sale-price {
+.line-through {
     text-decoration: line-through;
     color: #636161;
     margin-right: 13px;
 }
 
-.sale-percent {
-    background: #d0c699;
-    font-size: 12px;
+.sale-price {
+    font-size: 18px;
+    color: #e74c3c;
     font-weight: 500;
+}
+
+.sale-percent .discount {
+    position: static;
+    background: #d0c699;
+    font-size: 13px;
+    font-weight: 600;
     padding: 4px 6px;
     border-radius: 2px;
-    color: #ffffff;
+    color: #f0efef;
     margin-left: 10px;
-}
-
-.product-colors img {
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.product-sizes .btn {
-    margin-right: 10px;
 }
 
 .product-quantity .form-control {
@@ -91,21 +80,17 @@ a {
     margin-bottom: 20px;
 }
 
-/* CSS for navbar when scrolling */
 .navbar.scrolled {
     background-color: #fff;
     transition: background-color 200ms linear;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* CSS for product effects */
 .product-details img {
     transition: transform 0.3s;
 }
 
-.product-details img:hover {
-    /* transform: scale(1.1); */
-}
+.product-details img:hover {}
 
 .btn-primary {
     transition: background-color 0.3s, transform 0.3s;
@@ -117,7 +102,6 @@ a {
     background-color: #528fd4;
 }
 
-/* CSS for reviews */
 .rating-summary {
     font-size: 1.2em;
     display: flex;
@@ -132,7 +116,6 @@ a {
 .rating-summary .rating-stars,
 .review-item .rating-stars {
     color: #f39c12;
-    /* Yellow color for stars */
 }
 
 .review-item {
@@ -170,7 +153,6 @@ a {
 }
 
 .row .col-md-3.product .card img {
-    /* margin-top: 17px; */
     height: 100%;
     width: 100%;
 }
