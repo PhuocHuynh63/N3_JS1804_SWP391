@@ -67,8 +67,8 @@ public class UserController {
 
     @PutMapping("/change_password/{user_id}")
     public String changePasswordUser(@PathVariable("user_id") int user_id,
-                              @RequestParam String passwordOld,
-                              @RequestParam String passwordNew) {
+                                     @RequestParam String passwordOld,
+                                     @RequestParam String passwordNew) {
         return userService.changePassword(user_id, passwordOld, passwordNew);
     }
 
@@ -101,5 +101,11 @@ public class UserController {
     public UserResponse getUserByUserName(@PathVariable("user_name") String user_name) {
 
         return userService.getUserByUserNameResponse(user_name);
+    }
+
+
+    @GetMapping("/check_email")
+    public UserResponse getUserByEmail(@RequestParam String email) {
+        return userService.getUserByEmailResponse(email);
     }
 }

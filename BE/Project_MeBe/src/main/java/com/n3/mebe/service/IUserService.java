@@ -25,5 +25,7 @@ public interface IUserService {
 
     User getUserByEmail(String email);
 
+    UserResponse getUserByEmailResponse(String email);
+
     UserResponse getUserByUserNameResponse(String username);
 }

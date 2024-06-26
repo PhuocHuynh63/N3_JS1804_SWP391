@@ -47,7 +47,7 @@ public class OrderController {
     //Create order
     @PostMapping("/create_vnpay")
     public ResponseEntity<TransactionStatusDTO> createOrderByVNPay(@RequestBody OrderRequest orderRequest ,
-                                                            @RequestParam Map<String, String> vnp_Params) {
+                                                                   @RequestParam Map<String, String> vnp_Params) {
 
         productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
         // Lấy paymentId từ params
@@ -94,7 +94,6 @@ public class OrderController {
     }
 
 
-
     //Create order
     @PostMapping("/create_cod")
     public ResponseEntity<TransactionStatusDTO> createOrderByCOD(@RequestBody OrderRequest orderRequest) {
@@ -114,7 +113,6 @@ public class OrderController {
 
         return ResponseEntity.status(success ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(transactionStatusDTO);
     }
-
 
 
     //Update order by id

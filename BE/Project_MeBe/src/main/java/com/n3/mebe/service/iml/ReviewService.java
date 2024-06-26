@@ -3,10 +3,12 @@ package com.n3.mebe.service.iml;
 import com.n3.mebe.dto.request.review.ReviewRequest;
 import com.n3.mebe.dto.request.subcategory.SubCategoryRequest;
 import com.n3.mebe.dto.response.review.ReviewResponse;
+import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.UserReviewResponse;
 import com.n3.mebe.entity.Category;
 import com.n3.mebe.entity.Review;
 import com.n3.mebe.entity.SubCategory;
+import com.n3.mebe.entity.User;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IReviewRepository;
@@ -97,7 +99,9 @@ public class ReviewService implements IReviewService {
         ReviewResponse reviewResponse = new ReviewResponse();
 
         reviewResponse.setReviewId(review.getReviewId());
-        reviewResponse.setUser(review.getUser());
+
+        UserResponse userResponse = userService.getUserByIdResponse(review.getUser().getUserId());
+        reviewResponse.setUser(userResponse);
         reviewResponse.setProduct(review.getProduct());
         reviewResponse.setRate(review.getRate());
         reviewResponse.setComment(review.getComment());
@@ -105,5 +109,58 @@ public class ReviewService implements IReviewService {
         reviewResponse.setUpdateAt(review.getUpdateAt());
 
         return reviewResponse;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Review By UserID">
+    @Override
+    public List<ReviewResponse> getReviewResponseByUserId(int userId) {
+        List<Review> list = reviewRepository.findByUserUserId(userId);
+
+        List<ReviewResponse> reviewResponseList = new ArrayList<>();
+        for (Review review : list) {
+            ReviewResponse reviewResponse = new ReviewResponse();
+
+            reviewResponse.setReviewId(review.getReviewId());
+
+            UserResponse response = userService.getUserByIdResponse(userId);
+            reviewResponse.setUser(response);
+
+            reviewResponse.setProduct(review.getProduct());
+
+            reviewResponse.setRate(review.getRate());
+            reviewResponse.setComment(review.getComment());
+            reviewResponse.setCreateAt(review.getCreateAt());
+            reviewResponse.setUpdateAt(review.getUpdateAt());
+            reviewResponseList.add(reviewResponse);
+        }
+
+        return reviewResponseList;
+    }// </editor-fold>
+
+
+    // <editor-fold default state="collapsed" desc="Get Review By UserID">
+    @Override
+    public List<ReviewResponse> getReviewResponseByProductId(int prId) {
+        List<Review> list = reviewRepository.findByProductProductId(prId);
+
+        List<ReviewResponse> reviewResponseList = new ArrayList<>();
+        for (Review review : list) {
+            ReviewResponse reviewResponse = new ReviewResponse();
+
+            reviewResponse.setReviewId(review.getReviewId());
+
+            UserResponse response = userService.getUserByIdResponse(review.getUser().getUserId());
+            reviewResponse.setUser(response);
+
+            reviewResponse.setProduct(review.getProduct());
+
+            reviewResponse.setRate(review.getRate());
+            reviewResponse.setComment(review.getComment());
+            reviewResponse.setCreateAt(review.getCreateAt());
+            reviewResponse.setUpdateAt(review.getUpdateAt());
+            reviewResponseList.add(reviewResponse);
+        }
+
+        return reviewResponseList;
     }// </editor-fold>
 }

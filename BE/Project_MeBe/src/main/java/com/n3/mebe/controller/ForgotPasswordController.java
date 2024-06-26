@@ -15,7 +15,7 @@ public class ForgotPasswordController {
     private SendMailService sendMailService;
 
     @PostMapping("/email")
-    public ResponseEntity<Boolean> createSendEmail(@RequestParam String email) {
+    ResponseEntity<Boolean> createSendEmail(@RequestParam String email) {
         return ResponseEntity.ok(sendMailService.createSendEmail(email));
     }
 }

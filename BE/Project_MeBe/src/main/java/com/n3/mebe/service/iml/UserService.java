@@ -61,8 +61,7 @@ public class UserService implements IUserService {
         }else{
             throw new AppException(ErrorCode.NO_USER_EXIST);
         }
-    }
-    // </editor-fold>
+    }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get User By Username">
     public User getUserByUserName(String username){
@@ -193,7 +192,6 @@ public class UserService implements IUserService {
         return check ;
     }// </editor-fold>
 
-
     // <editor-fold default state="collapsed" desc="Update User By Id For Admin">
     @Override
     public boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request){
@@ -215,7 +213,6 @@ public class UserService implements IUserService {
 
         return  check;
     }// </editor-fold>
-
 
     // <editor-fold default state="collapsed" desc="Delete User By Id">
     @Override
@@ -347,5 +344,36 @@ public class UserService implements IUserService {
         return userResponse;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="get User By Email Response">
+    @Override
+    public UserResponse getUserByEmailResponse(String email) {
+        User user = getUserByEmail(email);
+        UserResponse response =  new UserResponse();
+
+        response.setId(user.getUserId());
+        response.setAvatar(user.getAvatar());
+        response.setUsername(user.getUsername());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setEmail(user.getEmail());
+        response.setPassword(user.getPassword());
+        response.setRole(user.getRole());
+        response.setBirthOfDate(user.getBirthOfDate());
+        response.setPhoneNumber(user.getPhoneNumber());
+        response.setPoint(user.getPoint());
+
+        List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
+        response.setListAddress(addressResponses);
+
+        List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
+        response.setOrder(orderResponses);
+
+        response.setCreateAt(user.getCreateAt());
+        response.setUpdateAt(user.getUpdateAt());
+        response.setDeleteAt(user.getDeleteAt());
+
+        return response;
+    }
+    // </editor-fold>
 
 }

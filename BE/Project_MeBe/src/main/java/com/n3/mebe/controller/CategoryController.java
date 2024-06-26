@@ -27,12 +27,12 @@ public class CategoryController {
      */
 
     @GetMapping("/list")
-    public List<CategoryResponse> list() {
+    List<CategoryResponse> list() {
         return categoryService.getListCategory();
     }
 
     @GetMapping("/slug={slug}")
-    public CategoryResponse getCategoryBySlug(@PathVariable("slug") String slug) {
+    CategoryResponse getCategoryBySlug(@PathVariable("slug") String slug) {
         return categoryService.getCategoryBySlug(slug);
     }
 }
