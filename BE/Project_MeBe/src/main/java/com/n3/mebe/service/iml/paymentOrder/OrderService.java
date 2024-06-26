@@ -1,4 +1,4 @@
-package com.n3.mebe.service.iml;
+package com.n3.mebe.service.iml.paymentOrder;
 
 
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
@@ -8,8 +8,6 @@ import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.dto.response.order.OrderUserResponse;
 import com.n3.mebe.dto.response.user.UserAddressResponse;
-import com.n3.mebe.dto.response.user.UserOrderResponse;
-import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
@@ -18,9 +16,11 @@ import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IOrderRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.IOrderService;
+import com.n3.mebe.service.iml.ProductService;
+import com.n3.mebe.service.iml.UserService;
 import jakarta.transaction.Transactional;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,6 +47,8 @@ public class OrderService implements IOrderService {
     private UserService userService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
 
     @Override
@@ -54,6 +56,7 @@ public class OrderService implements IOrderService {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NO_EXIST));
     }
+
 
 
     // <editor-fold default state="collapsed" desc="Get UserOrderResponse By Id Response">
@@ -85,7 +88,6 @@ public class OrderService implements IOrderService {
         return userResponse;
     }// </editor-fold>
 
-
     // <editor-fold default state="collapsed" desc="save OrderDetails">
     private void saveOrderDetails(List<OrderDetailsRequest> items, Order order) {
         for (OrderDetailsRequest item : items) {
@@ -95,25 +97,21 @@ public class OrderService implements IOrderService {
             Product product = productService.getProductById(item.getProductId());
 
             orderDetail.setProduct(product);
-
-            //trừ số lượng trong product
-            productService.reduceProductQuantity(item.getQuantity(), product.getProductId());
             orderDetail.setQuantity(item.getQuantity());
-
             orderDetail.setPrice(item.getPrice());
             orderDetail.setSalePrice(item.getSalePrice());
             orderDetailsRepository.save(orderDetail);
         }
-    }
+    }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="save Guess User Address">
     private void saveGuessUserAddress(OrderRequest orderRequest, User user) {
         Address address = new Address();
         address.setUser(user);
         address.setTitle("Address");
         address.setAddress(orderRequest.getGuess().getAddress());
-
         addressRepository.save(address); // Save Address for guess user
-    }
+    }// </editor-fold>
 
     /**
      *  Request from Client
@@ -140,7 +138,7 @@ public class OrderService implements IOrderService {
             user.setBirthOfDate(orderRequest.getGuess().getBirthOfDate());
             user.setPhoneNumber(orderRequest.getGuess().getPhoneNumber());
             user.setRole(roll);
-            iUserRepository.save(user);
+                iUserRepository.save(user);
             //save địa chỉ của guess
             saveGuessUserAddress(orderRequest, user);
         }else {
