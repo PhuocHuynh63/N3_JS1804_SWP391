@@ -45,10 +45,10 @@ public class OrderController {
      */
 
     //Create order
-    @PostMapping("/create")
-    public ResponseEntity<TransactionStatusDTO> createOrder(@RequestBody OrderRequest orderRequest ,
-                              @RequestParam Map<String, String> vnp_Params) {
-        String mss;
+    @PostMapping("/create_vnpay/")
+    public ResponseEntity<TransactionStatusDTO> createOrderByVNPay(@RequestBody OrderRequest orderRequest ,
+                                                            @RequestParam Map<String, String> vnp_Params) {
+
         productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
         // Lấy paymentId từ params
         String paymentId = vnp_Params.get("vnp_TxnRef");
@@ -92,6 +92,29 @@ public class OrderController {
 
         return ResponseEntity.status(paymentSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(transactionStatusDTO);
     }
+
+
+
+    //Create order
+    @PostMapping("/create_cod/")
+    public ResponseEntity<TransactionStatusDTO> createOrderByCOD(@RequestBody OrderRequest orderRequest) {
+
+        productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
+        TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();
+        // lưu order vào cơ sở dữ liệu
+        boolean success = orderService.createOrder(orderRequest);
+        if (success) {
+            transactionStatusDTO.setStatus("Ok");
+            transactionStatusDTO.setMessage("Create Order successfully processed");
+        } else {
+            transactionStatusDTO.setStatus("No");
+            transactionStatusDTO.setMessage("Create Order failed");
+            productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
+        }
+
+        return ResponseEntity.status(success ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(transactionStatusDTO);
+    }
+
 
 
     //Update order by id

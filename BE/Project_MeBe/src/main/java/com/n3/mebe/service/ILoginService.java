@@ -8,4 +8,5 @@ public interface ILoginService {
 
     List<UserResponse> getAllUser();
     boolean checkLogin(String username, String password);
+    String getUserRole(String username);
 }

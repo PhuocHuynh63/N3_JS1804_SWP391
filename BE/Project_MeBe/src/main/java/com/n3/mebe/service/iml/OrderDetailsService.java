@@ -47,7 +47,7 @@ public class OrderDetailsService implements IOrderDetailsService {
 
             orderDetailsResponse.setOdId(orderDetail.getOdId());
 
-            orderDetailsResponse.setOrder(orderService.getOrderResponse(orderDetail.getOdId()));
+            orderDetailsResponse.setOrder(orderService.getOrderResponse(orderId));
             orderDetailsResponse.setProduct(orderDetail.getProduct());
             orderDetailsResponse.setQuantity(orderDetail.getQuantity());
             orderDetailsResponse.setPrice(orderDetail.getPrice());

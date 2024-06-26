@@ -53,6 +53,15 @@ public class LoginService implements ILoginService {
         return passwordEncoder.matches(password, user.getPassword()); //Tham số đầu tiên là chưa được mã hoá, tham số sau đã được mã hoá
     }
 
+    @Override
+    public String getUserRole(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user.getRole(); // Giả sử User có phương thức getRole để lấy vai trò của người dùng
+        }
+        return null;
+    }
+
 //
 //    @Override
 //    public boolean checkLogin(String userName, String password) {
