@@ -4,63 +4,54 @@ import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginPage.css";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { localService } from "../../service/localService";
 import { setLoginAction } from "../../redux/action/UserAction";
-import { Input, Form, notification } from "antd";
-import bannerLogin from "../../images/Logo_Login.jpg";
+import { Input, Form, message } from "antd";
+import bannerLogin from "../../images/Logo_Login.jpg"
 
 const LoginPage = ({ show, handleClose }) => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
+  //Gọi lấy dữ liệu user từ API
   const onFinish = (values) => {
     console.log("Success:", values);
     userService
       .postLogin(values)
       .then((response) => {
+        console.log(response.data);
+        message.success("Login successfully");
+        localService.set(response.data);
+        dispatch(setLoginAction(response.data));
 
-        // Kiểm tra cấu trúc của response.data
-        if (response.success) {
-          localService.set(response.data); // Lưu token vào local storage
-          dispatch(setLoginAction({ token: response.data, role: response.role })); // Lưu token và vai trò vào redux
-
-          notification.success({
-            message: "Login Successful",
-            description: response.description,
-          });
-
-          // Điều hướng dựa trên vai trò của người dùng
-          if (response.role === "admin") {
-            navigate("/adminPage");
-          } else {
-            navigate("/");
-          }
-
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000); // Reload the page after 1 second
+        if (response.data.metadata.role !== "admin") {
+          navigate("/");
         } else {
-          throw new Error(response.description);
+          navigate("/adminPage");
         }
+        console.log(response);
       })
       .catch((error) => {
-        console.log("API error:", error);
-        notification.error({
-          message: "Login Failed",
-          description: error.message,
-        });
+        message.error("login failed");
+        console.log(error);
       });
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log(`Failed:`, errorInfo);
-    notification.error({
-      message: "Login Failed",
-      description: "Please check your input and try again.",
-    });
   };
 
+  const handleRegister = () => {
+      handleClose();
+      navigate('/signup'); 
+  };
+
+  const handleForgot = () => {
+      handleClose();
+      navigate('/reset-password'); 
+  };
+  
   return (
     <Modal show={show} onHide={handleClose} size="xl" centered>
       <div className="login-modal-content">
@@ -194,7 +185,7 @@ const LoginPage = ({ show, handleClose }) => {
                                     <Button
                                       id="btn-signin"
                                       className="btn btn-dark btn-lg"
-                                      type="submit"
+                                      type="submit" // Changed from htmlType to type
                                     >
                                       Đăng nhập
                                     </Button>
@@ -207,14 +198,16 @@ const LoginPage = ({ show, handleClose }) => {
                             <div className="col-12">
                               <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
                                 <a
-                                  href="#!"
+                                  href=""
                                   className="link-secondary text-decoration-none"
+                                  onClick={handleRegister}
                                 >
                                   Tạo tài khoản
                                 </a>
                                 <a
-                                  href="#!"
+                                  href=""
                                   className="link-secondary text-decoration-none"
+                                  onClick={handleForgot}
                                 >
                                   Quên mật khẩu
                                 </a>
