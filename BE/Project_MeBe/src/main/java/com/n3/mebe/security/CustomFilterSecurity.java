@@ -34,7 +34,7 @@ public class CustomFilterSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         String[] list = {"/login/**", "/user/**", "/category/**", "/sub_category/**", "/product/**",
-                "/forgot_password/**", "/order/**", "/address/**", "/api/payment/**"};
+                "/forgot_password/**", "/order/**", "/order_details/**" ,"/address/**", "/api/payment/**"};
 
         //http: là nơi định nghĩa cái rule, tức là link nào được phép hoặc không được phép
         //csrf: là lợi dụng người dùng đăng nhập vào trang web hợp lệ để gửi những yêu cầu trái phép

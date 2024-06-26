@@ -130,7 +130,7 @@ public class OrderService implements IOrderService {
 
         // Neu khong phai la guess thi kiem User bang ID
         if (orderRequest.getGuess() != null){
-            String roll = "guess";
+            String roll = "guest";
             // lay guess tu request de tao ra USER moi
             user.setFirstName(orderRequest.getGuess().getFirstName());
             user.setLastName(orderRequest.getGuess().getLastName());

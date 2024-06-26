@@ -34,7 +34,9 @@ public class LoginController {
 
         if(loginServiceImp.checkLogin(username, password)) {
             String token = jwtUtilHelper.genarateToken(username);
+            String role = loginServiceImp.getUserRole(username);
             responseData.setData(token);
+            responseData.setRole(role);
         } else {
             responseData.setData("");
             responseData.setDescription("username or password incorrect");
@@ -43,6 +45,4 @@ public class LoginController {
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
-
-
 }

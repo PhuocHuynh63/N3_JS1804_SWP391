@@ -15,4 +15,5 @@ public class ResponseData {
     private boolean isSuccess = true;
     private String description;
     private Object data;
+    private String role;
 }

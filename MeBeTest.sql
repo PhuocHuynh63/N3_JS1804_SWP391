@@ -195,9 +195,7 @@ CREATE TABLE [order] (
     [user_id] INT,
     voucher_id INT,
 	[status] NVARCHAR(50),
-	delivery_fee DECIMAL(10, 2),
 	total_amount DECIMAL(10, 2),
-    deposite_amount DECIMAL(10, 2),
 	order_type NVARCHAR(50),
 	payment_status NVARCHAR(50),
 	note NVARCHAR(200),
@@ -265,11 +263,11 @@ VALUES
 (N'NEWUSER', N'Percentage', 15.00, N'Giảm giá 15% cho khách hàng mới', 0.00, 200, 0.00, 200000.00, 1, 0);
 
 -- Thêm dữ liệu vào bảng order
-INSERT INTO [order] ([user_id], voucher_id, [status], delivery_fee, total_amount, deposite_amount, order_type, payment_status, note)
+INSERT INTO [order] ([user_id], voucher_id, [status], total_amount, order_type, payment_status, note)
 VALUES
-(1, 1, N'Processing', 20000.00, 500000.00, 0.00, N'Online', N'Unpaid', N'Giao hàng trong giờ hành chính'),
-(2, NULL, N'Completed', 15000.00, 750000.00, 750000.00, N'COD', N'Paid', NULL),
-(3, 2, N'Shipping', 0.00, 1200000.00, 1200000.00, N'Online', N'Paid', N'Giao hàng nhanh');
+(1, 1, N'Processing', 500000.00, N'Online', N'Unpaid', N'Giao hàng trong giờ hành chính'),
+(2, NULL, N'Completed',750000.00, N'COD', N'Paid', NULL),
+(3, 2, N'Shipping', 1200000.00, N'Online', N'Paid', N'Giao hàng nhanh');
 
 -- Thêm dữ liệu vào bảng order_detail
 INSERT INTO order_detail (order_id, product_id, quantity, price, sale_price)
