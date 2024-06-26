@@ -21,8 +21,5 @@ public class OrderUserCreateRequest {
 
     //địa chỉ của guess
     private String address;
-    private String city;
-    private String district;
-    private String ward;
 
 }

@@ -1,8 +1,10 @@
 package com.n3.mebe.service.iml;
 
 
+import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
 import com.n3.mebe.dto.request.product.ProductRequest;
 import com.n3.mebe.dto.response.product.ProductResponse;
+import com.n3.mebe.entity.OrderDetail;
 import com.n3.mebe.entity.Product;
 import com.n3.mebe.entity.SubCategory;
 import com.n3.mebe.exception.AppException;
@@ -13,6 +15,7 @@ import com.n3.mebe.service.IFileService;
 import com.n3.mebe.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -49,6 +52,15 @@ public class ProductService implements IProductService {
         iProductRespository.save(product);
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="reduce Product Quantity List">
+    public void reduceProductQuantityList(List<OrderDetailsRequest> items) {
+        for (OrderDetailsRequest item : items) {
+            Product product = getProductById(item.getProductId());
+            //trừ số lượng trong product
+            reduceProductQuantity(item.getQuantity(), product.getProductId());
+        }
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="Increase Quantity Product By Id">
     public void increaseProductQuantity(int quanti, int prId) throws AppException {
         Product product = getProductById(prId);
@@ -58,12 +70,20 @@ public class ProductService implements IProductService {
         iProductRespository.save(product);
     }// </editor-fold>
 
-
+    // <editor-fold default state="collapsed" desc="increase Product Quantity List">
+    public void increaseProductQuantityList(List<OrderDetailsRequest> items) {
+        for (OrderDetailsRequest item : items) {
+            Product product = getProductById(item.getProductId());
+            //trừ số lượng trong product
+            increaseProductQuantity(item.getQuantity(), product.getProductId());
+        }
+    }// </editor-fold>
 
 
     // <editor-fold default state="collapsed" desc="Create Product">
     @Override
-    public boolean createProduct(MultipartFile file, int subCategoryId, String slug, String name, String description, float price, float salePrice, String status, int totalSold, int productView) {
+    public boolean createProduct(MultipartFile file, int subCategoryId, String slug, String name, String description, float price,
+                                 float salePrice, String status, int totalSold, int quantity,int productView) {
         boolean isInsertedSuccess = false;
         try {
         boolean isSaveFileSuccess = fileServiceImp.saveFile(file);
@@ -81,6 +101,7 @@ public class ProductService implements IProductService {
             product.setSalePrice(salePrice);
             product.setStatus(status);
             product.setTotalSold(totalSold);
+            product.setQuantity(quantity);
             product.setProductView(productView);
 
             Date now = new Date();
@@ -98,7 +119,8 @@ public class ProductService implements IProductService {
 
     //  <editor-fold default state="collapsed" desc="Update Product">
     @Override
-    public boolean updateProduct(int id, MultipartFile file, int subCategoryId, String slug, String name, String description, float price, float salePrice, String status, int totalSold, int productView) {
+    public boolean updateProduct(int id, MultipartFile file, int subCategoryId, String slug, String name, String description,
+                                 float price, float salePrice, String status, int totalSold, int quantity, int productView) {
         Product product = iProductRespository.findById(id).
                 orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
         boolean isInsertedSuccess = false;
@@ -117,6 +139,7 @@ public class ProductService implements IProductService {
                 product.setSalePrice(salePrice);
                 product.setStatus(status);
                 product.setTotalSold(totalSold);
+                product.setQuantity(quantity);
                 product.setProductView(productView);
 
                 Date now = new Date();
@@ -164,6 +187,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());
@@ -197,6 +221,7 @@ public class ProductService implements IProductService {
         productResponse.setSalePrice(product.getSalePrice());
         productResponse.setStatus(product.getStatus());
         productResponse.setTotalSold(product.getTotalSold());
+        productResponse.setQuantity(product.getQuantity());
         productResponse.setProductView(product.getProductView());
         productResponse.setCreateAt(product.getCreateAt());
         productResponse.setUpdateAt(product.getUpdateAt());
@@ -223,6 +248,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());
@@ -256,6 +282,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());
@@ -284,6 +311,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());
@@ -313,6 +341,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());
@@ -342,6 +371,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());
@@ -371,6 +401,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());
@@ -400,6 +431,7 @@ public class ProductService implements IProductService {
             productResponse.setSalePrice(product.getSalePrice());
             productResponse.setStatus(product.getStatus());
             productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
             productResponse.setProductView(product.getProductView());
             productResponse.setCreateAt(product.getCreateAt());
             productResponse.setUpdateAt(product.getUpdateAt());

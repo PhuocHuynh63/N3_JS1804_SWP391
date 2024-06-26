@@ -2,6 +2,7 @@ package com.n3.mebe.service.iml.mail;
 
 import com.n3.mebe.dto.response.gmail.GmailSendResponse;
 import com.n3.mebe.entity.User;
+import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.iml.UserService;
 import com.n3.mebe.util.ConstEmail;
@@ -23,6 +24,9 @@ public class SendMailService implements ISendMailService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    IUserRepository IUserRepository;
+
     @Override
     public Boolean createSendEmail(String email) {
         try {
@@ -36,6 +40,8 @@ public class SendMailService implements ISendMailService {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             String encodedPassword = encoder.encode(password);
             user.setPassword(encodedPassword);
+            IUserRepository.save(user);
+
 
             Map<String, Object> props = new HashMap<>();
             props.put("firstName", user.getFirstName());

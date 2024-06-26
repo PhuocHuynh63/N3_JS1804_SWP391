@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class PaymentRequest {
 
-    private int orderId;
+
     private String bankCode;
+    private String type;
+    private long amount;
 }
