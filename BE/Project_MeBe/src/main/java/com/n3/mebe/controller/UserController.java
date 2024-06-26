@@ -2,6 +2,7 @@ package com.n3.mebe.controller;
 
 
 import com.n3.mebe.dto.request.user.UserCreateRequest;
+import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.entity.User;
@@ -27,14 +28,41 @@ public class UserController {
 
     //sign up user
     @PostMapping("/signup")
-    public User createUser(@RequestBody @Valid UserCreateRequest request) {
-        return userService.createUser(request);
+    public String createUser(@RequestBody @Valid UserCreateRequest request) {
+        String msg;
+        boolean check = userService.createUser(request);
+        if (check){
+            msg = "User updated successfully";
+        }else {
+            msg = "User updating failed";
+        }
+        return msg;
     }
 
     //Update user by id
     @PutMapping("/update/{user_id}")
-    public User updatetUser(@PathVariable("user_id") int user_id, @RequestBody UserUpdateRequest request) {
-        return userService.updateUserById(user_id , request);
+    public String updatetUser(@PathVariable("user_id") int user_id, @RequestBody UserUpdateRequest request) {
+        String msg;
+        boolean check = userService.updateUserById(user_id , request);
+        if (check){
+            msg = "User updated successfully";
+        }else {
+            msg = "User updating failed";
+        }
+        return msg;
+    }
+
+    //Update user by id
+    @PutMapping("/update_admin/uId={user_id}")
+    public String updatetUserForAdmin(@PathVariable("user_id") int user_id, @RequestBody UserUpdateForAdminRequest request) {
+        String msg;
+        boolean check = userService.updateUserByIdForAdmin(user_id , request);
+        if (check){
+            msg = "User updated successfully";
+        }else {
+            msg = "User updating failed";
+        }
+        return msg;
     }
 
     @PutMapping("/change_password/{user_id}")

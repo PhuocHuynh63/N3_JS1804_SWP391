@@ -2,6 +2,7 @@ package com.n3.mebe.service.iml;
 
 
 import com.n3.mebe.dto.request.user.UserCreateRequest;
+import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.dto.response.user.UserOrderResponse;
@@ -129,7 +130,8 @@ public class UserService implements IUserService {
 
     // <editor-fold default state="collapsed" desc="Create User">
     @Override
-    public User createUser(UserCreateRequest request){
+    public boolean createUser(UserCreateRequest request){
+        boolean check = false;
         User user = new User();
         String role = "member";
 
@@ -161,13 +163,16 @@ public class UserService implements IUserService {
         user.setUpdateAt(now);
         user.setDeleteAt(null);
 
-        return iUserRepository.save(user);
+        iUserRepository.save(user);
+        check = true;
+
+        return check;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update User By Id">
     @Override
-    public User updateUserById(int id, UserUpdateRequest request){
-
+    public boolean updateUserById(int id, UserUpdateRequest request){
+        boolean check = false;
         User user = getUserById(id);
 
         user.setAvatar(request.getAvatar());
@@ -175,18 +180,42 @@ public class UserService implements IUserService {
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
         user.setBirthOfDate(request.getBirthOfDate());
         user.setPhoneNumber(request.getPhoneNumber());
 
         Date now = new Date();
         user.setUpdateAt(now);
 
+        iUserRepository.save(user);
+        check = true;
 
-        return  iUserRepository.save(user);
+
+        return check ;
     }// </editor-fold>
+
+
+    // <editor-fold default state="collapsed" desc="Update User By Id For Admin">
+    @Override
+    public boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request){
+        boolean check = false;
+
+        User user = getUserById(id);
+        user.setAvatar(request.getAvatar());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+
+        user.setBirthOfDate(request.getBirthOfDate());
+        user.setPhoneNumber(request.getPhoneNumber());
+
+        Date now = new Date();
+        user.setUpdateAt(now);
+        iUserRepository.save(user);
+        check = true;
+
+        return  check;
+    }// </editor-fold>
+
 
     // <editor-fold default state="collapsed" desc="Delete User By Id">
     @Override
