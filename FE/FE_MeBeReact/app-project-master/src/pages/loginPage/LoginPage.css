@@ -30,10 +30,10 @@
     background-color: rgba(0, 0, 0, 0.77);
 }
 
-.login-modal-content #username {
+#username {
     width: 100%;
 }
 
-.login-modal-content #password {
+#password {
     width: 100%;
 }

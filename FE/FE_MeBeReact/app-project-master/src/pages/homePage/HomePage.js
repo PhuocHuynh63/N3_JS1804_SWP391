@@ -12,7 +12,7 @@ export default function HomePage() {
     useEffect(() => {
         meBeSrc.getProductLastest()
             .then((res) => {
-                setProducts(res.data.slice(0, 4));
+                setProducts(res.data.slice(0, 10));
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
@@ -103,7 +103,8 @@ export default function HomePage() {
 
 
             {/* Product lastest */}
-            <div className="category-section">
+            
+            {/* <div className="category-section">
                 <div class="container">
                     <h3>Sản phẩm mới về</h3>
                     <div className="products">
@@ -116,7 +117,53 @@ export default function HomePage() {
                         ))}
                     </div>
                 </div>
+            </div> */}
+
+            <div class="pb-3 pb-md-5 pb-xl-8">
+                <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                    <h2 class="mb-4 display-5 text-center">Sản phẩm mới về </h2>
+                    <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle"/>
+                    </div>
+                </div>
+                </div>
+
+                <div class="container overflow-hidden">
+                <div class="row gy-4 gy-xxl-5">
+                    {products.map((product) => (
+                        <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
+                        <div class="card text-center border-dark overflow-hidden">
+                            <div class="card-body p-5 position-relative">
+                            <figure class="m-0 p-0">
+                                {/* {`/images/${product.images}`} */}
+                                <img class="img-fluid" loading="lazy" src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719076828/sign_up_baw61i.jpg" alt="product.name"/>
+                                <figcaption class="mb-0 mt-4 p-0">
+                                <h4 class="mb-2">{product.name}</h4>
+                                <p class="d-flex justify-content-center align-items-center gap-2 mb-0">
+                                    <span class="text-primary">{product.price}</span>
+                                </p>
+                                </figcaption>
+                            </figure>
+                            <a href="#!" class="btn btn-accent mt-4 d-flex align-items-center justify-content-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+                                <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z" />
+                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                </svg>
+                                <span>Add to cart</span>
+                            </a>
+                            <div class="position-absolute top-0 end-0 m-2 fs-5">
+                                <span class="badge text-bg-primary">Mới</span>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    ))}
+                </div>
+                </div>
             </div>
+
+
         </div>
     )
 }
