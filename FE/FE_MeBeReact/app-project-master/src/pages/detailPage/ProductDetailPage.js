@@ -4,7 +4,7 @@ import { meBeSrc } from '../../service/meBeSrc';
 import { Modal } from 'antd';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProductDetail.css";
-
+import ImageMagnifier from '../../components/imageMagnifier/imageMagnifier';
 export default function DetailPage() {
     const [product, setProduct] = useState({});
     const [quantity, setQuantity] = useState(1);
@@ -85,7 +85,8 @@ export default function DetailPage() {
                         <div id="productCarousel" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner">
                                 <div className="carousel-item active">
-                                    <img src={product.images} className="d-block w-100" alt={product.name} />
+                                    <ImageMagnifier  src={product.images} className="d-block w-100" alt={product.name}></ImageMagnifier>
+                                    {/* <img src={product.images} className="d-block w-100" alt={product.name} /> */}
                                 </div>
                                 <div className="carousel-item">
                                     <img src="/images/ao.pnj.webp" className="d-block w-100" alt={product.name} />
