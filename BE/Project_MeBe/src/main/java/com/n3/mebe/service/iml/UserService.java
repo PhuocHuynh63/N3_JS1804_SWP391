@@ -3,10 +3,20 @@ package com.n3.mebe.service.iml;
 
 import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
+import com.n3.mebe.dto.response.order.OrderResponse;
+import com.n3.mebe.dto.response.user.UserOrderResponse;
 import com.n3.mebe.dto.response.user.UserResponse;
+import com.n3.mebe.dto.response.user.UserAddressResponse;
+import com.n3.mebe.dto.response.user.UserReviewResponse;
+import com.n3.mebe.entity.Address;
+import com.n3.mebe.entity.Order;
+import com.n3.mebe.entity.Review;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.repository.IAddressRepository;
+import com.n3.mebe.repository.IOrderRepository;
+import com.n3.mebe.repository.IReviewRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +24,103 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class UserService implements IUserService {
 
     @Autowired
     private IUserRepository iUserRepository;
+
+    @Autowired
+    private IAddressRepository iAddressRepository;
+
+    @Autowired
+    private IReviewRepository iReviewRepository;
+
+    @Autowired
+    private IOrderRepository iOrderRepository;
+
+
+
+    // <editor-fold default state="collapsed" desc="Get User By Id">
+    @Override
+    public User getUserById(int id){
+        return iUserRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NO_USER_EXIST));
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="get User By Email">
+    @Override
+    public User getUserByEmail(String email) {
+        if(iUserRepository.existsByEmail(email)){
+            return iUserRepository.findByEmail(email);
+        }else{
+            throw new AppException(ErrorCode.NO_USER_EXIST);
+        }
+    }
+    // </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get User By Username">
+    public User getUserByUserName(String username){
+        User user = iUserRepository.findByUsername(username);
+        if(user == null){
+            throw new AppException(ErrorCode.NO_USER_EXIST);
+        }
+        return user;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get List Addresses of User Response">
+    public List<UserAddressResponse> getUserAddresses(int userId) {
+
+        List<Address> addresses = iAddressRepository.findByUserUserId(userId);
+
+        List<UserAddressResponse> addressResponsesList = new ArrayList<>();
+
+        for (Address address : addresses) {
+            UserAddressResponse response = new UserAddressResponse();
+
+            //add địa chỉ của user dể response
+            response.setAddressId(address.getAddressId());
+            response.setDefault(address.isDefault());
+            response.setTitle(address.getTitle());
+            response.setAddress(address.getAddress());
+
+
+            addressResponsesList.add(response);
+        }
+
+        return addressResponsesList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get List Orders By UserID">
+    private List<UserOrderResponse> getOrdersList(int userId) {
+        List<Order> list = iOrderRepository.findByUserUserId(userId);
+        List<UserOrderResponse> orderResponseList = new ArrayList<>();
+
+        for (Order order : list) {
+            UserOrderResponse response = new UserOrderResponse();
+
+            response.setOrderId(order.getOrderId());
+            response.setVoucher(order.getVoucher());
+            response.setStatus(order.getStatus());
+
+            response.setTotalAmount(order.getTotalAmount());
+
+            response.setOrderType(order.getOrderType());
+            response.setPaymentStatus(order.getPaymentStatus());
+            response.setNote(order.getNote());
+            response.setCreatedAt(order.getCreatedAt());
+            response.setUpdatedAt(order.getUpdatedAt());
+
+            orderResponseList.add(response);
+        }
+
+        return orderResponseList;
+    }// </editor-fold>
+
 
     /**
      *  Request from Client
@@ -36,6 +132,7 @@ public class UserService implements IUserService {
     public User createUser(UserCreateRequest request){
         User user = new User();
         String role = "member";
+
         int point = 0;
         String status = "active";
 
@@ -45,9 +142,10 @@ public class UserService implements IUserService {
 
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setUsername(request.getUsername());
+
         user.setEmail(request.getEmail());
 
+        user.setUsername(request.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
@@ -90,22 +188,30 @@ public class UserService implements IUserService {
         return  iUserRepository.save(user);
     }// </editor-fold>
 
-
-    public String checkPassword(String password, String confirmPassword){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        passwordEncoder.matches(password, confirmPassword);
-
-        return passwordEncoder.encode(password);
-    }
-
-
-
-
     // <editor-fold default state="collapsed" desc="Delete User By Id">
     @Override
     public void deleteUserById(int id){
         iUserRepository.deleteById(id);
     }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Change Password">
+    @Override
+    public String changePassword(int id, String oldPassword, String newPassword) {
+        User user = getUserById(id);
+        String msg;
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        boolean check = passwordEncoder.matches(oldPassword, user.getPassword());
+
+        if (check) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            iUserRepository.save(user);
+            msg = "Change successfully";
+        }else{
+            msg = "Password old does not match";
+        }
+        return msg;
+    }// </editor-fold>
+
 
     /**
      *  Response to Client
@@ -123,28 +229,28 @@ public class UserService implements IUserService {
 
             userResponse.setId(user.getUserId());
             userResponse.setAvatar(user.getAvatar());
+            userResponse.setUsername(user.getUsername());
             userResponse.setFirstName(user.getFirstName());
             userResponse.setLastName(user.getLastName());
-            userResponse.setUsername(user.getUsername());
             userResponse.setEmail(user.getEmail());
             userResponse.setPassword(user.getPassword());
             userResponse.setRole(user.getRole());
             userResponse.setBirthOfDate(user.getBirthOfDate());
             userResponse.setPhoneNumber(user.getPhoneNumber());
             userResponse.setPoint(user.getPoint());
+
+            List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
+            userResponse.setListAddress(addressResponses);
+
+            List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
+            userResponse.setOrder(orderResponses);
+
             userResponse.setCreateAt(user.getCreateAt());
             userResponse.setUpdateAt(user.getUpdateAt());
             userResponse.setDeleteAt(user.getDeleteAt());
             userResponses.add(userResponse);
         }
         return userResponses;
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="Get User By Id">
-    @Override
-    public User getUserById(int id){
-        return iUserRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.NO_USER_EXIST));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get User By Id Response">
@@ -155,22 +261,62 @@ public class UserService implements IUserService {
 
         User user = getUserById(id);
 
-        userResponse.setId(userResponse.getId());
+        userResponse.setId(user.getUserId());
         userResponse.setAvatar(user.getAvatar());
+        userResponse.setUsername(user.getUsername());
         userResponse.setFirstName(user.getFirstName());
         userResponse.setLastName(user.getLastName());
-        userResponse.setUsername(user.getUsername());
         userResponse.setEmail(user.getEmail());
         userResponse.setPassword(user.getPassword());
         userResponse.setRole(user.getRole());
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
+
+        List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
+        userResponse.setListAddress(addressResponses);
+
+        List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
+        userResponse.setOrder(orderResponses);
+
         userResponse.setCreateAt(user.getCreateAt());
         userResponse.setUpdateAt(user.getUpdateAt());
         userResponse.setDeleteAt(user.getDeleteAt());
 
         return userResponse;
     }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get User By Username Response">
+    @Override
+    public UserResponse getUserByUserNameResponse(String username){
+        UserResponse userResponse = new UserResponse();
+
+        User user = getUserByUserName(username);
+
+        userResponse.setId(user.getUserId());
+        userResponse.setAvatar(user.getAvatar());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setFirstName(user.getFirstName());
+        userResponse.setLastName(user.getLastName());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setPassword(user.getPassword());
+        userResponse.setRole(user.getRole());
+        userResponse.setBirthOfDate(user.getBirthOfDate());
+        userResponse.setPhoneNumber(user.getPhoneNumber());
+        userResponse.setPoint(user.getPoint());
+
+        List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
+        userResponse.setListAddress(addressResponses);
+
+        List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
+        userResponse.setOrder(orderResponses);
+
+        userResponse.setCreateAt(user.getCreateAt());
+        userResponse.setUpdateAt(user.getUpdateAt());
+        userResponse.setDeleteAt(user.getDeleteAt());
+
+        return userResponse;
+    }// </editor-fold>
+
 
 }

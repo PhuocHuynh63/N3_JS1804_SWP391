@@ -1,0 +1,125 @@
+.tracking-container {
+    margin-top: 65px;
+    padding: 50px 60px;
+    border-left: 1px solid #8d8d8dbb;
+    height: auto;
+    width: 55em;
+    box-shadow: 5px 0px 5px #d9d9d9, 0px 0px 5px #ffffff;
+}
+
+/* Tracking header (Status) */
+.tracking-header {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+    border: 1px solid black;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.tracking-header span {
+    position: relative;
+    padding: 5px 0;
+    overflow: hidden;
+}
+
+.tracking-header span::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    display: block;
+    right: 0;
+    background: #323232;
+    transition: width 0.6s ease, right 0.6s ease;
+}
+
+.tracking-header span:hover::after {
+    width: 100%;
+    right: 0;
+    left: 0;
+}
+
+.tracking-header span:hover {
+    transition: all 1s;
+}
+
+/* Tracking body */
+.tracking-body {
+    margin-top: 20px;
+    padding: 20px 0;
+    border: 1px solid black;
+    height: auto;
+}
+
+.tracking-body_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.tracking-body_item .left {
+    display: flex;
+    margin: 0 10px 0 20px;
+}
+
+.tracking-body_item .left img {
+    height: 81px;
+    width: 81px;
+}
+
+.tracking-body_item .content {
+    margin-left: 10px;
+}
+
+.tracking-body_item .content p:first-child {
+    margin-bottom: 0;
+}
+
+.tracking-body_item .content p:last-child {
+    font-size: 15px;
+}
+
+.tracking-body_item .right {
+    display: flex;
+    padding-right: 20px;
+}
+
+.tracking-body_bot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.tracking-body_bot .total span:first-child {
+    font-size: 16px;
+}
+
+.tracking-body_bot .total span:last-child {
+    margin-right: 20px;
+    color: red;
+    font-size: 21px;
+}
+
+.tracking-body_bot .btn a {
+    color: #26AA99;
+    font-size: 17px;
+    margin-right: 10px;
+}
+
+.tracking-body_bot .btn button {
+    margin-right: 8px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(196, 189, 123, 0.753);
+    color: white;
+    font-size: 17px;
+}
+
+.tracking-body_bot .btn button:hover {
+    background-color: rgb(196, 189, 123);
+    transition: all 0.37s;
+}

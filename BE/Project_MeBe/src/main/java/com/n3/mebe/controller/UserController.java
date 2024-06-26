@@ -5,7 +5,7 @@ import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.entity.User;
-import com.n3.mebe.service.iml.UserService;
+import com.n3.mebe.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     /**
      *  Request from Client
@@ -32,13 +32,20 @@ public class UserController {
     }
 
     //Update user by id
-    @PutMapping("/{user_id}")
+    @PutMapping("/update/{user_id}")
     public User updatetUser(@PathVariable("user_id") int user_id, @RequestBody UserUpdateRequest request) {
         return userService.updateUserById(user_id , request);
     }
 
+    @PutMapping("/change_password/{user_id}")
+    public String changePasswordUser(@PathVariable("user_id") int user_id,
+                              @RequestParam String passwordOld,
+                              @RequestParam String passwordNew) {
+        return userService.changePassword(user_id, passwordOld, passwordNew);
+    }
+
     //Delete user by id
-    @DeleteMapping("/{user_id}")
+    @DeleteMapping("/delete/{user_id}")
     public String deleteUser(@PathVariable("user_id") int user_id) {
         userService.deleteUserById(user_id);
         return "User have been deleted";
@@ -62,4 +69,9 @@ public class UserController {
         return userService.getUserByIdResponse(user_id);
     }
 
+    @GetMapping("/username={user_name}")
+    public UserResponse getUserByUserName(@PathVariable("user_name") String user_name) {
+
+        return userService.getUserByUserNameResponse(user_name);
+    }
 }

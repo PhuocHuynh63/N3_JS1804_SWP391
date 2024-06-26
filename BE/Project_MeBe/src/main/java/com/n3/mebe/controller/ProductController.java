@@ -44,9 +44,10 @@ public class ProductController {
                           @RequestParam float salePrice,
                           @RequestParam String status,
                           @RequestParam int totalSold,
+                          @RequestParam int quantity,
                           @RequestParam int productView) {
         ResponseData responseData = new ResponseData();
-        boolean isSuccess = productService.createProduct(file, subCategory, slug, name, description, price, salePrice, status, totalSold, productView);
+        boolean isSuccess = productService.createProduct(file, subCategory, slug, name, description, price, salePrice, status, totalSold, quantity, productView);
         responseData.setData(isSuccess);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
@@ -63,8 +64,9 @@ public class ProductController {
                           @RequestParam float salePrice,
                           @RequestParam String status,
                           @RequestParam int totalSold,
+                          @RequestParam int quantity,
                           @RequestParam int productView) {
-        return productService.updateProduct(id ,file, subCategory, slug, name, description, price, salePrice, status, totalSold, productView);
+        return productService.updateProduct(id ,file, subCategory, slug, name, description, price, salePrice, status, totalSold, quantity,productView);
     }
 
 
@@ -99,9 +101,9 @@ public class ProductController {
     }
 
     //Response list a product by id or name
-    @GetMapping("/search_product={id}_name={name}")
-    List<ProductResponse> searchProduct(@PathVariable("id") int id, @PathVariable("name") String name) {
-        return productService.getListProductByIdOrName(id, name);
+    @GetMapping("/search")
+    List<ProductResponse> searchProduct(@RequestParam String name) {
+        return productService.getListProductByName(name);
     }
 
     //Response list a product sort by create at asc

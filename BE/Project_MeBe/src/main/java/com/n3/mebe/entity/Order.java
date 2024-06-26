@@ -32,14 +32,8 @@ public class Order {
     @Column(name = "[status]")
     private String status;
 
-    @Column(name = "delivery_fee")
-    private float deliveryFee;
-
     @Column(name = "total_amount")
     private float totalAmount;
-
-    @Column(name = "deposite_amount")
-    private float depositeAmount;
 
     @Column(name = "order_type")
     private String orderType;

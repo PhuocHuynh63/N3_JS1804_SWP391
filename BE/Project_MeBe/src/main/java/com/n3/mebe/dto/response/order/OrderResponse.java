@@ -12,12 +12,10 @@ import java.util.Date;
 public class OrderResponse {
 
     private int orderId;
-    private User user;
+    private OrderUserResponse user;
     private Voucher voucher;
     private String status;
-    private float deliveryFee;
     private float totalAmount;
-    private float depositeAmount;
     private String orderType;
     private String paymentStatus;
     private String note;

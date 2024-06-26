@@ -19,15 +19,17 @@ public interface IProductService {
 
 //    Product createProduct(ProductRequest productRequest);
 
-    boolean createProduct(MultipartFile file, int subCategory, String slug, String name, String description, float price, float salePrice, String status, int totalSold, int productView);
+    boolean createProduct(MultipartFile file, int subCategory, String slug, String name, String description, float price, float salePrice,
+                          String status, int totalSold,int quantity, int productView);
 
-    boolean updateProduct(int id, MultipartFile file, int subCategory, String slug, String name, String description, float price, float salePrice, String status, int totalSold, int productView);
+    boolean updateProduct(int id, MultipartFile file, int subCategory, String slug, String name, String description,
+                          float price, float salePrice, String status, int totalSold,int quantity, int productView);
 
     void deleteProduct(int id);
 
     List<ProductResponse> getProductResponseList(String cate);
 
-    List<ProductResponse> getListProductByIdOrName(int id, String name);
+    List<ProductResponse> getListProductByName(String name);
 
     List<ProductResponse> getListProductCreatedAtDesc();
 

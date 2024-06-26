@@ -56,6 +56,4 @@ public class Voucher {
     @Column(name = "update_at")
     private Date updateAt;
 
-    @OneToMany(mappedBy = "voucher")
-    private Set<Order> orders;
 }

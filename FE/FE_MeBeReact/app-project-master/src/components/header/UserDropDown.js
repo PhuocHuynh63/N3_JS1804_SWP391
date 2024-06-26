@@ -1,5 +1,6 @@
 import { Dropdown, Space } from 'antd';
 import './UserDropDown.css'
+import { NavLink } from 'react-router-dom';
 
 
 const UserDropdown = ({ user, logoutBtn }) => (
@@ -12,8 +13,12 @@ const UserDropdown = ({ user, logoutBtn }) => (
         key: "1",
       },
       {
-        label: <span>Edit account</span>,
+        label: <NavLink to={"/account/profile"}>Tài khoản của tôi</NavLink>,
         key: "2",
+      },
+      {
+        label: <NavLink to={"/account/tracking"}>Đơn mua</NavLink>,
+        key: "3",
       },
       ],
     }}

@@ -21,39 +21,10 @@ public class OrderDetailsController {
     @Autowired
     private IOrderDetailsService orderDetailsService;
 
-
-    /**
-     *  Request from Client
-     *
-     */
-
-    @PostMapping("/create")
-    public String createOrderDetail(@RequestBody List<OrderDetailsRequest> request) {
-        return orderDetailsService.createOrderDetail(request);
-    }
-
-
-    @PutMapping("/update/")
-    public String updateOrderDetail(@RequestBody UpdateOrderDetailsRequest request) {
-        return orderDetailsService.updateOrderDetail(request);
-    }
-
-    @PutMapping("/update_multiple/")
-    public String updateOrderDetail(@RequestBody List<UpdateOrderDetailsRequest> request) {
-        return orderDetailsService.updateMultipleOrderDetails(request);
-    }
-
-
-
     /**
      *  Response from Client
      *
      */
-
-    @GetMapping("/list")
-    public List<OrderDetailsResponse> getListOrderDetails() {
-        return orderDetailsService.getAllOrderDetails();
-    }
 
 
     @GetMapping("/list/orderId={id}")

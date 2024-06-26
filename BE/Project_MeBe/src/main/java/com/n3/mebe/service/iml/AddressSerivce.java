@@ -46,9 +46,7 @@ public class AddressSerivce implements IAddressService {
         address.setDefault(request.isDefault());
         address.setTitle(request.getTitle());
         address.setAddress(request.getAddress());
-        address.setCity(request.getCity());
-        address.setDistrict(request.getDistrict());
-        address.setWard(request.getWard());
+
 
         return addressRepository.save(address);
     }// </editor-fold>
@@ -64,9 +62,6 @@ public class AddressSerivce implements IAddressService {
         address.setDefault(request.isDefault());
         address.setTitle(request.getTitle());
         address.setAddress(request.getAddress());
-        address.setCity(request.getCity());
-        address.setDistrict(request.getDistrict());
-        address.setWard(request.getWard());
 
 
         return addressRepository.save(address);
@@ -102,6 +97,7 @@ public class AddressSerivce implements IAddressService {
             addressUserResponse.setLastName(address.getUser().getLastName());
             addressUserResponse.setPhoneNumber(address.getUser().getPhoneNumber());
             addressUserResponse.setAvatar(address.getUser().getAvatar());
+            addressUserResponse.setEmail(address.getUser().getEmail());
 
             //add user Response ở trên vào
             addressResponse.setUser(addressUserResponse);
@@ -111,9 +107,7 @@ public class AddressSerivce implements IAddressService {
             addressResponse.setDefault(address.isDefault());
             addressResponse.setTitle(address.getTitle());
             addressResponse.setAddress(address.getAddress());
-            addressResponse.setCity(address.getCity());
-            addressResponse.setDistrict(address.getDistrict());
-            addressResponse.setWard(address.getWard());
+
 
             addressResponsesList.add(addressResponse);
         }

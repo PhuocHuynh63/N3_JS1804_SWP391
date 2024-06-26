@@ -7,8 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -56,12 +55,12 @@ public class User {
     @Column(name = "deleted_at")
      Date deleteAt;
 
-    @OneToMany(mappedBy = "user")
-     Set<Address> listAddress;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<Address> listAddress = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-     Set<Review> reviewsUser;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<Review> reviewsUser = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-     Set<Order> orders;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<Order> orders = new ArrayList<>();
 }

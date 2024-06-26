@@ -18,6 +18,7 @@ public class ProductRequest {
     private float salePrice;
     private String status;
     private int totalSold;
+    private int quantity;
     private int productView;
 
 }

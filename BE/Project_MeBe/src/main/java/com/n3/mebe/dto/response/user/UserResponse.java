@@ -1,8 +1,11 @@
 package com.n3.mebe.dto.response.user;
 
+
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+
 
 
 @Data
@@ -22,5 +25,7 @@ public class UserResponse {
     private Date createAt;
     private Date updateAt;
     private Date deleteAt;
+    private List<UserAddressResponse> listAddress;
+    private List<UserOrderResponse> order;
 
 }

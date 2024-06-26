@@ -32,6 +32,10 @@ public class CustomFilterSecurity {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        String[] list = {"/login/**", "/user/**", "/category/**", "/sub_category/**", "/product/**",
+                "/forgot_password/**", "/order/**", "/order_details/**" ,"/address/**", "/api/payment/**"};
+
         //http: là nơi định nghĩa cái rule, tức là link nào được phép hoặc không được phép
         //csrf: là lợi dụng người dùng đăng nhập vào trang web hợp lệ để gửi những yêu cầu trái phép
         http.cors().disable()
@@ -39,7 +43,7 @@ public class CustomFilterSecurity {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Khai báo ứng dụng không được dùng session
                 .and()
                 .authorizeHttpRequests() //authorizeHttpRequests: Can thiệp người dùng truy cập
-                .requestMatchers("/login/**", "/user/**", "/category/**", "/sub_category/**", "/product/**") //requestMatchers: Chỉ định đường dẫn người dùng không được truy cập
+                .requestMatchers(list) //requestMatchers: Chỉ định đường dẫn người dùng không được truy cập
                                                 //**: là tất cả
                 .permitAll()        //permitAll: Không cần chứng thực
                                     //authenticated: Bắt chứng thực
