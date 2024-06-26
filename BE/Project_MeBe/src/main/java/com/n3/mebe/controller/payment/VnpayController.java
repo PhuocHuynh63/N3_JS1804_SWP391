@@ -28,7 +28,7 @@ public class VnpayController {
     private VNPayService paymentService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPayment(@RequestBody PaymentRequest request) throws UnsupportedEncodingException {
+    ResponseEntity<?> createPayment(@RequestBody PaymentRequest request) throws UnsupportedEncodingException {
 
         PaymentResponse response = paymentService.createPaymentUrl(request);
 
@@ -36,7 +36,7 @@ public class VnpayController {
     }
 
     @GetMapping("/payment_info")
-    public ResponseEntity<?> transaction(
+    ResponseEntity<?> transaction(
             @RequestParam Map<String, String> params) {
 
         TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();

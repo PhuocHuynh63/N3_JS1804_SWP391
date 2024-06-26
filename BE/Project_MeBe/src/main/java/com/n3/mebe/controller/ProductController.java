@@ -6,6 +6,7 @@ import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.product.ProductResponse;
 import com.n3.mebe.entity.Product;
 import com.n3.mebe.service.IFileService;
+import com.n3.mebe.service.IProductService;
 import com.n3.mebe.service.iml.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -23,7 +24,7 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     @Autowired
     private IFileService fileService;
@@ -120,20 +121,36 @@ public class ProductController {
 
     @GetMapping("/list/price_desc")
     List<ProductResponse> sortProductByPriceDesc() {
-        return productService.getListProductCreatedAtDesc();
+        return productService.getListProductByPriceDesc();
     }
 
     @GetMapping("/list/price_asc")
     List<ProductResponse> sortProductByPriceAsc() {
-        return productService.getListProductCreatedAtAsc();
+        return productService.getListProductByPriceAcs();
     }
 
+
+    //chua can
     @GetMapping("/list/sort_min_max")
     List<ProductResponse> sortProductByPriceAsc(@RequestParam float min, @RequestParam float max) {
         return productService.sortProductByPriceMinToMax(min, max);
     }
 
 
+    @GetMapping("/list/acs_name")
+    List<ProductResponse> sortProductAToZ() {
+        return productService.sortProductByAToZ();
+    }
+
+    @GetMapping("/list/desc_name")
+    List<ProductResponse> sortProductZToA() {
+        return productService.sortProductByZToA();
+    }
+
+    @GetMapping("/list/best_seller")
+    List<ProductResponse> getProductBestSeller() {
+        return productService.getProductBestSeller();
+    }
 
 
 

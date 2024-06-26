@@ -13,6 +13,10 @@ public interface IReviewService {
 
     ReviewResponse getReviewResponse(int id);
 
+    List<ReviewResponse> getReviewResponseByUserId(int userId);
+
+    List<ReviewResponse> getReviewResponseByProductId(int prId);
+
     Review addReview(ReviewRequest review);
 
     Review updateReview(int id, ReviewRequest review);

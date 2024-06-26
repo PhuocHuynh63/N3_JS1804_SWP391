@@ -40,4 +40,10 @@ public interface IProductService {
     List<ProductResponse> getListProductByPriceAcs();
 
     List<ProductResponse> sortProductByPriceMinToMax(float min, float max);
+
+    List<ProductResponse> sortProductByAToZ();
+
+    List<ProductResponse> sortProductByZToA();
+
+    List<ProductResponse> getProductBestSeller();
 }

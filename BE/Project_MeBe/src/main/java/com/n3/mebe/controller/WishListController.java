@@ -20,17 +20,17 @@ public class WishListController {
 
 
     @GetMapping("/list")
-    public List<WishListResponse> getWishList() {
+    List<WishListResponse> getWishList() {
         return wishListService.getWishListResponses();
     }
 
     @GetMapping("/wlId={id}")
-    public List<WishListResponse> getWishList(@PathVariable("id") int id) {
+    List<WishListResponse> getWishList(@PathVariable("id") int id) {
         return wishListService.getWishListResponse(id);
     }
 
     @PostMapping("/create")
-    public String createWishList(@RequestBody WishListRequest wishListRequest) {
+    String createWishList(@RequestBody WishListRequest wishListRequest) {
         String msg;
         if (wishListService.addWishList(wishListRequest)){
             msg = "Create WishList successfully ";
