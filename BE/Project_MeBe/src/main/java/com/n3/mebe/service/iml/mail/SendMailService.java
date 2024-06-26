@@ -9,12 +9,14 @@ import com.n3.mebe.util.ConstEmail;
 import com.n3.mebe.util.DataUtils;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class SendMailService implements ISendMailService {
@@ -26,6 +28,8 @@ public class SendMailService implements ISendMailService {
 
     @Autowired
     IUserRepository IUserRepository;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public Boolean createSendEmail(String email) {
@@ -49,6 +53,10 @@ public class SendMailService implements ISendMailService {
             props.put("username", user.getUsername());
             props.put("password", password);
             response.setProps(props);
+
+            // Lưu thông tin thanh toán vào Redis
+            String passwordKey = "password:" + password;
+            stringRedisTemplate.opsForValue().set(passwordKey, "password", 15, TimeUnit.MINUTES);
 
             mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.CLIENT_REGISTER);
             return true;

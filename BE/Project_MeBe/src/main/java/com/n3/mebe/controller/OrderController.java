@@ -45,7 +45,7 @@ public class OrderController {
      */
 
     //Create order
-    @PostMapping("/create_vnpay/")
+    @PostMapping("/create_vnpay")
     public ResponseEntity<TransactionStatusDTO> createOrderByVNPay(@RequestBody OrderRequest orderRequest ,
                                                             @RequestParam Map<String, String> vnp_Params) {
 
@@ -96,7 +96,7 @@ public class OrderController {
 
 
     //Create order
-    @PostMapping("/create_cod/")
+    @PostMapping("/create_cod")
     public ResponseEntity<TransactionStatusDTO> createOrderByCOD(@RequestBody OrderRequest orderRequest) {
 
         productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
