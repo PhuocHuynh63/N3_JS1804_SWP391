@@ -53,4 +53,8 @@ export const meBeSrc = {
     createOrder: (data) => {
         return https.post(`/order/create`, data);
     },
+
+    getProductLastest : () => {
+        return https.get(`/product/list/create_at_desc`)
+    }
 }

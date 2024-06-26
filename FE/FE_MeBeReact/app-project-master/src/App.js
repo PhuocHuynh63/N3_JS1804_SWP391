@@ -11,6 +11,9 @@ import AddressPage from './pages/addressPage/AddressPage';
 import LayoutProfile from './layout/LayoutProfile';
 import TrackingPage from './pages/trackingPage/TrackingPage';
 import OrderPage from './pages/orderPage/OrderPage';
+import NotFoundPage from './pages/notFoundPage/notFoundPage';
+import ForgotPasswordPage from './pages/forgotPassword/forgotPassword';
+import RegisterPage from './pages/registerPage/registerPage';
 // import AdminDashboardPage from './pages/adminPage/AdminDashboardPage';
 
 function App() {
@@ -18,7 +21,10 @@ function App() {
     <div className="min-h-screen">
       <BrowserRouter>
         <Routes>
+        <Route path="*" element={<Layout Component={NotFoundPage} />} />
           <Route path="/" element={<Layout Component={HomePage} />} />
+          <Route path="/signup" element={<Layout Component={RegisterPage} />} />
+          <Route path="/reset-password" element={<Layout Component={ForgotPasswordPage} />} />
           <Route path="/product/:productId" element={<Layout Component={DetailPage} />} />
           <Route path="/category/:slug" element={<Layout Component={Category} />} />
           <Route path="/subcategory/:subCategoryId" element={<Layout Component={SubCategory} />} />

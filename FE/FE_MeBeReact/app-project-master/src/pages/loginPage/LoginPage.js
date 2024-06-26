@@ -61,6 +61,16 @@ const LoginPage = ({ show, handleClose }) => {
     });
   };
 
+  const handleRegister = () => {
+      handleClose();
+      navigate('/signup'); 
+  };
+
+  const handleForgot = () => {
+      handleClose();
+      navigate('/reset-password'); 
+  };
+
   return (
     <Modal show={show} onHide={handleClose} size="xl" centered>
       <div className="login-modal-content">
@@ -207,14 +217,16 @@ const LoginPage = ({ show, handleClose }) => {
                             <div className="col-12">
                               <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
                                 <a
-                                  href="#!"
+                                  href=""
                                   className="link-secondary text-decoration-none"
+                                  onClick={handleRegister}
                                 >
                                   Tạo tài khoản
                                 </a>
                                 <a
-                                  href="#!"
+                                  href=""
                                   className="link-secondary text-decoration-none"
+                                  onClick={handleForgot}
                                 >
                                   Quên mật khẩu
                                 </a>
