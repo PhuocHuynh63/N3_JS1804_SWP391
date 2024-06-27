@@ -18,6 +18,7 @@ import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.iml.ProductService;
 import com.n3.mebe.service.iml.UserService;
+import com.n3.mebe.service.iml.mail.SendMailService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -49,6 +50,9 @@ public class OrderService implements IOrderService {
     private ProductService productService;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private SendMailService sendMailService;
 
 
     @Override
@@ -161,7 +165,10 @@ public class OrderService implements IOrderService {
         order.setUpdatedAt(now);
         orderRepository.save(order);
         saveOrderDetails(orderRequest.getItem(), order);
+//        sendMailService.createSendEmail(user.getEmail());
+
         check = true;
+
 
         return check;
     }// </editor-fold>

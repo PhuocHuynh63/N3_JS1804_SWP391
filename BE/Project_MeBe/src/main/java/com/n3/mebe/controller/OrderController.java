@@ -9,6 +9,7 @@ import com.n3.mebe.entity.Order;
 import com.n3.mebe.service.IOrderDetailsService;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.iml.ProductService;
+import com.n3.mebe.service.iml.mail.SendMailService;
 import com.n3.mebe.service.iml.paymentOrder.VNPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -37,6 +38,9 @@ public class OrderController {
     private ProductService productService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private SendMailService sendMailService;
 
 
     /**
@@ -82,6 +86,7 @@ public class OrderController {
             transactionStatusDTO.setMessage("Payment successfully processed");
             // lưu order vào cơ sở dữ liệu
             boolean success = orderService.createOrder(orderRequest);
+
             // Sau khi lưu order, xóa thông tin thanh toán khỏi Redis
             stringRedisTemplate.delete(paymentKey);
         } else {
