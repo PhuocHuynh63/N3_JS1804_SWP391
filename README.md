@@ -26,116 +26,61 @@
 &nbsp;&nbsp;&nbsp;&nbsp;• Guest: Unregistered visitors who can browse products and make purchases.
 
 &nbsp;&nbsp;&nbsp;&nbsp;**1.6 Member in project**
-   |        Name         |       Role      |   Student ID   |      Sprint 1      |      Sprint 2      |      Sprint 3      |
-   |---------------------|-----------------|----------------|--------------------|--------------------|--------------------|
-   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |      T1 - T6.1     |                    |                    |
-   |Huỳnh Minh Phước     |      Member     |    SE171830    |      T6.2 - T10    |                    |                    |
-   |Hứa Đình Thuận       |      Member     |    SE171787    |     T11 - T14.2    |                    |                    |
-   |Nguyễn Chí Thành     |      Member     |    SE171820    |      T15 - T20     |                    |                    |
-   |Nguyễn Trường Phi Vũ |      Member     |    SE17xxxx    |     T21 - T25.2    |                    |                    |
-   |Lâm Xuân Thái        |      Member     |    SE17xxxx    |     T26 - T37.3    |                    |                    |
+   |        Name         |       Role      |   Student ID   |      Sprint 1       |      Sprint 2      |      Sprint 3      |      Sprint 4      |
+   |---------------------|-----------------|----------------|---------------------|--------------------|--------------------|--------------------|
+   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |AM-01:Create Address |                    |                    |                    |
+   |Huỳnh Minh Phước     |      Member     |    SE171830    |CM-04: Add to Carrt  |                    |                    |                    |
+   |Hứa Đình Thuận       |      Member     |    SE171787    |UAM-01: Login        |                    |                    |                    |
+   |Nguyễn Chí Thành     |      Member     |    SE171820    |UAM-03: Register     |                    |                    |                    |
+   |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |PM-01: Create Product|                    |                    |                    |
+   |Lâm Xuân Thái        |      Member     |    SE17xxxx    |CM-05: Update Cart   |                    |                    |                    |
    
-## **2. User Object**
+## **2. Use case**
 
-The project have 4 role: Admin, Staff, Member, Guest
-| Functionality              | Admin         | Staff         | Member        | Guest         |
-|----------------------------|---------------|---------------|---------------|---------------|
-| Add Product                | X             | X             |               |               |
-| Edit Product               | X             | X             |               |               |
-| Delete Product             | X             | X             |               |               |
-| Add Account                | X             | X             |               |               |
-| Edit Account               | X             | X             |               |               |
-| Delete Account             | X             | X             |               |               |
-| Change Password            | X             | X             | X             |               |
-| Login & Logout             | X             | X             | X             |               |
-| Edit Order Status          | X             | X             |               |               |
-| Add Voucher                | X             |               |               |               |
-| Edit Voucher               | X             |               |               |               |
-| View Product               | X             | X             | X             | X             |
-| Add to Cart                | X             | X             | X             | X             |
-| Edit Cart                  | X             | X             | X             | X             |
-| Remove from Cart           | X             | X             | X             | X             |
-| View Cart                  | X             | X             | X             | X             |
-| Place Order                | X             | X             | X             | X             |
-| View Order History         | X             | X             | X             |               |
-| Apply Voucher at Checkout  | X             | X             | X             | X             |
-| Make Payment               | X             | X             | X             | X             |
-| View Payment Status        | X             | X             | X             | X             |
-| Manage Customer Support    | X             | X             |               |               |
-| Respond to Reviews         | X             | X             |               |               |
-| Generate Reports           | X             | X             |               |               |
-| Update Inventory           | X             | X             |               |               |
-| View Sales Reports         | X             |               |               |               |
+**UAM-01: Log-in**<br>
+**UAM-02: Log-out**<br>
+**UAM-03: Register**<br>
+**UAM-04: Forgot Password**<br>
+**UAM-05: Change Password**<br>
+**UAM-06: Update Account**<br>
+**UAM-07: Delete Account**<br>
+**UAM-08: View Accounts**<br>
+**UAM-09: Edit Profile**<br>
 
-## **3. Use case**
+**PM-01: Create Product**<br>
+**PM-02: Update Product**<br>
+**PM-03: View Products**<br>
 
-&nbsp;&nbsp;&nbsp;&nbsp;3.1 Sprint 1: 
+**CM-01:	Search Product**<br>
+**CM-02:	Sort Product**<br>
+**CM-03:	Filter Product**<br>
+**CM-04:	Add to Cart**<br>
+**CM-05:	Update Cart**<br>
+**CM-06:	Remove Cart**<br>
+**CM-07:	View Cart**<br>
 
-**UC-01: Register**<br>
-T1 – First name – First name is required<br>
-T2 – Last name – Last name is required<br>
-T3 - Username – Username is required<br>
-T4.1 - Email – Email is required<br>
-T4.2 – Email – Email must be valid format<br>
-T5 – Password - Password is required<br>
-T6.1 – Confirm password is required<br>
-T6.2 - Confirm password - Confirmation password must match the password<br>
-T7 – Birthdate - Birthdate is required<br>
-T8.1 – Phone – Phone is required<br>
-T8.2 – Phone – Phone cannot have character<br>
-**UC-02: Edit Account**<br>
-T9 – First name - First name is required<br>
-T10 - Last name - Last name is required<br>
-T11 – Username – Username is required<br>
-T12 – Password - Password is required<br>
-T13.1 – Email - Email is required<br>
-T13.2 - Email – Email must be valid format<br>
-T14.1 - Phone – Phone is required<br>
-T14.2 – Phone – Phone cannot have character<br>
-**UC-03: Delete Account**<br>
-T15- Confirm Delete – Confirm action delete account<br>
-**UC-04: View Account**<br>
-T16 – View Account – Admin can view list account<br> 
-**UC-05: Log-in**<br>
-T17 – Email – Login with valid email<br>
-T18 – Email – Email is required<br>
-T19.1 – Password – Login with correct password<br>
-T19.2 – Password – Password is required<br>
-**UC-06: Log-out**<br>
-T20 – Logout – Logout successfully<br>
-**UC-07: New Product**<br>
-T21 – Product Name – Product Name is required<br>
-T22 – Image – Image format must valid<br>
-T23.1 – Price – Product price is required<br>
-T23.2 – Price – Product price cannot have character<br>
-T24.1 – Sale Price - Sale Price is required<br>
-T24.2 - Sale Price - Sale Price cannot have character<br>
-T25.1 – Status – Status is required<br>
-T25.2 - Status – Status cannot have number<br>
-**UC-08: Edit Product**<br> 
-T26 – Product Name – Product Name is required<br>
-T27 – Image – Image format must valid<br>
-T28.1 – Price – Product price is required<br>
-T28.2 – Price – Product price cannot have character<br>
-T29.1 - Sale Price - Sale Price is required<br>
-T29.1 - Sale Price - Sale Price cannot have character<br>
-T30.1 - Status – Status is required<br>
-T30.2 - Status – Status cannot have number<br>
-**UC-09: Delete Product**<br> 
-T31 – Confirm Delete – Confirm action delete<br> 
-**UC-10: Checkout**<br>
-T32 – Customer Name – Customer Name is required<br>
-T33.1 – Email – Customer Email is required<br>
-T33.2 - Email - Customer Email must valid format<br> 
-T34 – Address - Address is required<br>
-T35.1 – Phone – Phone is required<br>
-T36.2 – Phone - Phone must not have character<br>
-T37.3 – Phone – Phone cannot have space<br>
+**OM-01: Checkout**<br>
+**OM-02: Payment**<br>
+**OM-03: Track Orders**<br>
+**OM-04: View Orders**<br>
+**OM-05: Update Order**<br>
+**OM-06: Delete Order**<br>
+**OM-07: Return / Refund**<br>
 
+**VM-01	Apply Voucher**<br>
+**VM-02	Create Voucher**<br>
+**VM-03	Update Voucher**<br>
 
+**PRM-01	Create Review**<br>
+**PRM-02	Update Review**<br>
+**PRM-03	Delete Review**<br>
+**PRM-04	View Reviews**<br>
 
+**AM-01	Create Address**<br>
+**AM-02	Update Address**<br>
+**AM-03	Delete Address**<br>
 
-
+**FR-01	Financial Reports**<br>
 
   
 
