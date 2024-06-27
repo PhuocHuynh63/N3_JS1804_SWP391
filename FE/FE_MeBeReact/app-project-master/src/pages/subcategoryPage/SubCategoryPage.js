@@ -5,16 +5,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown, Space } from 'antd';
 import { meBeSrc } from '../../service/meBeSrc';
 import { Modal } from 'antd';
+import OutOfStock from '../../components/outOfStock/OutOfStock';
 
 export default function SubCategory() {
     const [selectedPrices, setSelectedPrices] = useState([]);
     const [products, setProducts] = useState([]);
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const { subCategoryId } = useParams();
 
     const handleClickCart = (e, product) => {
         e.preventDefault();
+        // Check if the product is out of stock
+        if (product.status === 'Hết hàng' || product.quantity === 0) {
+            setShowModal(true);
+            setTimeout(() => {
+                setShowModal(false);
+            }, 3000);
+            return;
+        }
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -194,6 +204,7 @@ export default function SubCategory() {
                                 <div className="product-item">
                                     <img src={product.images} alt={product.name} />
                                     <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
+                                    <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
                                     <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
                                     <p>{product.name}</p>
                                     <span className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.salePrice > 0 ? product.salePrice.toLocaleString('vi-VN') : product.price.toLocaleString('vi-VN')}₫</span>

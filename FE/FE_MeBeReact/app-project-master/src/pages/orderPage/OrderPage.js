@@ -20,10 +20,8 @@ export default function OrderPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to check if user is logged in
     const [userId, setUserId] = useState(null); // State to store userId
     const [cartItems, setCartItems] = useState([]);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('COD');
 
-    /**
-     * Check if cart is emty, if so, redirect to cart page
-     */
     useEffect(() => {
         const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
         setCartItems(storedCartItems);
@@ -76,8 +74,8 @@ export default function OrderPage() {
                 voucherId: null,
                 status: "Pending",
                 totalAmount: parseFloat(getTotalPrice().replace(/\./g, '')),
-                orderType: "online",
-                paymentStatus: "pending",
+                orderType: selectedPaymentMethod,
+                paymentStatus: selectedPaymentMethod === 'COD' ? "pending" : "unpaid",
                 note: formData.note,
                 item: cartItems.map(item => ({
                     productId: item.productId,
@@ -87,18 +85,36 @@ export default function OrderPage() {
                 }))
             };
 
-            meBeSrc.createOrder(orderData)
-                .then(response => {
-                    console.log('Order created successfully:', response.data);
-                    // Clear cartItems from state and localStorage
-                    setCartItems([]);
-                    localStorage.removeItem('cartItems');
-                    navigate('/order-success');
-                })
-                .catch(error => {
-                    console.error('Error creating order:', error);
-                    console.error('Error response data:', error.response.data);
-                });
+            if (selectedPaymentMethod === 'COD') {
+                // Place order directly
+                meBeSrc.createOrder(orderData)
+                    .then(response => {
+                        console.log('Order created successfully:', response.data);
+                        // Clear cartItems from state and localStorage
+                        setCartItems([]);
+                        localStorage.removeItem('cartItems');
+                        navigate('/order-success');
+                    })
+                    .catch(error => {
+                        console.error('Error creating order:', error);
+                        console.error('Error response data:', error.response.data);
+                    });
+            } else if (selectedPaymentMethod === 'VNPay') {
+                // Redirect to VNPay sandbox
+                meBeSrc.createOrderVnPay(orderData)
+                    .then(response => {
+                        console.log('Order created successfully:', response.data);
+                        // Clear cartItems from state and localStorage
+                        setCartItems([]);
+                        localStorage.removeItem('cartItems');
+                        // Redirect to VNPay sandbox for payment
+                        window.location.href = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+                    })
+                    .catch(error => {
+                        console.error('Error creating order:', error);
+                        console.error('Error response data:', error.response.data);
+                    });
+            }
         }
     };
 
@@ -148,7 +164,7 @@ export default function OrderPage() {
                 <form onSubmit={handleSubmit}>
                     <div className="order-left_top">
                         <h3>Me&Be</h3>
-                        <p>Giỏ hàng {'>'} Thông tin giao hàng {'>'} Phương thức thanh toán</p>
+                        <p><NavLink to="/cart">Giỏ hàng</NavLink> {'>'} <NavLink>Thông tin giao hàng</NavLink> {'>'} Phương thức thanh toán</p>
                     </div>
                     <div className='order-left_body'>
                         <h4>Thông tin giao hàng</h4>
@@ -229,9 +245,25 @@ export default function OrderPage() {
                         </div>
                     </div>
 
+                    <h4 className='payment'>Phương thức thanh toán</h4>
+                    <div className={`payment-method ${selectedPaymentMethod === 'COD' ? 'selected' : ''}`} onClick={() => setSelectedPaymentMethod('COD')}>
+                        <input type="radio" name="paymentMethod" id="cod" checked={selectedPaymentMethod === 'COD'} readOnly />
+                        <label htmlFor="cod">
+                            <img src="https://hstatic.net/0/0/global/design/seller/image/payment/cod.svg?v=6" alt="COD" />
+                            Thanh toán khi giao hàng (COD)
+                        </label>
+                    </div>
+                    <div className={`payment-method ${selectedPaymentMethod === 'VNPay' ? 'selected' : ''}`} onClick={() => setSelectedPaymentMethod('VNPay')}>
+                        <input type="radio" name="paymentMethod" id="vnpay" checked={selectedPaymentMethod === 'VNPay'} readOnly />
+                        <label htmlFor="vnpay">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp1v7T287-ikP1m7dEUbs2n1SbbLEqkMd1ZA&s" alt="VNPay" />
+                            Thanh toán qua VNPay
+                        </label>
+                    </div>
+
                     <div className='order-navigate'>
                         <NavLink to="/cart">Giỏ hàng</NavLink>
-                        <button type='submit'>Hoàn tất đơn hàng</button>
+                        <button type='submit'>Hoàn tất thanh toán</button>
                     </div>
                 </form>
             </div>

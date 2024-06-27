@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginPage.css";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { localService } from "../../service/localService";
 import { setLoginAction } from "../../redux/action/UserAction";
 import { Input, Form, notification } from "antd";
@@ -62,13 +62,13 @@ const LoginPage = ({ show, handleClose }) => {
   };
 
   const handleRegister = () => {
-      handleClose();
-      navigate('/signup'); 
+    handleClose();
+    navigate('/signup');
   };
 
   const handleForgot = () => {
-      handleClose();
-      navigate('/reset-password'); 
+    handleClose();
+    navigate('/reset-password');
   };
 
   return (

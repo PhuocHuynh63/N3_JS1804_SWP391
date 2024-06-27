@@ -5,11 +5,14 @@ import { Modal } from 'antd';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProductDetail.css";
 import ImageMagnifier from '../../components/imageMagnifier/imageMagnifier';
+import OutOfStock from '../../components/outOfStock/OutOfStock';
+
 export default function DetailPage() {
     const [product, setProduct] = useState({});
     const [quantity, setQuantity] = useState(1);
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const { productId } = useParams();
 
@@ -32,6 +35,15 @@ export default function DetailPage() {
     };
 
     const handleAddToCart = () => {
+        // Check if the product is out of stock
+        if (product.status === 'Hết hàng' || product.quantity === 0) {
+            setShowModal(true);
+            setTimeout(() => {
+                setShowModal(false);
+            }, 3000);
+            return;
+        }
+
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -85,7 +97,7 @@ export default function DetailPage() {
                         <div id="productCarousel" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner">
                                 <div className="carousel-item active">
-                                    <ImageMagnifier  src={product.images} className="d-block w-100" alt={product.name}></ImageMagnifier>
+                                    <ImageMagnifier src={product.images} className="d-block w-100" alt={product.name}></ImageMagnifier>
                                     {/* <img src={product.images} className="d-block w-100" alt={product.name} /> */}
                                 </div>
                                 <div className="carousel-item">
@@ -131,6 +143,7 @@ export default function DetailPage() {
                                 className="form-control d-inline-block w-auto ml-2"
                             />
                         </div>
+                        <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
                         <button className="btn btn-primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                     </div>
                 </div>

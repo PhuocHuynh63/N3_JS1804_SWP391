@@ -3,6 +3,7 @@ import './Category.css';
 import { meBeSrc } from '../../service/meBeSrc';
 import { useParams } from 'react-router-dom';
 import { Modal } from 'antd';
+import OutOfStock from '../../components/outOfStock/OutOfStock';
 
 export default function Category() {
     const [category, setCategory] = useState({});
@@ -43,9 +44,17 @@ export default function Category() {
 
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const handleClickCart = (e, product) => {
         e.preventDefault();
+        if (product.status === 'Hết hàng' || product.quantity === 0) {
+            setShowModal(true);
+            setTimeout(() => {
+                setShowModal(false);
+            }, 3000);
+            return;
+        }
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -113,6 +122,7 @@ export default function Category() {
                                         <a href={`/product/${product.productId}`}>
                                             <img src={`${product.images}`} alt={product.name} />
                                             <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
+                                            <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
                                             <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
                                             <p>{product.name}</p>
                                             <div className="product-price-container">

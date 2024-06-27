@@ -34,10 +34,6 @@ export const meBeSrc = {
         return https.get(`/sub_category/list_all`);
     },
 
-    getProductLastest: () => {
-        return https.get(`/product/list/creat_at_desc`);
-    },
-
     getUserById: (user_id) => {
         return https.get(`/user/${user_id}`);
     },
@@ -50,11 +46,25 @@ export const meBeSrc = {
         return https.put(`/user/update/${user_id}`, data);
     },
 
-    createOrder: (data) => {
-        return https.post(`/order/create`, data);
+    getTrackingOrder: (userId) => {
+        return https.get(`/user/tracking/${userId}`);
     },
 
-    getProductLastest : () => {
+    createOrder: (data) => {
+        return https.post(`/order/create_cod`, data);
+    },
+
+    createOrderVnPay: (data) => {
+        return https.post(`/order/create_vnpay`, data);
+    },
+
+    createVNPay: (data) => {
+        return https.post(`api/payment/create`, data);
+    },
+
+    getProductLastest: () => {
         return https.get(`/product/list/create_at_desc`)
-    }
+    },
+
+
 }

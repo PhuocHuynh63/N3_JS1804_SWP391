@@ -21,7 +21,7 @@ function App() {
     <div className="min-h-screen">
       <BrowserRouter>
         <Routes>
-        <Route path="*" element={<Layout Component={NotFoundPage} />} />
+          <Route path="*" element={<Layout Component={NotFoundPage} />} />
           <Route path="/" element={<Layout Component={HomePage} />} />
           <Route path="/signup" element={<Layout Component={RegisterPage} />} />
           <Route path="/reset-password" element={<Layout Component={ForgotPasswordPage} />} />
