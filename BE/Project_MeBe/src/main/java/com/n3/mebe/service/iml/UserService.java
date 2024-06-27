@@ -132,6 +132,7 @@ public class UserService implements IUserService {
             response.setOrderId(order.getOrderId());
             response.setStatus(order.getStatus());
             response.setCreatedAt(order.getCreatedAt());
+            response.setItems(getOrderDetailsForTrackingList(order.getOrderId()));
             orderResponseList.add(response);
         }
 
@@ -370,7 +371,7 @@ public class UserService implements IUserService {
         UserForTrackingResponse userResponse = new UserForTrackingResponse();
         userResponse.setUserId(id);
         userResponse.setOrder(getOrdersForTrackingList(id));
-        return null;
+        return userResponse;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get User By Username Response">
