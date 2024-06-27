@@ -111,7 +111,7 @@ public class UserController {
     }
 
     @GetMapping("/tracking/{userId}")
-    public UserForTrackingResponse getUserByEmail(@PathVariable("userId") int userId) {
+    public UserForTrackingResponse getUserForTrackingResponse(@PathVariable("userId") int userId) {
         return userService.getUserTrackingByIdResponse(userId);
     }
 
