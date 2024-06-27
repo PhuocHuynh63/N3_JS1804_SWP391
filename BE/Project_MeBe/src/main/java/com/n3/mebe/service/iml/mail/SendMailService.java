@@ -31,8 +31,10 @@ public class SendMailService implements ISendMailService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+
+    // <editor-fold default state="collapsed" desc="create Send Email Forgot">
     @Override
-    public Boolean createSendEmail(String email) {
+    public Boolean createSendEmailForgot(String email) {
         try {
             GmailSendResponse response = new GmailSendResponse();
 
@@ -45,6 +47,7 @@ public class SendMailService implements ISendMailService {
             String encodedPassword = encoder.encode(password);
             user.setPassword(encodedPassword);
             IUserRepository.save(user);
+
 
 
             Map<String, Object> props = new HashMap<>();
@@ -64,5 +67,5 @@ public class SendMailService implements ISendMailService {
             exp.printStackTrace();
         }
         return false;
-    }
+    }// </editor-fold>
 }

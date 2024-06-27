@@ -5,20 +5,15 @@ import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
-import com.n3.mebe.dto.response.user.UserOrderResponse;
-import com.n3.mebe.dto.response.user.UserResponse;
-import com.n3.mebe.dto.response.user.UserAddressResponse;
-import com.n3.mebe.dto.response.user.UserReviewResponse;
-import com.n3.mebe.entity.Address;
-import com.n3.mebe.entity.Order;
-import com.n3.mebe.entity.Review;
-import com.n3.mebe.entity.User;
+import com.n3.mebe.dto.response.user.*;
+import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
+import com.n3.mebe.dto.response.user.tracking.UserOrderDetailsResponse;
+import com.n3.mebe.dto.response.user.tracking.UserOrderForTrackingResponse;
+import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
-import com.n3.mebe.repository.IAddressRepository;
-import com.n3.mebe.repository.IOrderRepository;
-import com.n3.mebe.repository.IReviewRepository;
-import com.n3.mebe.repository.IUserRepository;
+import com.n3.mebe.repository.*;
+import com.n3.mebe.service.IProductService;
 import com.n3.mebe.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,6 +38,12 @@ public class UserService implements IUserService {
 
     @Autowired
     private IOrderRepository iOrderRepository;
+
+    @Autowired
+    private IOrderDetailsRepository iOrderDetailsRepository;
+
+    @Autowired
+    private IProductService productService;
 
 
 
@@ -120,6 +121,56 @@ public class UserService implements IUserService {
 
         return orderResponseList;
     }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get List Orders For Tracking By UserID">
+    private List<UserOrderForTrackingResponse> getOrdersForTrackingList(int userId) {
+        List<Order> list = iOrderRepository.findByUserUserId(userId);
+        List<UserOrderForTrackingResponse> orderResponseList = new ArrayList<>();
+
+        for (Order order : list) {
+            UserOrderForTrackingResponse response = new UserOrderForTrackingResponse();
+            response.setOrderId(order.getOrderId());
+            response.setStatus(order.getStatus());
+            response.setCreatedAt(order.getCreatedAt());
+            orderResponseList.add(response);
+        }
+
+        return orderResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get List OrderDetails For Tracking By OrderId">
+    private List<UserOrderDetailsResponse> getOrderDetailsForTrackingList(int orderId) {
+        List<OrderDetail> list = iOrderDetailsRepository.findByOrderOrderId(orderId);
+        List<UserOrderDetailsResponse> orderResponseList = new ArrayList<>();
+
+        for (OrderDetail orderDetail : list) {
+            UserOrderDetailsResponse response = new UserOrderDetailsResponse();
+
+            response.setOdId(orderDetail.getOdId());
+            response.setProduct(getUserProductResponseForTrackingList(orderDetail.getProduct()));
+            response.setQuantity(orderDetail.getQuantity());
+            response.setPrice(orderDetail.getPrice());
+            response.setSalePrice(orderDetail.getSalePrice());
+            orderResponseList.add(response);
+        }
+
+        return orderResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Product Response For Tracking By OrderId">
+    private UserProductResponse getUserProductResponseForTrackingList(Product product) {
+
+        UserProductResponse response = new UserProductResponse();
+
+        response.setProductId(product.getProductId());
+        response.setSlug(product.getSlug());
+        response.setName(product.getName());
+        response.setImages(product.getImages());
+        return response;
+    }// </editor-fold>
+
+
+
 
 
     /**
@@ -310,6 +361,16 @@ public class UserService implements IUserService {
         userResponse.setDeleteAt(user.getDeleteAt());
 
         return userResponse;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get User For Tracking By Id Response">
+    @Override
+    public UserForTrackingResponse getUserTrackingByIdResponse(int id) {
+
+        UserForTrackingResponse userResponse = new UserForTrackingResponse();
+        userResponse.setUserId(id);
+        userResponse.setOrder(getOrdersForTrackingList(id));
+        return null;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get User By Username Response">
