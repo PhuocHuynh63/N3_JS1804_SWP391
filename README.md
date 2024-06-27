@@ -28,11 +28,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;**1.6 Member in project**
    |        Name         |       Role      |   Student ID   |      Sprint 1       |               Sprint 2             |      Sprint 3      |      Sprint 4      |
    |---------------------|-----------------|----------------|---------------------|------------------------------------|--------------------|--------------------|
-   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |AM-01:Create Address |UAM-06: Update Account |OM-03: Tracks Order, OM-05: Update Order |AM-02: Update Address, AM-03: Delete Address |                                    
+   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |AM-01:Create Address |UAM-06: Update Account |OM-03: Tracks Order<br> OM-05: Update Order |AM-02: Update Address<br> AM-03: Delete Address |                                    
    |Huỳnh Minh Phước     |      Member     |    SE171830    |CM-04: Add to Cart   |                                    |CM-07: View Cart |UAM-09: Edit Profile |
    |Hứa Đình Thuận       |      Member     |    SE171787    |UAM-01: Login        |                                    |                    |                    |
    |Nguyễn Chí Thành     |      Member     |    SE171820    |UAM-03: Register     |                                    |                    |                    |
-   |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |PM-01: Create Product |UAM-05: Logout, UAM-02: ChangePassword|OM-04: Views Order |                    |
+   |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |PM-01: Create Product |UAM-05: Logout<br> UAM-02: Change Password<br> |OM-04: Views Order |                    |
    |Lâm Xuân Thái        |      Member     |    SE17xxxx    |CM-05: Update Cart   |                                    |                    |                    |
    
 ## **2. Use case**
