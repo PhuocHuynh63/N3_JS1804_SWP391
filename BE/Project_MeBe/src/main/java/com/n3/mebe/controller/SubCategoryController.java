@@ -23,17 +23,17 @@ public class SubCategoryController {
      *
      */
     @GetMapping("/list_all")
-    public List<SubCategoryResponse> listAll() {
+    List<SubCategoryResponse> listAll() {
         return subCategoryService.getSubCategoriesResponse();
     }
 
     @GetMapping("/list/{cate}")
-    public List<SubCategoryResponse> listByNameCategory(@PathVariable("cate") String cate) {
+    List<SubCategoryResponse> listByNameCategory(@PathVariable("cate") String cate) {
         return subCategoryService.getSubCategoriesResponse(cate);
     }
 
     @GetMapping("/{slug}")
-    public List<SubCategoryResponse> getSubCategoryBySlug(@PathVariable("slug") String slug) {
+    List<SubCategoryResponse> getSubCategoryBySlug(@PathVariable("slug") String slug) {
         return subCategoryService.getSubCategoriesBySlug(slug);
     }
 

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfileUser.css';
 import { meBeSrc } from "../../service/meBeSrc";
 import { jwtDecode } from "jwt-decode";
+import Successful from "../../components/successful/Successful";
 
 export default function ProfileUser() {
     const [user, setUser] = useState({
@@ -12,6 +13,8 @@ export default function ProfileUser() {
         phoneNumber: "",
         birthOfDate: "",
     });
+
+    const [showModal, setShowModal] = useState(false);
 
     /**
      * Format the date to yyyy-MM-dd for input type="date"
@@ -86,6 +89,8 @@ export default function ProfileUser() {
 
         meBeSrc.updateUserProfile(user.id, updatedUser)
             .then((res) => {
+                setShowModal(true);
+                setTimeout(() => setShowModal(false), 3000); // Hide modal after 3 seconds
                 console.log("User updated successfully", {
                     username: user.username,
                     firstName: user.firstName,
@@ -101,6 +106,7 @@ export default function ProfileUser() {
 
     return (
         <div className="profileUser">
+            <Successful show={showModal} onHide={() => setShowModal(false)} message={"Thông tin đã được cập nhật"} />
             <section className="profile-details container small-profile">
                 <div className="row profile">
                     <div className="col-md-6 profile2">

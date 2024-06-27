@@ -442,5 +442,95 @@ public class ProductService implements IProductService {
         return productResponseList;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="sort Product By A -> Z">
+    @Override
+    public List<ProductResponse> sortProductByAToZ() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAllByOrderByNameAsc();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setProductId(product.getProductId());
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="sort Product By Z -> A">
+    @Override
+    public List<ProductResponse> sortProductByZToA() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAllByOrderByNameDesc();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setProductId(product.getProductId());
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="get Product Best Seller">
+    @Override
+    public List<ProductResponse> getProductBestSeller() {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+
+        List<Product> productList = iProductRespository.findAllByOrderByTotalSoldDesc();
+        for (Product product : productList) {
+            ProductResponse productResponse = new ProductResponse();
+
+            productResponse.setProductId(product.getProductId());
+            productResponse.setSubCategory(product.getSubCategory());
+            productResponse.setSlug(product.getSlug());
+            productResponse.setName(product.getName());
+            productResponse.setImages(product.getImages());
+            productResponse.setDescription(product.getDescription());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setSalePrice(product.getSalePrice());
+            productResponse.setStatus(product.getStatus());
+            productResponse.setTotalSold(product.getTotalSold());
+            productResponse.setQuantity(product.getQuantity());
+            productResponse.setProductView(product.getProductView());
+            productResponse.setCreateAt(product.getCreateAt());
+            productResponse.setUpdateAt(product.getUpdateAt());
+
+            //add vào list
+            productResponseList.add(productResponse);
+        }
+        return productResponseList;
+    }// </editor-fold>
+
 
 }

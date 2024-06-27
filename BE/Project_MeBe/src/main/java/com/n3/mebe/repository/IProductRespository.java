@@ -38,5 +38,10 @@ public interface IProductRespository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE p.price > :min AND p.price < :max")
     List<Product> sortProductByPriceMinToMax(@Param("min") float min, @Param("max") float max);
 
+    List<Product> findAllByOrderByNameAsc();
+
+    List<Product> findAllByOrderByNameDesc();
+
+    List<Product> findAllByOrderByTotalSoldDesc();
 
 }

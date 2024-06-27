@@ -28,7 +28,7 @@ public class OrderDetailsController {
 
 
     @GetMapping("/list/orderId={id}")
-    public List<OrderDetailsResponse> getListOrderDetailsByOrderId(@PathVariable("id") int orderId) {
+    List<OrderDetailsResponse> getListOrderDetailsByOrderId(@PathVariable("id") int orderId) {
         return orderDetailsService.getOrderDetailsById(orderId);
     }
 

@@ -11,4 +11,6 @@ import java.util.List;
 public interface IReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findByUserUserId(int userId);
+
+    List<Review> findByProductProductId(int prId);
 }

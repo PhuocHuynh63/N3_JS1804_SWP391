@@ -5,6 +5,6 @@ import jakarta.mail.MessagingException;
 
 public interface ISendMailService {
 
-    Boolean createSendEmail(String email);
+    Boolean createSendEmailForgot(String email);
 
 }

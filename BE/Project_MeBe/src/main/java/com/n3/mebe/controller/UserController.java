@@ -5,6 +5,7 @@ import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.user.UserResponse;
+import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.service.IUserService;
 import jakarta.validation.Valid;
@@ -67,8 +68,8 @@ public class UserController {
 
     @PutMapping("/change_password/{user_id}")
     public String changePasswordUser(@PathVariable("user_id") int user_id,
-                              @RequestParam String passwordOld,
-                              @RequestParam String passwordNew) {
+                                     @RequestParam String passwordOld,
+                                     @RequestParam String passwordNew) {
         return userService.changePassword(user_id, passwordOld, passwordNew);
     }
 
@@ -101,5 +102,16 @@ public class UserController {
     public UserResponse getUserByUserName(@PathVariable("user_name") String user_name) {
 
         return userService.getUserByUserNameResponse(user_name);
+    }
+
+
+    @GetMapping("/check_email")
+    public UserResponse getUserByEmail(@RequestParam String email) {
+        return userService.getUserByEmailResponse(email);
+    }
+
+    @GetMapping("/tracking/{userId}")
+    public UserForTrackingResponse getUserForTrackingResponse(@PathVariable("userId") int userId) {
+        return userService.getUserTrackingByIdResponse(userId);
     }
 }
