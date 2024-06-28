@@ -22,6 +22,8 @@ public interface IUserService {
 
     boolean updateUserById(int id, UserUpdateRequest request);
 
+    boolean updateGuestToUser(int id, UserCreateRequest request);
+
     boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request);
 
     void deleteUserById(int id);

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IWishListService {
 
-    List<WishListResponse> getWishListResponses();
+    List<WishListResponse> getWishListResponsesAll();
 
     List<WishListResponse> getWishListResponse(int userId);
 

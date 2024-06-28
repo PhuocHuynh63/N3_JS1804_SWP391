@@ -13,9 +13,11 @@ public interface IAddressService {
 
     List<AddressResponse> getAddressesUser(int userId);
 
-    Address createAddress(int userId,CreateAddressRequest request);
+    boolean createAddress(int userId,CreateAddressRequest request);
 
-    Address updateAddress(int addressId, UpdateAddressRequest address);
+    boolean updateAddress(int addressId, UpdateAddressRequest address);
+
+    boolean updateDefault(int addressId, boolean defaultValue);
 
     void deleteAddress(int addressId);
 

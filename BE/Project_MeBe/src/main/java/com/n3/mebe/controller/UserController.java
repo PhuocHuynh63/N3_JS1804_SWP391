@@ -4,12 +4,14 @@ package com.n3.mebe.controller;
 import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
+import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,20 +31,42 @@ public class UserController {
 
     //sign up user
     @PostMapping("/signup")
-    public String createUser(@RequestBody @Valid UserCreateRequest request) {
-        String msg;
+    public ResponseEntity<ResponseData> createUser(@RequestBody @Valid UserCreateRequest request) {
         boolean check = userService.createUser(request);
-        if (check){
-            msg = "User updated successfully";
-        }else {
-            msg = "User updating failed";
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("User created successfully");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("User creation failed");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
         }
-        return msg;
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
     }
+
+    //Update guest to user
+    @PutMapping("/signup_guest/{user_id}")
+    public ResponseEntity<ResponseData> updateGuestToUser(@PathVariable("user_id") int user_id, @RequestBody @Valid UserCreateRequest request) {
+        boolean check = userService.updateGuestToUser(user_id , request);
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("User created successfully");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("User creation failed");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
+        }
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
 
     //Update user by id
     @PutMapping("/update/{user_id}")
-    public String updatetUser(@PathVariable("user_id") int user_id, @RequestBody UserUpdateRequest request) {
+    public String updateUserById(@PathVariable("user_id") int user_id, @RequestBody UserUpdateRequest request) {
         String msg;
         boolean check = userService.updateUserById(user_id , request);
         if (check){
@@ -53,9 +77,10 @@ public class UserController {
         return msg;
     }
 
+
     //Update user by id
     @PutMapping("/update_admin/uId={user_id}")
-    public String updatetUserForAdmin(@PathVariable("user_id") int user_id, @RequestBody UserUpdateForAdminRequest request) {
+    public String updateUserForAdmin(@PathVariable("user_id") int user_id, @RequestBody UserUpdateForAdminRequest request) {
         String msg;
         boolean check = userService.updateUserByIdForAdmin(user_id , request);
         if (check){

@@ -190,32 +190,34 @@ public class UserService implements IUserService {
         String status = "active";
 
         if (iUserRepository.existsByEmail(request.getEmail())){
-            throw new AppException(ErrorCode.USER_EXIST);
+            throw new AppException(ErrorCode.EMAIL_EXIST);
+        }else if (iUserRepository.existsByUsername(request.getUsername())){
+            throw new AppException(ErrorCode.USERNAME_EXIST);
+        }else {
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+
+            user.setEmail(request.getEmail());
+
+            user.setUsername(request.getUsername());
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+            user.setRole(role);
+            user.setBirthOfDate(request.getBirthOfDate());
+            user.setPhoneNumber(request.getPhoneNumber());
+            user.setPoint(point);
+            user.setStatus(status);
+
+            Date now = new Date();// lấy thời gian hiện tại
+
+            user.setCreateAt(now);
+            user.setUpdateAt(now);
+            user.setDeleteAt(null);
+
+            iUserRepository.save(user);
+            check = true;
         }
-
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-
-        user.setEmail(request.getEmail());
-
-        user.setUsername(request.getUsername());
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        user.setRole(role);
-        user.setBirthOfDate(request.getBirthOfDate());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setPoint(point);
-        user.setStatus(status);
-
-        Date now = new Date();// lấy thời gian hiện tại
-
-        user.setCreateAt(now);
-        user.setUpdateAt(now);
-        user.setDeleteAt(null);
-
-        iUserRepository.save(user);
-        check = true;
 
         return check;
     }// </editor-fold>
@@ -224,6 +226,7 @@ public class UserService implements IUserService {
     @Override
     public boolean updateUserById(int id, UserUpdateRequest request){
         boolean check = false;
+
         User user = getUserById(id);
 
         user.setAvatar(request.getAvatar());
@@ -240,8 +243,56 @@ public class UserService implements IUserService {
         iUserRepository.save(user);
         check = true;
 
-
         return check ;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Update Guest To User">
+    @Override
+    public boolean updateGuestToUser(int id, UserCreateRequest request){
+        boolean check = false;
+        User user = getUserById(id);
+        String role = "member";
+
+        int point = 0;
+        String status = "active";
+        if(request.getEmail().equals(user.getEmail())){
+            //check xem Username da ton tai chua
+            if (iUserRepository.existsByUsername(request.getUsername())) {
+                throw new AppException(ErrorCode.USERNAME_EXIST);
+            }
+        }else {
+            if (iUserRepository.existsByEmail(request.getEmail())){
+                throw new AppException(ErrorCode.EMAIL_EXIST);
+            }else {
+                // Neu thay doi Email khi dang ky thi check xem
+                // Email do co ton tai trong he thong khong
+                user.setEmail(request.getEmail());
+            }
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+            //da check thanh cong khong co Username bi trung
+            user.setUsername(request.getUsername());
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+            user.setRole(role);
+            user.setBirthOfDate(request.getBirthOfDate());
+            user.setPhoneNumber(request.getPhoneNumber());
+            user.setPoint(point);
+            user.setStatus(status);
+
+            Date now = new Date();// lấy thời gian hiện tại
+
+            user.setCreateAt(now);
+            user.setUpdateAt(now);
+            user.setDeleteAt(null);
+
+
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return check;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update User By Id For Admin">

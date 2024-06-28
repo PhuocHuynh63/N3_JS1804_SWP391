@@ -62,7 +62,6 @@ public class OrderService implements IOrderService {
     }
 
 
-
     // <editor-fold default state="collapsed" desc="Get UserOrderResponse By Id Response">
     public OrderUserResponse getUserByIdResponse(int id){
 
@@ -113,7 +112,7 @@ public class OrderService implements IOrderService {
         Address address = new Address();
         address.setUser(user);
         address.setTitle("Address");
-        address.setAddress(orderRequest.getGuess().getAddress());
+        address.setAddress(orderRequest.getGuest().getAddress());
         addressRepository.save(address); // Save Address for guess user
     }// </editor-fold>
 
@@ -130,17 +129,17 @@ public class OrderService implements IOrderService {
 
         User user = new User();
         Order order = new Order();
-        String status = "Pending"; // trạng thái đầu tiên khi mới tạo order
+        String status = "Đang xử lý"; // trạng thái đầu tiên khi mới tạo order
 
-        // Neu khong phai la guess thi kiem User bang ID
-        if (orderRequest.getGuess() != null){
+        // Neu khong phai la guest thi kiem User bang ID
+        if (orderRequest.getGuest() != null){
             String roll = "guest";
             // lay guess tu request de tao ra USER moi
-            user.setFirstName(orderRequest.getGuess().getFirstName());
-            user.setLastName(orderRequest.getGuess().getLastName());
-            user.setEmail(orderRequest.getGuess().getEmail());
-            user.setBirthOfDate(orderRequest.getGuess().getBirthOfDate());
-            user.setPhoneNumber(orderRequest.getGuess().getPhoneNumber());
+            user.setFirstName(orderRequest.getGuest().getFirstName());
+            user.setLastName(orderRequest.getGuest().getLastName());
+            user.setEmail(orderRequest.getGuest().getEmail());
+            user.setBirthOfDate(orderRequest.getGuest().getBirthOfDate());
+            user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
             user.setRole(roll);
                 iUserRepository.save(user);
             //save địa chỉ của guess
@@ -181,15 +180,15 @@ public class OrderService implements IOrderService {
         User user =  new User();
 
         // Neu khong phai la guess thi kiem User bang ID
-        if (orderRequest.getGuess() != null){
-            String roll = "guess";
+        if (orderRequest.getGuest() != null){
+            String roll = "guest";
 
             // lay guess tu request de tao ra USER moi
-            user.setFirstName(orderRequest.getGuess().getFirstName());
-            user.setLastName(orderRequest.getGuess().getLastName());
-            user.setEmail(orderRequest.getGuess().getEmail());
-            user.setBirthOfDate(orderRequest.getGuess().getBirthOfDate());
-            user.setPhoneNumber(orderRequest.getGuess().getPhoneNumber());
+            user.setFirstName(orderRequest.getGuest().getFirstName());
+            user.setLastName(orderRequest.getGuest().getLastName());
+            user.setEmail(orderRequest.getGuest().getEmail());
+            user.setBirthOfDate(orderRequest.getGuest().getBirthOfDate());
+            user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
             user.setRole(roll);
         }else {
             user = userService.getUserById(orderRequest.getUserId());
@@ -238,8 +237,7 @@ public class OrderService implements IOrderService {
     public void deleteOrder(String orderId) {
     }
 
-
-    // <editor-fold default state="collapsed" desc="Confirm Order">
+    // <editor-fold default state="collapsed" desc="set Status Order">
     @Override
     public String setStatusOrder(OrderStatusRequest request) {
        Order order = getOrder(request.getOrderId());
