@@ -13,9 +13,11 @@ import com.n3.mebe.service.IProductService;
 import com.n3.mebe.service.IUserService;
 import com.n3.mebe.service.IWishListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,9 +49,9 @@ public class WishListService implements IWishListService {
         return response;
     }
 
-
+    // <editor-fold default state="collapsed" desc="get WishList Responses All">
     @Override
-    public List<WishListResponse> getWishListResponses() {
+    public List<WishListResponse> getWishListResponsesAll() {
 
         List<WishList> list = wishListRepository.findAll();
 
@@ -71,8 +73,9 @@ public class WishListService implements IWishListService {
             wishListResponses.add(response);
         }
         return wishListResponses;
-    }
+    }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Get WishList Response">
     @Override
     public List<WishListResponse> getWishListResponse(int userId) {
 
@@ -96,10 +99,9 @@ public class WishListService implements IWishListService {
             wishListResponses.add(response);
         }
         return wishListResponses;
-    }
+    }// </editor-fold>
 
-
-
+    // <editor-fold default state="collapsed" desc="add WishList">
     @Override
     public boolean addWishList(WishListRequest request) {
         boolean check = false;
@@ -122,5 +124,18 @@ public class WishListService implements IWishListService {
         }
 
         return check;
+    }// </editor-fold>
+
+
+
+    @Scheduled(cron = "0 0 0 * * ?") // Chạy hàng ngày vào lúc nửa đêm
+    public void updateWishListStatus() {
+        Date currentDate = new Date();
+        List<WishList> wishLists = wishListRepository.findWishListsByEstimatedDate(currentDate);
+        for (WishList wishList : wishLists) {
+            wishList.setStatus("Arrived");
+            wishList.setUpdatedAt(new Date());
+            wishListRepository.save(wishList);
+        }
     }
 }

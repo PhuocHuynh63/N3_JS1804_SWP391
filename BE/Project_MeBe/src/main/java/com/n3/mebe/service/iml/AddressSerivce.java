@@ -34,37 +34,58 @@ public class AddressSerivce implements IAddressService {
 
     // <editor-fold default state="collapsed" desc="Create Address">
     @Override
-    public Address createAddress(int id,CreateAddressRequest request) {
+    public boolean createAddress(int id,CreateAddressRequest request) {
 
         // lấy user dựa vào id của user
         User user = userRepository.findById(id)
                 .orElseThrow( () -> new AppException(ErrorCode.NO_USER_EXIST));
-
+        if (addressRepository.existsAddressByAddress(request.getAddress())){
+            throw new AppException(ErrorCode.Address_EXIST);
+        }
         Address address = new Address();
 
         address.setUser(user);
         address.setDefault(request.isDefault());
         address.setTitle(request.getTitle());
         address.setAddress(request.getAddress());
+        addressRepository.save(address);
 
-
-        return addressRepository.save(address);
+        return true;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Update Address">
     @Override
-    public Address updateAddress(int addressId, UpdateAddressRequest request) {
-
+    public boolean updateAddress(int addressId, UpdateAddressRequest request) {
+        boolean result = false;
         // Lấy ra địa chỉ dựa vào Id của địa chỉ
         Address address = addressRepository.findById(addressId)
                 .orElseThrow( () -> new AppException(ErrorCode.Address_NO_EXIST));
+        if (request.getAddress().equals(address.getAddress())){
+            address.setDefault(request.isDefault());
+            address.setTitle(request.getTitle());
+            address.setAddress(request.getAddress());
+            addressRepository.save(address);
+            result = true;
+        }else if (addressRepository.existsAddressByAddress(request.getAddress())){
+            throw new AppException(ErrorCode.Address_EXIST);
+        }
 
-        address.setDefault(request.isDefault());
-        address.setTitle(request.getTitle());
-        address.setAddress(request.getAddress());
+        return result;
+    }// </editor-fold>
 
-
-        return addressRepository.save(address);
+    // <editor-fold default state="collapsed" desc="Update Default">
+    @Override
+    public boolean updateDefault(int addressId, boolean defaultValue) {
+        boolean result = false;
+        // Lấy ra địa chỉ dựa vào Id của địa chỉ
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow( () -> new AppException(ErrorCode.Address_NO_EXIST));
+        if (address.isDefault() != defaultValue){
+            address.setDefault(defaultValue);
+            addressRepository.save(address);
+            result = true;
+        }
+        return result;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Delete Address">

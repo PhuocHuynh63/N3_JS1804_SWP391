@@ -12,6 +12,7 @@ public interface IAddressRepository extends JpaRepository<Address, Integer> {
 
     List<Address> findByUserUserId(int userId);
 
+    boolean existsAddressByAddress(String address);
 
 }
 
