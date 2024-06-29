@@ -1,7 +1,7 @@
-﻿CREATE DATABASE me_be_test
+﻿CREATE DATABASE me_be_SWT
 GO
 
-USE me_be_test
+USE me_be_SWT
 GO
 
 -- Tạo bảng User
@@ -121,7 +121,8 @@ CREATE TABLE product (
 
 INSERT INTO product (subcategory_id, slug, name, images, [description], price, sale_price, [status], total_sold, quantity, product_view)
 VALUES
-    (1, N'san-pham-dinh-duong-cong-thuc-chuan-so-3-withmom-cesar', N'Sản phẩm dinh dưỡng công thức Withmom Cesar số 3', N'https://product.hstatic.net/200000178477/product/z5370813280050_ac580a92aecd1a21f63875f962ee9e17_35c853c65002483ab1732f61e229c01f_master.jpg', N'Sữa tươi loại 1-A không kháng sinh 17,54% (Hàn Quốc, theo tiêu chuẩn số lượng vi khuẩn), lactose, dextrin, dầu ăn hỗn hợp [dầu đậu nành, dầu dừa, dầu chế biến 6,02% (dầu cọ, dầu hướng dương)', 799000.00, 700000.000, N'Còn hàng', 0, 10, 0),
+    (1, N'san-pham-dinh-duong-cong-thuc-chuan-so-3-withmom-cesar', N'Sản phẩm dinh dưỡng công thức Withmom Cesar số 3',
+	N'https://product.hstatic.net/200000178477/product/z5370813280050_ac580a92aecd1a21f63875f962ee9e17_35c853c65002483ab1732f61e229c01f_master.jpg', N'Sữa tươi loại 1-A không kháng sinh 17,54% (Hàn Quốc, theo tiêu chuẩn số lượng vi khuẩn), lactose, dextrin, dầu ăn hỗn hợp [dầu đậu nành, dầu dừa, dầu chế biến 6,02% (dầu cọ, dầu hướng dương)', 799000.00, 700000.000, N'Hết hàng', 0, 0, 0),
     (1, N'sua-aptamil-duc-so-3', N'Sữa Aptamil Đức số 3', N'https://product.hstatic.net/200000178477/product/image_2023-02-13_120841960_c12f93fbd6b7433988d8a8320ac37283_master.png', N'Lấy đầy muỗng sữa và gạt ngang miệng (1 muỗng Aptamil 3 gạt ngang tương đương 5g sữa) đong 4 muỗng sữa pha với 120ml nước được dung dịch 130ml sữa.', 595000.00, 0, N'Còn hàng', 0, 10, 0),
     (1, N'sua-bot-aptamil-essensis-organic-so-1', N'Sữa bột Aptamil Essensis Organic số 3', N'https://product.hstatic.net/200000178477/product/image_2022-06-15_105147544_6991b8fd5794438aad389b803b29fcdf_master.png', N'Sữa Aptamil Essensis Organic số 1 - dòng sữa công thức cao cấp dành cho trẻ', 1295000.00, 0, N'Còn hàng', 0, 10, 0),
 
