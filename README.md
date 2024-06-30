@@ -28,59 +28,59 @@
 &nbsp;&nbsp;&nbsp;&nbsp;**1.6 Member in project**
    |        Name         |       Role      |   Student ID   |      Sprint 1       |               Sprint 2             |      Sprint 3      |      Sprint 4      |
    |---------------------|-----------------|----------------|---------------------|------------------------------------|--------------------|--------------------|
-   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |AM-01:Create Address |UAM-06: Update Account |OM-03: Tracks Order<br> OM-05: Update Order |AM-02: Update Address<br> AM-03: Delete Address |                                    
-   |Huỳnh Minh Phước     |      Member     |    SE171830    |CM-04: Add to Cart   |                                    |CM-07: View Cart |UAM-09: Edit Profile |
-   |Hứa Đình Thuận       |      Member     |    SE171787    |UAM-01: Login        |                                    |                    |                    |
-   |Nguyễn Chí Thành     |      Member     |    SE171820    |UAM-03: Register     |                                    |                    |                    |
-   |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |PM-01: Create Product |UAM-05: Logout<br> UAM-02: Change Password<br> |OM-04: Views Order |                    |
-   |Lâm Xuân Thái        |      Member     |    SE17xxxx    |CM-05: Update Cart   |                                    |                    |                    |
+   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |UC-34:Create Address |UC-06: Update Account |UC-22: Tracks Order<br> UC-24: Update Order |UC-35: Update Address<br> UC-36: Delete Address |                                    
+   |Huỳnh Minh Phước     |      Member     |    SE171830    |UC-16: Add to Cart   |                                    |UC-19: View Cart |UC-09: Edit Profile |
+   |Hứa Đình Thuận       |      Member     |    SE171787    |UC-01: Login        |                                    |                    |                    |
+   |Nguyễn Chí Thành     |      Member     |    SE171820    |UC-03: Register     |                                    |                    |                    |
+   |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |UC-10: Create Product |UC-02: Logout<br> UC-05: Change Password<br> |UC-23: Views Order |                    |
+   |Lâm Xuân Thái        |      Member     |    SE17xxxx    |UC-17: Update Cart   |                                    |                    |                    |
    
 ## **2. Use case**
 
-**UAM-01: Log-in**<br>
-**UAM-02: Log-out**<br>
-**UAM-03: Register**<br>
-**UAM-04: Forgot Password**<br>
-**UAM-05: Change Password**<br>
-**UAM-06: Update Account**<br>
-**UAM-07: Delete Account**<br>
-**UAM-08: View Accounts**<br>
-**UAM-09: Edit Profile**<br>
+**UC-01: Log-in**<br>
+**UC-02: Log-out**<br>
+**UC-03: Register**<br>
+**UC-04: Forgot Password**<br>
+**UC-05: Change Password**<br>
+**UC-06: Update Account**<br>
+**UC-07: Delete Account**<br>
+**UC-08: View Accounts**<br>
+**UC-09: Edit Profile**<br>
 
-**PM-01: Create Product**<br>
-**PM-02: Update Product**<br>
-**PM-03: View Products**<br>
+**UC-10: Create Product**<br>
+**UC-11: Update Product**<br>
+**UC-12: View Products**<br>
 
-**CM-01:	Search Product**<br>
-**CM-02:	Sort Product**<br>
-**CM-03:	Filter Product**<br>
-**CM-04:	Add to Cart**<br>
-**CM-05:	Update Cart**<br>
-**CM-06:	Remove Cart**<br>
-**CM-07:	View Cart**<br>
+**UC-13:	Search Product**<br>
+**UC-14:	Sort Product**<br>
+**UC-15:	Filter Product**<br>
+**UC-16:	Add to Cart**<br>
+**UC-17:	Update Cart**<br>
+**UC-18:	Remove Cart**<br>
+**UC-19:	View Cart**<br>
 
-**OM-01: Checkout**<br>
-**OM-02: Payment**<br>
-**OM-03: Track Orders**<br>
-**OM-04: View Orders**<br>
-**OM-05: Update Order**<br>
-**OM-06: Delete Order**<br>
-**OM-07: Return / Refund**<br>
+**UC-20: Checkout**<br>
+**UC-21: Payment**<br>
+**UC-22: Track Orders**<br>
+**UC-23: View Orders**<br>
+**UC-24: Update Order**<br>
+**UC-25: Delete Order**<br>
+**UC-26: Return / Refund**<br>
 
-**VM-01	Apply Voucher**<br>
-**VM-02	Create Voucher**<br>
-**VM-03	Update Voucher**<br>
+**UC-27: Apply Voucher**<br>
+**UC-28: Create Voucher**<br>
+**VM-29:	Update Voucher**<br>
 
-**PRM-01	Create Review**<br>
-**PRM-02	Update Review**<br>
-**PRM-03	Delete Review**<br>
-**PRM-04	View Reviews**<br>
+**UC-30:	Create Review**<br>
+**UC-31:	Update Review**<br>
+**UC-32:	Delete Review**<br>
+**UC-33:	View Reviews**<br>
 
-**AM-01	Create Address**<br>
-**AM-02	Update Address**<br>
-**AM-03	Delete Address**<br>
+**UC-34:	Create Address**<br>
+**UC-35:	Update Address**<br>
+**UC-36:	Delete Address**<br>
 
-**FR-01	Financial Reports**<br>
+**UC-37:	Financial Reports**<br>
 
   
 
