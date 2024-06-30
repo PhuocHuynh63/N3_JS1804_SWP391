@@ -1,0 +1,23 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100%;
+    gap: 2.5rem;
+}
+
+.layout-main {
+    display: flex;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.main-content {
+    display: flex;
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+    top: 115.6px;
+    height: auto;
+    margin-bottom: 200px;
+}

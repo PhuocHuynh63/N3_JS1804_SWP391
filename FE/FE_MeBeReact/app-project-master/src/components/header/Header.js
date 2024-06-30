@@ -97,15 +97,14 @@ export default function Header() {
                                 </NavLink>
 
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <a className="dropdown-item_title" href="/newborn-0-3">Sữa</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Sữa bột</a>
-                                    <a className="dropdown-item" href="/baby-3-24">Sữa pha sẵn</a>
+                                    <span className="dropdown-item_title" href="">Sữa</span>
+                                    <a className="dropdown-item" href="/subcategory/sua-bot">Sữa bột</a>
+                                    <a className="dropdown-item" href="/subcategory/sua-pha-san">Sữa pha sẵn</a>
                                     <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item_title" href="#">Bình sữa - Núm ti - Phụ kiện</a>
-                                    <a className="dropdown-item" href="#">Bình sữa</a>
-                                    <a className="dropdown-item" href="#">Phụ kiện bình sữa</a>
-                                    <a className="dropdown-item" href="#">Núm ti</a>
-                                    <a className="dropdown-item" href="#">Núm ti thay thế</a>
+                                    <span className="dropdown-item_title" href="">Bình sữa - Núm ti - Phụ kiện</span>
+                                    <a className="dropdown-item" href="">Bình sữa</a>
+                                    <a className="dropdown-item" href="/subcategory/phu-kien-binh-sua">Phụ kiện bình sữa</a>
+                                    <a className="dropdown-item" href="/subcategory/num-ti">Núm ti</a>
                                 </div>
                             </li>
 
@@ -115,14 +114,14 @@ export default function Header() {
                                 </NavLink>
 
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <a className="dropdown-item_title" href="/newborn-0-3">Bỉm tã</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Bỉm tã</a>
-                                    <a className="dropdown-item" href="/baby-3-24">Bỉm người lớn</a>
+                                    <span className="dropdown-item_title" href="">Bỉm tã</span>
+                                    <a className="dropdown-item" href="/subcategory/bim-ta">Bỉm tã</a>
+                                    <a className="dropdown-item" href="/subcategory/bim-nguoi-lon">Bỉm người lớn</a>
                                     <div className="dropdown-divider"></div>
                                     <a className="dropdown-item_title" href="#">Vệ sinh cho bé</a>
-                                    <a className="dropdown-item" href="#">Bô</a>
-                                    <a className="dropdown-item" href="#">Chăm sóc răng miệng</a>
-                                    <a className="dropdown-item" href="#">Sữa tắm/gội</a>
+                                    <a className="dropdown-item" href="/subcategory/bo">Bô</a>
+                                    <a className="dropdown-item" href="/subcategory/cham-soc-rang-mieng">Chăm sóc răng miệng</a>
+                                    <a className="dropdown-item" href="/subcategory/sua-tam-goi">Sữa tắm/gội</a>
                                 </div>
                             </li>
 
@@ -132,10 +131,10 @@ export default function Header() {
                                 </NavLink>
 
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <a className="dropdown-item_title" href="/newborn-0-3">Đồ Cho Mẹ</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Sữa bầu</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Vitamin cho mẹ</a>
-                                    <a className="dropdown-item" href="/baby-3-24">Phụ kiện cho mẹ</a>
+                                    <span className="dropdown-item_title" href="">Đồ Cho Mẹ</span>
+                                    <a className="dropdown-item" href="/subcategory/sua-bau">Sữa bầu</a>
+                                    <a className="dropdown-item" href="/subcategory/vitamin-cho-me">Vitamin cho mẹ</a>
+                                    <a className="dropdown-item" href="/subcategory/phu-kien-cho-me">Phụ kiện cho mẹ</a>
                                 </div>
                             </li>
                         </ul>
@@ -151,7 +150,7 @@ export default function Header() {
             <div className="header_container">
                 <header>
                     <NavLink to="/">
-                        <img src="/images/Logo_Header_RemoveBackground.png" alt="Nous Logo" height="50" />
+                        <img src={logo} alt="Nous Logo" height="50" />
                     </NavLink>
 
                     <form className="form_inline">
@@ -187,50 +186,49 @@ export default function Header() {
                                 <a className="nav-link" href="/about">Giới Thiệu MeBe</a>
                             </li>
                             <li className="nav-item dropdown">
-                                <NavLink to={`/category/Sữa & Bình Sữa`} className="nav-link dropdown-toggle">
+                                <NavLink to={`/category/sua-binh-sua`} className="nav-link dropdown-toggle">
                                     Sữa & Bình Sữa
                                 </NavLink>
 
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <a className="dropdown-item_title" href="/newborn-0-3">Sữa</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Sữa bột</a>
-                                    <a className="dropdown-item" href="/baby-3-24">Sữa pha sẵn</a>
+                                    <span className="dropdown-item_title" href="">Sữa</span>
+                                    <a className="dropdown-item" href="/subcategory/sua-bot">Sữa bột</a>
+                                    <a className="dropdown-item" href="/subcategory/sua-pha-san">Sữa pha sẵn</a>
                                     <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item_title" href="#">Bình sữa - Núm ti - Phụ kiện</a>
-                                    <a className="dropdown-item" href="#">Bình sữa</a>
-                                    <a className="dropdown-item" href="#">Phụ kiện bình sữa</a>
-                                    <a className="dropdown-item" href="#">Núm ti</a>
-                                    <a className="dropdown-item" href="#">Núm ti thay thế</a>
+                                    <span className="dropdown-item_title" href="">Bình sữa - Núm ti - Phụ kiện</span>
+                                    <a className="dropdown-item" href="">Bình sữa</a>
+                                    <a className="dropdown-item" href="/subcategory/phu-kien-binh-sua">Phụ kiện bình sữa</a>
+                                    <a className="dropdown-item" href="/subcategory/num-ti">Núm ti</a>
                                 </div>
                             </li>
 
                             <li className="nav-item dropdown">
-                                <NavLink to={`/category/Bỉm Tã - Vệ Sinh`} className="nav-link dropdown-toggle">
+                                <NavLink to={`/category/bim-ta-ve-sinh`} className="nav-link dropdown-toggle">
                                     Bỉm tã & Dụng cụ vệ sinh
                                 </NavLink>
 
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <a className="dropdown-item_title" href="/newborn-0-3">Bỉm tã</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Bỉm tã</a>
-                                    <a className="dropdown-item" href="/baby-3-24">Bỉm người lớn</a>
+                                    <span className="dropdown-item_title" href="">Bỉm tã</span>
+                                    <a className="dropdown-item" href="/subcategory/bim-ta">Bỉm tã</a>
+                                    <a className="dropdown-item" href="/subcategory/bim-nguoi-lon">Bỉm người lớn</a>
                                     <div className="dropdown-divider"></div>
                                     <a className="dropdown-item_title" href="#">Vệ sinh cho bé</a>
-                                    <a className="dropdown-item" href="#">Bô</a>
-                                    <a className="dropdown-item" href="#">Chăm sóc răng miệng</a>
-                                    <a className="dropdown-item" href="#">Sữa tắm/gội</a>
+                                    <a className="dropdown-item" href="/subcategory/bo">Bô</a>
+                                    <a className="dropdown-item" href="/subcategory/cham-soc-rang-mieng">Chăm sóc răng miệng</a>
+                                    <a className="dropdown-item" href="/subcategory/sua-tam-goi">Sữa tắm/gội</a>
                                 </div>
                             </li>
 
                             <li className="nav-item dropdown">
-                                <NavLink to={`/category/Đồ cho mẹ`} className="nav-link dropdown-toggle">
+                                <NavLink to={`/category/do-cho-me`} className="nav-link dropdown-toggle">
                                     Đồ cho mẹ
                                 </NavLink>
 
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <a className="dropdown-item_title" href="/newborn-0-3">Đồ Cho Mẹ</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Sữa bầu</a>
-                                    <a className="dropdown-item" href="/newborn-0-3">Vitamin cho mẹ</a>
-                                    <a className="dropdown-item" href="/baby-3-24">Phụ kiện cho mẹ</a>
+                                    <span className="dropdown-item_title" href="">Đồ Cho Mẹ</span>
+                                    <a className="dropdown-item" href="/subcategory/sua-bau">Sữa bầu</a>
+                                    <a className="dropdown-item" href="/subcategory/vitamin-cho-me">Vitamin cho mẹ</a>
+                                    <a className="dropdown-item" href="/subcategory/phu-kien-cho-me">Phụ kiện cho mẹ</a>
                                 </div>
                             </li>
                         </ul>

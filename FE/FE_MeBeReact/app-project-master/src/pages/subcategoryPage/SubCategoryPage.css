@@ -98,7 +98,7 @@ i.fa-solid.fa-chevron-down.filter {
     margin-top: 5px;
     right: 0;
     background: #323232;
-    transition: width 0.4s ease, right 0.4s ease;
+    transition: width 0.5s ease, right 0.5s ease;
 }
 
 .sort-link:hover::after {
@@ -179,9 +179,10 @@ span.not-discount {
 .product-item img#cart {
     position: absolute;
     top: 18px;
-    right: -97px;
+    right: 16px;
     height: 30px;
     opacity: 0.9;
+    width: 30px;
 }
 
 .product-item img#cart:hover {
@@ -192,6 +193,7 @@ span.not-discount {
 .product-item p {
     margin: 5px 0;
     font-size: 18px;
+    color: rgb(66, 66, 66);
 }
 
 span.sale-price {
@@ -202,6 +204,7 @@ span.sale-price {
 
 span.normal-price {
     color: #08aa56;
+    font-size: 18px;
     font-weight: 500;
 }
 
@@ -209,4 +212,5 @@ span.price-line_through {
     color: #a8a8a8;
     text-decoration: line-through;
     font-weight: 500;
+    margin-left: 10px;
 }

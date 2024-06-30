@@ -125,6 +125,7 @@ VALUES
 	N'https://product.hstatic.net/200000178477/product/z5370813280050_ac580a92aecd1a21f63875f962ee9e17_35c853c65002483ab1732f61e229c01f_master.jpg', N'Sữa tươi loại 1-A không kháng sinh 17,54% (Hàn Quốc, theo tiêu chuẩn số lượng vi khuẩn), lactose, dextrin, dầu ăn hỗn hợp [dầu đậu nành, dầu dừa, dầu chế biến 6,02% (dầu cọ, dầu hướng dương)', 799000.00, 700000.000, N'Hết hàng', 0, 0, 0),
     (1, N'sua-aptamil-duc-so-3', N'Sữa Aptamil Đức số 3', N'https://product.hstatic.net/200000178477/product/image_2023-02-13_120841960_c12f93fbd6b7433988d8a8320ac37283_master.png', N'Lấy đầy muỗng sữa và gạt ngang miệng (1 muỗng Aptamil 3 gạt ngang tương đương 5g sữa) đong 4 muỗng sữa pha với 120ml nước được dung dịch 130ml sữa.', 595000.00, 0, N'Còn hàng', 0, 10, 0),
     (1, N'sua-bot-aptamil-essensis-organic-so-1', N'Sữa bột Aptamil Essensis Organic số 3', N'https://product.hstatic.net/200000178477/product/image_2022-06-15_105147544_6991b8fd5794438aad389b803b29fcdf_master.png', N'Sữa Aptamil Essensis Organic số 1 - dòng sữa công thức cao cấp dành cho trẻ', 1295000.00, 0, N'Còn hàng', 0, 10, 0),
+    (1, N'sua-blackmores-jnr', N'Sữa Blackmores JNR Balance+ 850g', N'https://product.hstatic.net/200000178477/product/sua_blackmores_jnr_balance__5_22d53dbe69854f54b34f307cc99d6439_master.png', N'Blackmores JNR Balance+ thuộc tập đoàn BLACKMORES – Đơn vị hàng đầu thế giới về chăm sóc sức khoẻ con người. Công thức độc đáo của sữa Blackmores JNR Balance+ được nghiên cứu bởi những chuyên gia hàng đầu của Blackmores. Sản phẩm bổ sung dinh dưỡng trong giai đoạn từ 1 -10 tuổi, giúp bé phát triển toàn diện.', 690000.00, 0, N'Còn hàng', 0, 30, 0),
 
 	(2, N'sua-bot-pha-san-nan-115ml', N'Sữa bột pha sẵn Nan 115ml (vỉ 9 hộp)', N'https://product.hstatic.net/200000178477/product/image_2022-11-24_100829730_e523c0eb11d14e9482112e8853e62010_master.png', N'Cung cấp hệ dưỡng chất thiết yếu cho sự phát triển toàn diện của trẻ 2 hộp 180ml cung cấp gần 40% Nhu cầu Đạm mỗi ngày', 83000.00, 0, N'Không có sẵn', 0, 10, 0),
     (2, N'sua-phat-trien-chieu-cao-150ml', N'Sữa phát triển chiều cao', N'https://product.hstatic.net/200000178477/product/image_2022-08-17_171549139_a0f68ce742c841c08ddbd811fb933852_master.png', N'Sữa nước Vegemil Greenbia HiKids Hàn tăng chiều cao & tăng cân, bổ sung sữa non tăng đề kháng cho bé từ 1 tuổi (1 lốc 3 hộp - 150ml/hộp)', 126000.00, 120000.00, N'Còn hàng', 0, 10, 0),
@@ -265,26 +266,30 @@ VALUES
 -- Thêm dữ liệu vào bảng order
 INSERT INTO [order] ([user_id], voucher_id, [status], total_amount, order_type, payment_status, note)
 VALUES
-(1, 1, N'Processing', 500000.00, N'Online', N'Unpaid', N'Giao hàng trong giờ hành chính'),
-(2, NULL, N'Completed',750000.00, N'COD', N'Paid', NULL),
-(3, 2, N'Shipping', 1200000.00, N'Online', N'Paid', N'Giao hàng nhanh');
+(1, 1, N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
+(1, NULL, N'Đã hủy', 1200000.00, N'Online', N'Chưa thanh toán', N'Giao hàng nhanh'),
+(2, NULL, N'Hoàn thành',750000.00, N'COD', N'Đã thanh toán', NULL),
+(3, 2, N'Đang giao', 1200000.00, N'Online', N'Đã thanh toán', N'Giao hàng nhanh');
 
 -- Thêm dữ liệu vào bảng order_detail
 INSERT INTO order_detail (order_id, product_id, quantity, price, sale_price)
 VALUES
 (1, 1, 2, 32000.00, 0),
 (1, 2, 1, 32000.00, 0),
-(2, 4, 3, 135000.00, 130000.00),
-(2, 5, 1, 135000.00, 130000.00),
-(3, 3, 5, 32000.00, 0),
-(3, 4, 1, 135000.00, 130000.00);
+(2, 3, 2, 30000.00, 0),
+(3, 4, 3, 135000.00, 130000.00),
+(3, 5, 1, 135000.00, 130000.00),
+(4, 3, 5, 32000.00, 0),
+(4, 4, 1, 135000.00, 130000.00);
 
  
 -- Thêm dữ liệu vào bảng payment
 INSERT INTO payment (order_id, amount, payment_type, transaction_reference)
 VALUES
+
 (1, 500000.00, N'Online', N'TRX001'),
 (2, 750000.00, N'COD', NULL),
 (3, 1200000.00, N'Online', N'TRX002');
+
 
 

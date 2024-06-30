@@ -139,6 +139,4 @@ public class UserController {
     public UserForTrackingResponse getUserForTrackingResponse(@PathVariable("userId") int userId) {
         return userService.getUserTrackingByIdResponse(userId);
     }
-
-
 }

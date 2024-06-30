@@ -4,11 +4,66 @@ import { NavLink, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown, Space } from 'antd';
 import { meBeSrc } from '../../service/meBeSrc';
+import { Modal } from 'antd';
+import OutOfStock from '../../components/outOfStock/OutOfStock';
 
 export default function SubCategory() {
-
     const [selectedPrices, setSelectedPrices] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [modalMessage, setModalMessage] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const { subCategoryId } = useParams();
 
+    const handleClickCart = (e, product) => {
+        e.preventDefault();
+        // Check if the product is out of stock
+        if (product.status === 'Hết hàng' || product.quantity === 0) {
+            setShowModal(true);
+            setTimeout(() => {
+                setShowModal(false);
+            }, 3000);
+            return;
+        }
+        const item = {
+            productId: product.productId,
+            subCateId: product.subCateId,
+            images: product.images,
+            salePrice: product.salePrice,
+            name: product.name,
+            categoryId: product.categoryId,
+            quantity: 1,
+            price: product.price,
+            totalPrice: product.price,
+        };
+
+        // Get existing cart items from local storage
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        // Check if the item is already in the cart
+        const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
+
+        if (existingItemIndex > -1) {
+            // Update the quantity and total price if the item exists
+            cartItems[existingItemIndex].quantity += item.quantity;
+            cartItems[existingItemIndex].totalPrice += item.totalPrice;
+            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product quantity updated successfully!</h1></div>);
+        } else {
+            // Add new item to the cart
+            cartItems.push(item);
+            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product added successfully!</h1></div>);
+        }
+
+        // Save updated cart items to local storage
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    };
+
+    const showModalnotify = (message) => {
+        setModalMessage(message);
+        setIsModalVisible(true);
+    };
+
+    // Checkbox filter 
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
         setSelectedPrices(prevState =>
@@ -26,20 +81,15 @@ export default function SubCategory() {
         }
     };
 
-    //Call API to get products
-    const [products, setProducts] = useState([])
-    const { subCategoryId } = useParams()
-
+    // Call API to get products
     useEffect(() => {
         meBeSrc.getProductBySubCategory(subCategoryId)
             .then(res => {
-                setProducts(res.data)
-                console.log(res.data);
+                setProducts(res.data);
             }).catch(err => {
-                console.log(err)
-            })
-    }, [subCategoryId])
-    //-----End-----
+                console.log(err);
+            });
+    }, [subCategoryId]);
 
     return (
         <div className='subcategory'>
@@ -55,7 +105,7 @@ export default function SubCategory() {
                         items: [{
                             label: (
                                 <div className='filter-price under200' onClick={() => handleDivClick('under200')}>
-                                    <input type="checkbox" clas="under200" className='filter-input' name="under200" value="under200" onChange={handleCheckboxChange} />
+                                    <input type="checkbox" id="under200" className='filter-input' name="under200" value="under200" onChange={handleCheckboxChange} />
                                     <label htmlFor="under200">Dưới 200.000₫</label>
                                 </div>
                             ),
@@ -144,24 +194,38 @@ export default function SubCategory() {
             </div>
 
             <div className="products">
-                {products.map((product) => {
-                    const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(2);
-                    return (
-                        <a href={`/product/${product.productId}`}>
-                            <div className="product-item" key={product.product_id}>
-                                <img src={product.images} alt={product.name} />
-                                <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
-                                <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' />
-                                <p>{product.name}</p>
-                                <span className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.salePrice > 0 ? product.salePrice.toLocaleString('vi-VN') : product.price.toLocaleString('vi-VN')}₫</span>
-                                {product.salePrice > 0 && (
-                                    <span className="price-line_through">{product.price.toLocaleString('vi-VN')}₫</span>
-                                )}
-                            </div>
-                        </a>
-                    );
-                })}
+                {products.length === 0 ? (
+                    <p style={{ textAlign: "center", width: "100%" }}>Chưa có sản phẩm nào cho danh mục này</p>
+                ) : (
+                    products.map((product) => {
+                        const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(0);
+                        return (
+                            <a href={`/product/${product.productId}`} key={product.productId}>
+                                <div className="product-item">
+                                    <img src={product.images} alt={product.name} />
+                                    <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
+                                    <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
+                                    <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
+                                    <p>{product.name}</p>
+                                    <span className={product.salePrice > 0 ? "sale-price" : "normal-price"}>{product.salePrice > 0 ? product.salePrice.toLocaleString('vi-VN') : product.price.toLocaleString('vi-VN')}₫</span>
+                                    {product.salePrice > 0 && (
+                                        <span className="price-line_through">{product.price.toLocaleString('vi-VN')}₫</span>
+                                    )}
+                                </div>
+                            </a>
+                        );
+                    })
+                )}
             </div>
+            <Modal
+                title="Notification"
+                visible={isModalVisible}
+                footer={null}
+                onCancel={() => setIsModalVisible(false)}
+                className="custom-modal"
+            >
+                <div>{modalMessage}</div>
+            </Modal>
         </div>
     )
 }
