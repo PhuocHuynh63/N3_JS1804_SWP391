@@ -16,8 +16,10 @@ import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IOrderRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.IOrderService;
+import com.n3.mebe.service.IPaymentService;
 import com.n3.mebe.service.iml.ProductService;
 import com.n3.mebe.service.iml.UserService;
+import com.n3.mebe.service.iml.mail.MailService;
 import com.n3.mebe.service.iml.mail.SendMailService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,16 +45,17 @@ public class OrderService implements IOrderService {
     @Autowired
     private IUserRepository iUserRepository;
 
-
     @Autowired
     private UserService userService;
+
     @Autowired
     private ProductService productService;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private SendMailService sendMailService;
+
+    @Autowired
+    private IPaymentService paymentService;
 
 
     @Override
@@ -129,21 +132,26 @@ public class OrderService implements IOrderService {
 
         User user = new User();
         Order order = new Order();
-        String status = "Đang xử lý"; // trạng thái đầu tiên khi mới tạo order
+        String status = "Chờ xác nhận"; // trạng thái đầu tiên khi mới tạo order
 
         // Neu khong phai la guest thi kiem User bang ID
         if (orderRequest.getGuest() != null){
-            String roll = "guest";
-            // lay guess tu request de tao ra USER moi
-            user.setFirstName(orderRequest.getGuest().getFirstName());
-            user.setLastName(orderRequest.getGuest().getLastName());
-            user.setEmail(orderRequest.getGuest().getEmail());
-            user.setBirthOfDate(orderRequest.getGuest().getBirthOfDate());
-            user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
-            user.setRole(roll);
+            boolean checkEmail = iUserRepository.existsByEmail(orderRequest.getGuest().getEmail());
+            if(!checkEmail){
+                String roll = "guest";
+                // lay guess tu request de tao ra USER moi
+                user.setFirstName(orderRequest.getGuest().getFirstName());
+                user.setLastName(orderRequest.getGuest().getLastName());
+                user.setEmail(orderRequest.getGuest().getEmail());
+                user.setBirthOfDate(orderRequest.getGuest().getBirthOfDate());
+                user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
+                user.setRole(roll);
                 iUserRepository.save(user);
-            //save địa chỉ của guess
-            saveGuessUserAddress(orderRequest, user);
+                //save địa chỉ của guess
+                saveGuessUserAddress(orderRequest, user);
+            }else {
+                user = iUserRepository.findByEmail(orderRequest.getGuest().getEmail());
+            }
         }else {
             user = userService.getUserById(orderRequest.getUserId());
 
@@ -164,8 +172,8 @@ public class OrderService implements IOrderService {
         order.setUpdatedAt(now);
         orderRepository.save(order);
         saveOrderDetails(orderRequest.getItem(), order);
-//        sendMailService.createSendEmail(user.getEmail());
-
+        paymentService.savePayment(order , orderRequest.getTransactionReference());
+        sendMailService.createSendEmailVerifyOrder(user.getEmail(), order);
         check = true;
 
 

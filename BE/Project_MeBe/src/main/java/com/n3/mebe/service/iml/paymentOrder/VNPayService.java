@@ -4,6 +4,7 @@ import com.n3.mebe.config.Config;
 import com.n3.mebe.dto.request.payment.PaymentRequest;
 import com.n3.mebe.dto.response.payment.PaymentResponse;
 import com.n3.mebe.service.IOrderService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -119,6 +120,7 @@ public class VNPayService {
 
 
     // <editor-fold default state="collapsed" desc="createPaymentUrl">
+    @Transactional
     public PaymentResponse createPaymentUrl(PaymentRequest request) throws UnsupportedEncodingException {
 
         String orderType = request.getType();

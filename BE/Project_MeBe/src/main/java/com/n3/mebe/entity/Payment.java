@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -28,12 +29,6 @@ public class Payment {
 
     @Column(name = "payment_type")
     private String paymentType;
-
-    @Column(name = "payment_method")
-    private String paymentMethod;
-
-    @Column(name = "payment_status")
-    private String status;
 
     @Column(name = "transaction_reference")
     private String transactionReference;
