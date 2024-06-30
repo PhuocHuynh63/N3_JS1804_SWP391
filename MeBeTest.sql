@@ -1,7 +1,7 @@
-﻿CREATE DATABASE me_be_SWT
+﻿CREATE DATABASE me_be_test
 GO
 
-USE me_be_SWT
+USE me_be_test
 GO
 
 -- Tạo bảng User
