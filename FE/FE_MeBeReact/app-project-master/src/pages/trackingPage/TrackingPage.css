@@ -68,9 +68,20 @@
 }
 
 .tracking-body_bot .btn a {
-    color: #26AA99;
     font-size: 17px;
     margin-right: 10px;
+}
+
+.tracking-body_bot .btn a.pending {
+    color: #a39f17;
+}
+
+.tracking-body_bot .btn a.success {
+    color: rgb(38, 223, 38);
+}
+
+.tracking-body_bot .btn a.cancel {
+    color: rgb(239, 50, 50);
 }
 
 .tracking-body_bot .btn button {
@@ -83,11 +94,15 @@
     font-size: 17px;
 }
 
+.tracking-body_bot .btn-cancel {
+    background-color: rgb(253, 122, 0) !important;
+}
+
+.tracking-body_bot .btn-cancel:hover {
+    background-color: rgba(255, 153, 0, 0.705) !important;
+}
+
 .tracking-body_bot .btn button:hover {
     background-color: rgb(196, 189, 123);
     transition: all 0.37s;
-}
-
-.tracking-body_bot .btn a .pending {
-    color: #cbc532;
 }

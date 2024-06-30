@@ -1,0 +1,61 @@
+.modal-footer button.tracking-cancel {
+    border-radius: 5px;
+    border: 1px solid rgb(48, 48, 48);
+    background-color: rgba(240, 240, 240, 0.336);
+    padding: 6px 10px;
+    font-size: 17px;
+}
+
+.modal-footer button.tracking-cancel:hover {
+    border-radius: 5px;
+    border: 1px solid rgb(153, 153, 153);
+    background-color: rgb(153, 153, 153);
+    color: rgb(245, 245, 245);
+}
+
+.modal-content .modal-body ul .reason {
+    display: flex;
+    align-items: center;
+}
+
+.modal-content .modal-body ul .reason input[type="radio"] {
+    margin-right: 10px;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.modal-content .modal-body ul .reason input[type="radio"]+label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+.modal-content .modal-body ul .reason input[type="radio"]+label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 19px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    background: #fff;
+    transform: scale(0.8);
+}
+
+.modal-content .modal-body ul .reason input[type="radio"]:checked+label:before {
+    background-color: rgb(78, 78, 235);
+    border-color: rgb(78, 78, 235);
+}
+
+.modal-content .modal-body ul .reason input[type="radio"]:checked+label:after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+}

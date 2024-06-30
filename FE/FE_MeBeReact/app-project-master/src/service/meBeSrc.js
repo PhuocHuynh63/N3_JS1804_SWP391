@@ -58,6 +58,10 @@ export const meBeSrc = {
         return https.post(`/order/create_vnpay`, data);
     },
 
+    putCancelOrder: (order_id, data) => {
+        return https.put(`/order/cancel/orId=${order_id}`, data);
+    },
+
     createVNPay: (data) => {
         return https.post(`api/payment/create`, data);
     },

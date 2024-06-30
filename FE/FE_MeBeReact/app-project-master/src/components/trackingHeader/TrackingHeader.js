@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './TrackingHeader.css';
 
-const TrackingHeader = () => {
+const TrackingHeader = ({ onStatusChange }) => {
+    const [activeStatus, setActiveStatus] = useState('Tất cả')
+
+    const handleStatusCick = (status) => {
+        setActiveStatus(status)
+        onStatusChange(status)
+    }
+
     return (
         <div className="tracking-header">
-            <span>Tất cả</span>
-            <span>Chờ thanh toán</span>
-            <span>Vận chuyển</span>
-            <span>Chờ giao hàng</span>
-            <span>Hoàn thành</span>
-            <span>Đã hủy</span>
+            {['Tất cả', 'Chờ xác nhận', 'Đang được xử lý', 'Đang giao', 'Đã giao', 'Đã hủy'].map((status) => (
+                <span key={status} className={activeStatus === status ? 'active' : ''} onClick={() => handleStatusCick(status)}>
+                    {status}
+                </span>
+            ))}
         </div>
     );
 }
