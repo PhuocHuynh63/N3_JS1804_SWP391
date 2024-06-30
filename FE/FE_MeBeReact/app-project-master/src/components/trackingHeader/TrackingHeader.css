@@ -21,16 +21,23 @@
     height: 3px;
     display: block;
     right: 0;
-    background: #323232;
+    background: #c2b57f;
     transition: width 0.6s ease, right 0.6s ease;
 }
 
-.tracking-header span:hover::after {
+.tracking-header span.active::after {
     width: 100%;
     right: 0;
     left: 0;
 }
 
 .tracking-header span:hover {
-    transition: all 1s;
+    color: #8f8f36;
+    transition: all 0.3s;
+}
+
+.tracking-header .active {
+    color: #c2b57f;
+    /* Change to the color you want for the active span */
+    font-weight: bold;
 }

@@ -72,7 +72,7 @@ export default function OrderPage() {
                 } : null,
                 userId: isLoggedIn ? userId : null,
                 voucherId: null,
-                status: "Pending",
+                status: "Chờ xác nhận",
                 totalAmount: parseFloat(getTotalPrice().replace(/\./g, '')),
                 orderType: selectedPaymentMethod,
                 paymentStatus: selectedPaymentMethod === 'COD' ? "pending" : "unpaid",

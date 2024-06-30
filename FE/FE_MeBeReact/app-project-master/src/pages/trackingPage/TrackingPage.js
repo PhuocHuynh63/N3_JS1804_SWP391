@@ -4,14 +4,14 @@ import { NavLink } from "react-router-dom";
 import TrackingHeader from "../../components/trackingHeader/TrackingHeader";
 import { meBeSrc } from "../../service/meBeSrc";
 import { jwtDecode } from "jwt-decode";
+import TrackingCancel from "./TrackingCancel";
 
 export default function TrackingPage() {
     const [data, setData] = useState([]);
     const [user, setUser] = useState({});
+    const [statusFilter, setStatusFilter] = useState('Tất cả');
+    const [selectedOrderId, setSelectedOrderId] = useState(null); // Thêm trạng thái này
 
-    /**
-     * Get Tracking API 
-     */
     useEffect(() => {
         if (user.id) {
             meBeSrc.getTrackingOrder(user.id)
@@ -24,9 +24,6 @@ export default function TrackingPage() {
         }
     }, [user.id]);
 
-    /**
-     * Take user info (username) from local storage by token
-     */
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
         if (token) {
@@ -46,8 +43,8 @@ export default function TrackingPage() {
         }
     }, []);
 
-    const switchStatus = (order) => {
-        switch (order.status) {
+    const switchStatus = (status) => {
+        switch (status) {
             case 'Chờ xác nhận': return 'confirm';
             case 'Đang được xử lý': return 'pending';
             case 'Đang giao': return 'shipping';
@@ -57,14 +54,62 @@ export default function TrackingPage() {
         }
     }
 
+    const handleStatusClassButton = (status) => {
+        switch (switchStatus(status)) {
+            case 'confirm':
+                return 'btn-cancel';
+            case 'pending':
+                return 'btn-cancel';
+            case 'shipping':
+                return 'btn-cancel';
+            case 'success':
+                return 'btn-buy-again';
+            case 'cancel':
+                return 'btn-buy-again';
+            default:
+                break;
+        }
+    }
+
+    const handleStatusButton = (status) => {
+        switch (switchStatus(status)) {
+            case 'confirm':
+                return 'Hủy đơn hàng';
+            case 'pending':
+                return 'Hủy đơn hàng';
+            case 'shipping':
+                return 'Hủy đơn hàng';
+            case 'success':
+                return 'Mua lại';
+            case 'cancel':
+                return 'Mua lại';
+            default:
+                break;
+        }
+    }
+
+    const handleStatusChange = (status) => {
+        setStatusFilter(status);
+    }
+
+    const [showCancel, setShowCancel] = useState(false);
+    const handleCloseCancel = () => setShowCancel(false);
+    const handleShowCancel = (orderId) => {
+        setSelectedOrderId(orderId); // Đặt ID đơn hàng được chọn
+        setShowCancel(true);
+    };
+
+    const sortData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const filteredData = sortData.filter(order => statusFilter === 'Tất cả' || order.status === statusFilter);
+
     return (
         <div className="tracking-container">
-            <TrackingHeader />
+            <TrackingHeader onStatusChange={handleStatusChange} />
 
-            {data.length === 0 ? (
-                <p>No orders found</p>
+            {filteredData.length === 0 ? (
+                <p>Chưa có đơn hàng</p>
             ) : (
-                data.map((order, index) => (
+                filteredData.map((order, index) => (
                     <div className="tracking-body" key={index}>
                         <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
 
@@ -91,15 +136,18 @@ export default function TrackingPage() {
                                 </span>
                             </div>
                             <div className="btn">
-                                <NavLink to={"/account/tracking/success"} className={switchStatus(order.status)}>
+                                <NavLink className={`${switchStatus(order.status)}`}>
                                     {order.status}
                                 </NavLink>
-                                <button className="btn-buy_again">Mua lại</button>
+                                <button className={handleStatusClassButton(order.status)} onClick={handleStatusButton(order.status) === 'Hủy đơn hàng' ? () => handleShowCancel(order.orderId) : null}>
+                                    {handleStatusButton(order.status)}
+                                </button>
                             </div>
                         </div>
                     </div>
                 ))
             )}
+            <TrackingCancel show={showCancel} handleClose={handleCloseCancel} order_id={selectedOrderId} />
         </div>
     );
 }
