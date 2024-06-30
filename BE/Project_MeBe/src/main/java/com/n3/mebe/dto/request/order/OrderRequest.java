@@ -23,6 +23,7 @@ public class OrderRequest {
     private String paymentStatus;
     private String note;
     private List<OrderDetailsRequest> item;
+    private String transactionReference;
 
 
 }

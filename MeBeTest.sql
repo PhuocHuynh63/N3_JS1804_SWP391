@@ -10,7 +10,7 @@ GO
     avatar VARCHAR(255),
     first_name NVARCHAR(50),
     last_name NVARCHAR(50),
-	username NVARCHAR(50) UNIQUE,
+	username NVARCHAR(50),
     email VARCHAR(100) UNIQUE,
     [password] VARCHAR(255),
     birth_date DATE,
@@ -239,7 +239,6 @@ CREATE TABLE payment (
 	order_id INT,
 	amount DECIMAL(10, 2),
 	payment_type NVARCHAR(50),
-	payment_method NVARCHAR(50),
 	payment_status NVARCHAR(50),
 	transaction_reference NVARCHAR(100),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -280,12 +279,12 @@ VALUES
 (3, 3, 5, 32000.00, 0),
 (3, 4, 1, 135000.00, 130000.00);
 
-
+ 
 -- Thêm dữ liệu vào bảng payment
-INSERT INTO payment (order_id, amount, payment_type, payment_method, payment_status, transaction_reference)
+INSERT INTO payment (order_id, amount, payment_type, transaction_reference)
 VALUES
-(1, 500000.00, N'Online', N'Credit Card', N'Pending', N'TRX001'),
-(2, 750000.00, N'COD', N'Cash', N'Completed', NULL),
-(3, 1200000.00, N'Online', N'Bank Transfer', N'Completed', N'TRX002');
+(1, 500000.00, N'Online', N'TRX001'),
+(2, 750000.00, N'COD', NULL),
+(3, 1200000.00, N'Online', N'TRX002');
 
 

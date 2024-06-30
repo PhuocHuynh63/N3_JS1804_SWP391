@@ -9,7 +9,6 @@ import com.n3.mebe.entity.Order;
 import com.n3.mebe.service.IOrderDetailsService;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.iml.ProductService;
-import com.n3.mebe.service.iml.mail.SendMailService;
 import com.n3.mebe.service.iml.paymentOrder.VNPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -25,6 +24,8 @@ import java.util.Map;
 @RequestMapping("/order")
 public class OrderController {
 
+
+
     @Autowired
     private IOrderService orderService;
 
@@ -39,8 +40,7 @@ public class OrderController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
-    private SendMailService sendMailService;
+
 
 
     /**
@@ -56,6 +56,7 @@ public class OrderController {
         productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
         // Lấy paymentId từ params
         String paymentId = vnp_Params.get("vnp_TxnRef");
+        String transactionReference = vnp_Params.get("vnp_OrderInfo");
         if (paymentId == null) {
             // Không có paymentId trong params
             TransactionStatusDTO status = new TransactionStatusDTO();
@@ -85,6 +86,7 @@ public class OrderController {
             transactionStatusDTO.setStatus("Ok");
             transactionStatusDTO.setMessage("Payment successfully processed");
             // lưu order vào cơ sở dữ liệu
+            orderRequest.setTransactionReference(transactionReference);
             boolean success = orderService.createOrder(orderRequest);
 
             // Sau khi lưu order, xóa thông tin thanh toán khỏi Redis

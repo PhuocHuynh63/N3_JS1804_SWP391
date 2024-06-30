@@ -1,7 +1,9 @@
 package com.n3.mebe.service.iml.mail;
 
 import com.n3.mebe.dto.response.gmail.GmailSendResponse;
+import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.User;
+import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.iml.UserService;
@@ -24,10 +26,14 @@ public class SendMailService implements ISendMailService {
     private MailService mailService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    IUserRepository IUserRepository;
+    private IUserRepository IUserRepository;
+
+    @Autowired
+    private IOrderDetailsRepository IOrderDetailsRepository;
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -68,4 +74,36 @@ public class SendMailService implements ISendMailService {
         }
         return false;
     }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="create Send Email Verify Order">
+    @Override
+    public Boolean createSendEmailVerifyOrder(String email, Order order) {
+        try {
+            GmailSendResponse response = new GmailSendResponse();
+
+            User user = userService.getUserByEmail(email);
+            response.setTo(user.getEmail());
+            response.setSubject(ConstEmail.SEND_MAIL_SUBJECT.VERIFY_ORDER);
+
+
+            Map<String, Object> props = new HashMap<>();
+            props.put("firstName", user.getFirstName());
+            props.put("lastName", user.getLastName());
+            props.put("orderId", order.getOrderId());
+
+
+
+            props.put("orderDetails", IOrderDetailsRepository.findByOrderOrderId(order.getOrderId()));
+            props.put("totalAmount",  order.getTotalAmount());
+            response.setProps(props);
+
+            mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.VERIFY_ORDER);
+            return true;
+        } catch (MessagingException exp) {
+            exp.printStackTrace();
+        }
+        return false;
+    }// </editor-fold>
+
+
 }
