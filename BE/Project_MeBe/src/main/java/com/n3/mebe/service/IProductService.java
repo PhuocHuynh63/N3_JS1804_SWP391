@@ -25,6 +25,8 @@ public interface IProductService {
     boolean updateProduct(int id, MultipartFile file, int subCategory, String slug, String name, String description,
                           float price, float salePrice, String status, int totalSold,int quantity, int productView);
 
+    boolean setStatus(int prId, String status);
+
     void deleteProduct(int id);
 
     List<ProductResponse> getProductResponseList(String cate);

@@ -44,4 +44,6 @@ public interface IProductRespository extends JpaRepository<Product, Integer> {
 
     List<Product> findAllByOrderByTotalSoldDesc();
 
+    @Query("SELECT p FROM Product p WHERE p.quantity = 0")
+    List<Product> findAllByOrderByQuantityOut();
 }

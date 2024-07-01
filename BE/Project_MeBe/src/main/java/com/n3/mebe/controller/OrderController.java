@@ -87,6 +87,7 @@ public class OrderController {
             transactionStatusDTO.setMessage("Payment successfully processed");
             // lưu order vào cơ sở dữ liệu
             orderRequest.setTransactionReference(transactionReference);
+            orderRequest.setOrderType("Online");
             boolean success = orderService.createOrder(orderRequest);
 
             // Sau khi lưu order, xóa thông tin thanh toán khỏi Redis

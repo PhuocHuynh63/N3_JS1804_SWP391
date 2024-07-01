@@ -70,6 +70,11 @@ public class ProductController {
         return productService.updateProduct(id ,file, subCategory, slug, name, description, price, salePrice, status, totalSold, quantity,productView);
     }
 
+    @PutMapping("/update_status/product_id={prId}")
+    boolean updateStatus(@PathVariable("prId") int prId, @RequestParam String status) {
+        return productService.setStatus(prId, status);
+    }
+
 
     //Delete product by id
     @DeleteMapping("/delete/product_id={id}")

@@ -7,6 +7,7 @@ import com.n3.mebe.dto.response.product.ProductResponse;
 import com.n3.mebe.entity.OrderDetail;
 import com.n3.mebe.entity.Product;
 import com.n3.mebe.entity.SubCategory;
+import com.n3.mebe.entity.WishList;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IProductRespository;
@@ -14,6 +15,7 @@ import com.n3.mebe.repository.ISubCategoryRepository;
 import com.n3.mebe.service.IFileService;
 import com.n3.mebe.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +49,9 @@ public class ProductService implements IProductService {
 
         if (updateQuantity < 0) {
             throw new AppException(ErrorCode.PRODUCT_QUANTITY_END);
+        }else if (updateQuantity == 0){
+            String outStock = "Hết hàng";
+            setStatus(prId, outStock);
         }
         product.setQuantity(updateQuantity);
         iProductRespository.save(product);
@@ -155,6 +160,17 @@ public class ProductService implements IProductService {
         return isInsertedSuccess;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Set Status Product">
+    @Override
+    public boolean setStatus(int prId, String status) {
+
+        Product product = getProductById(prId);
+        product.setStatus(status);
+        product.setUpdateAt(new Date());
+        iProductRespository.save(product);
+        return true;
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="Delete Product">
     @Override
     public void deleteProduct(int id) {
@@ -162,6 +178,19 @@ public class ProductService implements IProductService {
         String status = "delete";
         product.setStatus(status);
     }// </editor-fold>
+
+
+    @Scheduled(cron = "0 0 0 * * ?") // Chạy hàng ngày vào lúc nửa đêm
+    public void updateProductStatus() {
+        Date currentDate = new Date();
+        String status = "Hết hàng";
+        List<Product> productList = iProductRespository.findAllByOrderByQuantityOut();
+        for (Product product : productList) {
+            product.setStatus(status);
+            product.setUpdateAt(currentDate);
+            iProductRespository.save(product);
+        }
+    }
 
     /**
      *  Response to Client

@@ -225,12 +225,13 @@ public class OrderService implements IOrderService {
         Order order = getOrder(orderId);
         String status = order.getStatus();
         String msg = "";
-        if (!status.equals("Pending") && !status.equals("Processing") && !status.equals("Awaiting Payment")) {
+        if (!status.equals("Chờ xác nhận") && !status.equals("Đang được xử lý") && !status.equals("Đang thanh toán")) {
             throw new AppException(ErrorCode.ORDER_NOT_CANCEL);
         }else {
-            status = "Canceled";
+            status = "Đã hủy";
             msg = "Hủy thành công";
             order.setStatus(status);
+            order.setNote(request.getNote());
 
             Date now = new Date();
             order.setUpdatedAt(now);
@@ -238,7 +239,8 @@ public class OrderService implements IOrderService {
             orderRepository.save(order);
         }
         return msg;
-    }// </editor-fold>
+    }
+    // </editor-fold>
 
 
     @Override
