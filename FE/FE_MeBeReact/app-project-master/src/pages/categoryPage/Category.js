@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './Category.css';
 import { meBeSrc } from '../../service/meBeSrc';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Modal } from 'antd';
 import OutOfStock from '../../components/outOfStock/OutOfStock';
 
 export default function Category() {
-    const [category, setCategory] = useState({});
-    const { slug } = useParams();
+    const [category, setCategory] = useState({}); // State để lưu thông tin category hiện tại
+    const { slug } = useParams(); // Lấy slug từ URL params
+    const navigate = useNavigate(); // Hook để điều hướng
+    const location = useLocation(); // Hook để lấy thông tin về vị trí hiện tại
+    const parentCategory = location.state?.parentCategory; // Lấy parentCategory từ state nếu có
 
+    // Gọi API để lấy thông tin category theo slug
     useEffect(() => {
         meBeSrc.getCategoryBySlug(slug)
             .then((res) => {
@@ -19,8 +23,8 @@ export default function Category() {
             });
     }, [slug]);
 
+    // Gọi API để lấy danh sách subcategories theo tên category
     const [subCategories, setSubCategories] = useState([]);
-
     useEffect(() => {
         meBeSrc.getListSubCategory()
             .then((res) => {
@@ -31,8 +35,8 @@ export default function Category() {
             });
     }, [category.name]);
 
+    // Gọi API để lấy danh sách products
     const [products, setProducts] = useState([]);
-
     useEffect(() => {
         meBeSrc.getProduct()
             .then((res) => {
@@ -42,10 +46,12 @@ export default function Category() {
             });
     }, [category.name]);
 
+    // State và các hàm liên quan đến hiển thị modal
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
+    // Hàm xử lý khi nhấn nút thêm vào giỏ hàng
     const handleClickCart = (e, product) => {
         e.preventDefault();
         if (product.status === 'Hết hàng' || product.quantity === 0) {
@@ -67,24 +73,35 @@ export default function Category() {
             totalPrice: product.price,
         };
 
+        // Lấy danh sách sản phẩm từ giỏ hàng trong localStorage
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
 
+        // Cập nhật số lượng và tổng giá nếu sản phẩm đã tồn tại trong giỏ hàng
         if (existingItemIndex > -1) {
             cartItems[existingItemIndex].quantity += item.quantity;
             cartItems[existingItemIndex].totalPrice += item.totalPrice;
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product quantity updated successfully!</h1></div>);
         } else {
+            // Thêm sản phẩm mới vào giỏ hàng
             cartItems.push(item);
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product added successfully!</h1></div>);
         }
 
+        // Lưu danh sách giỏ hàng vào localStorage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
 
+    // Hàm hiển thị modal thông báo
     const showModalnotify = (message) => {
         setModalMessage(message);
         setIsModalVisible(true);
+    };
+
+    // Hàm xử lý khi nhấn vào subcategory
+    const handleSubCategoryClick = (subCategory) => {
+        // Điều hướng đến trang subcategory và truyền thông tin parent category qua state
+        navigate(`/subcategory/${subCategory.slug}`, { state: { parentCategory: category } });
     };
 
     return (
@@ -93,7 +110,7 @@ export default function Category() {
                 <h2>Bạn cần tìm</h2>
                 <div className="category-icons">
                     {subCategories.map((subCategory) => (
-                        <div className="category-icon" key={subCategory.name}>
+                        <div className="category-icon" key={subCategory.name} onClick={() => handleSubCategoryClick(subCategory)}>
                             <a href={`/subcategory/${subCategory.slug}`}>
                                 <img src={subCategory.image} alt={subCategory.name} />
                                 <p>{subCategory.name}</p>
@@ -143,7 +160,6 @@ export default function Category() {
                     </div>
                 );
             })}
-
             <Modal
                 title="Notification"
                 visible={isModalVisible}
@@ -155,4 +171,5 @@ export default function Category() {
             </Modal>
         </div>
     );
+
 }

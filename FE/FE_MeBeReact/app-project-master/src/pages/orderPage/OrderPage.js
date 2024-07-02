@@ -3,6 +3,7 @@ import './OrderPage.css'; // Import CSS file
 import { NavLink, useNavigate } from 'react-router-dom';
 import { meBeSrc } from '../../service/meBeSrc'; // Không cần destructuring vì meBeSrc không phải là named export
 import { jwtDecode } from 'jwt-decode';
+import Loading from '../../components/loading/Loading';
 
 export default function OrderPage() {
     const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ export default function OrderPage() {
     const [userId, setUserId] = useState(null); // State to store userId
     const [cartItems, setCartItems] = useState([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('COD');
+    const [loading, setLoading] = useState(false); //LoadingIcon...
 
     useEffect(() => {
         const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -47,6 +49,7 @@ export default function OrderPage() {
     };
 
     const handleSubmit = (e) => {
+        setLoading(true);
         e.preventDefault();
         const newErrors = {};
 
@@ -100,15 +103,20 @@ export default function OrderPage() {
                         console.error('Error response data:', error.response.data);
                     });
             } else if (selectedPaymentMethod === 'VNPay') {
-                // Redirect to VNPay sandbox
-                meBeSrc.createOrderVnPay(orderData)
+                const paymentData = {
+                    bankCode: "NCB",
+                    type: "Online",
+                    amount: orderData.totalAmount,
+                }
+
+                meBeSrc.createVNPay(paymentData)
                     .then(response => {
                         console.log('Order created successfully:', response.data);
                         // Clear cartItems from state and localStorage
                         setCartItems([]);
                         localStorage.removeItem('cartItems');
                         // Redirect to VNPay sandbox for payment
-                        window.location.href = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+                        window.location.href = response.data.url;
                     })
                     .catch(error => {
                         console.error('Error creating order:', error);
@@ -158,7 +166,9 @@ export default function OrderPage() {
         }
     }, []);
 
-    return (
+
+
+    return loading ? (<Loading />) : (
         <div className="order-container">
             <div className="order-left">
                 <form onSubmit={handleSubmit}>

@@ -16,12 +16,13 @@ const TrackingCancel = ({ show, handleClose, order_id }) => {
     };
 
     const handleCancelOrder = () => {
-        const reason = selectedReason === 'other' ? otherReason : selectedReason;
-        if (reason) {
-            meBeSrc.putCancelOrder(order_id, { reason })
+        const note = selectedReason === 'other' ? otherReason : selectedReason;
+        if (note) {
+            meBeSrc.putCancelOrder(order_id, { note }) // Đảm bảo rằng API call đang gửi `note`
                 .then((res) => {
                     console.log('Order canceled: ', res.data);
                     handleClose();
+                    window.location.reload();
                 }).catch((err) => {
                     console.error('Error canceling order', err);
                 });

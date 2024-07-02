@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { userService } from "../../service/userService";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,16 +11,17 @@ import { Input, Form, notification } from "antd";
 import bannerLogin from "../../images/Logo_Login.jpg";
 
 const LoginPage = ({ show, handleClose }) => {
+  const [loading, setLoading] = useState(false);
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
   const onFinish = (values) => {
+    setLoading(true); // Bắt đầu tải
     console.log("Success:", values);
     userService
       .postLogin(values)
       .then((response) => {
 
-        // Kiểm tra cấu trúc của response.data
         if (response.success) {
           localService.set(response.data); // Lưu token vào local storage
           dispatch(setLoginAction({ token: response.data, role: response.role })); // Lưu token và vai trò vào redux
@@ -30,7 +31,6 @@ const LoginPage = ({ show, handleClose }) => {
             description: response.description,
           });
 
-          // Điều hướng dựa trên vai trò của người dùng
           if (response.role === "admin") {
             navigate("/adminPage");
           } else {
@@ -50,6 +50,9 @@ const LoginPage = ({ show, handleClose }) => {
           message: "Login Failed",
           description: error.message,
         });
+      })
+      .finally(() => {
+        setLoading(false); // Hoàn thành tải
       });
   };
 
@@ -205,8 +208,9 @@ const LoginPage = ({ show, handleClose }) => {
                                       id="btn-signin"
                                       className="btn btn-dark btn-lg"
                                       type="submit"
+                                      disabled={loading} // Vô hiệu hóa nút khi đang tải
                                     >
-                                      Đăng nhập
+                                      {loading ? "Đang xử lý..." : "Đăng nhập"}
                                     </Button>
                                   </Form.Item>
                                 </div>

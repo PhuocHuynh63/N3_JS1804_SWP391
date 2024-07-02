@@ -1,0 +1,15 @@
+.loading-icon {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.loading-overlay {
+    opacity: var(--bs-backdrop-opacity);
+}
+
+.loading-opacity {
+    opacity: var(--bs-backdrop-opacity);
+}
