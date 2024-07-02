@@ -15,6 +15,7 @@ import NotFoundPage from './pages/notFoundPage/notFoundPage';
 import ForgotPasswordPage from './pages/forgotPassword/forgotPassword';
 import RegisterPage from './pages/registerPage/registerPage';
 import SuccessPage from './components/success/SuccessPage';
+import changePassword from './pages/profilePage/changePassword';
 // import AdminDashboardPage from './pages/adminPage/AdminDashboardPage';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/account/profile" element={<LayoutProfile Component={ProfileUser} />} />
           <Route path="/account/address" element={<LayoutProfile Component={AddressPage} />} />
           <Route path="/account/tracking" element={<LayoutProfile Component={TrackingPage} />} />
+          <Route path="/account/changePassword" element={<LayoutProfile Component={changePassword} />} />
           {/* <Route path="/admin/dashboard" element={<Layout Component={AdminDashboardPage} />} /> */}
           {/* <Route path="/" element={<About />} /> */}
           {/* <Route path="dashboard" element={<Dashboard />} /> */}
