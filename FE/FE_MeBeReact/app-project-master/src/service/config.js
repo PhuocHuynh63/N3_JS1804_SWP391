@@ -1,8 +1,8 @@
 import axios from "axios";
 import { localService } from "./localService";
 
-export const BASE_URL = "http://localhost:8080";
-// export const BASE_URL = "http://10.10.88.142:8081";
+// export const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "http://192.168.1.7:8081"; // IP của nhà Kumo
 
 const TokenApp = "PP39rVlhPwxIt0Fl40ZmcG8TdBFQrbXVsVhdF6JWoKM=";
 

@@ -1,0 +1,16 @@
+.susscess {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.susscess h1 img {
+    scale: 3;
+}
+
+.susscess p {
+    font-size: 20px;
+    margin-top: 40px;
+}

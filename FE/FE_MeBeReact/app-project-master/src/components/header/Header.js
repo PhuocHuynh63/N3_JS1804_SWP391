@@ -58,6 +58,10 @@ export default function Header() {
     const handleShowCart = () => setShowCart(true);
     //-----End Pop-up Login, Cart-----
 
+
+    //Search
+    const [searchTerm, setSearchTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
     if (!userInfo) {
         return (
             <div className="header_container">

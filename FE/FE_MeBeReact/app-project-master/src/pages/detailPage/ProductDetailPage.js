@@ -36,7 +36,7 @@ export default function DetailPage() {
 
     const handleAddToCart = () => {
         // Check if the product is out of stock
-        if (product.status === 'Hết hàng' || product.quantity === 0) {
+        if (product.status === 'Hết hàng' || product.quantity === 0 || product.quantity < quantity) {
             setShowModal(true);
             setTimeout(() => {
                 setShowModal(false);

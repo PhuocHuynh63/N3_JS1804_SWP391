@@ -92,9 +92,9 @@ export default function TrackingPage() {
         setStatusFilter(status);
     }
 
-    const [showCancel, setShowCancel] = useState(false);
-    const handleCloseCancel = () => setShowCancel(false);
-    const handleShowCancel = (orderId) => {
+    const [showCancel, setShowCancel] = useState(false); // Thêm trạng thái này
+    const handleCloseCancel = () => setShowCancel(false); // Thêm hàm này
+    const handleShowCancel = (orderId) => { // Thêm hàm này
         setSelectedOrderId(orderId); // Đặt ID đơn hàng được chọn
         setShowCancel(true);
     };
@@ -147,7 +147,7 @@ export default function TrackingPage() {
                     </div>
                 ))
             )}
-            <TrackingCancel show={showCancel} handleClose={handleCloseCancel} order_id={selectedOrderId} />
+            <TrackingCancel show={showCancel} handleClose={handleCloseCancel} order_id={selectedOrderId} /> {/* Thêm component này */}
         </div>
     );
 }

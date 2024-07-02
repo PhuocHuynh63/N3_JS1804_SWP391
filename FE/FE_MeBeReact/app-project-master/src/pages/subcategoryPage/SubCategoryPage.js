@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './SubCategoryPage.css';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown, Space } from 'antd';
 import { meBeSrc } from '../../service/meBeSrc';
@@ -14,7 +14,10 @@ export default function SubCategory() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const { subCategoryId } = useParams();
+    const location = useLocation(); //useLocation hook to get the current location
+    const parentCategory = location.state.parentCategory;
 
+    //Handle add to cart
     const handleClickCart = (e, product) => {
         e.preventDefault();
         // Check if the product is out of stock
@@ -57,6 +60,7 @@ export default function SubCategory() {
         // Save updated cart items to local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
+    //-----End-----//
 
     const showModalnotify = (message) => {
         setModalMessage(message);
@@ -90,13 +94,19 @@ export default function SubCategory() {
                 console.log(err);
             });
     }, [subCategoryId]);
+    //-----End-----//
 
     return (
         <div className='subcategory'>
             <div className="breadcrumbs">
                 <NavLink to="/">
-                    Trang chủ
+                    Trang chủ {'>'}
                 </NavLink>
+                {parentCategory && (
+                    <NavLink to={`/category/${parentCategory.slug}`}>
+                        {parentCategory.name}
+                    </NavLink>
+                )}
             </div>
             <div className="filters">
                 <button>Bộ lọc <i className="fa-solid fa-filter"></i></button>
