@@ -260,3 +260,165 @@ header {
 .form-floating.mb-3 #password {
     text-align: left;
 }
+
+/* Suggestions Box */
+.suggestions {
+    position: absolute;
+    top: 100%;
+    /* Position the suggestions box directly below the input */
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 1001;
+    /* Ensure the suggestions box is above other elements */
+    margin-top: 5px;
+    /* Add some margin to push it below the search box */
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestions li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.suggestions li:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestions li img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.suggestions li div {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestions li .product-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.suggestions li .product-price {
+    font-size: 14px;
+    font-weight: 400;
+    color: #ff6f61;
+}
+
+.suggestions li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    width: 100%;
+}
+
+.suggestions li a .search-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.suggestions li a .search-item .text p {
+    margin-left: 6px;
+    margin-bottom: 0;
+}
+
+.suggestions li a .search-item .text .price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 6px;
+}
+
+.suggestions li a .search-item .text .main-price {
+    font-size: 20px;
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.suggestions li a .search-item .text span.price-line_through {
+    text-decoration: line-through;
+    color: #a8a8a8;
+    margin-right: 13px;
+}
+
+.suggestions li a .search-item .text .sale-price {
+    font-size: 18px;
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.suggestions li a .search-item .text .normal-price {
+    font-size: 18px;
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+/* Form Search */
+.form_inline {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    border-radius: 10px;
+    height: 34px;
+    width: 450px;
+    position: relative;
+    /* Add this line to make the suggestions box position correctly */
+}
+
+.form_inline #search {
+    display: flex;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    border: 2px solid rgb(160, 150, 79);
+    border: none;
+    border-radius: 0 10px 10px 0;
+    height: 32px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.form_inline #search:hover {
+    color: rgba(0, 0, 0, 0.649);
+}
+
+.form_inline:focus-within {
+    border: none;
+    background-color: rgba(245, 244, 244, 0.771);
+}
+
+.form_control {
+    border: none;
+    width: 100%;
+    height: 30px;
+    padding-left: 13px;
+    font-size: 15px;
+    border-radius: 10px 0 0 10px;
+}
+
+.form_control:hover {
+    cursor: auto;
+}
+
+.form_control:focus {
+    border: none;
+    outline: none;
+    background-color: rgba(245, 244, 244, 0.67);
+}

@@ -9,7 +9,7 @@ export default function ({ Component }) {
         <div className='layout-container'>
             <Header />
 
-            <div className='main-content'>
+            <div className='profile-main-content'>
                 <Profile />
                 <Component />
             </div>

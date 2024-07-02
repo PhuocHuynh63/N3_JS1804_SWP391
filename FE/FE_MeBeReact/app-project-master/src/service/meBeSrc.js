@@ -18,6 +18,14 @@ export const meBeSrc = {
         return https.get(`/product/list_subcate=${slug}`);
     },
 
+    getProductLastest: () => {
+        return https.get(`/product/list/create_at_desc`)
+    },
+
+    getProductBySearch: (search) => {
+        return https.get(`/product/search?name=${search}`);
+    },
+
     getListCategory: () => {
         return https.get(`/category/list`);
     },
@@ -40,6 +48,14 @@ export const meBeSrc = {
 
     getUserByUserName: (user_name) => {
         return https.get(`/user/username=${user_name}`);
+    },
+
+    userSignUp: (data) => {
+        return https.post(`/user/signup`, data)
+    },
+
+    changePassword: (user_id, data) => {
+        return https.put(`/user/change_password/${user_id}`, null, { params: data });
     },
 
     updateUserProfile: (user_id, data) => {
@@ -66,9 +82,8 @@ export const meBeSrc = {
         return https.post(`api/payment/create`, data);
     },
 
-    getProductLastest: () => {
-        return https.get(`/product/list/create_at_desc`)
-    },
-
+    forgotPassword: (email) => {
+        return https.post(`/forgot_password/email?email=${email}`);
+    }
 
 }

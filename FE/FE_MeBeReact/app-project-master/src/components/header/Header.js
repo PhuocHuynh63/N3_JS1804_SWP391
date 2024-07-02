@@ -19,6 +19,7 @@ export default function Header() {
             setUser(userInfo);
         }
     }, [userInfo])
+    //-----End Lấy thông tin user từ store-----//
 
 
     //Logout
@@ -26,7 +27,7 @@ export default function Header() {
         localService.remove()
         window.location.reload()
     }
-    //-----End Logout-----
+    //-----End Logout-----//
 
 
     const [categories, setCategories] = useState([]);
@@ -56,12 +57,43 @@ export default function Header() {
 
     const handleCloseCart = () => setShowCart(false);
     const handleShowCart = () => setShowCart(true);
-    //-----End Pop-up Login, Cart-----
+    //-----End Pop-up Login, Cart-----//
 
 
     //Search
     const [searchTerm, setSearchTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
+    const suggestionsRef = useRef(null);
+
+    //Call API to get product by search term
+    useEffect(() => {
+        if (searchTerm) {
+            meBeSrc.getProductBySearch(searchTerm)
+                .then((res) => {
+                    setSuggestions(res.data);
+                })
+                .catch((err) => {
+                    console.log("Error fetching product", err);
+                });
+        } else {
+            setSuggestions([]);
+        }
+    }, [searchTerm]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+                setSuggestions([]);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+    }, []);
+    //-----End Search-----//
+
     if (!userInfo) {
         return (
             <div className="header_container">
@@ -71,8 +103,36 @@ export default function Header() {
                     </NavLink>
 
                     <form className="form_inline">
-                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" />
+                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                         <i id="search" className="fa-solid fa-magnifying-glass"></i>
+                        {suggestions.length > 0 && (
+                            <div className="suggestions">
+                                <ul>
+                                    {suggestions.map((suggestion, index) => (
+                                        <li key={index}>
+                                            <NavLink to={`/product/${suggestion.productId}`}>
+                                                <div className="search-item">
+                                                    <img src={suggestion.images} alt={suggestion.name} />
+                                                    <div className="text">
+                                                        <p>{suggestion.name}</p>
+                                                        <div className="price">
+                                                            <span className={suggestion.salePrice > 0 ? "sale-price" : "normal-price"}>
+                                                                {suggestion.salePrice > 0
+                                                                    ? suggestion.salePrice.toLocaleString('vi-VN')
+                                                                    : suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫
+                                                            </span>
+                                                            {suggestion.salePrice > 0 && (
+                                                                <span className="price-line_through">{suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </NavLink>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </form>
 
                     <div className="icons">
@@ -158,9 +218,38 @@ export default function Header() {
                     </NavLink>
 
                     <form className="form_inline">
-                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" />
+                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                         <i id="search" className="fa-solid fa-magnifying-glass"></i>
+                        {suggestions.length > 0 && (
+                            <div className="suggestions">
+                                <ul>
+                                    {suggestions.map((suggestion, index) => (
+                                        <li key={index}>
+                                            <NavLink to={`/product/${suggestion.productId}`}>
+                                                <div className="search-item">
+                                                    <img src={suggestion.images} alt={suggestion.name} />
+                                                    <div className="text">
+                                                        <p>{suggestion.name}</p>
+                                                        <div className="price">
+                                                            <span className={suggestion.salePrice > 0 ? "sale-price" : "normal-price"}>
+                                                                {suggestion.salePrice > 0
+                                                                    ? suggestion.salePrice.toLocaleString('vi-VN')
+                                                                    : suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫
+                                                            </span>
+                                                            {suggestion.salePrice > 0 && (
+                                                                <span className="price-line_through">{suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </NavLink>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </form>
+
 
                     <div className="icons">
                         <UserDropdown
