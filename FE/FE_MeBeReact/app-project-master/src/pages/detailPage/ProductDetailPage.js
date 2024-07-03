@@ -79,8 +79,8 @@ export default function DetailPage() {
 
     return (
         <div className='productdetail-container'>
-            <section className="product-details container py-5 mt-5">
-                <nav aria-label="breadcrumb">
+            <section className="product-details container">
+                <nav aria-label="product-details-breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
                             <NavLink to="/">

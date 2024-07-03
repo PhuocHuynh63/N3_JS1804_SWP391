@@ -115,27 +115,27 @@ export default function ProfileUser() {
                             <p className="small-subheader">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
                         </div>
                         <form className="profile-form small-profile-form profile-form" onSubmit={handleSubmit}>
-                            <div className="form-group small-form-group">
+                            <div className="form-group-profile small-form-group">
                                 <label htmlFor="username" className="small-label profile">Tên đăng nhập</label>
                                 <input type="text" id="username" className="form-control small-input profile" value={user.username} readOnly style={{ backgroundColor: `#e0e0e0` }} />
                             </div>
-                            <div className="form-group small-form-group">
+                            <div className="form-group-profile small-form-group">
                                 <label htmlFor="firstName" className="small-label profile">Họ</label>
                                 <input type="text" id="firstName" className="form-control small-input profile" value={user.firstName} onChange={handleInputChange} />
                             </div>
-                            <div className="form-group small-form-group">
+                            <div className="form-group-profile small-form-group">
                                 <label htmlFor="lastName" className="small-label profile">Tên</label>
                                 <input type="text" id="lastName" className="form-control small-input profile" value={user.lastName} onChange={handleInputChange} />
                             </div>
-                            <div className="form-group small-form-group">
+                            <div className="form-group-profile small-form-group">
                                 <label htmlFor="phoneNumber" className="small-label profile">Số điện thoại</label>
                                 <input type="text" id="phoneNumber" className="form-control small-input profile" value={user.phoneNumber} readOnly />
                             </div>
-                            <div className="form-group small-form-group">
+                            <div className="form-group-profile small-form-group">
                                 <label htmlFor="birthOfDate" className="small-label profile">Ngày sinh</label>
                                 <input type="date" id="birthOfDate" className="form-control small-input profile" value={user.birthOfDate} onChange={handleInputChange} />
                             </div>
-                            <button type="submit" className="btn btn-primary small-btn profile-save">Lưu</button>
+                            <button type="submit" className="small-btn profile-save">Lưu</button>
                         </form>
                     </div>
                 </div>

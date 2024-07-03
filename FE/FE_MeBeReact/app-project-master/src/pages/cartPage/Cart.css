@@ -55,6 +55,11 @@
     border-bottom: 1px solid #ddd;
 }
 
+tbody.tbody-cart tr.cart-tr {
+    background-color: transparent;
+    padding: 10px;
+}
+
 .product-info {
     display: flex;
     align-items: center;
@@ -78,7 +83,7 @@
     cursor: pointer;
 }
 
-.quantity-control input {
+.quantity-control input[type="text"] {
     width: 30px;
     text-align: center;
     border: 1px solid #ddd;

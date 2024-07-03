@@ -31,6 +31,8 @@
 .cart-item .row {
     display: flex;
     align-items: center;
+    margin: 0 -12px;
+    width: 120%;
 }
 
 .cart-item {
