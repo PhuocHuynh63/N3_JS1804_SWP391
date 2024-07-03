@@ -75,12 +75,32 @@ public class ProductService implements IProductService {
         iProductRespository.save(product);
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Increase Quantity Product ByProduct">
+    public void increaseProductQuantityByProduct(int quanti, Product product) throws AppException {
+        int updateQuantity = product.getQuantity() + quanti;
+        String statusOut = "Hết hàng";
+        String statusNew = "Còn hàng";
+        product.setQuantity(updateQuantity);
+        if(product.getStatus().equals(statusOut)){
+            product.setStatus(statusNew);
+        }
+        iProductRespository.save(product);
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="increase Product Quantity List">
     public void increaseProductQuantityList(List<OrderDetailsRequest> items) {
         for (OrderDetailsRequest item : items) {
             Product product = getProductById(item.getProductId());
             //trừ số lượng trong product
             increaseProductQuantity(item.getQuantity(), product.getProductId());
+        }
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="increase Product Quantity List Order Detail">
+    public void increaseProductQuantityList2(List<OrderDetail> items) {
+        for (OrderDetail item : items) {
+            //trừ số lượng trong product
+            increaseProductQuantityByProduct(item.getQuantity(), item.getProduct());
         }
     }// </editor-fold>
 
