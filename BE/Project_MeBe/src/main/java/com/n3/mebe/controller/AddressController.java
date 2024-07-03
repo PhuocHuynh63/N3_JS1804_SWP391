@@ -16,7 +16,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/address")
+@RequestMapping("/address")
 public class AddressController {
 
     @Autowired
