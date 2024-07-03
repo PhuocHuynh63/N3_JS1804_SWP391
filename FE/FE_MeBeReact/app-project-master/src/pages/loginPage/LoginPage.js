@@ -32,7 +32,7 @@ const LoginPage = ({ show, handleClose }) => {
           });
 
           if (response.role === "admin") {
-            navigate("/adminPage");
+            navigate("/admin");
           } else {
             navigate("/");
           }
