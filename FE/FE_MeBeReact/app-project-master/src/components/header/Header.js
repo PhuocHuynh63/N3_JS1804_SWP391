@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Header.css";
 import LoginPage from "../../pages/loginPage/LoginPage";
 import CartPage from "../../pages/cartPage/Cart";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserDropdown from "./UserDropDown";
 import { localService } from "../../service/localService";
@@ -11,7 +11,9 @@ import logo from "../../images/Logo_Header_RemoveBackground.png";
 
 export default function Header() {
 
-    //Lấy thông tin user từ store
+    /**
+     * Lấy thông tin user từ store
+     */
     let userInfo = useSelector((state) => state.userReducer.userInfo);
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -22,7 +24,9 @@ export default function Header() {
     //-----End Lấy thông tin user từ store-----//
 
 
-    //Logout
+    /**
+     * Logout
+     */
     let handleLogout = () => {
         localService.remove()
         window.location.reload()
@@ -30,6 +34,9 @@ export default function Header() {
     //-----End Logout-----//
 
 
+    /**
+     * Get list category
+     */
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -41,6 +48,7 @@ export default function Header() {
                 console.log("Error fetching category", err);
             });
     }, []);
+    //-----End-----//
 
     const [isActive, setIsActive] = useState(false);
     const handleClick = (tab) => {
@@ -60,12 +68,13 @@ export default function Header() {
     //-----End Pop-up Login, Cart-----//
 
 
-    //Search
+    /**
+     * Suggest search
+     */
     const [searchTerm, setSearchTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
-    const suggestionsRef = useRef(null);
+    const suggestionsRef = useRef(null); // Ref for suggestions box
 
-    //Call API to get product by search term
     useEffect(() => {
         if (searchTerm) {
             meBeSrc.getProductBySearch(searchTerm)
@@ -79,20 +88,40 @@ export default function Header() {
             setSuggestions([]);
         }
     }, [searchTerm]);
+    //-----End----Call API to get products-//
 
+
+    /**
+     * Navigate to search page when submit search form
+     */
+    const navigate = useNavigate();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm) {
+            navigate(`/search/${searchTerm}`);
+            setSearchTerm("");
+            setSuggestions([]);
+        }
+    }
+    //-----End----//
+
+
+    /**
+     * Close suggestions when clicking outside
+     */
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
                 setSuggestions([]);
             }
-        }
+        };
 
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
-        }
+        };
     }, []);
-    //-----End Search-----//
+    //-----End-----//
 
     if (!userInfo) {
         return (
@@ -102,11 +131,11 @@ export default function Header() {
                         <img src={logo} alt="Nous Logo" height="50" />
                     </NavLink>
 
-                    <form className="form_inline">
+                    <form onSubmit={handleSubmit} className="form_inline">
                         <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                        <i id="search" className="fa-solid fa-magnifying-glass"></i>
+                        <i id="search" className="fa-solid fa-magnifying-glass" onClick={handleSubmit}></i>
                         {suggestions.length > 0 && (
-                            <div className="suggestions">
+                            <div className="suggestions" ref={suggestionsRef}>
                                 <ul>
                                     {suggestions.map((suggestion, index) => (
                                         <li key={index}>
@@ -217,11 +246,11 @@ export default function Header() {
                         <img src={logo} alt="Nous Logo" height="50" />
                     </NavLink>
 
-                    <form className="form_inline">
-                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                        <i id="search" className="fa-solid fa-magnifying-glass"></i>
+                    <form onSubmit={handleSubmit} className="form_inline">
+                        <input className="form_control" type="text" placeholder="Nhập tên sản phẩm" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                        <i id="search" className="fa-solid fa-magnifying-glass" onClick={handleSubmit}></i>
                         {suggestions.length > 0 && (
-                            <div className="suggestions">
+                            <div className="suggestions" ref={suggestionsRef}>
                                 <ul>
                                     {suggestions.map((suggestion, index) => (
                                         <li key={index}>
