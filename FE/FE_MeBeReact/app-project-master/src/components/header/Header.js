@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Header.css";
 import LoginPage from "../../pages/loginPage/LoginPage";
 import CartPage from "../../pages/cartPage/Cart";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserDropdown from "./UserDropDown";
 import { localService } from "../../service/localService";
@@ -11,7 +11,9 @@ import logo from "../../images/Logo_Header_RemoveBackground.png";
 
 export default function Header() {
 
-    //Lấy thông tin user từ store
+    /**
+     * Lấy thông tin user từ store
+     */
     let userInfo = useSelector((state) => state.userReducer.userInfo);
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -19,16 +21,22 @@ export default function Header() {
             setUser(userInfo);
         }
     }, [userInfo])
+    //-----End Lấy thông tin user từ store-----//
 
 
-    //Logout
+    /**
+     * Logout
+     */
     let handleLogout = () => {
         localService.remove()
         window.location.reload()
     }
-    //-----End Logout-----
+    //-----End Logout-----//
 
 
+    /**
+     * Get list category
+     */
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -40,6 +48,7 @@ export default function Header() {
                 console.log("Error fetching category", err);
             });
     }, []);
+    //-----End-----//
 
     const [isActive, setIsActive] = useState(false);
     const handleClick = (tab) => {
@@ -56,12 +65,64 @@ export default function Header() {
 
     const handleCloseCart = () => setShowCart(false);
     const handleShowCart = () => setShowCart(true);
-    //-----End Pop-up Login, Cart-----
+    //-----End Pop-up Login, Cart-----//
 
 
-    //Search
+    /**
+     * Suggest search
+     */
     const [searchTerm, setSearchTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
+    const suggestionsRef = useRef(null); // Ref for suggestions box
+
+    useEffect(() => {
+        if (searchTerm) {
+            meBeSrc.getProductBySearch(searchTerm)
+                .then((res) => {
+                    setSuggestions(res.data);
+                })
+                .catch((err) => {
+                    console.log("Error fetching product", err);
+                });
+        } else {
+            setSuggestions([]);
+        }
+    }, [searchTerm]);
+    //-----End----Call API to get products-//
+
+
+    /**
+     * Navigate to search page when submit search form
+     */
+    const navigate = useNavigate();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm) {
+            navigate(`/search/${searchTerm}`);
+            setSearchTerm("");
+            setSuggestions([]);
+        }
+    }
+    //-----End----//
+
+
+    /**
+     * Close suggestions when clicking outside
+     */
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+                setSuggestions([]);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+    //-----End-----//
+
     if (!userInfo) {
         return (
             <div className="header_container">
@@ -70,9 +131,37 @@ export default function Header() {
                         <img src={logo} alt="Nous Logo" height="50" />
                     </NavLink>
 
-                    <form className="form_inline">
-                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" />
-                        <i id="search" className="fa-solid fa-magnifying-glass"></i>
+                    <form onSubmit={handleSubmit} className="form_inline">
+                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                        <i id="search" className="fa-solid fa-magnifying-glass" onClick={handleSubmit}></i>
+                        {suggestions.length > 0 && (
+                            <div className="suggestions" ref={suggestionsRef}>
+                                <ul>
+                                    {suggestions.map((suggestion, index) => (
+                                        <li key={index}>
+                                            <NavLink to={`/product/${suggestion.productId}`}>
+                                                <div className="search-item">
+                                                    <img src={suggestion.images} alt={suggestion.name} />
+                                                    <div className="text">
+                                                        <p>{suggestion.name}</p>
+                                                        <div className="price">
+                                                            <span className={suggestion.salePrice > 0 ? "sale-price" : "normal-price"}>
+                                                                {suggestion.salePrice > 0
+                                                                    ? suggestion.salePrice.toLocaleString('vi-VN')
+                                                                    : suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫
+                                                            </span>
+                                                            {suggestion.salePrice > 0 && (
+                                                                <span className="price-line_through">{suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </NavLink>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </form>
 
                     <div className="icons">
@@ -157,10 +246,39 @@ export default function Header() {
                         <img src={logo} alt="Nous Logo" height="50" />
                     </NavLink>
 
-                    <form className="form_inline">
-                        <input className="form_control" type="search" placeholder="Nhập tên sản phẩm" aria-label="Search" />
-                        <i id="search" className="fa-solid fa-magnifying-glass"></i>
+                    <form onSubmit={handleSubmit} className="form_inline">
+                        <input className="form_control" type="text" placeholder="Nhập tên sản phẩm" aria-label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                        <i id="search" className="fa-solid fa-magnifying-glass" onClick={handleSubmit}></i>
+                        {suggestions.length > 0 && (
+                            <div className="suggestions" ref={suggestionsRef}>
+                                <ul>
+                                    {suggestions.map((suggestion, index) => (
+                                        <li key={index}>
+                                            <NavLink to={`/product/${suggestion.productId}`}>
+                                                <div className="search-item">
+                                                    <img src={suggestion.images} alt={suggestion.name} />
+                                                    <div className="text">
+                                                        <p>{suggestion.name}</p>
+                                                        <div className="price">
+                                                            <span className={suggestion.salePrice > 0 ? "sale-price" : "normal-price"}>
+                                                                {suggestion.salePrice > 0
+                                                                    ? suggestion.salePrice.toLocaleString('vi-VN')
+                                                                    : suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫
+                                                            </span>
+                                                            {suggestion.salePrice > 0 && (
+                                                                <span className="price-line_through">{suggestion.price ? suggestion.price.toLocaleString('vi-VN') : '0'}₫</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </NavLink>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </form>
+
 
                     <div className="icons">
                         <UserDropdown

@@ -65,7 +65,12 @@ a {
 
 .product-quantity .form-control {
     width: 60px;
-    display: inline-block;
+    margin-left: 10px;
+}
+
+.product-quantity span {
+    margin-left: 10px;
+    font-size: 13px;
 }
 
 .product-description,

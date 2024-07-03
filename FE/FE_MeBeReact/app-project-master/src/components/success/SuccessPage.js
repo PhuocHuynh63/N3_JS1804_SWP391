@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './SuccessPage.css';
 
 const SuccessPage = ({ message }) => {
-    const [countdown, setCountdown] = useState(2);
+    const [countdown, setCountdown] = useState(3);
 
     useEffect(() => {
         if (countdown === 0) {

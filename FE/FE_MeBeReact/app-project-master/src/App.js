@@ -16,6 +16,8 @@ import ForgotPasswordPage from './pages/forgotPassword/forgotPassword';
 import RegisterPage from './pages/registerPage/registerPage';
 import SuccessPage from './components/success/SuccessPage';
 import changePassword from './pages/profilePage/changePassword';
+import ErrorPage from './components/error/ErrorPage';
+import SearchPage from './pages/searchPage/SearchPage';
 // import AdminDashboardPage from './pages/adminPage/AdminDashboardPage';
 
 function App() {
@@ -30,9 +32,11 @@ function App() {
           <Route path="/product/:productId" element={<Layout Component={DetailPage} />} />
           <Route path="/category/:slug" element={<Layout Component={Category} />} />
           <Route path="/subcategory/:subCategoryId" element={<Layout Component={SubCategory} />} />
+          <Route path="/search/:name" element={<Layout Component={SearchPage} />} />
           <Route path="/cart" element={<Layout Component={CartDetail} />} />
           <Route path="/checkout" element={<OrderPage />} />
           <Route path="/order-success" element={<Layout Component={() => <SuccessPage message={"Đơn hàng đã được tạo thành công"} />} />} />
+          <Route path="/order-error" element={<Layout Component={() => <ErrorPage message={"Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại!"} />} />} />
           <Route path="/account/profile" element={<LayoutProfile Component={ProfileUser} />} />
           <Route path="/account/address" element={<LayoutProfile Component={AddressPage} />} />
           <Route path="/account/tracking" element={<LayoutProfile Component={TrackingPage} />} />

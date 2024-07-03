@@ -1,4 +1,4 @@
-.susscess {
+.error {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,15 +7,15 @@
     margin-top: 100px;
 }
 
-.susscess h1 img {
+.error h1 img {
     scale: 2.5;
 }
 
-.susscess p:nth-child(2) {
+.error p:nth-child(2) {
     font-size: 20px;
     margin-top: 40px;
 }
 
-.susscess p:nth-child(3) {
+.error p:nth-child(3) {
     font-size: 18px;
 }

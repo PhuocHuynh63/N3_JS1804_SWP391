@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './SubCategoryPage.css';
+import './SearchPage.css';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown, Space } from 'antd';
@@ -7,15 +7,28 @@ import { meBeSrc } from '../../service/meBeSrc';
 import { Modal } from 'antd';
 import OutOfStock from '../../components/outOfStock/OutOfStock';
 
-export default function SubCategory() {
+export default function SearchPage() {
     const [selectedPrices, setSelectedPrices] = useState([]);
     const [products, setProducts] = useState([]);
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const { subCategoryId } = useParams();
-    const location = useLocation(); //useLocation hook to get the current location
-    const parentCategory = location.state?.parentCategory;
+
+    /**
+     * Handle submit form
+     */
+    const { name } = useParams();
+
+    useEffect(() => {
+        if (name)
+            meBeSrc.getProductBySearch(name)
+                .then(res => {
+                    setProducts(res.data);
+                }).catch(err => {
+                    console.log(err);
+                });
+    }, [name]);
+    //-----End-----//
 
     //Handle add to cart
     const handleClickCart = (e, product) => {
@@ -62,10 +75,17 @@ export default function SubCategory() {
     };
     //-----End-----//
 
+
+    /**
+     * Show modal notify
+     * @param {*} message 
+     */
     const showModalnotify = (message) => {
         setModalMessage(message);
         setIsModalVisible(true);
     };
+    //-----End-----//
+
 
     // Checkbox filter 
     const handleCheckboxChange = (event) => {
@@ -85,7 +105,10 @@ export default function SubCategory() {
         }
     };
 
-    // Call API to get products
+    /**
+     * Call API to get products
+     * */
+    const { subCategoryId } = useParams();
     useEffect(() => {
         meBeSrc.getProductBySubCategory(subCategoryId)
             .then(res => {
@@ -97,16 +120,11 @@ export default function SubCategory() {
     //-----End-----//
 
     return (
-        <div className='subcategory'>
+        <div className='search'>
             <div className="breadcrumbs">
                 <NavLink to="/">
-                    Trang chủ {'>'}
+                    Trang chủ
                 </NavLink>
-                {parentCategory && (
-                    <NavLink to={`/category/${parentCategory.slug}`}>
-                        {parentCategory.name}
-                    </NavLink>
-                )}
             </div>
             <div className="filters">
                 <button>Bộ lọc <i className="fa-solid fa-filter"></i></button>
@@ -203,9 +221,10 @@ export default function SubCategory() {
                 </Dropdown>
             </div>
 
+            <p className='notification'>Tìm thấy <span>{products.length}</span> sản phẩm cho từ khóa <span>{name}</span></p>
             <div className="products">
                 {products.length === 0 ? (
-                    <p style={{ textAlign: "center", width: "100%" }}>Chưa có sản phẩm nào cho danh mục này</p>
+                    <p style={{ textAlign: "center", width: "100%" }}>Không tìm thấy sản phẩm nào</p>
                 ) : (
                     products.map((product) => {
                         const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(0);

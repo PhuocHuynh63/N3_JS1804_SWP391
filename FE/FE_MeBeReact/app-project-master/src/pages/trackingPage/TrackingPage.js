@@ -12,6 +12,9 @@ export default function TrackingPage() {
     const [statusFilter, setStatusFilter] = useState('Tất cả');
     const [selectedOrderId, setSelectedOrderId] = useState(null); // Thêm trạng thái này
 
+    /**
+     * Call API to get tracking order
+     */
     useEffect(() => {
         if (user.id) {
             meBeSrc.getTrackingOrder(user.id)
@@ -23,7 +26,12 @@ export default function TrackingPage() {
                 });
         }
     }, [user.id]);
+    //-----End-----//
 
+
+    /**
+     * Take user info from token
+     */
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
         if (token) {
@@ -42,6 +50,8 @@ export default function TrackingPage() {
                 });
         }
     }, []);
+    //-----End-----//
+
 
     const switchStatus = (status) => {
         switch (status) {
@@ -92,9 +102,9 @@ export default function TrackingPage() {
         setStatusFilter(status);
     }
 
-    const [showCancel, setShowCancel] = useState(false); // Thêm trạng thái này
-    const handleCloseCancel = () => setShowCancel(false); // Thêm hàm này
-    const handleShowCancel = (orderId) => { // Thêm hàm này
+    const [showCancel, setShowCancel] = useState(false);
+    const handleCloseCancel = () => setShowCancel(false);
+    const handleShowCancel = (orderId) => {
         setSelectedOrderId(orderId); // Đặt ID đơn hàng được chọn
         setShowCancel(true);
     };
@@ -114,18 +124,20 @@ export default function TrackingPage() {
                         <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
 
                         {order.items.map((item) => (
-                            <div className="tracking-body_item" key={item.odId}>
-                                <div className="left">
-                                    <img src={item.product.images} alt={item.product.name} />
-                                    <div className="content">
-                                        <p>{item.product.name}</p>
-                                        <p>x{item.quantity}</p>
+                            <NavLink to={`/product/${item.product.productId}`}>
+                                <div className="tracking-body_item" key={item.odId}>
+                                    <div className="left">
+                                        <img src={item.product.images} alt={item.product.name} />
+                                        <div className="content">
+                                            <p>{item.product.name}</p>
+                                            <p>x{item.quantity}</p>
+                                        </div>
+                                    </div>
+                                    <div className="right">
+                                        <p>{(item.quantity * item.price).toLocaleString('vi-VN')}đ</p>
                                     </div>
                                 </div>
-                                <div className="right">
-                                    <p>{(item.quantity * item.price).toLocaleString('vi-VN')}đ</p>
-                                </div>
-                            </div>
+                            </NavLink>
                         ))}
 
                         <div className="tracking-body_bot">
@@ -147,7 +159,7 @@ export default function TrackingPage() {
                     </div>
                 ))
             )}
-            <TrackingCancel show={showCancel} handleClose={handleCloseCancel} order_id={selectedOrderId} /> {/* Thêm component này */}
+            <TrackingCancel show={showCancel} handleClose={handleCloseCancel} order_id={selectedOrderId} />
         </div>
     );
 }

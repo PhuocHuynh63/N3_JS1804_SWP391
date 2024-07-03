@@ -87,8 +87,21 @@ export default function DetailPage() {
                                 Trang chủ
                             </NavLink>
                         </li>
-                        <li className="breadcrumb-item"><a href="#">Bodysuit cộc tay</a></li>
-                        <li className="breadcrumb-item active" aria-current="page">Set 2 bodysuit xanh phối be</li>
+                        {product.category && (
+                            <li className="breadcrumb-item">
+                                <NavLink to={`/category/${product.category.slug}`}>
+                                    {product.category.name}
+                                </NavLink>
+                            </li>
+                        )}
+                        {product.subCategory && (
+                            <li className="breadcrumb-item">
+                                <NavLink to={`/subcategory/${product.subCategory.slug}`}>
+                                    {product.subCategory.name}
+                                </NavLink>
+                            </li>
+                        )}
+                        <li className="breadcrumb-item active" aria-current="page">{product.name}</li>
                     </ol>
                 </nav>
                 <div className="row">
@@ -140,8 +153,9 @@ export default function DetailPage() {
                                 value={quantity}
                                 min="1"
                                 onChange={(e) => setQuantity(parseInt(e.target.value))}
-                                className="form-control d-inline-block w-auto ml-2"
+                                className="form-control d-inline-block ml-2"
                             />
+                            <span>{product.quantity} sản phẩm có sẵn</span>
                         </div>
                         <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
                         <button className="btn btn-primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
