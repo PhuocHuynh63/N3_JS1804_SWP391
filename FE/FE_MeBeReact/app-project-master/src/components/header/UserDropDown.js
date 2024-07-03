@@ -42,7 +42,7 @@ const UserDropdown = ({ user, logoutBtn }) => {
 
   if (userToken && (userToken.role === 'admin' || userToken.role === 'staff')) {
     menuItems.push({
-      label: <NavLink to={"/admin"}>Quản trị viên</NavLink>,
+      label: <a href="/admin">Quản trị viên</a>,
       key: "4",
     });
   }

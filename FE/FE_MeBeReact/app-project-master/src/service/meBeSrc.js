@@ -66,6 +66,10 @@ export const meBeSrc = {
         return https.get(`/user/tracking/${userId}`);
     },
 
+    getListOrder: () => {
+        return https.get(`/order/list`);
+    },
+
     createOrder: (data) => {
         return https.post(`/order/create_cod`, data);
     },
@@ -76,6 +80,10 @@ export const meBeSrc = {
 
     putCancelOrder: (order_id, data) => {
         return https.put(`/order/cancel/orId=${order_id}`, data);
+    },
+
+    putStatusOrder: (data) => {
+        return https.put(`/order/status`, data);
     },
 
     createVNPay: (data) => {

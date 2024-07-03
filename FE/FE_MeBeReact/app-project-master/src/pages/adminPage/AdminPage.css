@@ -1,4 +1,4 @@
-.row {
+.admin .row {
   margin: 0px;
   width: 97%;
 }
@@ -15,7 +15,7 @@
   padding-bottom: 20px;
 }
 
-.view + .check {
+.view+.check {
   margin-left: 5px;
 }
 
@@ -36,11 +36,6 @@
 
 .icon-show {
   margin-left: 3px;
-}
-
-.view {
-  height: 30px;
-  width: 30px;
 }
 
 .newuser-container {
@@ -86,57 +81,60 @@
   font-size: 0.9em;
 }
 
-.view-details:hover{
-    background-color: #0056b3;
+.view-details:hover {
+  background-color: #0056b3;
 }
 
-.box-detail{
-    display: flex;
-    margin: 10px;
+.box-detail {
+  display: flex;
+  margin: 10px;
 }
 
-.chart{
-    border: 2px solid rgb(201, 201, 201);
-    height: 500px;
-    width: 55%;
+.chart {
+  border: 2px solid rgb(201, 201, 201);
+  height: 500px;
+  width: 55%;
 }
 
-.box-message{
-    display: grid;
-    border: 2px solid rgb(201, 201, 201);
-    padding: 20px;
-    margin: 10px;
+.box-message {
+  display: grid;
+  border: 2px solid rgb(201, 201, 201);
+  padding: 20px;
+  margin: 10px;
 }
 
-.message{
-    margin-top: 20px;
+.message {
+  margin-top: 20px;
 }
 
-table.message th{
-    padding: 0px 0px 10px 0px;
-    border-bottom: 2px solid rgb(201, 201, 201);
+table.message th {
+  padding: 0px 0px 10px 0px;
+  border-bottom: 2px solid rgb(201, 201, 201);
 }
 
-table.message td{
-    padding-top: 15px;
+table.message td {
+  padding-top: 15px;
 }
 
-.user-avatar{
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+.user-avatar {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
 
-.user-name{
-    font-size: 15px;
-    font-weight: bold;
+.user-name {
+  font-size: 15px;
+  font-weight: bold;
 }
 
-tbody tr:nth-child(odd) {
-  background-color: #c2c2c2;
+tbody tr:nth-child(odd).adminpage {
+  background-color: #dfdfdf;
 }
 
 tbody tr:nth-child(even) {
   background-color: #fff;
 }
 
+.adminpage .page-link {
+  margin-top: 10px;
+}
