@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "YourStrong@Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1444:1433"
+    expose:
+      - 1433
+    networks:
+      - mebenet
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - mebenet
+  app:
+    build:
+      context: ../../BE/Project_MeBe # Đảm bảo đường dẫn đúng tới thư mục chứa Dockerfile của bạn
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://database:1433;databaseName=me_be_test;encrypt=true;trustServerCertificate=true
+      SPRING_DATASOURCE_USERNAME: SA
+      SPRING_DATASOURCE_PASSWORD: YourStrong@Passw0rd
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    depends_on:
+      - database
+      - redis
+    ports:
+      - "8082:8080"
+    networks:
+      - mebenet
+
+networks:
+  mebenet:
+    driver: bridge

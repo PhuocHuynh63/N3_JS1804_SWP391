@@ -232,6 +232,7 @@ public class OrderService implements IOrderService {
             msg = "Hủy thành công";
             order.setStatus(status);
             order.setNote(request.getNote());
+            productService.increaseProductQuantityList2(order.getOrderDetails());
 
             Date now = new Date();
             order.setUpdatedAt(now);

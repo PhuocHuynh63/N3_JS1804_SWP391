@@ -39,9 +39,14 @@ public class AddressSerivce implements IAddressService {
         // lấy user dựa vào id của user
         User user = userRepository.findById(id)
                 .orElseThrow( () -> new AppException(ErrorCode.NO_USER_EXIST));
-        if (addressRepository.existsAddressByAddress(request.getAddress())){
-            throw new AppException(ErrorCode.Address_EXIST);
+        List<Address> addresses = user.getListAddress();
+        for (Address address : addresses) {
+            if (address.getAddress().equals(request.getAddress())) {
+                throw new AppException(ErrorCode.Address_EXIST);
+            }
         }
+
+
         Address address = new Address();
 
         address.setUser(user);
@@ -60,16 +65,21 @@ public class AddressSerivce implements IAddressService {
         // Lấy ra địa chỉ dựa vào Id của địa chỉ
         Address address = addressRepository.findById(addressId)
                 .orElseThrow( () -> new AppException(ErrorCode.Address_NO_EXIST));
-        if (request.getAddress().equals(address.getAddress())){
+
+
+        List<Address> addresses = address.getUser().getListAddress();
+        for (Address address1 : addresses) {
+            if (address.getAddress().equals(request.getAddress())) {
+                throw new AppException(ErrorCode.Address_EXIST);
+            }
+        }
+        if (!request.getAddress().equals(address.getAddress())){
             address.setDefault(request.isDefault());
             address.setTitle(request.getTitle());
             address.setAddress(request.getAddress());
             addressRepository.save(address);
             result = true;
-        }else if (addressRepository.existsAddressByAddress(request.getAddress())){
-            throw new AppException(ErrorCode.Address_EXIST);
         }
-
         return result;
     }// </editor-fold>
 
@@ -91,7 +101,7 @@ public class AddressSerivce implements IAddressService {
     // <editor-fold default state="collapsed" desc="Delete Address">
     @Override
     public void deleteAddress(int addressId) {
-        addressRepository.deleteById(addressId) ;
+        addressRepository.deleteByAddressId(addressId);
     }  // </editor-fold>
 
     /**

@@ -50,11 +50,11 @@ public class AddressController {
         boolean check = addressSerivce.updateAddress(addressId, request);
         ResponseData responseData = new ResponseData();
         if (check) {
-            responseData.setDescription("Address created successfully");
+            responseData.setDescription("Address update successfully");
             responseData.setSuccess(true);
             responseData.setStatus(200);
         } else {
-            responseData.setDescription("Address creation failed");
+            responseData.setDescription("Address update failed");
             responseData.setSuccess(false);
             responseData.setStatus(400);
         }
@@ -83,10 +83,10 @@ public class AddressController {
 
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<ResponseData> deleteAddress(@RequestParam("id") int addressId) {
+    ResponseEntity<ResponseData> deleteAddress(@PathVariable("id") int addressId) {
         addressSerivce.deleteAddress(addressId);
         ResponseData responseData = new ResponseData();
-        responseData.setDescription("Address created successfully");
+        responseData.setDescription("Address delete successfully");
         responseData.setSuccess(true);
         responseData.setStatus(200);
         return ResponseEntity.status(responseData.getStatus()).body(responseData);
