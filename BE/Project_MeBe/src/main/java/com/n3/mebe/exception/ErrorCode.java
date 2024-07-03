@@ -24,6 +24,7 @@ public enum ErrorCode {
     EMAIL_EXIST(1017, "Email already exist"),
     USERNAME_EXIST(1018, "Username already exist"),
     Address_EXIST(1019, " Address already exist "),
+    PHONE_NUMBER_EXIST(1020, " Phone number already exist"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;

@@ -172,12 +172,11 @@ public class UserService implements IUserService {
 
 
 
-
-
     /**
      *  Request from Client
      *
      */
+
 
     // <editor-fold default state="collapsed" desc="Create User">
     @Override
@@ -193,7 +192,9 @@ public class UserService implements IUserService {
             throw new AppException(ErrorCode.EMAIL_EXIST);
         }else if (iUserRepository.existsByUsername(request.getUsername())){
             throw new AppException(ErrorCode.USERNAME_EXIST);
-        }else {
+        }else if(iUserRepository.existsByPhoneNumber(request.getPhoneNumber())){
+            throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
+        } else {
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
 
@@ -259,6 +260,8 @@ public class UserService implements IUserService {
             //check xem Username da ton tai chua
             if (iUserRepository.existsByUsername(request.getUsername())) {
                 throw new AppException(ErrorCode.USERNAME_EXIST);
+            } else if (iUserRepository.existsByPhoneNumber(request.getPhoneNumber())) {
+                throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
             }
         }else {
             if (iUserRepository.existsByEmail(request.getEmail())){
