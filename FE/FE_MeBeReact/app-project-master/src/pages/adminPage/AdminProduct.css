@@ -1,0 +1,48 @@
+.box-product {
+  display: grid;
+  border: 2px solid rgb(201, 201, 201);
+  padding: 20px 20px 10px 20px;
+  width: 98%;
+  margin-left: 10px;
+}
+
+.product-image {
+  max-width: 100px;
+  max-height: 150px;
+}
+
+.delete + .edit {
+  margin-left: 2px;
+}
+
+.action {
+  display: flex;
+}
+table.product-list th {
+    padding-left: 20px;
+  }
+
+table.product-list td {
+  padding-left: 20px;
+}
+
+.admin-product .button-product-add {
+  background-color: red;
+  border: none;
+  margin: 20px 0px 50px 10px;
+  border-radius: 5px;
+  color: white;
+  width: 200px;
+}
+
+.button-product-add:hover {
+  background-color: rgb(183, 15, 15);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #c2c2c2;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fff;
+}

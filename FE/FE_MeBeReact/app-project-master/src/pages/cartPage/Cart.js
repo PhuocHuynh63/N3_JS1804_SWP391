@@ -61,7 +61,7 @@ const CartPage = ({ show, handleClose }) => {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="tbody-cart">
                         {cartItems.length === 0 ? (
                             <p className="empty-cart">Giỏ hàng của bạn đang trống, nhấn vào
                                 <a href="/"> đây </a>
@@ -69,7 +69,7 @@ const CartPage = ({ show, handleClose }) => {
                             </p>
                         ) : (
                             cartItems.map((item, index) => (
-                                <tr key={index}>
+                                <tr className="cart-tr" key={index}>
                                     <td>
                                         <div className="product-info">
                                             <img src={item.images} alt={item.name} />
@@ -83,7 +83,7 @@ const CartPage = ({ show, handleClose }) => {
                                     <td>
                                         <div className="quantity-control">
                                             <button className="minus-btn" onClick={() => updateQuantity(item.productId, -1)}>-</button>
-                                            <input type="text" className="quantity" value={item.quantity} readOnly />
+                                            <input type="text" className="cart-quantity" value={item.quantity} readOnly />
                                             <button className="plus-btn" onClick={() => updateQuantity(item.productId, 1)}>+</button>
                                         </div>
                                     </td>

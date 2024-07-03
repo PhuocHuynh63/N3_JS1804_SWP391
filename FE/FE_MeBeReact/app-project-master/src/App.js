@@ -18,6 +18,17 @@ import SuccessPage from './components/success/SuccessPage';
 import changePassword from './pages/profilePage/changePassword';
 import ErrorPage from './components/error/ErrorPage';
 import SearchPage from './pages/searchPage/SearchPage';
+
+import LayoutAdmin from './layout/LayoutAdmin';
+import AdminPage from './pages/adminPage/AdminPage';
+import AdminProduct from './pages/adminPage/AdminProduct';
+import AdminCategory from './pages/adminPage/AdminCategory';
+import AdminUser from './pages/adminPage/AdminUser';
+import AdminProductAdd from './pages/adminPage/AdminProductAdd';
+import AdminCategoryAdd from './pages/adminPage/AdminCategoryAdd';
+import AdminUserAdd from './pages/adminPage/AdminUserAdd';
+import AdminOrder from './pages/adminPage/AdminOrder';
+import AdminRole from './pages/adminPage/AdminRole';
 // import AdminDashboardPage from './pages/adminPage/AdminDashboardPage';
 
 function App() {
@@ -41,6 +52,20 @@ function App() {
           <Route path="/account/address" element={<LayoutProfile Component={AddressPage} />} />
           <Route path="/account/tracking" element={<LayoutProfile Component={TrackingPage} />} />
           <Route path="/account/changePassword" element={<LayoutProfile Component={changePassword} />} />
+
+          <Route path="/admin" element={<LayoutAdmin Component={AdminPage} />} />
+
+          <Route path="/admin/product" element={<LayoutAdmin Component={AdminProduct} />} />
+          <Route path="/admin/product/add" element={<LayoutAdmin Component={AdminProductAdd} />} />
+
+          <Route path="/admin/category" element={<LayoutAdmin Component={AdminCategory} />} />
+          <Route path="/admin/category/add" element={<LayoutAdmin Component={AdminCategoryAdd} />} />
+
+          <Route path="/admin/user" element={<LayoutAdmin Component={AdminUser} />} />
+          <Route path="/admin/user/add" element={<LayoutAdmin Component={AdminUserAdd} />} />
+
+          <Route path="/admin/order" element={<LayoutAdmin Component={AdminOrder} />} />
+          <Route path="/admin/role" element={<LayoutAdmin Component={AdminRole} />} />
           {/* <Route path="/admin/dashboard" element={<Layout Component={AdminDashboardPage} />} /> */}
           {/* <Route path="/" element={<About />} /> */}
           {/* <Route path="dashboard" element={<Dashboard />} /> */}

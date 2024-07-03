@@ -1,0 +1,39 @@
+.collapse {
+    display: none;
+  }
+  
+  .collapse.show {
+    display: block;
+  }
+  
+  .collapse-inner {
+    padding: 1rem;
+  }
+  
+  .collapse-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #858796;
+    text-decoration: none;
+  }
+  
+  .collapse-item:hover {
+    color: #3a3b45;
+    text-decoration: none;
+  }
+
+  .btn-search{
+    height: 40px;
+    background-color: blue;
+    color: white;
+  }
+
+  .btn-search:hover{
+    background-color: rgb(6, 6, 146);
+    color: white;
+  }
+
+  .header-search:hover{
+    border: 2px solid blue;
+  }
+  

@@ -1,0 +1,24 @@
+.box-order{
+    display: grid;
+  border: 2px solid rgb(201, 201, 201);
+  padding: 20px 20px 10px 20px;
+  width: 98%;
+  margin-left: 10px;
+}
+
+table.order-list th{
+    padding-bottom: 10px;
+}
+
+table.order-list td{
+    padding: 5px 0px;
+}
+
+
+tbody tr:nth-child(odd) {
+    background-color: #c2c2c2;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #fff;
+  }
