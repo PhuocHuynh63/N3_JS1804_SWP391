@@ -201,7 +201,7 @@ header {
 }
 
 .nav-link.dropdown-toggle:hover {
-    color: #c2b57f;
+    color: #c2b57f !important;
     font-weight: 500;
 }
 
