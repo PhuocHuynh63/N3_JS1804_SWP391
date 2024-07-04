@@ -1,0 +1,9 @@
+.btn-accent {
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+.btn-accent:hover {
+    background-color: #f3f2ea; /* Màu nền mới khi hover */
+    color: #ffffff; /* Màu chữ */
+    transform: scale(1.05); 
+}

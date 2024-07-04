@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import "./Cart.css";
 import { NavLink } from "react-router-dom";
 
+
 const CartPage = ({ show, handleClose }) => {
     const [cartItems, setCartItems] = useState([]);
 
@@ -16,7 +17,7 @@ const CartPage = ({ show, handleClose }) => {
         const updatedCartItems = cartItems.map(item => {
             if (item.productId === productId) {
                 const newQuantity = item.quantity + change;
-                if (newQuantity > 0) {
+                if (newQuantity > 0 && newQuantity <= item.max) {
                     item.quantity = newQuantity;
                     item.totalPrice = item.price * newQuantity;
                 }

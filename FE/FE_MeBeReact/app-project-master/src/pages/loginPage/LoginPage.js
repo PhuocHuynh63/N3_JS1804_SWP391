@@ -12,8 +12,16 @@ import bannerLogin from "../../images/Logo_Login.jpg";
 
 const LoginPage = ({ show, handleClose }) => {
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showError, setShowError] = useState(false);
   let dispatch = useDispatch();
   let navigate = useNavigate();
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    setShowError(value.length > 0 && value.length < 6);
+  };
 
   const onFinish = (values) => {
     setLoading(true); // Bắt đầu tải
@@ -27,12 +35,12 @@ const LoginPage = ({ show, handleClose }) => {
           dispatch(setLoginAction({ token: response.data, role: response.role })); // Lưu token và vai trò vào redux
 
           notification.success({
-            message: "Login Successful",
+            message: "Đăng nhập thành công",
             description: response.description,
           });
 
           if (response.role === "admin") {
-            navigate("/admin");
+            navigate("/adminPage");
           } else {
             navigate("/");
           }
@@ -45,9 +53,9 @@ const LoginPage = ({ show, handleClose }) => {
         }
       })
       .catch((error) => {
-        console.log("API error:", error);
+        console.log("API lỗi:", error);
         notification.error({
-          message: "Login Failed",
+          message: "Đăng nhập thất bại",
           description: error.message,
         });
       })
@@ -59,8 +67,8 @@ const LoginPage = ({ show, handleClose }) => {
   const onFinishFailed = (errorInfo) => {
     console.log(`Failed:`, errorInfo);
     notification.error({
-      message: "Login Failed",
-      description: "Please check your input and try again.",
+      message: "Đăng nhập thất bại",
+      description: "Kiểm tra lại tên đăng nhập và mật khẩu",
     });
   };
 
@@ -161,7 +169,7 @@ const LoginPage = ({ show, handleClose }) => {
                                       id="username"
                                       type="text"
                                       className="form-control"
-                                      placeholder="Username"
+                                      placeholder="Tên đăng nhập"
                                       required
                                     />
                                   </Form.Item>
@@ -169,7 +177,7 @@ const LoginPage = ({ show, handleClose }) => {
                                     htmlFor="username"
                                     className="form-label"
                                   >
-                                    Username
+                                    Tên đăng nhập
                                   </label>
                                 </div>
                               </div>
@@ -182,6 +190,10 @@ const LoginPage = ({ show, handleClose }) => {
                                         required: true,
                                         message: "Please input your password!",
                                       },
+                                      {
+                                        min: 6,
+                                        message: "Mật khẩu tối thiểu 6 ký tự",
+                                      },
                                     ]}
                                     noStyle
                                   >
@@ -189,16 +201,20 @@ const LoginPage = ({ show, handleClose }) => {
                                       id="password"
                                       type="password"
                                       className="form-control"
-                                      placeholder="Password"
+                                      placeholder="Mật khẩu"
                                       required
+                                      value={password}
+                                      onChange={handlePasswordChange}
                                     />
                                   </Form.Item>
-                                  <label
-                                    htmlFor="password"
-                                    className="form-label"
-                                  >
-                                    Password
+                                  <label htmlFor="password" className="form-label">
+                                    Mật khẩu
                                   </label>
+                                  {showError && (
+                                    <span className="text-danger">
+                                      Mật khẩu tối thiểu 6 ký tự
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                               <div className="col-12">
@@ -220,20 +236,18 @@ const LoginPage = ({ show, handleClose }) => {
                           <div className="row">
                             <div className="col-12">
                               <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                                <a
-                                  href=""
+                                <span
                                   className="link-secondary text-decoration-none"
                                   onClick={handleRegister}
                                 >
                                   Tạo tài khoản
-                                </a>
-                                <a
-                                  href=""
+                                </span>
+                                <span
                                   className="link-secondary text-decoration-none"
                                   onClick={handleForgot}
                                 >
                                   Quên mật khẩu
-                                </a>
+                                </span>
                               </div>
                             </div>
                           </div>

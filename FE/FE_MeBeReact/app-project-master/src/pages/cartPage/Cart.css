@@ -55,7 +55,7 @@
     border-bottom: 1px solid #ddd;
 }
 
-.cart-container tbody.tbody-cart tr.cart-tr {
+tbody.tbody-cart tr.cart-tr {
     background-color: transparent;
     padding: 10px;
 }

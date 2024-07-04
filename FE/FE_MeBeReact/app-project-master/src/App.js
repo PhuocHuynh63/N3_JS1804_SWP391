@@ -18,7 +18,7 @@ import SuccessPage from './components/success/SuccessPage';
 import changePassword from './pages/profilePage/changePassword';
 import ErrorPage from './components/error/ErrorPage';
 import SearchPage from './pages/searchPage/SearchPage';
-
+import SignInPage from './pages/loginPage/SignInPage';
 import LayoutAdmin from './layout/LayoutAdmin';
 import AdminPage from './pages/adminPage/dashboardPage/AdminPage';
 import AdminProduct from './pages/adminPage/productPage/AdminProduct';
@@ -36,6 +36,7 @@ function App() {
         <Routes>
           <Route path="*" element={<Layout Component={NotFoundPage} />} />
           <Route path="/" element={<Layout Component={HomePage} />} />
+          <Route path="/signin" element={<Layout Component={SignInPage} />} />
           <Route path="/signup" element={<Layout Component={RegisterPage} />} />
           <Route path="/reset-password" element={<Layout Component={ForgotPasswordPage} />} />
           <Route path="/product/:productId" element={<Layout Component={DetailPage} />} />

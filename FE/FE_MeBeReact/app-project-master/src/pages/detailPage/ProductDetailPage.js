@@ -35,8 +35,8 @@ export default function DetailPage() {
     };
 
     const handleAddToCart = () => {
-        // Check if the product is out of stock
-        if (product.status === 'Hết hàng' || product.quantity === 0 || product.quantity < quantity) {
+        // Check if the product is out of stock or if quantity exceeds available stock
+        if (product.status === 'Hết hàng' || product.quantity === 0) {
             setShowModal(true);
             setTimeout(() => {
                 setShowModal(false);
@@ -52,6 +52,7 @@ export default function DetailPage() {
             name: product.name,
             categoryId: product.categoryId,
             quantity,
+            max: product.quantity,
             price: product.price,
             totalPrice: quantity * (product.salePrice || product.price)
         };
@@ -63,18 +64,43 @@ export default function DetailPage() {
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
 
         if (existingItemIndex > -1) {
-            // Update the quantity and total price if the item exists
-            cartItems[existingItemIndex].quantity += item.quantity;
-            cartItems[existingItemIndex].totalPrice += item.totalPrice;
-            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product quantity updated successfully!</h1></div>);
+            // Update the quantity and total price if the item exists, ensuring it does not exceed the max quantity
+            const existingItem = cartItems[existingItemIndex];
+            const newQuantity = existingItem.quantity + item.quantity;
+            if (newQuantity > existingItem.max) {
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Số lượng đã đạt tối đa</h1></div>);
+                existingItem.quantity = existingItem.max;
+                existingItem.totalPrice = existingItem.price * existingItem.max;
+            } else {
+                existingItem.quantity = newQuantity;
+                existingItem.totalPrice += item.totalPrice;
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Cập nhật thành công</h1></div>);
+            }
         } else {
-            // Add new item to the cart
+            // Add new item to the cart, ensuring it does not exceed the max quantity
+            if (item.quantity > item.max) {
+                item.quantity = item.max;
+                item.totalPrice = item.price * item.max;
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Số lượng đã đạt tối đa</h1></div>);
+            } else {
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm sản phẩm thành công</h1></div>);
+            }
             cartItems.push(item);
-            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product added successfully!</h1></div>);
         }
 
         // Save updated cart items to local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    };
+
+    const handleQuantityChange = (e) => {
+        const value = parseInt(e.target.value);
+        if (value > product.quantity) {
+            setQuantity(product.quantity);
+        } else if (value < 1) {
+            setQuantity(1);
+        } else {
+            setQuantity(value);
+        }
     };
 
     return (
@@ -111,20 +137,8 @@ export default function DetailPage() {
                             <div className="carousel-inner">
                                 <div className="carousel-item active">
                                     <ImageMagnifier src={product.images} className="d-block w-100" alt={product.name}></ImageMagnifier>
-                                    {/* <img src={product.images} className="d-block w-100" alt={product.name} /> */}
-                                </div>
-                                <div className="carousel-item">
-                                    <img src="/images/ao.pnj.webp" className="d-block w-100" alt={product.name} />
                                 </div>
                             </div>
-                            <a className="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
-                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span className="sr-only">Previous</span>
-                            </a>
-                            <a className="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
-                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span className="sr-only">Next</span>
-                            </a>
                         </div>
                     </div>
                     <div className="col-md-6">
@@ -152,7 +166,8 @@ export default function DetailPage() {
                                 type="number"
                                 value={quantity}
                                 min="1"
-                                onChange={(e) => setQuantity(parseInt(e.target.value))}
+                                max={product.quantity}
+                                onChange={handleQuantityChange}
                                 className="form-control d-inline-block ml-2"
                             />
                             <span>{product.quantity} sản phẩm có sẵn</span>

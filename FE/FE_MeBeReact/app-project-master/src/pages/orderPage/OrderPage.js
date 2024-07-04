@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './OrderPage.css'; // Import CSS file
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { meBeSrc } from '../../service/meBeSrc'; // Không cần destructuring vì meBeSrc không phải là named export
 import { jwtDecode } from 'jwt-decode';
 import Loading from '../../components/loading/Loading';
@@ -178,7 +178,7 @@ export default function OrderPage() {
                     </div>
                     <div className='order-left_body'>
                         <h4>Thông tin giao hàng</h4>
-                        <p>Bạn đã có tài khoản? <a href="#">Đăng nhập</a></p>
+                        <p>Bạn đã có tài khoản? <Link to="/signin">Đăng nhập</Link></p>
                         <div className='order-name'>
                             <div className="order-input-group">
                                 <input
