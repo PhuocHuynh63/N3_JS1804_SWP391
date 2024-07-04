@@ -1,8 +1,9 @@
 import "./AdminPage.css";
-import User from "../../components/user/User";
+import User from "../../../components/user/User";
 import { useEffect, useState } from "react";
-import { meBeSrc } from "../../service/meBeSrc";
-import Successful from "../../components/successful/Successful";
+import { meBeSrc } from "../../../service/meBeSrc";
+import Successful from "../../../components/successful/Successful";
+import TrackingPopup from "../../trackingPopup/TrackingPopup";
 
 export default function AdminPage() {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +12,7 @@ export default function AdminPage() {
    * Get order API 
    */
   const [order, setOrder] = useState([]);
+  const [currentOrderId, setCurrentOrderId] = useState(null);
 
   useEffect(() => {
     meBeSrc.getListOrder()
@@ -69,6 +71,27 @@ export default function AdminPage() {
 
 
   /**
+   * Get API to get user
+   */
+  const [newUsers, setNewUsers] = useState([]);
+  useEffect(() => {
+    meBeSrc.getListUser()
+      .then((res) => {
+        const userData = res.data;
+        setNewUsers(userData);
+      })
+      .catch((err) => {
+        console.log("Error fetching user", err);
+      });
+  }, []);
+
+  const sortUsers = newUsers.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+  const filterNewUsers = () => sortUsers.filter((user) => user.role === "member").slice(0, 3);
+  console.log(filterNewUsers());
+  //-----End-----//
+
+
+  /**
    * revenue calculation
    * @returns revenue
    */
@@ -85,6 +108,22 @@ export default function AdminPage() {
    */
   const orderNeedConfirm = order.filter((item) => item.status === "Chờ xác nhận");
   //-----End-----//
+
+
+  /**
+   * calculateAccountAge
+   * @param {*} createAt 
+   * @returns 
+   */
+  const calculateAccountAge = (createAt) => {
+    const createDate = new Date(createAt);
+    const currentDate = new Date();
+    const diffTime = Math.abs(currentDate - createDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }
+  //-----End-----//
+
 
   /**
    * Pagination
@@ -103,10 +142,25 @@ export default function AdminPage() {
   }
   //-----End-----//
 
+
+  /**
+   * Handle tracking popup
+   */
+  const [showTrackingPopUp, setShowTrackingPopUp] = useState(false);
+
+  const handleCloseTrackingPopUp = () => setShowTrackingPopUp(false);
+  const handleShowTrackingPopUp = (orderId) => {
+    setCurrentOrderId(orderId);
+    setShowTrackingPopUp(true)
+  };
+  //-----End-----//
+
+
   return (
     <div className="adminpage">
       <User />
       <Successful show={showModal} onHide={() => setShowModal(false)} message={"Cập nhật trạng thái thành công"} />
+      <TrackingPopup show={showTrackingPopUp} handleClose={handleCloseTrackingPopUp} orderId={currentOrderId} />
 
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -221,7 +275,7 @@ export default function AdminPage() {
                 <td>{order.status}</td>
                 <td>
                   <div className="action">
-                    <a className="view btn btn-danger btn-sm">
+                    <a className="view btn btn-warning btn-sm" onClick={() => handleShowTrackingPopUp(order.orderId)}>
                       <i className="fa-solid fa-eye"></i>
                     </a>
                     <a className="check btn btn-success btn-sm" onClick={() => handleStatusOrder(order.orderId)}>
@@ -255,38 +309,16 @@ export default function AdminPage() {
 
         <div className="newuser-container">
           <h4>Khách hàng mới</h4>
-          <div className="newuser">
-            <img src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/449211428_1548454112768538_6701101107381770885_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=4DSdNERHVRMQ7kNvgEdmHZm&_nc_ht=scontent.fsgn5-5.fna&gid=AgZq26kWZCfCOQ8DvjUrf6w&oh=00_AYB8W25ohYBOR5Nzw9HBpOvbFBJwMbL7s89WWZqZVk4xfA&oe=668AD024" className="avt-user" />
-            <div className="info-newuser">
-              <div className="name"> Trương Thành Đạt</div>
-              <div className="status">Truy cập 25 phút trước</div>
+          {filterNewUsers().map((user) => (
+            <div className="newuser">
+              <img src={user.avatar} className="avt-user" style={{ height: "50px", width: "50px" }} />
+              <div className="info-newuser">
+                <div className="name"> {`${user.firstName} ${user.lastName}`}</div>
+                <div className="status"> {`Được tạo cách đây ${calculateAccountAge(user.createAt)} ngày`}</div>
+              </div>
+              <button className="view-details">Xem chi tiet</button>
             </div>
-            <button className="view-details">Xem chi tiet</button>
-          </div>
-
-          <div className="newuser">
-            <img src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/449211428_1548454112768538_6701101107381770885_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=4DSdNERHVRMQ7kNvgEdmHZm&_nc_ht=scontent.fsgn5-5.fna&gid=AgZq26kWZCfCOQ8DvjUrf6w&oh=00_AYB8W25ohYBOR5Nzw9HBpOvbFBJwMbL7s89WWZqZVk4xfA&oe=668AD024" className="avt-user" />
-            <div className="info-newuser">
-              <div className="name"> Trương Thành Đạt</div>
-              <div className="status">Truy cập 25 phút trước</div>
-            </div>
-            <button className="view-details">Xem chi tiết</button>
-          </div>
-
-          <div className="newuser">
-            <img src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/449211428_1548454112768538_6701101107381770885_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=4DSdNERHVRMQ7kNvgEdmHZm&_nc_ht=scontent.fsgn5-5.fna&gid=AgZq26kWZCfCOQ8DvjUrf6w&oh=00_AYB8W25ohYBOR5Nzw9HBpOvbFBJwMbL7s89WWZqZVk4xfA&oe=668AD024" className="avt-user" />
-            <div className="info-newuser">
-              <div className="name"> Trương Thành Đạt</div>
-              <div className="status">Vừa mới truy cập</div>
-            </div>
-            <button className="view-details">Xem chi tiết</button>
-          </div>
-
-          <div>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-          </div>
+          ))}
         </div>
       </div>
 

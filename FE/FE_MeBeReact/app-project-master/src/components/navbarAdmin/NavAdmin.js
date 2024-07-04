@@ -67,12 +67,6 @@ export default function NavAdmin() {
               <NavLink to="/admin/user" className="collapse-item">
                 Quản lý người dùng
               </NavLink>
-              <NavLink to="/admin/user/add" className="collapse-item">
-                Thêm người dùng mới
-              </NavLink>
-              <NavLink to="/admin/role" className="collapse-item">
-                Quản trị viên
-              </NavLink>
             </div>
           </div>
         </li>

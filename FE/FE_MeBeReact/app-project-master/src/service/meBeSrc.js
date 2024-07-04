@@ -42,6 +42,10 @@ export const meBeSrc = {
         return https.get(`/sub_category/list_all`);
     },
 
+    getListUser: () => {
+        return https.get(`/user/list`);
+    },
+
     getUserById: (user_id) => {
         return https.get(`/user/${user_id}`);
     },
@@ -84,6 +88,10 @@ export const meBeSrc = {
 
     putStatusOrder: (data) => {
         return https.put(`/order/status`, data);
+    },
+
+    getOrderDetail: (orderId) => {
+        return https.get(`/order_details/list/orderId=${orderId}`);
     },
 
     createVNPay: (data) => {

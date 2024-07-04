@@ -1,0 +1,70 @@
+.admin-category {
+  padding: 20px;
+}
+
+.category-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-add_category,
+.btn-add_subcategory {
+  background-color: #4E73DF;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white;
+}
+
+.btn-add_category:hover,
+.btn-add_subcategory:hover {
+  background-color: #3A66C7;
+  transition: all 0.3s ease-in-out;
+}
+
+.category-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.category-card,
+.subcategory-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-category .category-header {
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-content,
+.subcategory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-info,
+.subcategory-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action {
+  display: flex;
+  gap: 5px;
+}

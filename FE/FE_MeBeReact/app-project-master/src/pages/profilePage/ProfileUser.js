@@ -16,6 +16,7 @@ export default function ProfileUser() {
 
     const [showModal, setShowModal] = useState(false);
 
+
     /**
      * Format the date to yyyy-MM-dd for input type="date"
      */
@@ -26,6 +27,8 @@ export default function ProfileUser() {
         const year = d.getFullYear();
         return `${year}-${month}-${day}`;
     };
+    //-----End------//
+
 
     /**
      * Format the date to dd/MM/yyyy for backend
@@ -34,6 +37,8 @@ export default function ProfileUser() {
         const [year, month, day] = date.split('-');
         return `${day}/${month}/${year}`;
     };
+    //-----End------//
+
 
     /**
      * Take user info (username) from local storage by token
@@ -64,6 +69,8 @@ export default function ProfileUser() {
                 });
         }
     }, []);
+    //-----End------//
+
 
     /**
      * Change value when input change
@@ -76,6 +83,8 @@ export default function ProfileUser() {
             [id]: value
         }));
     };
+    //-----End------//
+
 
     /**
      * Handle form submission
@@ -103,6 +112,8 @@ export default function ProfileUser() {
                 console.log("Error updating user", err);
             });
     };
+    //-----End------//
+
 
     return (
         <div className="profileUser">
