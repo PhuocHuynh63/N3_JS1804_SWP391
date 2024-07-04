@@ -30,6 +30,13 @@ export default function HomePage() {
 
     const handleClickCart = (e, product) => {
         e.preventDefault();
+    
+        // Prevent adding to cart if product is out of stock
+        if (product.status === 'Hết hàng' || product.quantity === 0) {
+            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Sản phẩm đã hết hàng</h1></div>);
+            return;
+        }
+    
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -38,30 +45,44 @@ export default function HomePage() {
             name: product.name,
             categoryId: product.categoryId,
             quantity: 1,
-            price: product.price,
-            totalPrice: product.price,
+            max: product.quantity,
+            price: product.salePrice || product.price,
+            totalPrice: product.salePrice || product.price,
         };
-
+    
         // Get existing cart items from local storage
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
+    
         // Check if the item is already in the cart
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
-
+    
         if (existingItemIndex > -1) {
-            // Update the quantity and total price if the item exists
-            cartItems[existingItemIndex].quantity += item.quantity;
-            cartItems[existingItemIndex].totalPrice += item.totalPrice;
-            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product quantity updated successfully!</h1></div>);
+            const existingItem = cartItems[existingItemIndex];
+            const newQuantity = existingItem.quantity + item.quantity;
+            if (newQuantity > existingItem.max) {
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Số lượng đã đạt tối đa</h1></div>);
+                existingItem.quantity = existingItem.max;
+                existingItem.totalPrice = existingItem.price * existingItem.max;
+            } else {
+                existingItem.quantity = newQuantity;
+                existingItem.totalPrice += item.totalPrice;
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Cập nhật số lượng thành công</h1></div>);
+            }
         } else {
-            // Add new item to the cart
-            cartItems.push(item);
-            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product added successfully!</h1></div>);
+            if (item.quantity > item.max) {
+                item.quantity = item.max;
+                item.totalPrice = item.price * item.max;
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Số lượng đã đạt tối đa</h1></div>);
+            } else {
+                cartItems.push(item);
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm sản phẩm thành công</h1></div>);
+            }
         }
-
+    
         // Save updated cart items to local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
+    
 
     return (
         <div className='homepage'>
@@ -184,10 +205,10 @@ export default function HomePage() {
                         {products.map((product) => (
                             <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
                                 <NavLink to={`/product/${product.productId}`}>
-                                    <div class="card text-center border-dark overflow-hidden">
-                                        <div class="card-body p-5 position-relative">
+                                    <div class="card text-center border-dark overflow-hidden h-100">
+                                        <div class="card-body p-5 position-relative d-flex flex-column justify-content-between">
                                             <figure class="m-0 p-0">
-                                                <img class="img-fluid" loading="lazy" src={`${product.images}`} alt="product.name" />
+                                                <img class="img-fluid" loading="lazy" src={`${product.images}`} alt={product.name} />
                                                 <figcaption class="mb-0 mt-4 p-0">
                                                     <h4 class="mb-2">{product.name}</h4>
                                                     <p class="d-flex justify-content-center align-items-center gap-2 mb-0">
@@ -195,13 +216,13 @@ export default function HomePage() {
                                                     </p>
                                                 </figcaption>
                                             </figure>
-                                            <a onClick={(e) => handleClickCart(e, product)} class="btn btn-accent mt-4 d-flex align-items-center justify-content-center gap-2">
+                                            <span onClick={(e) => handleClickCart(e, product)} class="btn btn-accent mt-4 d-flex align-items-center justify-content-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
                                                     <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z" />
                                                     <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
                                                 </svg>
-                                                <span>Add to cart</span>
-                                            </a>
+                                                <span>Thêm vào giỏ hàng</span>
+                                            </span>
                                             <div class="position-absolute top-0 end-0 m-2 fs-5">
                                                 <span class="badge text-bg-primary">Mới</span>
                                             </div>
@@ -212,6 +233,7 @@ export default function HomePage() {
                         ))}
                     </div>
                 </div>
+
             </div>
             <Modal
                 title="Notification"

@@ -54,13 +54,13 @@ export default function Category() {
     // Hàm xử lý khi nhấn nút thêm vào giỏ hàng
     const handleClickCart = (e, product) => {
         e.preventDefault();
+    
+        // Prevent adding to cart if product is out of stock
         if (product.status === 'Hết hàng' || product.quantity === 0) {
-            setShowModal(true);
-            setTimeout(() => {
-                setShowModal(false);
-            }, 3000);
+            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Sản phẩm đã hết hàng</h1></div>);
             return;
         }
+    
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -69,35 +69,51 @@ export default function Category() {
             name: product.name,
             categoryId: product.categoryId,
             quantity: 1,
-            price: product.price,
-            totalPrice: product.price,
+            max: product.quantity,
+            price: product.salePrice || product.price,
+            totalPrice: product.salePrice || product.price,
         };
-
-        // Lấy danh sách sản phẩm từ giỏ hàng trong localStorage
+    
+        // Get existing cart items from local storage
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    
+        // Check if the item is already in the cart
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
-
-        // Cập nhật số lượng và tổng giá nếu sản phẩm đã tồn tại trong giỏ hàng
+    
         if (existingItemIndex > -1) {
-            cartItems[existingItemIndex].quantity += item.quantity;
-            cartItems[existingItemIndex].totalPrice += item.totalPrice;
-            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product quantity updated successfully!</h1></div>);
+            const existingItem = cartItems[existingItemIndex];
+            const newQuantity = existingItem.quantity + item.quantity;
+            if (newQuantity > existingItem.max) {
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Số lượng đã đạt tối đa</h1></div>);
+                existingItem.quantity = existingItem.max;
+                existingItem.totalPrice = existingItem.price * existingItem.max;
+            } else {
+                existingItem.quantity = newQuantity;
+                existingItem.totalPrice += item.totalPrice;
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Cập nhật số lượng thành công</h1></div>);
+            }
         } else {
-            // Thêm sản phẩm mới vào giỏ hàng
-            cartItems.push(item);
-            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Product added successfully!</h1></div>);
+            if (item.quantity > item.max) {
+                item.quantity = item.max;
+                item.totalPrice = item.price * item.max;
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Số lượng đã đạt tối đa</h1></div>);
+            } else {
+                cartItems.push(item);
+                showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm sản phẩm thành công</h1></div>);
+            }
         }
-
-        // Lưu danh sách giỏ hàng vào localStorage
+    
+        // Save updated cart items to local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
+    
 
     // Hàm hiển thị modal thông báo
     const showModalnotify = (message) => {
         setModalMessage(message);
         setIsModalVisible(true);
     };
-
+    
     // Hàm xử lý khi nhấn vào subcategory
     const handleSubCategoryClick = (subCategory) => {
         // Điều hướng đến trang subcategory và truyền thông tin parent category qua state

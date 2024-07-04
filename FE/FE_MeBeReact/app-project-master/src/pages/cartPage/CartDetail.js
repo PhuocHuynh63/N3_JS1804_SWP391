@@ -20,18 +20,18 @@ export default function CartDetail() {
    */
   const updateQuantity = (productId, change) => {
     const updatedCartItems = cartItems.map(item => {
-      if (item.productId === productId) {
-        const newQuantity = item.quantity + change;
-        if (newQuantity > 0) {
-          item.quantity = newQuantity;
-          item.totalPrice = item.price * newQuantity;
+        if (item.productId === productId) {
+            const newQuantity = item.quantity + change;
+            if (newQuantity > 0 && newQuantity <= item.max) {
+                item.quantity = newQuantity;
+                item.totalPrice = item.price * newQuantity;
+            }
         }
-      }
-      return item;
+        return item;
     }).filter(item => item.quantity > 0); // Remove items with 0 quantity
     setCartItems(updatedCartItems);
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-  }
+}
 
   /**
    * *Get total quantity of items in the cart
@@ -133,16 +133,6 @@ export default function CartDetail() {
                 <h5 id='summary'>
                   Tổng cộng: <span className="price">{getTotalPrice()}₫</span>
                 </h5>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="invoiceCheck"
-                  />
-                  <label className="form-check-label" htmlFor="invoiceCheck">
-                    Xuất Hóa Đơn
-                  </label>
-                </div>
                 <NavLink to={"/checkout"} className="btn btn-primary">
                   ĐẶT HÀNG
                 </NavLink>

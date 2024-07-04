@@ -1,0 +1,39 @@
+.bg-light.p-3.p-md-4.p-xl-5 {
+    padding: 0rem !important;
+}
+
+.row.justify-content-center {
+    margin: 0px !important;
+}
+
+.col-12.col-xxl-11 {
+    padding: 0px !important;
+}
+
+
+.btn-close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.login-modal-content {
+    border-radius: 3px;
+}
+
+.btn.btn-dark.btn-lg {
+    background-color: black;
+}
+
+.btn.btn-dark.btn-lg:hover {
+    background-color: rgba(0, 0, 0, 0.77);
+}
+
+.login-modal-content #username {
+    width: 100%;
+}
+
+.login-modal-content #password {
+    width: 100%;
+}
