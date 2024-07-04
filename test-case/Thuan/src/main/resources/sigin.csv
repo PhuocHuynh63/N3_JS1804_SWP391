@@ -1,4 +1,0 @@
-firstName,lastName,email,username,password,expectedResponse
-John,Doe,john.doe@example.com,johndoe,123456,User created successfully
-Jane,Doe,user1@example.com,janedoe,123456,Email already exist
-Jane,Doe,jane.doe@example.com,user1,123456,Username already exist

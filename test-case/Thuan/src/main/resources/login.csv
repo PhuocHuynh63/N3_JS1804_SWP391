@@ -1,4 +1,0 @@
-username, password, expectedResult
-user1, 123, true
-user1, 1234, false
-user, 123, false

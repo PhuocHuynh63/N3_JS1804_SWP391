@@ -1,38 +1,38 @@
-
 .admin-user-add {
     margin: 20px;
-  }
+    width: auto;
+}
 
-form {
+.admin-user-add form {
     justify-content: space-between;
     width: 100%;
     max-width: 800px;
-  }
-  
-  .form-group {
+}
+
+.admin-user-add .form-group {
     display: flex;
     flex-direction: column;
     margin: 10px;
     width: 48%;
     padding: 10px 0px 0px 10px;
-  }
-  
-  label {
+}
+
+.admin-user-add label {
     margin-bottom: 5px;
     font-weight: bold;
-  }
-  
-  input[type="text"],
-  select {
+}
+
+.admin-user-add input[type="text"],
+.admin-user-add select {
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 500px;
     box-sizing: border-box;
-  }
-  
-  .btn-add {
+}
+
+.admin-user-add .btn-add {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
@@ -42,9 +42,8 @@ form {
     cursor: pointer;
     margin-top: 10px;
     width: 200px;
-  }
-  
-  .btn-add:hover {
+}
+
+.admin-user-add .btn-add:hover {
     background-color: #c0392b;
-  }
-  
+}
