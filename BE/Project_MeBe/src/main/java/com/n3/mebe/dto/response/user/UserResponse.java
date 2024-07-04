@@ -22,6 +22,7 @@ public class UserResponse {
     private Date birthOfDate;
     private String phoneNumber;
     private int point;
+    private String status;
     private Date createAt;
     private Date updateAt;
     private Date deleteAt;

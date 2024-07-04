@@ -26,6 +26,8 @@ public interface IUserService {
 
     boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request);
 
+    boolean banAccountByIdForAdmin(int id, String request);
+
     void deleteUserById(int id);
 
     String changePassword(int id, String oldPassword, String newPassword);

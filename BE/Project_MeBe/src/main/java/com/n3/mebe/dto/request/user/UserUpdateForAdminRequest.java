@@ -1,6 +1,7 @@
 package com.n3.mebe.dto.request.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,8 @@ public class UserUpdateForAdminRequest {
     @JsonFormat(pattern = "dd/MM/yyyy") //format date
     private Date birthOfDate;
     private String phoneNumber;
+    private String role;
+    private int point;
 
 
 }

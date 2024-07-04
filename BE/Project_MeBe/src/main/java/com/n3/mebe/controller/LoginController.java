@@ -1,8 +1,11 @@
 package com.n3.mebe.controller;
 
 import com.n3.mebe.dto.response.ResponseData;
+import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.service.ILoginService;
+import com.n3.mebe.service.IUserService;
 import com.n3.mebe.service.iml.LoginService;
+import com.n3.mebe.service.iml.UserService;
 import com.n3.mebe.util.JwtUtilHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,9 @@ public class LoginController {
 
     @Autowired
     ILoginService loginServiceImp;
+
+    @Autowired
+    private IUserService iUserService;
 
 
     @Autowired
@@ -33,13 +39,22 @@ public class LoginController {
         */
 
         if(loginServiceImp.checkLogin(username, password)) {
-            String token = jwtUtilHelper.genarateToken(username);
-            String role = loginServiceImp.getUserRole(username);
-            responseData.setData(token);
-            responseData.setRole(role);
+            UserResponse userResponse = iUserService.getUserByUserNameResponse(username);
+            String status = "active";
+            String ban = "ban";
+            if(userResponse.getStatus().equalsIgnoreCase(status)){
+                String token = jwtUtilHelper.genarateToken(username);
+                String role = loginServiceImp.getUserRole(username);
+                responseData.setData(token);
+                responseData.setRole(role);
+            }else if(userResponse.getStatus().equalsIgnoreCase(ban)){
+                responseData.setData("");
+                responseData.setDescription("Tài khoản của bạn đã bị ban");
+                responseData.setSuccess(false);
+            }
         } else {
             responseData.setData("");
-            responseData.setDescription("username or password incorrect");
+            responseData.setDescription("username hoặc password không đúng");
             responseData.setSuccess(false);
         }
 

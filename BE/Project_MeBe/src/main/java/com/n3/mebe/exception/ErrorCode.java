@@ -21,10 +21,12 @@ public enum ErrorCode {
     PRODUCT_QUANTITY_END(1013, "Product quantity out"),
     REVIEW_NOT_FOUND(1015, "Review does not exist"),
     ORDER_DETAILS_NO_EXIST(1016, "Order details does not exist"),
-    EMAIL_EXIST(1017, "Email already exist"),
-    USERNAME_EXIST(1018, "Username already exist"),
-    Address_EXIST(1019, " Address already exist "),
-    PHONE_NUMBER_EXIST(1020, " Phone number already exist"),
+    EMAIL_EXIST(1017, "Email đã tồn tại"),
+    USERNAME_EXIST(1018, "Username đã tồn tại"),
+    Address_EXIST(1019, " Địa chỉ đã tồn tại "),
+    PHONE_NUMBER_EXIST(1020, " Số điện thoại đã tồn tại"),
+
+    EMAIL_NO_EXIST(1021, " Địa chỉ email không có trên hệ thống"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;

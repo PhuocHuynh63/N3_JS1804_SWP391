@@ -60,7 +60,7 @@ public class UserService implements IUserService {
         if(iUserRepository.existsByEmail(email)){
             return iUserRepository.findByEmail(email);
         }else{
-            throw new AppException(ErrorCode.NO_USER_EXIST);
+            throw new AppException(ErrorCode.EMAIL_NO_EXIST);
         }
     }// </editor-fold>
 
@@ -311,6 +311,9 @@ public class UserService implements IUserService {
 
         user.setBirthOfDate(request.getBirthOfDate());
         user.setPhoneNumber(request.getPhoneNumber());
+        user.setRole(request.getRole());
+        user.setPoint(request.getPoint());
+
 
         Date now = new Date();
         user.setUpdateAt(now);
@@ -318,6 +321,20 @@ public class UserService implements IUserService {
         check = true;
 
         return  check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Ban Account By Id ForAdmin">
+    @Override
+    public boolean banAccountByIdForAdmin(int id, String request) {
+        boolean check = false;
+        User user = getUserById(id);
+        String roll = "admin";
+        if(!user.getRole().equalsIgnoreCase(roll)){
+            user.setStatus(request);
+            iUserRepository.save(user);
+            check = true;
+        }
+        return check;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Delete User By Id">
@@ -370,6 +387,7 @@ public class UserService implements IUserService {
             userResponse.setBirthOfDate(user.getBirthOfDate());
             userResponse.setPhoneNumber(user.getPhoneNumber());
             userResponse.setPoint(user.getPoint());
+            userResponse.setStatus(user.getStatus());
 
             List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
             userResponse.setListAddress(addressResponses);
@@ -404,6 +422,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
+        userResponse.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
@@ -446,6 +465,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
+        userResponse.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
@@ -477,6 +497,7 @@ public class UserService implements IUserService {
         response.setBirthOfDate(user.getBirthOfDate());
         response.setPhoneNumber(user.getPhoneNumber());
         response.setPoint(user.getPoint());
+        response.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         response.setListAddress(addressResponses);

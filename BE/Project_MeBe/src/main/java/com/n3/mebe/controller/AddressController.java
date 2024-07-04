@@ -2,12 +2,12 @@ package com.n3.mebe.controller;
 
 import com.n3.mebe.dto.request.address.CreateAddressRequest;
 import com.n3.mebe.dto.request.address.UpdateAddressRequest;
-import com.n3.mebe.dto.request.user.UserCreateRequest;
+
 import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.address.AddressResponse;
-import com.n3.mebe.entity.Address;
+
 import com.n3.mebe.service.IAddressService;
-import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
