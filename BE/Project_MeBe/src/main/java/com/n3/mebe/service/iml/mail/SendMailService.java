@@ -3,6 +3,7 @@ package com.n3.mebe.service.iml.mail;
 import com.n3.mebe.dto.response.gmail.GmailSendResponse;
 import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.User;
+import com.n3.mebe.entity.WishList;
 import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ISendMailService;
@@ -40,7 +41,7 @@ public class SendMailService implements ISendMailService {
 
     // <editor-fold default state="collapsed" desc="create Send Email Forgot">
     @Override
-    public Boolean createSendEmailForgot(String email) {
+    public boolean createSendEmailForgot(String email) {
         try {
             GmailSendResponse response = new GmailSendResponse();
 
@@ -77,7 +78,7 @@ public class SendMailService implements ISendMailService {
 
     // <editor-fold default state="collapsed" desc="create Send Email Verify Order">
     @Override
-    public Boolean createSendEmailVerifyOrder(String email, Order order) {
+    public boolean createSendEmailVerifyOrder(String email, Order order) {
         try {
             GmailSendResponse response = new GmailSendResponse();
 
@@ -98,6 +99,74 @@ public class SendMailService implements ISendMailService {
             response.setProps(props);
 
             mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.VERIFY_ORDER);
+            return true;
+        } catch (MessagingException exp) {
+            exp.printStackTrace();
+        }
+        return false;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="create Send Email WishLish Confirmation">
+    @Override
+    public boolean createSendEmailWishListConfirmation(User user, WishList wishList) {
+        try {
+            GmailSendResponse response = new GmailSendResponse();
+
+            response.setTo(user.getEmail());
+            response.setSubject(ConstEmail.SEND_MAIL_SUBJECT.COMFIRMED_WISHLIST);
+
+            Map<String, Object> props = new HashMap<>();
+            props.put("firstName", user.getFirstName());
+            props.put("lastName", user.getLastName());
+            props.put("email", user.getEmail());
+            props.put("status", wishList.getStatus());
+
+
+            props.put("wishListId", wishList.getWishlistId());
+            props.put("estimatedDate", wishList.getEstimatedDate());
+
+            props.put("name",  wishList.getProduct().getName());
+            props.put("img" , wishList.getProduct().getImages());
+
+            props.put("quantity", wishList.getQuantity());
+
+            props.put("totalAmount", wishList.getTotalAmount());
+            response.setProps(props);
+
+            mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.COMFIRMED_WISHLIST);
+            return true;
+        } catch (MessagingException exp) {
+            exp.printStackTrace();
+        }
+        return false;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="create Send Email WishLish Notifications">
+    @Override
+    public boolean createSendEmailWishListNotifications(WishList wishList) {
+        try {
+            GmailSendResponse response = new GmailSendResponse();
+
+            response.setTo(wishList.getUser().getEmail());
+            response.setSubject(ConstEmail.SEND_MAIL_SUBJECT.NOTIFICATION_WISHLIST);
+
+            Map<String, Object> props = new HashMap<>();
+            props.put("firstName", wishList.getUser().getFirstName());
+            props.put("lastName", wishList.getUser().getLastName());
+            props.put("email", wishList.getUser().getEmail());
+            props.put("status", wishList.getStatus());
+
+            props.put("wishListId", wishList.getWishlistId());
+
+            props.put("name",  wishList.getProduct().getName());
+            props.put("img" , wishList.getProduct().getImages());
+            props.put("price", wishList.getProduct().getPrice());
+            props.put("quantity", wishList.getQuantity());
+
+            props.put("totalAmount", wishList.getTotalAmount());
+            response.setProps(props);
+
+            mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.NOTIFICATION_WISHLIST);
             return true;
         } catch (MessagingException exp) {
             exp.printStackTrace();

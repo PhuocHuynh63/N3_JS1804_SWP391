@@ -1,6 +1,5 @@
 package com.n3.mebe.controller;
 
-
 import com.n3.mebe.dto.request.wishList.WishListRequest;
 import com.n3.mebe.dto.response.wishList.WishListResponse;
 import com.n3.mebe.service.IWishListService;
@@ -14,10 +13,8 @@ import java.util.List;
 @RequestMapping("/wishlist")
 public class WishListController {
 
-
     @Autowired
     private IWishListService wishListService;
-
 
     @GetMapping("/list")
     List<WishListResponse> getWishList() {
@@ -32,14 +29,12 @@ public class WishListController {
     @PostMapping("/create")
     String createWishList(@RequestBody WishListRequest wishListRequest) {
         String msg;
-        if (wishListService.addWishList(wishListRequest)){
+        if (wishListService.addWishList(wishListRequest)) {
             msg = "Create WishList successfully ";
-        }else {
+        } else {
             msg = "Create WishList failed";
         }
         return msg;
     }
-
-
 
 }

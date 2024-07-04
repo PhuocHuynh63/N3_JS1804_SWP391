@@ -8,15 +8,19 @@ import com.n3.mebe.dto.response.wishList.WishListUserResponse;
 import com.n3.mebe.entity.Product;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.entity.WishList;
+import com.n3.mebe.exception.AppException;
+import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IWishListRepository;
 import com.n3.mebe.service.IProductService;
 import com.n3.mebe.service.IUserService;
 import com.n3.mebe.service.IWishListService;
+import com.n3.mebe.service.iml.mail.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +37,10 @@ public class WishListService implements IWishListService {
     @Autowired
     private IProductService productService;
 
+    @Autowired
+    private SendMailService sendMailService; ;
+
+    // <editor-fold default state="collapsed" desc="get WishList User Responses All">
     public WishListUserResponse getWishListUser(User user) {
         WishListUserResponse response = new WishListUserResponse();
 
@@ -47,7 +55,7 @@ public class WishListService implements IWishListService {
         response.setPoint(user.getPoint());
 
         return response;
-    }
+    }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get WishList Responses All">
     @Override
@@ -105,37 +113,66 @@ public class WishListService implements IWishListService {
     @Override
     public boolean addWishList(WishListRequest request) {
         boolean check = false;
-
-        if(request != null){
+        String status = "Chờ thông báo";
+        if (request != null) {
             WishList wishList = new WishList();
 
             User user = userService.getUserById(request.getUserId());
             wishList.setUser(user);
             Product product = productService.getProductById(request.getProductId());
             wishList.setProduct(product);
-            wishList.setStatus(request.getStatus());
+            wishList.setStatus(status);
             wishList.setQuantity(request.getQuantity());
             wishList.setTotalAmount(request.getTotalAmount());
-            wishList.setEstimatedDate(request.getEstimatedDate());
-            wishList.setCreatedAt(request.getCreatedAt());
-            wishList.setUpdatedAt(request.getUpdatedAt());
+
+            // Kiểm tra trạng thái của sản phẩm
+            if ("Hết hàng".equalsIgnoreCase(product.getStatus())) {
+                wishList.setEstimatedDate(calculateEstimatedDate()); // Tính toán thời gian dự kiến
+            }else {
+                throw new AppException(ErrorCode.PRODUCT_QUANTITY_NOT_OUT);
+            }
+
+            wishList.setCreatedAt(new Date());
+            wishList.setUpdatedAt(new Date());
             wishListRepository.save(wishList);
+            sendMailService.createSendEmailWishListConfirmation(user, wishList);
             check = true;
         }
 
         return check;
-    }// </editor-fold>
+    }
+// </editor-fold>
+
+
+    private Date calculateEstimatedDate() {
+        // Tính toán thời gian dự kiến dựa trên thông tin sản phẩm và các yếu tố khác
+        // Ví dụ, giả sử thời gian trung bình để có hàng là 7 ngày
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+//      calendar.add(Calendar.DATE, 7);// Thêm 7 ngày
+        calendar.add(Calendar.MINUTE, 5); // Thêm 5 phút
+        return calendar.getTime();
+    }
 
 
 
-    @Scheduled(cron = "0 0 0 * * ?") // Chạy hàng ngày vào lúc nửa đêm
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Ho_Chi_Minh")// Chạy hàng ngày vào lúc nửa đêm
     public void updateWishListStatus() {
         Date currentDate = new Date();
         List<WishList> wishLists = wishListRepository.findWishListsByEstimatedDate(currentDate);
         for (WishList wishList : wishLists) {
-            wishList.setStatus("Arrived");
+            if(wishList.getProduct().getQuantity() < wishList.getQuantity()){
+                wishList.setEstimatedDate(calculateEstimatedDate());
+                wishList.setUpdatedAt(new Date());
+            }
+            wishList.setStatus("Đã có hàng");
+            //gửi mail thông báo đã có hàng
             wishList.setUpdatedAt(new Date());
             wishListRepository.save(wishList);
+            sendMailService.createSendEmailWishListNotifications(wishList);
         }
     }
+
+
 }

@@ -78,8 +78,8 @@
         <p>Chi tiết đơn hàng:</p>
         <ul th:each="detail : ${orderDetails}">
             <li>
-                <p  th:text="${'Sản phẩm: ' +detail.product.name}"></p>
-                <p th:text="${'Số lượng: ' +detail.quantity}"></p>
+                <p  th:text="${'Sản phẩm: ' + detail.product.name}"></p>
+                <p th:text="${'Số lượng: ' + detail.quantity}"></p>
                 <p th:text="${'Giá: ' + #numbers.formatDecimal(detail.price, 0, 0)}"></p>
             </li>
         </ul>
@@ -87,8 +87,8 @@
     </div>
     <div class="note">Đây là email tự động, vui lòng không trả lời.</div>
     <div class="footer">
-        <p>&copy; <span th:text="${#dates.format(today, 'yyyy')}">2024</span> Shop <a href="http://localhost:3000/" target="_blank">MẸ VÀ BÉ</a>.</p>
-        <a href="http://localhost:3000/" target="_blank" class="unsubscribe">Xem shop tại đây</a>
+        <p>&copy; <span th:text="${#dates.format(today, 'yyyy')}">2024</span> Shop <a href="http://14.225.253.116" target="_blank">MẸ VÀ BÉ</a>.</p>
+        <a href="http://14.225.253.116" target="_blank" class="unsubscribe">Xem shop tại đây</a>
     </div>
 </div>
 </body>

@@ -1,6 +1,5 @@
 package com.n3.mebe.controller;
 
-
 import com.n3.mebe.dto.response.subcategory.SubCategoryResponse;
 import com.n3.mebe.service.ISubCategoryService;
 import com.n3.mebe.service.iml.SubCategoryService;
@@ -17,9 +16,8 @@ public class SubCategoryController {
     @Autowired
     private ISubCategoryService subCategoryService;
 
-
     /**
-     *  Request from client
+     * Request from client
      *
      */
     @GetMapping("/list_all")
@@ -38,5 +36,3 @@ public class SubCategoryController {
     }
 
 }
-
-

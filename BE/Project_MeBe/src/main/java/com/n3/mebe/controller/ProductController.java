@@ -1,6 +1,5 @@
 package com.n3.mebe.controller;
 
-
 import com.n3.mebe.dto.request.product.ProductRequest;
 import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.product.ProductResponse;
@@ -34,40 +33,42 @@ public class ProductController {
      *
      */
 
-    //Create a product
+    // Create a product
     @PostMapping("/create_product")
     public ResponseEntity<?> createProduct(@RequestParam MultipartFile file,
-                          @RequestParam int subCategory,
-                          @RequestParam String slug,
-                          @RequestParam String name,
-                          @RequestParam String description,
-                          @RequestParam float price,
-                          @RequestParam float salePrice,
-                          @RequestParam String status,
-                          @RequestParam int totalSold,
-                          @RequestParam int quantity,
-                          @RequestParam int productView) {
+            @RequestParam int subCategory,
+            @RequestParam String slug,
+            @RequestParam String name,
+            @RequestParam String description,
+            @RequestParam float price,
+            @RequestParam float salePrice,
+            @RequestParam String status,
+            @RequestParam int totalSold,
+            @RequestParam int quantity,
+            @RequestParam int productView) {
         ResponseData responseData = new ResponseData();
-        boolean isSuccess = productService.createProduct(file, subCategory, slug, name, description, price, salePrice, status, totalSold, quantity, productView);
+        boolean isSuccess = productService.createProduct(file, subCategory, slug, name, description, price, salePrice,
+                status, totalSold, quantity, productView);
         responseData.setData(isSuccess);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
-    //Update a product by id
+    // Update a product by id
     @PutMapping("/update_product={id}")
     boolean updateProduct(@PathVariable("id") int id,
-                          @RequestParam MultipartFile file,
-                          @RequestParam int subCategory,
-                          @RequestParam String slug,
-                          @RequestParam String name,
-                          @RequestParam String description,
-                          @RequestParam float price,
-                          @RequestParam float salePrice,
-                          @RequestParam String status,
-                          @RequestParam int totalSold,
-                          @RequestParam int quantity,
-                          @RequestParam int productView) {
-        return productService.updateProduct(id ,file, subCategory, slug, name, description, price, salePrice, status, totalSold, quantity,productView);
+            @RequestParam MultipartFile file,
+            @RequestParam int subCategory,
+            @RequestParam String slug,
+            @RequestParam String name,
+            @RequestParam String description,
+            @RequestParam float price,
+            @RequestParam float salePrice,
+            @RequestParam String status,
+            @RequestParam int totalSold,
+            @RequestParam int quantity,
+            @RequestParam int productView) {
+        return productService.updateProduct(id, file, subCategory, slug, name, description, price, salePrice, status,
+                totalSold, quantity, productView);
     }
 
     @PutMapping("/update_status/product_id={prId}")
@@ -75,8 +76,7 @@ public class ProductController {
         return productService.setStatus(prId, status);
     }
 
-
-    //Delete product by id
+    // Delete product by id
     @DeleteMapping("/delete/product_id={id}")
     String deleteProduct(@PathVariable("id") int id) {
         productService.deleteProduct(id);
@@ -88,37 +88,37 @@ public class ProductController {
      *
      */
 
-    //Response list product
+    // Response list product
     @GetMapping("/list")
     List<ProductResponse> listProduct() {
         return productService.getListProduct();
     }
 
-    //Response a product by id
+    // Response a product by id
     @GetMapping("/{id}")
     ProductResponse productById(@PathVariable("id") int id) {
         return productService.getProductByIdResponse(id);
     }
 
-    //Response product_subcategory
+    // Response product_subcategory
     @GetMapping("/list_subcate={slug}")
     List<ProductResponse> listProductBySubCate(@PathVariable("slug") String slug) {
         return productService.getProductResponseList(slug);
     }
 
-    //Response list a product by id or name
+    // Response list a product by id or name
     @GetMapping("/search")
     List<ProductResponse> searchProduct(@RequestParam String name) {
         return productService.getListProductByName(name);
     }
 
-    //Response list a product sort by create at asc
-    @GetMapping("/list/create_at_acs")
+    // Response list a product sort by create at asc
+    @GetMapping("/list/create_at_asc")
     List<ProductResponse> sortCreatAtAsc() {
         return productService.getListProductCreatedAtAsc();
     }
 
-    //Response list a product sort by create at desc
+    // Response list a product sort by create at desc
     @GetMapping("/list/create_at_desc")
     List<ProductResponse> sortCreatAtDesc() {
         return productService.getListProductCreatedAtDesc();
@@ -134,13 +134,11 @@ public class ProductController {
         return productService.getListProductByPriceAcs();
     }
 
-
-    //chua can
+    // chua can
     @GetMapping("/list/sort_min_max")
     List<ProductResponse> sortProductByPriceAsc(@RequestParam float min, @RequestParam float max) {
         return productService.sortProductByPriceMinToMax(min, max);
     }
-
 
     @GetMapping("/list/acs_name")
     List<ProductResponse> sortProductAToZ() {
@@ -156,7 +154,5 @@ public class ProductController {
     List<ProductResponse> getProductBestSeller() {
         return productService.getProductBestSeller();
     }
-
-
 
 }

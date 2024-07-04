@@ -23,13 +23,13 @@ public class AddressController {
     private IAddressService addressSerivce;
 
     /**
-     *  Request from client
+     * Request from client
      *
      */
 
-
     @PostMapping("/create/{userId}")
-    ResponseEntity<ResponseData> createAddress(@RequestBody CreateAddressRequest request, @PathVariable("userId") int userId) {
+    ResponseEntity<ResponseData> createAddress(@RequestBody CreateAddressRequest request,
+            @PathVariable("userId") int userId) {
         boolean check = addressSerivce.createAddress(userId, request);
         ResponseData responseData = new ResponseData();
         if (check) {
@@ -44,9 +44,9 @@ public class AddressController {
         return ResponseEntity.status(responseData.getStatus()).body(responseData);
     }
 
-
     @PutMapping("/update/{id}")
-    ResponseEntity<ResponseData> updateAddress(@RequestBody UpdateAddressRequest request, @PathVariable("id") int addressId) {
+    ResponseEntity<ResponseData> updateAddress(@RequestBody UpdateAddressRequest request,
+            @PathVariable("id") int addressId) {
         boolean check = addressSerivce.updateAddress(addressId, request);
         ResponseData responseData = new ResponseData();
         if (check) {
@@ -77,11 +77,6 @@ public class AddressController {
         return ResponseEntity.status(responseData.getStatus()).body(responseData);
     }
 
-
-
-
-
-
     @DeleteMapping("/delete/{id}")
     ResponseEntity<ResponseData> deleteAddress(@PathVariable("id") int addressId) {
         addressSerivce.deleteAddress(addressId);
@@ -93,11 +88,11 @@ public class AddressController {
     }
 
     /**
-     *  Response to client
+     * Response to client
      *
      */
 
-    //Response address by user ID
+    // Response address by user ID
     @GetMapping("/list/{userId}")
     List<AddressResponse> getAddressByUserId(@PathVariable("userId") int id) {
         return addressSerivce.getAddressesUser(id);

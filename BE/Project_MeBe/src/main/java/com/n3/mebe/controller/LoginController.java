@@ -17,22 +17,22 @@ public class LoginController {
     @Autowired
     ILoginService loginServiceImp;
 
-
     @Autowired
     JwtUtilHelper jwtUtilHelper;
 
     @PostMapping()
     ResponseEntity<?> signin(@RequestParam String username,
-                                    @RequestParam String password) {
+            @RequestParam String password) {
         ResponseData responseData = new ResponseData();
 
-        /* Lấy key
-        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String encrypKey = Encoders.BASE64.encode(secretKey.getEncoded());
-        System.out.println(encrypKey);
-        */
+        /*
+         * Lấy key
+         * SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+         * String encrypKey = Encoders.BASE64.encode(secretKey.getEncoded());
+         * System.out.println(encrypKey);
+         */
 
-        if(loginServiceImp.checkLogin(username, password)) {
+        if (loginServiceImp.checkLogin(username, password)) {
             String token = jwtUtilHelper.genarateToken(username);
             String role = loginServiceImp.getUserRole(username);
             responseData.setData(token);

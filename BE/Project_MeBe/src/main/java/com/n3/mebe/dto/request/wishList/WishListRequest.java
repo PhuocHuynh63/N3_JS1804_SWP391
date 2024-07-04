@@ -8,10 +8,7 @@ public class WishListRequest {
 
     private int userId;
     private int productId;
-    private String status;
     private int quantity;
     private float totalAmount;
-    private Date estimatedDate;
-    private Date createdAt;
-    private Date updatedAt;
+
 }

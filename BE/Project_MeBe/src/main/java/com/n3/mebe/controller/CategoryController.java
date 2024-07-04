@@ -1,6 +1,5 @@
 package com.n3.mebe.controller;
 
-
 import com.n3.mebe.dto.request.category.CategoryRequest;
 import com.n3.mebe.dto.response.category.CategoryResponse;
 
@@ -19,7 +18,6 @@ public class CategoryController {
 
     @Autowired
     private ICategoryService categoryService;
-
 
     /**
      * Response to Client

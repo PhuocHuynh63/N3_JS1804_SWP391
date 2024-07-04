@@ -1,6 +1,5 @@
 package com.n3.mebe.controller;
 
-
 import com.n3.mebe.dto.request.review.ReviewRequest;
 import com.n3.mebe.dto.response.review.ReviewResponse;
 import com.n3.mebe.entity.Review;
@@ -17,7 +16,6 @@ public class ReviewController {
 
     @Autowired
     private IReviewService reviewService;
-
 
     @PostMapping("/create")
     Review create(@RequestBody ReviewRequest request) {
@@ -44,7 +42,5 @@ public class ReviewController {
     List<ReviewResponse> getReviewByProductId(@PathVariable("id") int id) {
         return reviewService.getReviewResponseByProductId(id);
     }
-
-
 
 }

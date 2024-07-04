@@ -25,6 +25,7 @@ public enum ErrorCode {
     USERNAME_EXIST(1018, "Username already exist"),
     Address_EXIST(1019, " Address already exist "),
     PHONE_NUMBER_EXIST(1020, " Phone number already exist"),
+    PRODUCT_QUANTITY_NOT_OUT(1021, " Product quantity not out"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;

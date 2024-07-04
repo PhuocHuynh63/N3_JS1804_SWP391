@@ -24,8 +24,6 @@ import java.util.Map;
 @RequestMapping("/order")
 public class OrderController {
 
-
-
     @Autowired
     private IOrderService orderService;
 
@@ -40,18 +38,15 @@ public class OrderController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-
-
-
     /**
-     *  Request from Client
+     * Request from Client
      *
      */
 
-    //Create order
+    // Create order
     @PostMapping("/create_vnpay")
-    public ResponseEntity<TransactionStatusDTO> createOrderByVNPay(@RequestBody OrderRequest orderRequest ,
-                                                                   @RequestParam Map<String, String> vnp_Params) {
+    public ResponseEntity<TransactionStatusDTO> createOrderByVNPay(@RequestBody OrderRequest orderRequest,
+            @RequestParam Map<String, String> vnp_Params) {
 
         productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
         // Lấy paymentId từ params
@@ -98,11 +93,11 @@ public class OrderController {
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
         }
 
-        return ResponseEntity.status(paymentSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(transactionStatusDTO);
+        return ResponseEntity.status(paymentSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
+                .body(transactionStatusDTO);
     }
 
-
-    //Create order
+    // Create order
     @PostMapping("/create_cod")
     public ResponseEntity<TransactionStatusDTO> createOrderByCOD(@RequestBody OrderRequest orderRequest) {
 
@@ -122,28 +117,26 @@ public class OrderController {
         return ResponseEntity.status(success ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(transactionStatusDTO);
     }
 
-
-    //Update order by id
+    // Update order by id
     @PutMapping("/update/orId={id}")
     public Order updateOrder(@PathVariable("id") int orId, @RequestBody OrderRequest orderRequest) {
-        return orderService.updateOrder(orId , orderRequest);
+        return orderService.updateOrder(orId, orderRequest);
     }
 
-    //Cancel order by id
+    // Cancel order by id
     @PutMapping("/cancel/orId={id}")
     public String cancelOrder(@PathVariable("id") int id, @RequestBody CancelOrderRequest request) {
         return orderService.cancelOrder(id, request);
     }
 
-    //Cancel order by id
+    // Cancel order by id
     @PutMapping("/status")
     public String cancelOrder(@RequestBody OrderStatusRequest request) {
         return orderService.setStatusOrder(request);
     }
 
-
     /**
-     *  Response to Client
+     * Response to Client
      *
      */
 
@@ -151,6 +144,5 @@ public class OrderController {
     public List<OrderResponse> getOrdersList() {
         return orderService.getOrdersList();
     }
-
 
 }

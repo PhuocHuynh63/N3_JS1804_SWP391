@@ -1,6 +1,5 @@
 package com.n3.mebe.controller;
 
-
 import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
 import com.n3.mebe.dto.request.order.details.UpdateOrderDetailsRequest;
 import com.n3.mebe.dto.response.order.details.OrderDetailsResponse;
@@ -17,21 +16,17 @@ import java.util.List;
 @RequestMapping("/order_details")
 public class OrderDetailsController {
 
-
     @Autowired
     private IOrderDetailsService orderDetailsService;
 
     /**
-     *  Response from Client
+     * Response from Client
      *
      */
-
 
     @GetMapping("/list/orderId={id}")
     List<OrderDetailsResponse> getListOrderDetailsByOrderId(@PathVariable("id") int orderId) {
         return orderDetailsService.getOrderDetailsById(orderId);
     }
-
-
 
 }
