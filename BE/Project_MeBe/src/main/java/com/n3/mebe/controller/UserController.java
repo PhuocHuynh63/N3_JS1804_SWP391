@@ -35,11 +35,11 @@ public class UserController {
         boolean check = userService.createUser(request);
         ResponseData responseData = new ResponseData();
         if (check) {
-            responseData.setDescription("User created successfully");
+            responseData.setDescription("Đăng ký thành công");
             responseData.setSuccess(true);
             responseData.setStatus(200);
         } else {
-            responseData.setDescription("User creation failed");
+            responseData.setDescription("Đăng ký thất bại");
             responseData.setSuccess(false);
             responseData.setStatus(400);
         }
@@ -52,11 +52,11 @@ public class UserController {
         boolean check = userService.updateGuestToUser(user_id , request);
         ResponseData responseData = new ResponseData();
         if (check) {
-            responseData.setDescription("User created successfully");
+            responseData.setDescription("Đăng ký thành công");
             responseData.setSuccess(true);
             responseData.setStatus(200);
         } else {
-            responseData.setDescription("User creation failed");
+            responseData.setDescription("Đăng ký thất bại");
             responseData.setSuccess(false);
             responseData.setStatus(400);
         }
@@ -70,32 +70,57 @@ public class UserController {
         String msg;
         boolean check = userService.updateUserById(user_id , request);
         if (check){
-            msg = "User updated successfully";
+            msg = "Cập nhập thành công";
         }else {
-            msg = "User updating failed";
+            msg = "Cập nhập thất bại";
         }
         return msg;
     }
 
 
-    //Update user by id
+    //Update user by id for admin
     @PutMapping("/update_admin/uId={user_id}")
     public String updateUserForAdmin(@PathVariable("user_id") int user_id, @RequestBody UserUpdateForAdminRequest request) {
         String msg;
         boolean check = userService.updateUserByIdForAdmin(user_id , request);
         if (check){
-            msg = "User updated successfully";
+            msg = "Cập nhập người dùng thành công";
         }else {
-            msg = "User updating failed";
+            msg = "Cập nhập người dùng thất bại";
         }
         return msg;
     }
 
-    @PutMapping("/change_password/{user_id}")
+    @PutMapping("/change_password/uId={user_id}")
     public String changePasswordUser(@PathVariable("user_id") int user_id,
                                      @RequestParam String passwordOld,
                                      @RequestParam String passwordNew) {
         return userService.changePassword(user_id, passwordOld, passwordNew);
+    }
+
+    @PutMapping("/set_status/uId={user_id}")
+    public String setStatusForAdmin(@PathVariable("user_id") int user_id, @RequestParam String status) {
+        String msg= "";
+
+        boolean check = userService.setStatusUserForAdmin(user_id , status);
+
+        switch (status) {
+            case "ban":
+                if (check){
+                    msg = "Khóa tài khoản thành công";
+                }else {
+                    msg = "Khóa tài khoản thất bại";
+                }
+                break;
+            case "active":
+                if (check){
+                    msg = "Mở khóa tài khoản thành công";
+                }else {
+                    msg = "Mở khóa tài khoản thất bại";
+                }
+                break;
+        }
+        return msg;
     }
 
     //Delete user by id
@@ -140,5 +165,10 @@ public class UserController {
         return userService.getUserTrackingByIdResponse(userId);
     }
 
+
+    @GetMapping("/search_name")
+    public List<UserResponse> searchByNameForAdmin(@RequestParam String name) {
+        return userService.searchUserByNameForAdmin(name);
+    }
 
 }
