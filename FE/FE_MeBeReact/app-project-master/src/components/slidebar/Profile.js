@@ -1,21 +1,43 @@
 import { NavLink } from "react-router-dom";
 import './Profile.css';
+import { meBeSrc } from "../../service/meBeSrc";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 
 export default function Profile() {
+
+    const [user, setUser] = useState({
+        username: "",
+        avatar:""
+    });
+
+    useEffect(() => {
+        const token = localStorage.getItem('USER_INFO');
+        if (token) {
+            const decoded = jwtDecode(token);
+            const username = decoded.sub;
+
+            meBeSrc.getUserByUserName(username)
+                .then((res) => {
+                    const userData = {
+                        ...res.data,
+                    };
+                    setUser(userData);
+                })
+                .catch((err) => {
+                    console.log("Error fetching user", err);
+                });
+        }
+    }, []);
+
     return (
         <div className="profile-small_slidebar-container">
             <div className="profile-small_slidebar header">
                 <div className="profile-small_slidebar header__avatar">
-                    <img src="https://scontent.fsgn8-3.fna.fbcdn.net/v/t39.30808-1/422906381_1458609631752987_4674670501739376302_n.jpg?stp=dst-jpg_s200x200&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=lrHyEAI0zVEQ7kNvgG7SMPx&_nc_ht=scontent.fsgn8-3.fna&oh=00_AYAWZHQ-lY2WQ39pzUfBkFPtKgK3ieL6GPQnSRkj1mlEUg&oe=667DD089" alt="avatar" />
+                    <img src={user.avatar} alt="avatar" />
                 </div>
                 <div className="profile-small_slidebar header__info">
-                    <div className="profile-small_slidebar header__info-name">Huỳnh Minh Phước</div>
-                    <div className="profile-small_slidebar header__info-change">
-                        <NavLink to={"/account/profile"}>
-                            <i className="fa-solid fa-pen"></i>
-                            Sửa hồ sơ
-                        </NavLink>
-                    </div>
+                    <div className="profile-small_slidebar header__info-name">{user.username}</div>
                 </div>
             </div>
 

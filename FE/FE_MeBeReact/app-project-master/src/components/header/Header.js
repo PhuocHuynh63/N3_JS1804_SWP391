@@ -8,20 +8,34 @@ import UserDropdown from "./UserDropDown";
 import { localService } from "../../service/localService";
 import { meBeSrc } from "../../service/meBeSrc";
 import logo from "../../images/Logo_Header_RemoveBackground.png";
+import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
 
     /**
-     * Lấy thông tin user từ store
+     * Take user info (username) from local storage by token
      */
-    let userInfo = useSelector((state) => state.userReducer.userInfo);
     const [user, setUser] = useState(null);
+
     useEffect(() => {
-        if (userInfo) {
-            setUser(userInfo);
+        const token = localStorage.getItem('USER_INFO');
+        if (token) {
+            const decoded = jwtDecode(token);
+            const username = decoded.sub;
+
+            meBeSrc.getUserByUserName(username)
+                .then((res) => {
+                    const userData = {
+                        ...res.data,
+                    };
+                    setUser(userData);
+                })
+                .catch((err) => {
+                    console.log("Error fetching user", err);
+                });
         }
-    }, [userInfo])
-    //-----End Lấy thông tin user từ store-----//
+    }, []);
+
 
 
     /**
@@ -123,7 +137,7 @@ export default function Header() {
     }, []);
     //-----End-----//
 
-    if (!userInfo) {
+    if (!user) {
         return (
             <div className="header_container">
                 <header>
@@ -292,9 +306,9 @@ export default function Header() {
                                 </button>
 
                             }></UserDropdown>
-                        <span className="icons-header" onClick={handleShowCart}>
-                            <i className="fa-solid fa-cart-shopping"></i>
-                        </span>
+                            <span className="icons-header" onClick={handleShowCart}>
+                                <i className="fa-solid fa-cart-shopping"></i>
+                            </span>
                     </div>
                 </header >
 

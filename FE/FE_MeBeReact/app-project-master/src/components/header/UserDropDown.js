@@ -1,29 +1,8 @@
 import { Dropdown, Space } from 'antd';
 import './UserDropDown.css'
 import { NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import { meBeSrc } from '../../service/meBeSrc';
 
 const UserDropdown = ({ user, logoutBtn }) => {
-
-  const [userToken, setUserToken] = useState({});
-
-  useEffect(() => {
-    const token = localStorage.getItem('USER_INFO');
-    if (token) {
-      const decoded = jwtDecode(token);
-      const username = decoded.sub;
-      meBeSrc.getUserByUserName(username)
-        .then((res) => {
-          const userData = { ...res.data, };
-          setUserToken(userData);
-        })
-        .catch((err) => {
-          console.log("Error fetching user", err);
-        });
-    }
-  }, []);
 
   const menuItems = [
     {
@@ -40,12 +19,15 @@ const UserDropdown = ({ user, logoutBtn }) => {
     },
   ];
 
-  if (userToken && (userToken.role === 'admin' || userToken.role === 'staff')) {
+  // Thêm mục Admin nếu người dùng có vai trò 'admin' hoặc 'staff'
+  if (user && (user.role === 'admin' || user.role === 'staff')) {
     menuItems.push({
-      label: <a href="/admin">Quản trị viên</a>,
+      label: <NavLink to={"/admin"}>Admin</NavLink>,
       key: "4",
     });
   }
+
+
 
   return (
     <Dropdown
@@ -56,7 +38,7 @@ const UserDropdown = ({ user, logoutBtn }) => {
     >
       <a onClick={(e) => e.preventDefault()}>
         <Space>
-          <img src='../images/avt.png' className='avt' />
+          <img src={user.avatar} className='avt rounded-circle ' />
         </Space>
       </a>
     </Dropdown>

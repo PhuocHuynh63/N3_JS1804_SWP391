@@ -108,6 +108,26 @@ export const meBeSrc = {
 
     forgotPassword: (email) => {
         return https.post(`/forgot_password/email?email=${email}`);
+    },
+
+    getAddressByUserId: (user_id) => {
+        return https.get(`/address/list/${user_id}`);
+    },
+
+    createAddress: (user_id, data) => {
+        return https.post(`/address/create/${user_id}`, data);
+    },
+
+    updateAddress: (address_id, data) => {
+        return https.put(`/address/update/${address_id}`, data);
+    },
+
+    deleteAddress: (address_id) => {
+        return https.delete(`/address/delete/${address_id}`);
+    },
+    
+    setDefaultAddress: (address_id, defaultValue) => {
+        return https.put(`/address/update/default/${address_id}?defaultValue=${defaultValue}`);
     }
 
 }
