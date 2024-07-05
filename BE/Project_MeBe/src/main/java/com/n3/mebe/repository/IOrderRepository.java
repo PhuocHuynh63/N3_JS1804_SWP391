@@ -11,4 +11,6 @@ public interface IOrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findByUserUserId(int userId);
 
+    List<Order> findByUserEmailOrUserPhoneNumber(String email, String phoneNumber);
+
 }

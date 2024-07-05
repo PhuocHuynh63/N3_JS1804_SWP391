@@ -10,8 +10,8 @@ public enum ErrorCode {
     NO_USER_EXIST(1003, "No User existed"),
     Address_NO_EXIST(1004, " Address does not exist"),
     INVALIDATE_MESSAGE_KEY(1005, "Invalid message key"),
-    CATEGORY_EXIST(1006, "Category exist"),
-    CATEGORY_NO_EXIST(1007, "Category no exist"),
+    CATEGORY_EXIST(1006, "Thể loại đã tồn tại"),
+    CATEGORY_NO_EXIST(1007, "Thể loại không tồn tại"),
     PRODUCT_SKU_NO_EXIST(1008, "Product sku does not exist"),
     PRODUCT_ATTRIBUTE_NO_EXIST(1009, "Product attribute does not exist"),
     PRODUCT_ATTRIBUTE_EXIST(1010, "Product attribute exist"),
@@ -26,6 +26,7 @@ public enum ErrorCode {
     Address_EXIST(1019, " Address đã tồn tại "),
     PHONE_NUMBER_EXIST(1020, " Số điện thoại đã tồn tại"),
     PRODUCT_QUANTITY_NOT_OUT(1021, " Sản phẩm đã hết hàng"),
+    SUB_CATEGORY_NO_EXIST(1022, "Id không tồn tại"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;

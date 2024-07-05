@@ -8,6 +8,12 @@ import java.util.List;
 
 public interface ICategoryService {
 
+    boolean createCategory(CategoryRequest request);
+
+    boolean updateCategory(int cateId, CategoryRequest request);
+
+    void deleteCategory(int cateId);
+
     List<CategoryResponse> getListCategory();
 
     CategoryResponse getCategoryBySlug(String slug);

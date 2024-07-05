@@ -261,6 +261,34 @@ public class OrderService implements IOrderService {
        return "Update status "+ request.getStatus() + "thành công";
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Get List Orders">
+    @Override
+    public List<OrderResponse> getOrdersList(String email, String phone) {
+        List<Order> list = orderRepository.findByUserEmailOrUserPhoneNumber(email, phone);
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+
+        for (Order order : list) {
+            OrderResponse orderResponse = new OrderResponse();
+
+            orderResponse.setOrderId(order.getOrderId());
+            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+            orderResponse.setVoucher(order.getVoucher());
+            orderResponse.setStatus(order.getStatus());
+
+            orderResponse.setTotalAmount(order.getTotalAmount());
+
+            orderResponse.setOrderType(order.getOrderType());
+            orderResponse.setPaymentStatus(order.getPaymentStatus());
+            orderResponse.setNote(order.getNote());
+            orderResponse.setCreatedAt(order.getCreatedAt());
+            orderResponse.setUpdatedAt(order.getUpdatedAt());
+
+            orderResponseList.add(orderResponse);
+        }
+
+        return orderResponseList;
+    }// </editor-fold>
+
 
     /**
      *  Response from Client
