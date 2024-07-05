@@ -4,10 +4,13 @@ package com.n3.mebe.service.iml;
 
 import com.n3.mebe.dto.request.category.CategoryRequest;
 import com.n3.mebe.dto.response.category.CategoryResponse;
+
 import com.n3.mebe.entity.Category;
+
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.ICategoryRepository;
+import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,51 @@ public class CategoryService implements ICategoryService {
 
     @Autowired
     private ICategoryRepository icategoryRepository;
+
+
+    /**
+     *  Request from Client
+     *
+     */
+
+    // <editor-fold default state="collapsed" desc="Create Category">
+    @Override
+    public boolean createCategory(CategoryRequest request) {
+        boolean check = false;
+
+        if (icategoryRepository.existsByName(request.getName())){
+            throw new AppException(ErrorCode.CATEGORY_EXIST);
+        }else {
+            Category category = new Category();
+            category.setName(request.getName());
+            category.setSlug(request.getSlug());
+            icategoryRepository.save(category);
+            check = true;
+        }
+        return check ;
+    }//</editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Update Category">
+    @Override
+    public boolean updateCategory(int cateId, CategoryRequest request) {
+        boolean check = false;
+        Category category = getCategoryById(cateId);
+       if(category != null){
+           category.setName(request.getName());
+           category.setSlug(request.getSlug());
+           icategoryRepository.save(category);
+           check = true;
+       }
+        return check;
+    }//</editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Delete Category">
+    @Override
+    public void deleteCategory(int cateId) {
+        icategoryRepository.deleteById(cateId);
+    }//</editor-fold>
+
+
 
 
     // <editor-fold default state="collapsed" desc="Get Category By Id">

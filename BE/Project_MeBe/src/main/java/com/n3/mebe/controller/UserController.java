@@ -107,7 +107,7 @@ public class UserController {
     }
 
     @PutMapping("/update_role/uId={user_id}")
-    public String updateUserForAdmin(@PathVariable("user_id") int user_id, @RequestParam String role) {
+    public String updateRoleForAdmin(@PathVariable("user_id") int user_id, @RequestParam String role) {
         String msg;
         boolean check = userService.updateRoleForAdmin(user_id , role);
         if (check){

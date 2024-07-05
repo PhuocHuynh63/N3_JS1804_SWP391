@@ -25,4 +25,6 @@ public interface IOrderService {
     void deleteOrder(String orderId);
 
     String setStatusOrder(OrderStatusRequest request);
+
+    List<OrderResponse> getOrdersList(String email, String phone);
 }
