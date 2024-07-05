@@ -6,7 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/CloundinaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/CloundinaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/request/address/UpdateAddressRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/request/address/UpdateAddressRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/AddressSerivce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/AddressSerivce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/n3/mebe/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/n3/mebe/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/n3/mebe/dto/request/address/UpdateAddressRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/n3/mebe/dto/request/address/UpdateAddressRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/n3/mebe/dto/request/user/UserUpdateForAdminRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/n3/mebe/dto/request/user/UserUpdateForAdminRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/IUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/IUserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/iml/AddressSerivce.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/iml/AddressSerivce.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/iml/CloundinaryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/iml/CloundinaryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/iml/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/n3/mebe/service/iml/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/mebe-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/mebe-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/mebe-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/mebe-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.n3.mebe.ProjectMeBeApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.n3.mebe.ProjectMeBeApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.n3.mebe.ProjectMeBeApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.n3.mebe.ProjectMeBeApplicationTests.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +189,9 @@
       <workItem from="1720180964524" duration="4928000" />
       <workItem from="1720186552687" duration="2563000" />
       <workItem from="1720190756103" duration="6854000" />
-      <workItem from="1720197773837" duration="112000" />
+      <workItem from="1720197773837" duration="485000" />
+      <workItem from="1720200546772" duration="117000" />
+      <workItem from="1720200748373" duration="30000" />
     </task>
     <servers />
   </component>

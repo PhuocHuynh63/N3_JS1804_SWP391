@@ -74,7 +74,6 @@ public class AddressSerivce implements IAddressService {
             }
         }
         if (!request.getAddress().equals(address.getAddress())){
-            address.setDefault(request.isDefault());
             address.setTitle(request.getTitle());
             address.setAddress(request.getAddress());
             addressRepository.save(address);
