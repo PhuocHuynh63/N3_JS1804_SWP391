@@ -13,8 +13,8 @@
     display: flex;
     flex-direction: column;
     margin: 10px;
-    width: 48%;
     padding: 10px 0px 0px 10px;
+    width: 100%;
 }
 
 .admin-user-add label {
@@ -23,12 +23,15 @@
 }
 
 .admin-user-add input[type="text"],
+.admin-user-add input[type="email"],
+.admin-user-add input[type="phoneNumber"],
+.admin-user-add input[type="password"],
 .admin-user-add select {
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 500px;
+    width: 470px;
     box-sizing: border-box;
 }
 
@@ -46,4 +49,20 @@
 
 .admin-user-add .btn-add:hover {
     background-color: #c0392b;
+}
+
+.admin-user-add .name {
+    display: flex;
+}
+
+.admin-user-add .name .form-group input[type="text"]#firstName {
+    width: 200px;
+}
+
+.admin-user-add .name .form-group input[type="text"]#lastName {
+    width: 240px;
+}
+
+.admin-user-add .form-group.email input[type="email"]#email {
+    width: 470px;
 }

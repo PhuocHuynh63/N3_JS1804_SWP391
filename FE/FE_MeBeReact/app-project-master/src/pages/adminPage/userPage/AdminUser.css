@@ -82,7 +82,7 @@ table.user-list td {
   background-color: #4E73DF;
   border: none;
   margin-left: 20px;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border-radius: 5px;
   font-size: 17px;
   color: white;
@@ -95,4 +95,36 @@ table.user-list td {
 
 .admin-user .box-user .user-list tr:nth-child(odd) {
   background-color: transparent;
+}
+
+.admin-user_action {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-user_search {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 30px;
+  height: 48px;
+}
+
+.admin-user_search input[type="text"] {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 0;
+  width: 300px;
+  height: 45px;
+  padding-left: 10px;
+}
+
+.admin-user_search input[type="text"]:focus {
+  outline: none;
+}
+
+.admin-user_search i {
+  padding: 10px;
+  border-radius: 0 5px 5px 0;
+  height: 45px;
+  cursor: pointer;
 }

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./AdminUser.css";
-import PopupAddUser from "./PopupAddUser";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Pagination from '../../../components/pagination/Pagination';
+import PopupAddUser from "./addUser/PopupAddUser";
+import PopupUpdateUser from "./updateUser/PopupUpdateUser";
+import PopupDetailUser from "./detailUser/PopupDetailUser";
 
 export default function AdminUser() {
   const [showAddUser, setShowAddUser] = useState(false);
-
+  const [showDetailUser, setShowDetailUser] = useState(false);
+  const [showUpdateUser, setShowUpdateUser] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   /**
    * List of users
@@ -21,6 +25,38 @@ export default function AdminUser() {
         console.log(err);
       });
   }, []);
+  //-----End-----//
+
+
+  /**
+     * Search Product
+     */
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (searchTerm) {
+      meBeSrc.getSearchUserByName(searchTerm)
+        .then((res) => {
+          setUsers(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log("Error fetching product", err);
+        });
+    } else {
+      meBeSrc.getListUser()
+        .then((res) => {
+          setUsers(res.data);
+        })
+        .catch((err) => {
+          console.log("Error fetching product", err);
+        });
+    }
+  }, [searchTerm]);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
   //-----End-----//
 
 
@@ -63,10 +99,18 @@ export default function AdminUser() {
   return (
     <div className="admin-user">
       <PopupAddUser show={showAddUser} handleClose={() => setShowAddUser(false)} />
+      <PopupUpdateUser show={showUpdateUser} handleClose={() => setShowUpdateUser(false)} user_id={selectedUserId} />
+      <PopupDetailUser show={showDetailUser} handleClose={() => setShowDetailUser(false)} user_id={selectedUserId} />
 
       <h1>Quản lý người dùng</h1>
 
-      <button className="btn-add_user" onClick={() => setShowAddUser(true)}> + Thêm người dùng mới</button>
+      <div className="admin-user_action">
+        <button className="btn-add_user" onClick={() => setShowAddUser(true)}> + Thêm người dùng mới</button>
+        <div className="admin-user_search">
+          <input type="text" className="admin-user_searchinput" placeholder="Nhập người dùng cần tìm" onChange={handleSearchChange} value={searchTerm} />
+          <i id="search" className="fa-solid fa-magnifying-glass"></i>
+        </div>
+      </div>
 
       <div className="box-user">
         <table className="user-list">
@@ -99,12 +143,12 @@ export default function AdminUser() {
                 <td>{getRole(user.role)}</td>
                 <td>
                   <div className="action">
-                    <a className="delete btn btn-warning btn-sm" href="#">
+                    <button className="btn btn-warning btn-sm" onClick={() => { setShowDetailUser(true); setSelectedUserId(user.id) }}>
                       <i className="fa-solid fa-eye"></i>
-                    </a>
-                    <a className="edit btn btn-success btn-sm" href="#">
+                    </button>
+                    <button className="btn btn-success btn-sm" onClick={() => { setShowUpdateUser(true); setSelectedUserId(user.id) }}>
                       <i className="fa-solid fa-pen-to-square"></i>
-                    </a>
+                    </button>
                   </div>
                 </td>
               </tr>

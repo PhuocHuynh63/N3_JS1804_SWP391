@@ -54,12 +54,16 @@ export const meBeSrc = {
         return https.get(`/user/username=${user_name}`);
     },
 
+    getSearchUserByName: (name) => {
+        return https.get(`/user/search_name?name=${name}`);
+    },
+
     userSignUp: (data) => {
         return https.post(`/user/signup`, data)
     },
 
     changePassword: (user_id, data) => {
-        return https.put(`/user/change_password/${user_id}`, null, { params: data });
+        return https.put(`/user/change_password/uId=${user_id}`, null, { params: data });
     },
 
     updateUserProfile: (user_id, data) => {
@@ -68,6 +72,10 @@ export const meBeSrc = {
 
     getTrackingOrder: (userId) => {
         return https.get(`/user/tracking/${userId}`);
+    },
+
+    putUserForAdmin: (user_id, data) => {
+        return https.put(`/user/update_admin/uId=${user_id}`, data);
     },
 
     getListOrder: () => {

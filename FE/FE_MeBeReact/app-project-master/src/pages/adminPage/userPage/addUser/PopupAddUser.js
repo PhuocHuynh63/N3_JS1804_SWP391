@@ -66,31 +66,31 @@ const PopupAddUser = ({ show, handleClose }) => {
                             id="userName"
                             value={formData.userName}
                             onChange={handleChange}
-                            required
                         />
                     </div>
 
-                    <div className="form-group firstname">
-                        <label htmlFor="firstName">Họ</label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            required
-                        />
+                    <div className='name'>
+                        <div className="form-group firstname">
+                            <label htmlFor="firstName">Họ</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="form-group lastname">
+                            <label htmlFor="lastName">Tên</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
 
-                    <div className="form-group lastname">
-                        <label htmlFor="lastName">Tên</label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
 
                     <div className="form-group email">
                         <label htmlFor="email">Email</label>
@@ -99,7 +99,6 @@ const PopupAddUser = ({ show, handleClose }) => {
                             id="email"
                             value={formData.email}
                             onChange={handleChange}
-                            required
                         />
                     </div>
 
@@ -110,7 +109,6 @@ const PopupAddUser = ({ show, handleClose }) => {
                             id="phoneNumber"
                             value={formData.phoneNumber}
                             onChange={handleChange}
-                            required
                         />
                     </div>
 
@@ -143,7 +141,7 @@ const PopupAddUser = ({ show, handleClose }) => {
                     <div className="form-group hidden">
                         <input
                             id="status"
-                            value={1}
+                            value='active'
                             onChange={handleChange}
                             type="hidden"
                         />

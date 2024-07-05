@@ -1,0 +1,129 @@
+.admin-user-detail {
+    margin: 20px;
+    width: auto;
+}
+
+.admin-user-detail form {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+}
+
+.admin-user-detail .form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px 0px 0px 10px;
+    width: 100%;
+}
+
+.admin-user-detail label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.admin-user-detail input[type="text"],
+.admin-user-detail input[type="email"],
+.admin-user-detail input[type="phoneNumber"],
+.admin-user-detail input[type="password"],
+.admin-user-detail input[type="date"],
+.admin-user-detail select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 470px;
+    box-sizing: border-box;
+}
+
+.admin-user-detail .form-group_btn {
+    display: flex;
+    justify-content: space-around;
+}
+
+.admin-user-detail .btn-update {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.admin-user-detail .btn-update:hover {
+    background-color: #c0392b;
+    transition: all 0.6s ease;
+}
+
+.admin-user-detail .btn-detail {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #e74c3c;
+    background-color: #ffff;
+    border: 1px solid #e74c3c;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.admin-user-detail .btn-detail:hover {
+    background-color: #c0392b;
+    color: #ffff;
+    transition: all 0.6s ease;
+}
+
+.admin-user-detail .name {
+    display: flex;
+}
+
+.admin-user-detail .form-group input[type="text"]#userName {
+    background-color: #cfcfcf;
+    outline: none;
+    cursor: not-allowed;
+}
+
+.admin-user-detail .name .form-group input[type="text"]#firstName {
+    width: 200px;
+}
+
+.admin-user-detail .name .form-group input[type="text"]#lastName {
+    width: 240px;
+}
+
+.admin-user-detail .form-group.email input[type="email"]#email {
+    width: 470px;
+}
+
+.admin-user-detail .form-group.birthOfDate input[type="date"]#birthOfDate {
+    width: 470px;
+}
+
+.admin-user-detail .form-group.address {
+    margin-top: 20px;
+}
+
+.admin-user-detail .address-details {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.admin-user-detail .orders {
+    margin-top: 20px;
+}
+
+.admin-user-detail .orders h2 {
+    margin-bottom: 10px;
+}
+
+.admin-user-detail .order-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import "./AdminCategory.css";
 import { meBeSrc } from "../../../service/meBeSrc";
+import PopupAddCategory from "./addCategory/PopupAddCategory";
+import PopupAddSubCategory from "./addSubCategory/PopupAddSubCategory";
 
 export default function AdminCategory() {
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [showAddSubCategory, setShowAddSubCategory] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState(null); // State to track the currently active category
+  const [activeCategoryName, setActiveCategoryName] = useState('');
 
   /**
    * List of categories
@@ -14,7 +17,6 @@ export default function AdminCategory() {
   useEffect(() => {
     meBeSrc.getListCategory()
       .then((res) => {
-        console.log("Categories from API:", res.data);
         setCategories(res.data);
       }).catch((err) => {
         console.log(err);
@@ -29,7 +31,6 @@ export default function AdminCategory() {
   useEffect(() => {
     meBeSrc.getListSubCategory()
       .then((res) => {
-        console.log("Subcategories from API:", res.data);
         setSubcategories(res.data);
       }).catch((err) => {
         console.log(err);
@@ -48,7 +49,6 @@ export default function AdminCategory() {
   useEffect(() => {
     meBeSrc.getProduct()
       .then((res) => {
-        console.log("Products from API:", res.data);
         setProduct(res.data);
       }).catch((err) => {
         console.log(err);
@@ -69,8 +69,23 @@ export default function AdminCategory() {
   };
   //-----End-----//
 
+  /**
+   * Handle show add subcategory
+   * @param {*} categoryId 
+   * @param {*} categoryName 
+   */
+  const handleShowAddSubCategory = (categoryId, categoryName) => {
+    setActiveCategoryId(categoryId);
+    setActiveCategoryName(categoryName);
+    setShowAddSubCategory(true);
+  };
+  //-----End-----//
+
   return (
     <div className="admin-category">
+      <PopupAddCategory show={showAddCategory} handleClose={() => setShowAddCategory(false)} />
+      <PopupAddSubCategory show={showAddSubCategory} handleClose={() => setShowAddSubCategory(false)} parent_id={activeCategoryId} parentName={activeCategoryName} />
+
       <div className="category-header-container">
         <h1>Quản lý danh mục</h1>
         <button className="btn-add_category" onClick={() => setShowAddCategory(true)}> + Thêm danh mục mới</button>
@@ -82,7 +97,7 @@ export default function AdminCategory() {
               <span onClick={() => toggleSubcategories(category.categoryId)}>
                 {category.name} {activeCategoryId === category.categoryId ? '▲' : '▼'}
               </span>
-              <button className="btn-add_subcategory" onClick={() => setShowAddSubCategory(category.categoryId)}> + Thêm tiểu danh mục mới</button>
+              <button className="btn-add_subcategory" onClick={() => handleShowAddSubCategory(category.categoryId, category.name)}> + Thêm tiểu danh mục mới</button>
             </div>
             <div className="category-content">
               <div className="category-info">
