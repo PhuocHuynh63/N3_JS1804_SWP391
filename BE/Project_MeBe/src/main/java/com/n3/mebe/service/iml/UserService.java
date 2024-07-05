@@ -13,12 +13,14 @@ import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.*;
+import com.n3.mebe.service.ICloudinaryService;
 import com.n3.mebe.service.IProductService;
 import com.n3.mebe.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +40,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private IOrderDetailsRepository iOrderDetailsRepository;
+
+    @Autowired
+    private ICloudinaryService cloudinaryService;
 
 
 
@@ -244,6 +249,24 @@ public class UserService implements IUserService {
         return check ;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Set Avatar">
+    @Override
+    public boolean setAvatar(int id, MultipartFile file) {
+        boolean check = false;
+        String folder = "Avatar User";
+
+        String urlAvatar = cloudinaryService.saveFileToFolder(file , folder);
+        if(urlAvatar != null){
+            User user = getUserById(id);
+
+            user.setAvatar(urlAvatar);
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return check;
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="Update Guest To User">
     @Override
     public boolean updateGuestToUser(int id, UserCreateRequest request){
@@ -304,18 +327,41 @@ public class UserService implements IUserService {
         boolean check = false;
 
         User user = getUserById(id);
-        user.setAvatar(request.getAvatar());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
+        if(user != null){
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+            user.setEmail(request.getEmail());
 
-        user.setBirthOfDate(request.getBirthOfDate());
-        user.setPhoneNumber(request.getPhoneNumber());
+            user.setBirthOfDate(request.getBirthOfDate());
+            user.setPhoneNumber(request.getPhoneNumber());
+            user.setRole(request.getRole());
+            user.setPoint(request.getPoint());
 
-        Date now = new Date();
-        user.setUpdateAt(now);
-        iUserRepository.save(user);
-        check = true;
+            Date now = new Date();
+            user.setUpdateAt(now);
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return  check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Update User Role By Id For Admin">
+    @Override
+    public boolean updateRoleForAdmin(int id, String role){
+        boolean check = false;
+
+        User user = getUserById(id);
+        String admin = "admin";
+
+        if(user != null && user.getRole().equalsIgnoreCase(admin)){
+            user.setRole(role);
+
+            Date now = new Date();
+            user.setUpdateAt(now);
+            iUserRepository.save(user);
+            check = true;
+        }
 
         return  check;
     }// </editor-fold>

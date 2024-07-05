@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/orderVerify.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/orderVerify.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/request/user/UserUpdateForAdminRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/request/user/UserUpdateForAdminRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ICloudinaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ICloudinaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/CloundinaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/CloundinaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,6 +178,7 @@
       <workItem from="1720107449371" duration="341000" />
       <workItem from="1720180964524" duration="4928000" />
       <workItem from="1720186552687" duration="2563000" />
+      <workItem from="1720190756103" duration="6854000" />
     </task>
     <servers />
   </component>
@@ -201,6 +207,15 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java</url>
           <line>132</line>
           <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ICloudinaryService.java</url>
+          <line>7</line>
+          <properties class="com.n3.mebe.service.ICloudinaryService" method="saveFileToFolder">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -87,7 +87,8 @@ public class ProductService implements IProductService {
     public boolean createProduct(MultipartFile file, ProductRequest request) {
         boolean isInsertedSuccess = false;
         try {
-            String imageUrl = cloudinaryService.saveFile(file);
+            String folder = "Product";
+            String imageUrl = cloudinaryService.saveFileToFolder(file, folder);
             if (imageUrl != null) {
                 Product product = new Product();
                 product.setImages(imageUrl);
@@ -125,7 +126,8 @@ public class ProductService implements IProductService {
                 orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
         boolean isInsertedSuccess = false;
         try {
-            String imageUrl = cloudinaryService.saveFile(file);
+            String folder = "Product";
+            String imageUrl = cloudinaryService.saveFileToFolder(file, folder);
             if (imageUrl != null) {
                 product.setImages(imageUrl);
 
