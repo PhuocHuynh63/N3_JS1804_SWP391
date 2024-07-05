@@ -12,7 +12,7 @@ import bannerLogin from "../../images/Logo_Login.jpg";
 
 const LoginPage = ({ show, handleClose }) => {
   const [loading, setLoading] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
   let dispatch = useDispatch();
   let navigate = useNavigate();
@@ -29,10 +29,11 @@ const LoginPage = ({ show, handleClose }) => {
     userService
       .postLogin(values)
       .then((response) => {
-
         if (response.success) {
           localService.set(response.data); // Lưu token vào local storage
-          dispatch(setLoginAction({ token: response.data, role: response.role })); // Lưu token và vai trò vào redux
+          dispatch(
+            setLoginAction({ token: response.data, role: response.role })
+          ); // Lưu token và vai trò vào redux
 
           notification.success({
             message: "Đăng nhập thành công",
@@ -40,7 +41,7 @@ const LoginPage = ({ show, handleClose }) => {
           });
 
           if (response.role === "admin") {
-            navigate("/adminPage");
+            navigate("/admin");
           } else {
             navigate("/");
           }
@@ -74,12 +75,12 @@ const LoginPage = ({ show, handleClose }) => {
 
   const handleRegister = () => {
     handleClose();
-    navigate('/signup');
+    navigate("/signup");
   };
 
   const handleForgot = () => {
     handleClose();
-    navigate('/reset-password');
+    navigate("/reset-password");
   };
 
   return (
@@ -207,7 +208,10 @@ const LoginPage = ({ show, handleClose }) => {
                                       onChange={handlePasswordChange}
                                     />
                                   </Form.Item>
-                                  <label htmlFor="password" className="form-label">
+                                  <label
+                                    htmlFor="password"
+                                    className="form-label"
+                                  >
                                     Mật khẩu
                                   </label>
                                   {showError && (
