@@ -102,3 +102,8 @@ p.address-title {
     color: rgb(65, 65, 65);
     transition: all 0.3s;
 }
+
+.error {
+    color: red;
+    margin-top:0 !important;
+}
