@@ -44,10 +44,15 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 10px;
         }
-        .content ul li span {
-            display: inline-block;
-            min-width: 150px;
-            margin-right: 10px;
+        .content ul li .product-info {
+            display: flex;
+            align-items: center;
+        }
+        .content ul li img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            margin-right: 20px;
         }
         .note {
             font-size: 14px;
@@ -78,9 +83,14 @@
         <p>Chi tiết đơn hàng:</p>
         <ul th:each="detail : ${orderDetails}">
             <li>
-                <p  th:text="${'Sản phẩm: ' + detail.product.name}"></p>
-                <p th:text="${'Số lượng: ' + detail.quantity}"></p>
-                <p th:text="${'Giá: ' + #numbers.formatDecimal(detail.price, 0, 0)}"></p>
+                <div class="product-info">
+                    <img th:src="${detail.product.images}" alt="Product Image"/>
+                    <div>
+                        <p th:text="${'Sản phẩm: ' + detail.product.name}"></p>
+                        <p th:text="${'Số lượng: ' + detail.quantity}"></p>
+                        <p th:text="${'Giá: ' + #numbers.formatDecimal(detail.price, 0, 0)}"></p>
+                    </div>
+                </div>
             </li>
         </ul>
         <p><strong>Tổng số tiền:</strong> <span th:text="${#numbers.formatDecimal(totalAmount, 0, 0)}"></span></p>

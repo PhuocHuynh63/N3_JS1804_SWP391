@@ -104,6 +104,9 @@ public class OrderController {
         productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
         TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();
         // lưu order vào cơ sở dữ liệu
+
+        String type = "COD";
+        orderRequest.setOrderType(type);
         boolean success = orderService.createOrder(orderRequest);
         if (success) {
             transactionStatusDTO.setStatus("Ok");
