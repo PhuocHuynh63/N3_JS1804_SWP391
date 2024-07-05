@@ -12,6 +12,7 @@ import java.util.List;
 public interface IUserService {
 
     boolean createUser(UserCreateRequest request);
+
     List<UserResponse> getAllUser();
 
     User getUserById(int id);
@@ -26,6 +27,8 @@ public interface IUserService {
 
     boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request);
 
+    boolean setStatusUserForAdmin(int id, String status);
+
     void deleteUserById(int id);
 
     String changePassword(int id, String oldPassword, String newPassword);
@@ -35,4 +38,6 @@ public interface IUserService {
     UserResponse getUserByEmailResponse(String email);
 
     UserResponse getUserByUserNameResponse(String username);
+
+    List<UserResponse> searchUserByNameForAdmin(String username);
 }

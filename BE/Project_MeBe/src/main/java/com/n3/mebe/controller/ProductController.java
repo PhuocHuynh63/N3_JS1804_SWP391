@@ -1,20 +1,18 @@
 package com.n3.mebe.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.dto.request.product.ProductRequest;
 import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.product.ProductResponse;
-import com.n3.mebe.entity.Product;
-import com.n3.mebe.service.IFileService;
 import com.n3.mebe.service.IProductService;
-import com.n3.mebe.service.iml.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -25,8 +23,7 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
-    @Autowired
-    private IFileService fileService;
+
 
     /**
      * Request from Client
@@ -34,41 +31,42 @@ public class ProductController {
      */
 
     // Create a product
-    @PostMapping("/create_product")
-    public ResponseEntity<?> createProduct(@RequestParam MultipartFile file,
-            @RequestParam int subCategory,
-            @RequestParam String slug,
-            @RequestParam String name,
-            @RequestParam String description,
-            @RequestParam float price,
-            @RequestParam float salePrice,
-            @RequestParam String status,
-            @RequestParam int totalSold,
-            @RequestParam int quantity,
-            @RequestParam int productView) {
+    @PostMapping(value = "/create_product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createProduct(@RequestPart("file") MultipartFile file, @RequestPart("product") String productJson) {
+
+        // Convert JSON string to ProductRequest object
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductRequest request;
+        try {
+            request = objectMapper.readValue(productJson, ProductRequest.class);
+        } catch (IOException e) {
+            return new ResponseEntity<>("Invalid product JSON", HttpStatus.BAD_REQUEST);
+        }
+
         ResponseData responseData = new ResponseData();
-        boolean isSuccess = productService.createProduct(file, subCategory, slug, name, description, price, salePrice,
-                status, totalSold, quantity, productView);
+        boolean isSuccess = productService.createProduct(file, request);
         responseData.setData(isSuccess);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     // Update a product by id
     @PutMapping("/update_product={id}")
-    boolean updateProduct(@PathVariable("id") int id,
-            @RequestParam MultipartFile file,
-            @RequestParam int subCategory,
-            @RequestParam String slug,
-            @RequestParam String name,
-            @RequestParam String description,
-            @RequestParam float price,
-            @RequestParam float salePrice,
-            @RequestParam String status,
-            @RequestParam int totalSold,
-            @RequestParam int quantity,
-            @RequestParam int productView) {
-        return productService.updateProduct(id, file, subCategory, slug, name, description, price, salePrice, status,
-                totalSold, quantity, productView);
+    public ResponseEntity<?> updateProduct(@PathVariable("id") int id,
+                          @RequestPart("file") MultipartFile file,
+                          @RequestPart("product") String productJson) {
+
+        // Convert JSON string to ProductRequest object
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductRequest request;
+        try {
+            request = objectMapper.readValue(productJson, ProductRequest.class);
+        } catch (IOException e) {
+            return new ResponseEntity<>("Invalid product JSON", HttpStatus.BAD_REQUEST);
+        }
+        ResponseData responseData = new ResponseData();
+        boolean isSuccess = productService.updateProduct(id ,file, request);
+        responseData.setData(isSuccess);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     @PutMapping("/update_status/product_id={prId}")

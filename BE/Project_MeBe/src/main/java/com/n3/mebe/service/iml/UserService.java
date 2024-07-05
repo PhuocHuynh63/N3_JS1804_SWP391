@@ -34,16 +34,10 @@ public class UserService implements IUserService {
     private IAddressRepository iAddressRepository;
 
     @Autowired
-    private IReviewRepository iReviewRepository;
-
-    @Autowired
     private IOrderRepository iOrderRepository;
 
     @Autowired
     private IOrderDetailsRepository iOrderDetailsRepository;
-
-    @Autowired
-    private IProductService productService;
 
 
 
@@ -186,6 +180,7 @@ public class UserService implements IUserService {
         User user = new User();
         String role = "member";
 
+        String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
         int point = 0;
         String status = "active";
 
@@ -208,6 +203,7 @@ public class UserService implements IUserService {
             user.setRole(role);
             user.setBirthOfDate(request.getBirthOfDate());
             user.setPhoneNumber(request.getPhoneNumber());
+            user.setAvatar(avatar);
             user.setPoint(point);
             user.setStatus(status);
 
@@ -255,6 +251,8 @@ public class UserService implements IUserService {
         User user = getUserById(id);
         String role = "member";
 
+        String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
+
         int point = 0;
         String status = "active";
         if(request.getEmail().equals(user.getEmail())){
@@ -283,6 +281,7 @@ public class UserService implements IUserService {
             user.setBirthOfDate(request.getBirthOfDate());
             user.setPhoneNumber(request.getPhoneNumber());
             user.setPoint(point);
+            user.setAvatar(avatar);
             user.setStatus(status);
 
             Date now = new Date();// lấy thời gian hiện tại
@@ -318,6 +317,22 @@ public class UserService implements IUserService {
         iUserRepository.save(user);
         check = true;
 
+        return  check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Set Status User For Admin">
+    @Override
+    public boolean setStatusUserForAdmin(int id, String status) {
+        boolean check = false;
+        String admin = "admin";
+        User user = getUserById(id);
+        if(user != null && !user.getRole().equalsIgnoreCase(admin)){
+            user.setStatus(status);
+            Date now = new Date();
+            user.setUpdateAt(now);
+            iUserRepository.save(user);
+            check = true;
+        }
         return  check;
     }// </editor-fold>
 
@@ -371,6 +386,7 @@ public class UserService implements IUserService {
             userResponse.setBirthOfDate(user.getBirthOfDate());
             userResponse.setPhoneNumber(user.getPhoneNumber());
             userResponse.setPoint(user.getPoint());
+            user.setStatus(user.getStatus());
 
             List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
             userResponse.setListAddress(addressResponses);
@@ -405,6 +421,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
+        user.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
@@ -447,6 +464,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
+        user.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
@@ -478,6 +496,7 @@ public class UserService implements IUserService {
         response.setBirthOfDate(user.getBirthOfDate());
         response.setPhoneNumber(user.getPhoneNumber());
         response.setPoint(user.getPoint());
+        response.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         response.setListAddress(addressResponses);
@@ -492,5 +511,43 @@ public class UserService implements IUserService {
         return response;
     }
     // </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="search User By Name For Admin">
+    @Override
+    public List<UserResponse> searchUserByNameForAdmin(String name) {
+        List<User> users = iUserRepository.findByName(name);
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (User user : users){
+
+            UserResponse userResponse = new UserResponse();
+
+            userResponse.setId(user.getUserId());
+            userResponse.setAvatar(user.getAvatar());
+            userResponse.setUsername(user.getUsername());
+            userResponse.setFirstName(user.getFirstName());
+            userResponse.setLastName(user.getLastName());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setPassword(user.getPassword());
+            userResponse.setRole(user.getRole());
+            userResponse.setBirthOfDate(user.getBirthOfDate());
+            userResponse.setPhoneNumber(user.getPhoneNumber());
+            userResponse.setPoint(user.getPoint());
+            userResponse.setStatus(user.getStatus());
+
+            List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
+            userResponse.setListAddress(addressResponses);
+
+            List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
+            userResponse.setOrder(orderResponses);
+
+            userResponse.setCreateAt(user.getCreateAt());
+            userResponse.setUpdateAt(user.getUpdateAt());
+            userResponse.setDeleteAt(user.getDeleteAt());
+            userResponses.add(userResponse);
+        }
+        return userResponses;
+    }// </editor-fold>
+
+
 
 }
