@@ -1,0 +1,118 @@
+.admin-user-update {
+    margin: 20px;
+    width: auto;
+}
+
+.admin-user-update form {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+}
+
+.admin-user-update .form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px 0px 0px 10px;
+    width: 100%;
+}
+
+.admin-user-update label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.admin-user-update input[type="text"],
+.admin-user-update input[type="email"],
+.admin-user-update input[type="phoneNumber"],
+.admin-user-update input[type="password"],
+.admin-user-update input[type="date"] {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 470px;
+    box-sizing: border-box;
+}
+
+.admin-user-update .form-group.role_point {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.admin-user-update select {
+    width: 200px;
+}
+
+.admin-user-update input[type="number"] {
+    width: 100px;
+}
+
+.admin-user-update .form-group_btn {
+    display: flex;
+    justify-content: space-around;
+}
+
+.admin-user-update .btn-update {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.admin-user-update .btn-update:hover {
+    background-color: #c0392b;
+    transition: all 0.6s ease;
+}
+
+.admin-user-update .btn-close_update {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #e74c3c;
+    background-color: #ffff;
+    border: 1px solid #e74c3c;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.admin-user-update .btn-close_update:hover {
+    background-color: #c03a2bc2;
+    color: #ffff;
+    transition: all 0.6s ease;
+}
+
+
+
+.admin-user-update .name {
+    display: flex;
+}
+
+.admin-user-update .form-group input[type="text"]#userName {
+    background-color: #cfcfcf;
+    outline: none;
+    cursor: not-allowed;
+}
+
+.admin-user-update .name .form-group input[type="text"]#firstName {
+    width: 200px;
+}
+
+.admin-user-update .name .form-group input[type="text"]#lastName {
+    width: 240px;
+}
+
+.admin-user-update .form-group.email input[type="email"]#email {
+    width: 470px;
+}
+
+.admin-user-update .form-group.birthOfDate input[type="date"]#birthOfDate {
+    width: 470px;
+}

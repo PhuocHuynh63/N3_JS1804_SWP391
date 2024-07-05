@@ -52,7 +52,9 @@ export default function AdminPage() {
    */
 
   const handleStatusOrder = (orderId) => {
-    meBeSrc.putStatusOrder({ orderId, status: "Đang được xử lý" })
+    const payload = { orderId, status: "Đang được xử lý" };
+
+    meBeSrc.putStatusOrder(payload)
       .then((res) => {
         setOrder(prevOrders => prevOrders.map(order =>
           order.orderId === orderId ? { ...order, status: "Đang được xử lý" } : order
@@ -61,10 +63,10 @@ export default function AdminPage() {
         setTimeout(() => {
           setShowModal(false);
         }, 2000);
-        console.log("Order status updated", res.data);
+        console.log("Order status updated from AdminPage", res.data);
       })
       .catch((err) => {
-        console.log("Error updating order status", err);
+        console.log("Error updating order status from AdminPage", err);
       });
   }
   //-----End-----//
