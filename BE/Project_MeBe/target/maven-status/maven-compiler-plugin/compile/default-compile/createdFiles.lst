@@ -11,10 +11,10 @@ com\n3\mebe\entity\Category.class
 com\n3\mebe\config\ThymeleafTemplateConfig.class
 com\n3\mebe\dto\response\subcategory\SubCategoryResponse.class
 com\n3\mebe\service\ISubCategoryService.class
+com\n3\mebe\service\iml\CloundinaryService.class
 com\n3\mebe\exception\AppException.class
 com\n3\mebe\controller\OrderController.class
 com\n3\mebe\dto\response\category\CategoryResponse.class
-com\n3\mebe\service\IFileService.class
 com\n3\mebe\dto\request\subcategory\SubCategoryRequest.class
 com\n3\mebe\dto\response\user\UserOrderResponse.class
 com\n3\mebe\repository\IOrderRepository.class
@@ -44,6 +44,7 @@ com\n3\mebe\dto\request\order\OrderRequest.class
 com\n3\mebe\entity\Review.class
 com\n3\mebe\dto\response\order\details\OrderDetailsResponse.class
 com\n3\mebe\entity\Product.class
+com\n3\mebe\config\CloudinaryConfig.class
 com\n3\mebe\dto\request\category\CategoryRequest.class
 com\n3\mebe\util\DataUtils.class
 com\n3\mebe\entity\Payment.class
@@ -62,6 +63,7 @@ com\n3\mebe\service\iml\OrderDetailsService.class
 com\n3\mebe\security\CustomUserDetailService.class
 com\n3\mebe\dto\request\user\UserUpdateForAdminRequest.class
 com\n3\mebe\controller\LoginController.class
+com\n3\mebe\service\ICloudinaryService.class
 com\n3\mebe\config\MailConfig.class
 com\n3\mebe\repository\IReviewRepository.class
 com\n3\mebe\controller\AddressController.class
@@ -91,7 +93,6 @@ com\n3\mebe\util\ConstEmail.class
 com\n3\mebe\exception\GlobalExceptionHandler.class
 com\n3\mebe\service\iml\UserService.class
 com\n3\mebe\service\iml\mail\SendMailService.class
-com\n3\mebe\service\iml\FileService.class
 com\n3\mebe\dto\request\category\CategoryRequest$CategoryRequestBuilder.class
 com\n3\mebe\controller\ForgotPasswordController.class
 com\n3\mebe\dto\response\user\tracking\UserOrderForTrackingResponse.class
