@@ -7,12 +7,14 @@ import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
-import com.n3.mebe.entity.User;
+
 import com.n3.mebe.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -77,6 +79,19 @@ public class UserController {
         return msg;
     }
 
+    //Update user by id
+    @PutMapping(value = "/update_avatar/{user_id}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String setAvatar(@PathVariable("user_id") int user_id, @RequestPart("file") MultipartFile file) {
+        String msg;
+        boolean check = userService.setAvatar(user_id , file);
+        if (check){
+            msg = "Cập nhập ảnh đại diện thành công";
+        }else {
+            msg = "Cập nhập ảnh đại diện thất bại";
+        }
+        return msg;
+    }
+
 
     //Update user by id for admin
     @PutMapping("/update_admin/uId={user_id}")
@@ -87,6 +102,18 @@ public class UserController {
             msg = "Cập nhập người dùng thành công";
         }else {
             msg = "Cập nhập người dùng thất bại";
+        }
+        return msg;
+    }
+
+    @PutMapping("/update_role/uId={user_id}")
+    public String updateUserForAdmin(@PathVariable("user_id") int user_id, @RequestParam String role) {
+        String msg;
+        boolean check = userService.updateRoleForAdmin(user_id , role);
+        if (check){
+            msg = "Cập nhập role thành công";
+        }else {
+            msg = "Cập nhập role thất bại";
         }
         return msg;
     }

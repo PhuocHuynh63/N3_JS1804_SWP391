@@ -4,5 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ICloudinaryService {
 
-    String saveFile(MultipartFile file);
+
+    String saveFileToFolder(MultipartFile file, String folder);
 }

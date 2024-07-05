@@ -6,6 +6,7 @@ import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 import com.n3.mebe.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,9 +24,13 @@ public interface IUserService {
 
     boolean updateUserById(int id, UserUpdateRequest request);
 
+    boolean setAvatar(int id, MultipartFile file);
+
     boolean updateGuestToUser(int id, UserCreateRequest request);
 
     boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request);
+
+    boolean updateRoleForAdmin(int id, String role);
 
     boolean setStatusUserForAdmin(int id, String status);
 
