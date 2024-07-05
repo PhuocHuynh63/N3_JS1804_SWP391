@@ -5,23 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/config/CloudinaryConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ICloudinaryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/CloundinaryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/response/user/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/response/user/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/exception/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IUserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IFileService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/FileService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/orderVerify.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/orderVerify.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,34 +46,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Maven.mebe [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mebe [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mebe [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mebe [verify].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.ProjectMeBeApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vipha/OneDrive/Desktop/test_servere/BE/Project_MeBe/src/main/resources/templates&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Maven.mebe [clean].executor": "Run",
+    "Maven.mebe [install].executor": "Run",
+    "Maven.mebe [package].executor": "Run",
+    "Maven.mebe [verify].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.ProjectMeBeApplication.executor": "Run",
+    "git-widget-placeholder": "thuan2",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/vipha/OneDrive/Desktop/test_servere/BE/Project_MeBe/src/main/resources/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -186,6 +172,7 @@
       <workItem from="1720103161697" duration="3023000" />
       <workItem from="1720107449371" duration="341000" />
       <workItem from="1720180964524" duration="4928000" />
+      <workItem from="1720186552687" duration="2563000" />
     </task>
     <servers />
   </component>
@@ -204,6 +191,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java</url>
           <line>174</line>
           <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java</url>
+          <line>103</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java</url>
+          <line>132</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
