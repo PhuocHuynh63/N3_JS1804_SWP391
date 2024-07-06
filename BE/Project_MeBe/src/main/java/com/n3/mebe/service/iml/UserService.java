@@ -59,7 +59,7 @@ public class UserService implements IUserService {
         if(iUserRepository.existsByEmail(email)){
             return iUserRepository.findByEmail(email);
         }else{
-            throw new AppException(ErrorCode.NO_USER_EXIST);
+            throw new AppException(ErrorCode.EMAIL_NO_EXIST);
         }
     }// </editor-fold>
 
@@ -528,6 +528,7 @@ public class UserService implements IUserService {
     // <editor-fold default state="collapsed" desc="get User By Email Response">
     @Override
     public UserResponse getUserByEmailResponse(String email) {
+        //lấy ra user by email
         User user = getUserByEmail(email);
         UserResponse response =  new UserResponse();
 

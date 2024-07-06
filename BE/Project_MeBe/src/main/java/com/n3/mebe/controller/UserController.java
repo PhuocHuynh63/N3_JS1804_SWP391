@@ -181,7 +181,8 @@ public class UserController {
         return userService.getUserByUserNameResponse(user_name);
     }
 
-
+    // check email lấy ra user bằng email
+    //nếu email không có trên hệ thống thông báo email không tồn tại
     @GetMapping("/check_email")
     public UserResponse getUserByEmail(@RequestParam String email) {
         return userService.getUserByEmailResponse(email);

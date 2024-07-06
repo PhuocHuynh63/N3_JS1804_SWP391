@@ -35,6 +35,8 @@ public enum ErrorCode {
 
     BAN_ACCOUNT(1027, "Tài khoản đã bị khóa"),
 
+    EMAIL_NO_EXIST(1028, "Email không tồn tại trên hệ thống"),
+
     SUB_CATEGORY_ID_NO_EXIST(1028, "ID không tồn tại"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
