@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import "./Header.css";
 import LoginPage from "../../pages/loginPage/LoginPage";
 import CartPage from "../../pages/cartPage/Cart";
+import WishlistPage from "../../pages/wishlistPage/wishlistPage";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import UserDropdown from "./UserDropDown";
 import { localService } from "../../service/localService";
 import { meBeSrc } from "../../service/meBeSrc";
@@ -73,9 +73,13 @@ export default function Header() {
     //Pop-up Login, Cart
     const [showLogin, setShowLogin] = useState(false);
     const [showCart, setShowCart] = useState(false);
+    const [showWishlist, setShowWishlist] = useState(false);
 
     const handleCloseLogin = () => setShowLogin(false);
     const handleShowLogin = () => setShowLogin(true);
+
+    const handleShowWishlist = () => setShowWishlist(true);
+    const handleCloseWishlist = () => setShowWishlist(false);
 
     const handleCloseCart = () => setShowCart(false);
     const handleShowCart = () => setShowCart(true);
@@ -179,6 +183,7 @@ export default function Header() {
                     </form>
 
                     <div className="icons">
+
                         <span className="icons-header" onClick={handleShowLogin}>
                             <i className="fa-regular fa-user"></i>
                         </span>
@@ -186,6 +191,7 @@ export default function Header() {
                         <span className="icons-header" onClick={handleShowCart}>
                             <i className="fa-solid fa-cart-shopping"></i>
                         </span>
+                        
                     </div>
                 </header>
 
@@ -305,9 +311,14 @@ export default function Header() {
                                     Logout
                                 </button>
 
-                            }></UserDropdown>
+                            }>
+                        </UserDropdown>
                             <span className="icons-header" onClick={handleShowCart}>
                                 <i className="fa-solid fa-cart-shopping"></i>
+                            </span>
+
+                            <span className="icons-header" onClick={handleShowWishlist}>
+                                <i className="fa-solid fa-hand-holding-heart"></i>
                             </span>
                     </div>
                 </header >
@@ -373,6 +384,7 @@ export default function Header() {
 
                 <LoginPage show={showLogin} handleClose={handleCloseLogin} />
                 <CartPage show={showCart} handleClose={handleCloseCart} />
+                <WishlistPage show={showWishlist} handleClose={handleCloseWishlist} />
             </div >
         )
     }

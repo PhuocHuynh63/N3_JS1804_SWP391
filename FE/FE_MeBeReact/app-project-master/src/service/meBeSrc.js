@@ -132,6 +132,14 @@ export const meBeSrc = {
 
     setAvatar: (userId,  data) => {
         return https.put(`/user/update_avatar/${userId}`,data);
+    },
+
+    getUserByEmail:(email) =>{
+        return https.get(`/user/check_email?email=${email}`);
+    },
+
+    updateGuestToUser:(userId, data) =>{
+        return https.put(`/user/signup_guest/${userId}`,data);
     }
 
 }
