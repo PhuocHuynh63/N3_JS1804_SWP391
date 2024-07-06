@@ -5,13 +5,19 @@ import PopupAddCategory from "./addCategory/PopupAddCategory";
 import PopupAddSubCategory from "./addSubCategory/PopupAddSubCategory";
 import PopupUpdateCategory from "./updateCategory/PopupUpdateCategory";
 import PopupDeleteCategory from "./deleteCategory/PopupDeleteCategory";
+import PopupDeleteSubCategory from "./deleteSubcategory/PopupDeleteSubCategory";
+import PopupUpdateSubCategory from "./updateSubcategory/PopupUpdateSubCategory";
 
 export default function AdminCategory() {
   const [showAddCategory, setShowAddCategory] = useState(false);        //Add category
-  const [showUpdateCategory, setShowUpdateCategory] = useState(false);  //Update subcategory
-  const [showDeleteCategory, setShowDeleteCategory] = useState(false);  //Delete subcategory
+  const [showUpdateCategory, setShowUpdateCategory] = useState(false);  //Update category
+  const [showDeleteCategory, setShowDeleteCategory] = useState(false);  //Delete category
   const [showAddSubCategory, setShowAddSubCategory] = useState(false);  //Add subcategory
+  const [showUpdateSubCategory, setShowUpdateSubCategory] = useState(false);  //Update subcategory
+  const [showDeleteSubCategory, setShowDeleteSubCategory] = useState(false);  //Delete subcategory
+
   const [activeCategoryId, setActiveCategoryId] = useState(null); // State to track the currently active category
+  const [activeSubCategoryId, setActiveSubCategoryId] = useState(null); // State to track the currently active category
   const [activeCategoryName, setActiveCategoryName] = useState('');
 
   /**
@@ -71,7 +77,7 @@ export default function AdminCategory() {
    * Handle toggle subcategories
    * @param {*} categoryId 
    */
-  const toggleSubcategories = (categoryId) => {
+  const toggleCategories = (categoryId) => {
     setActiveCategoryId(prevCategoryId => (prevCategoryId === categoryId ? null : categoryId));
   };
   //-----End-----//
@@ -91,7 +97,7 @@ export default function AdminCategory() {
 
 
   /**
-   * Handle show update subcategory
+   * Handle show update category
    * @param {*} categoryId 
    */
   const handleShowUpdateCategory = (categoryId) => {
@@ -102,7 +108,18 @@ export default function AdminCategory() {
 
 
   /**
-   * Handle show delete subcategory
+   * Handle show update category
+   * @param {*} categoryId 
+   */
+  const handleShowUpdateSubCategory = (subCategoryId) => {
+    setActiveSubCategoryId(subCategoryId);
+    setShowUpdateSubCategory(true);
+  };
+  //-----End-----//
+
+
+  /**
+   * Handle show delete category
    * @param {*} categoryId 
    */
 
@@ -113,12 +130,26 @@ export default function AdminCategory() {
   //-----End-----//
 
 
+  /**
+   * Handle show delete category
+   * @param {*} categoryId 
+   */
+
+  const handleShowDeleteSubCategory = (subCategoryId) => {
+    setActiveSubCategoryId(subCategoryId);
+    setShowDeleteSubCategory(true);
+  };
+  //-----End-----//
+
+
   return (
     <div className="admin-category">
       <PopupAddCategory show={showAddCategory} handleClose={() => setShowAddCategory(false)} />
       <PopupAddSubCategory show={showAddSubCategory} handleClose={() => setShowAddSubCategory(false)} parent_id={activeCategoryId} parentName={activeCategoryName} />
       <PopupUpdateCategory show={showUpdateCategory} handleClose={() => setShowUpdateCategory(false)} categoryId={activeCategoryId} />
+      <PopupUpdateSubCategory show={showUpdateSubCategory} handleClose={() => setShowUpdateSubCategory(false)} subCategoryId={activeSubCategoryId} />
       <PopupDeleteCategory show={showDeleteCategory} handleClose={() => setShowDeleteCategory(false)} categoryId={activeCategoryId} length={categories.length} />
+      <PopupDeleteSubCategory show={showDeleteSubCategory} handleClose={() => setShowDeleteSubCategory(false)} subCategoryId={activeSubCategoryId} length={subcategories.length} />
 
       <div className="category-header-container">
         <h1>Quản lý danh mục</h1>
@@ -128,7 +159,7 @@ export default function AdminCategory() {
         {categories.map(category => (
           <div key={category.categoryId} className="category-card">
             <div className="category-header">
-              <span onClick={() => toggleSubcategories(category.categoryId)}>
+              <span onClick={() => toggleCategories(category.categoryId)}>
                 {category.name} {activeCategoryId === category.categoryId ? '▲' : '▼'}
               </span>
               <button className="btn-add_subcategory" onClick={() => handleShowAddSubCategory(category.categoryId, category.name)}> + Thêm tiểu danh mục mới</button>
@@ -153,9 +184,9 @@ export default function AdminCategory() {
                       <span>Sản phẩm: {getProductBySubCategory(subcategory.name).length}</span>
                       <div className="action">
                         <button className="delete btn btn-danger btn-sm">
-                          <i className="fa-solid fa-trash"></i>
+                          <i className="fa-solid fa-trash" onClick={() => handleShowDeleteSubCategory(subcategory.subCategoryId)}></i>
                         </button>
-                        <button className="edit btn btn-success btn-sm">
+                        <button className="edit btn btn-success btn-sm" onClick={() => handleShowUpdateSubCategory(subcategory.subCategoryId)}>
                           <i className="fa-solid fa-pen-to-square"></i>
                         </button>
                       </div>

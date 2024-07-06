@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './PopupUpdateCategory.css';
 import { Modal } from 'antd';
 import { meBeSrc } from '../../../../service/meBeSrc';
 import Successful from '../../../../components/popupSuccessful/Successful';
@@ -9,27 +10,27 @@ const PopupUpdateCategory = ({ show, handleClose, categoryId }) => {
     const [showModalError, setShowModalError] = useState(false);
 
     /**
-     * Get category by id
-     */
-    // const [category, setCategory] = useState([]);
-    // useEffect(() => {
-    //     meBeSrc.getCategoryById(categoryId)
-    //         .then((res) => {
-    //             setCategory(res.data);
-    //         }).catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, [categoryId]);
-    //-----End-----//
-
-
-    /**
      * Form data
      */
     const [formData, setFormData] = useState({
-        // name: category.name,
-        // slug: category.slug,
+        name: '',
+        slug: '',
     });
+
+    useEffect(() => {
+        if (categoryId) {
+            meBeSrc.getCategoryById(categoryId)
+                .then((res) => {
+                    console.log(res.data);
+                    setFormData({
+                        name: res.data.name,
+                        slug: res.data.slug,
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, [categoryId]);
     //-----End-----//
 
 
@@ -52,11 +53,12 @@ const PopupUpdateCategory = ({ show, handleClose, categoryId }) => {
      */
     const handleSubmit = (e) => {
         e.preventDefault();
-        meBeSrc.postCategory(formData)
+        meBeSrc.putCategory(categoryId, formData)
             .then((res) => {
                 setShowModalSuccess(true);
                 setTimeout(() => {
                     setShowModalSuccess(false)
+                    handleClose();
                     window.location.reload();
                 }, 3000)
             })
@@ -67,8 +69,6 @@ const PopupUpdateCategory = ({ show, handleClose, categoryId }) => {
             });
     };
     //-----End-----//
-
-
 
 
     return (
