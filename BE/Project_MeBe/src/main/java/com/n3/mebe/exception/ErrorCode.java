@@ -31,6 +31,7 @@ public enum ErrorCode {
     VOUCHER_NO_EXIST(1023, "Id voucher không tồn tại"),
     VOUCHER_CODE_EXIST(1024, "Code voucher đã tồn tại"),
     VOUCHER_CODE_NO_EXIST(1025, "Code voucher không tồn tại"),
+    VOUCHER_USED(1026, "Mã khuyến mãi đã được sử dụng"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;

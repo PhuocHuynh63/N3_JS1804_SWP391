@@ -13,6 +13,8 @@ public interface IVoucherService {
 
     Voucher getVoucherByCode(String code);
 
+    boolean checkUsedVoucher(String code, int userId);
+
     boolean createVoucher(VoucherRequest request);
 
     boolean updateVoucher(int id , VoucherRequest request);

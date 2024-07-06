@@ -96,6 +96,26 @@ public class VoucherController {
         }
         return ResponseEntity.status(responseData.getStatus()).body(responseData);
     }
+
+
+    //
+    @GetMapping("/check_used")
+    ResponseEntity<ResponseData> checkUsedVoucher(@RequestParam String code, @RequestParam int userId) {
+        boolean check = iVoucherService.checkUsedVoucher(code ,userId);
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("Mã khuyến mãi đã được sử dụng");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("Mãi khuyến mãi chưa được sử dụng");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
+        }
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+
     @DeleteMapping("/delete/vId={id}")
     ResponseEntity<ResponseData> setPublic(@PathVariable("id") int id) {
         iVoucherService.deleteVoucher(id);
