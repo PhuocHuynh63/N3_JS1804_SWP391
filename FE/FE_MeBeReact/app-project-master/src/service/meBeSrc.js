@@ -128,6 +128,10 @@ export const meBeSrc = {
     
     setDefaultAddress: (address_id, defaultValue) => {
         return https.put(`/address/update/default/${address_id}?defaultValue=${defaultValue}`);
+    },
+
+    setAvatar: (userId,  data) => {
+        return https.put(`/user/update_avatar/${userId}`,data);
     }
 
 }
