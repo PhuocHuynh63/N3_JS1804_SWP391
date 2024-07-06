@@ -28,6 +28,10 @@ public enum ErrorCode {
     PRODUCT_QUANTITY_NOT_OUT(1021, " Sản phẩm đã hết hàng"),
     SUB_CATEGORY_NO_EXIST(1022, "Id không tồn tại"),
 
+    VOUCHER_NO_EXIST(1023, "Id voucher không tồn tại"),
+    VOUCHER_CODE_EXIST(1024, "Code voucher đã tồn tại"),
+    VOUCHER_CODE_NO_EXIST(1025, "Code voucher không tồn tại"),
+
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;
 

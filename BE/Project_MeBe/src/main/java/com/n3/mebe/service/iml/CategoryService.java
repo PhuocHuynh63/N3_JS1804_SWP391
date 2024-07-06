@@ -34,9 +34,9 @@ public class CategoryService implements ICategoryService {
     // <editor-fold default state="collapsed" desc="Create Category">
     @Override
     public boolean createCategory(CategoryRequest request) {
-        boolean check = false;
+        boolean check = icategoryRepository.existsByName(request.getName());
 
-        if (icategoryRepository.existsByName(request.getName())){
+        if (check){
             throw new AppException(ErrorCode.CATEGORY_EXIST);
         }else {
             Category category = new Category();

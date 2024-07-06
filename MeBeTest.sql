@@ -187,9 +187,12 @@ CREATE TABLE voucher (
 	max_discount DECIMAL(10, 2),
 	is_active BIT,
 	is_public BIT,
+	date_start DATETIME DEFAULT CURRENT_TIMESTAMP,
+	date_end DATETIME DEFAULT CURRENT_TIMESTAMP,
     create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	update_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- Tạo bảng Order
 CREATE TABLE [order] (
@@ -257,19 +260,19 @@ VALUES
 (3, 2, 3, N'Sản phẩm khá ổn, nhưng giá hơi cao.');
 
 -- Thêm dữ liệu vào bảng voucher
-INSERT INTO voucher (voucher_code, discount_type, discount_value, [name], cost, quantity, minimum_apply, max_discount, is_active, is_public)
+INSERT INTO voucher (voucher_code, discount_type, discount_value, [name], cost, quantity, minimum_apply, max_discount, is_active, is_public, date_start, date_end)
 VALUES
-(N'SUMMER10', N'Percentage', 10.00, N'Giảm giá 10% cho đơn hàng từ 500,000đ', 0.00, 100, 500000.00, 100000.00, 1, 1),
-(N'FREESHIP', N'Fixed Amount', 30.00, N'Miễn phí vận chuyển cho đơn hàng từ 1,000,000đ', 0.00, 50, 1000000.00, 30000.00, 1, 1),
-(N'NEWUSER', N'Percentage', 15.00, N'Giảm giá 15% cho khách hàng mới', 0.00, 200, 0.00, 200000.00, 1, 0);
+(N'SUMMER10', N'Percentage', 10.00, N'Giảm giá 10% cho đơn hàng từ 500,000đ', 0.00, 100, 500000.00, 100000.00, 1, 1, '2024-07-01 00:00:00', '2024-07-31 23:59:59'),
+(N'FREESHIP', N'Fixed Amount', 30.00, N'Miễn phí vận chuyển cho đơn hàng từ 1,000,000đ', 0.00, 50, 1000000.00, 30000.00, 1, 1, '2024-07-01 00:00:00', '2024-12-31 23:59:59'),
+(N'NEWUSER', N'Percentage', 15.00, N'Giảm giá 15% cho khách hàng mới', 0.00, 200, 0.00, 200000.00, 1, 0, '2024-07-01 00:00:00', '2024-12-31 23:59:59');
 
 -- Thêm dữ liệu vào bảng order
 INSERT INTO [order] ([user_id], voucher_id, [status], total_amount, order_type, payment_status, note)
 VALUES
-(1, 1, N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
+(1, NULL, N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
 (1, NULL, N'Đã hủy', 1200000.00, N'Online', N'Chưa thanh toán', N'Giao hàng nhanh'),
 (2, NULL, N'Hoàn thành',750000.00, N'COD', N'Đã thanh toán', NULL),
-(3, 2, N'Đang giao', 1200000.00, N'Online', N'Đã thanh toán', N'Giao hàng nhanh');
+(3, NULL, N'Đang giao', 1200000.00, N'Online', N'Đã thanh toán', N'Giao hàng nhanh');
 
 -- Thêm dữ liệu vào bảng order_detail
 INSERT INTO order_detail (order_id, product_id, quantity, price, sale_price)
