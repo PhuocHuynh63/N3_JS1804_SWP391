@@ -282,42 +282,57 @@ public class UserService implements IUserService {
             //check xem Username da ton tai chua
             if (iUserRepository.existsByUsername(request.getUsername())) {
                 throw new AppException(ErrorCode.USERNAME_EXIST);
-            }else if (iUserRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-                throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
-            }
-        }else {
-            if (iUserRepository.existsByEmail(request.getEmail())){
-                throw new AppException(ErrorCode.EMAIL_EXIST);
-            }else {
-                // Neu thay doi Email khi dang ky thi check xem
-                // Email do co ton tai trong he thong khong
-                user.setEmail(request.getEmail());
-            }
-            user.setFirstName(request.getFirstName());
-            user.setLastName(request.getLastName());
-            //da check thanh cong khong co Username bi trung
-            user.setUsername(request.getUsername());
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            }else
+                if(request.getPhoneNumber().equals(user.getPhoneNumber())){
+                    user.setFirstName(request.getFirstName());
+                    user.setLastName(request.getLastName());
+                    //da check thanh cong khong co Username bi trung
+                    user.setUsername(request.getUsername());
+                    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+                    user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-            user.setRole(role);
-            user.setBirthOfDate(request.getBirthOfDate());
-            user.setPhoneNumber(request.getPhoneNumber());
-            user.setPoint(point);
-            user.setAvatar(avatar);
-            user.setStatus(status);
+                    user.setRole(role);
+                    user.setBirthOfDate(request.getBirthOfDate());
+                    user.setPhoneNumber(request.getPhoneNumber());
+                    user.setPoint(point);
+                    user.setAvatar(avatar);
+                    user.setStatus(status);
 
-            Date now = new Date();// lấy thời gian hiện tại
+                    Date now = new Date();// lấy thời gian hiện tại
 
-            user.setCreateAt(now);
-            user.setUpdateAt(now);
-            user.setDeleteAt(null);
+                    user.setCreateAt(now);
+                    user.setUpdateAt(now);
+                    user.setDeleteAt(null);
+                    iUserRepository.save(user);
+                    check = true;
+                }else {
+                    if (!iUserRepository.existsByPhoneNumber(request.getPhoneNumber())) {
+                        user.setFirstName(request.getFirstName());
+                        user.setLastName(request.getLastName());
+                        //da check thanh cong khong co Username bi trung
+                        user.setUsername(request.getUsername());
+                        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+                        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
+                        user.setRole(role);
+                        user.setBirthOfDate(request.getBirthOfDate());
+                        user.setPhoneNumber(request.getPhoneNumber());
+                        user.setPoint(point);
+                        user.setAvatar(avatar);
+                        user.setStatus(status);
 
-            iUserRepository.save(user);
-            check = true;
+                        Date now = new Date();// lấy thời gian hiện tại
+
+                        user.setCreateAt(now);
+                        user.setUpdateAt(now);
+                        user.setDeleteAt(null);
+                        iUserRepository.save(user);
+                        check = true;
+                    }else {
+                        throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
+                    }
+                }
         }
-
         return check;
     }// </editor-fold>
 
