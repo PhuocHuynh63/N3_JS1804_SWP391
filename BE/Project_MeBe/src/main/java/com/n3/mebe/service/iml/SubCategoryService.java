@@ -32,6 +32,12 @@ public class SubCategoryService implements ISubCategoryService {
     private ICloudinaryService cloudinaryService;
 
 
+    // <editor-fold default state="collapsed" desc="get SubCategory By Id">
+    @Override
+    public SubCategory getSubCategoryById(int subCateId) {
+        return subCategoryRepository.findById(subCateId)
+                .orElseThrow(() -> new AppException(ErrorCode.SUB_CATEGORY_ID_NO_EXIST));
+    }// </editor-fold>
 
     /**
      *  Request from Client
@@ -190,4 +196,23 @@ public class SubCategoryService implements ISubCategoryService {
 
         return subCategoryResponses;
         }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="get SubCategories By Id Response">
+    @Override
+    public SubCategoryResponse getSubCategoriesByIdResponse(int subCateId) {
+        SubCategory subCategory = getSubCategoryById(subCateId);
+
+        SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
+
+        subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
+        //lấy ra category tên cha
+        subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
+
+        subCategoryResponse.setSlug(subCategory.getSlug());
+        subCategoryResponse.setName(subCategory.getName());
+        subCategoryResponse.setImage(subCategory.getImage());
+        subCategoryResponse.setImage2(subCategory.getImage2());
+
+        return subCategoryResponse;
+    }// </editor-fold>
 }

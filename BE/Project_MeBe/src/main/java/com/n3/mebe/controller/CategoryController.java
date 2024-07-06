@@ -79,4 +79,9 @@ public class CategoryController {
     CategoryResponse getCategoryBySlug(@PathVariable("slug") String slug) {
         return categoryService.getCategoryBySlug(slug);
     }
+
+    @GetMapping("/cateId={id}")
+    CategoryResponse getCategoryByID(@PathVariable("id") int cateId) {
+        return categoryService.getCategoryByIdResponse(cateId);
+    }
 }
