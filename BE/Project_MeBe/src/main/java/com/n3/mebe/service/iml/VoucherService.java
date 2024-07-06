@@ -6,6 +6,7 @@ import com.n3.mebe.dto.response.voucher.VoucherResponse;
 import com.n3.mebe.entity.Voucher;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.repository.IOrderRepository;
 import com.n3.mebe.repository.IVoucherRepository;
 import com.n3.mebe.service.IVoucherService;
 import com.n3.mebe.util.DataUtils;
@@ -22,6 +23,9 @@ public class VoucherService implements IVoucherService {
 
     @Autowired
     private IVoucherRepository  iVoucherRepository;
+
+    @Autowired
+    private IOrderRepository orderRepository;
 
     // <editor-fold default state="collapsed" desc="get Voucher By Id">
     @Override
@@ -40,6 +44,16 @@ public class VoucherService implements IVoucherService {
         }else {
             throw new AppException(ErrorCode.VOUCHER_CODE_NO_EXIST);
         }
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Check Used Voucher">
+    @Override
+    public boolean checkUsedVoucher(String code, int userId) {
+        boolean check = orderRepository.existsByVoucherVoucherCodeAndUserUserId(code, userId);
+        if (check){
+            throw new AppException(ErrorCode.VOUCHER_USED);
+        }else
+            return check;
     }
     // </editor-fold>
 

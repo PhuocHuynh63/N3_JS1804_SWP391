@@ -432,7 +432,7 @@ public class UserService implements IUserService {
             userResponse.setBirthOfDate(user.getBirthOfDate());
             userResponse.setPhoneNumber(user.getPhoneNumber());
             userResponse.setPoint(user.getPoint());
-            user.setStatus(user.getStatus());
+            userResponse.setStatus(user.getStatus());
 
             List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
             userResponse.setListAddress(addressResponses);
@@ -467,7 +467,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
-        user.setStatus(user.getStatus());
+        userResponse.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
@@ -510,7 +510,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
-        user.setStatus(user.getStatus());
+        userResponse.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
