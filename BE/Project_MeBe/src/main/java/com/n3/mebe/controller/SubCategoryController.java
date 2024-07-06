@@ -32,7 +32,7 @@ public class SubCategoryController  {
     public ResponseEntity<?> createCategory(
             @RequestPart("img1") MultipartFile img1,
             @RequestPart("img2") MultipartFile img2,
-            @RequestBody String requestJson) {
+            @RequestPart String requestJson) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         SubCategoryRequest subCategoryRequest;
@@ -60,7 +60,7 @@ public class SubCategoryController  {
             @PathVariable("id") int subId,
             @RequestPart("img1") MultipartFile img1,
             @RequestPart("img2") MultipartFile img2,
-            @RequestBody String requestJson) {
+            @RequestPart String requestJson) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         SubCategoryRequest subCategoryRequest;
