@@ -12,7 +12,7 @@ export default function HeaderAdmin() {
     */
   let handleLogout = () => {
     localService.remove()
-    window.location.reload()
+    window.location.href = "/";
   }
   //-----End Logout-----//
 

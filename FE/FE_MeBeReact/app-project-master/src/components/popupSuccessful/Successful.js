@@ -6,13 +6,11 @@ const Successful = ({ show, onHide, message }) => {
         <Modal show={show} onHide={onHide} centered>
             <Modal.Body className="text-center">
                 <div className="success-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="green" viewBox="0 0 24 24">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6 9l-7 7-3.5-3.5 1.414-1.414L11 13.172 16.586 7.586 18 9z" />
-                    </svg>
+                    <img src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1720256749/z5607740215391_7fa95663f97ae3afd540a2abb82dc7fc_iycg8w.gif" alt="success" />
                 </div>
                 <h4 className="mt-3">Thành công!</h4>
                 <p>{message}</p>
-                <Button variant="primary" onClick={onHide}>Close!</Button>
+                <Button variant="primary" onClick={onHide}>Đóng!</Button>
             </Modal.Body>
         </Modal>
     );

@@ -2,7 +2,7 @@ import "./AdminPage.css";
 import User from "../../../components/user/User";
 import { useEffect, useState } from "react";
 import { meBeSrc } from "../../../service/meBeSrc";
-import Successful from "../../../components/successful/Successful";
+import Successful from "../../../components/popupSuccessful/Successful";
 import TrackingPopup from "../../trackingPopup/TrackingPopup";
 
 export default function AdminPage() {
@@ -98,7 +98,7 @@ export default function AdminPage() {
    * @returns revenue
    */
   const calculateRevenue = () => {
-    let complatedOrders = order.filter((item) => item.status === "Hoàn thành");
+    let complatedOrders = order.filter((item) => item.status === "Đã giao");
     let revenue = complatedOrders.reduce((total, item) => total + item.totalAmount, 0);
     return revenue.toLocaleString('vi-VN');
   }

@@ -1,0 +1,29 @@
+/* SuccessModal.css */
+.success-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.success-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.modal-body h4 {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.modal-body p {
+    font-size: 16px;
+    color: #6c757d;
+}
+
+.modal-body button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-color: #007bff;
+}

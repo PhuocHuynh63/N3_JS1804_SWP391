@@ -12,7 +12,7 @@
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: #e74c3c;
+    background-color: #3498db;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -21,16 +21,16 @@
 }
 
 .admin-subcategory-add .btn-update:hover {
-    background-color: #c0392b;
+    background-color: #2377af;
     transition: all 0.6s ease;
 }
 
 .admin-subcategory-add .btn-close_update {
     padding: 10px 20px;
     font-size: 16px;
-    color: #e74c3c;
+    color: #3498db;
     background-color: #ffff;
-    border: 1px solid #e74c3c;
+    border: 1px solid #3498db;
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
@@ -38,7 +38,7 @@
 }
 
 .admin-subcategory-add .btn-close_update:hover {
-    background-color: #c03a2bc2;
+    background-color: #3498db;
     color: #ffff;
     transition: all 0.6s ease;
 }

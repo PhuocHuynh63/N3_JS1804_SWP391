@@ -57,6 +57,27 @@ const PopupDetailUser = ({ show, handleClose, user_id }) => {
     }
     //-----End-----//
 
+    /**
+   * Get role of user
+   * @param {*} role 
+   * @returns 
+   */
+    const getRole = (role) => {
+        switch (role) {
+            case 'admin':
+                return "Quản trị viên";
+            case 'staff':
+                return "Nhân viên";
+            case 'member':
+                return "Thành viên";
+            case 'guest':
+                return "Khách vãng lai";
+            default:
+                return "Unknown";
+        }
+    };
+    //-----End-----//
+
     return (
         <>
             <Modal visible={show} onCancel={handleClose} footer={null} width={"auto"} centered>
@@ -137,15 +158,12 @@ const PopupDetailUser = ({ show, handleClose, user_id }) => {
 
                         <div className="form-group role">
                             <label htmlFor="role">Ủy quyền</label>
-                            <select
+                            <input
+                                type='text'
                                 id="role"
-                                value={user.role}
+                                value={getRole(user.role)}
                                 readOnly
-                            >
-                                <option value="member">Thành viên</option>
-                                <option value="staff">Nhân viên</option>
-                                <option value="admin">Quản trị viên</option>
-                            </select>
+                            />
                         </div>
 
                         <div className="form-group address">

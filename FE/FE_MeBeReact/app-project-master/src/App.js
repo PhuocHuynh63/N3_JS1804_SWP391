@@ -14,7 +14,7 @@ import OrderPage from './pages/orderPage/OrderPage';
 import NotFoundPage from './pages/notFoundPage/notFoundPage';
 import ForgotPasswordPage from './pages/forgotPassword/forgotPassword';
 import RegisterPage from './pages/registerPage/registerPage';
-import SuccessPage from './components/success/SuccessPage';
+import SuccessPage from './components/successPage/SuccessPage';
 import changePassword from './pages/profilePage/changePassword';
 import ErrorPage from './components/error/ErrorPage';
 import SearchPage from './pages/searchPage/SearchPage';
@@ -24,8 +24,8 @@ import AdminPage from './pages/adminPage/dashboardPage/AdminPage';
 import AdminProduct from './pages/adminPage/productPage/AdminProduct';
 import AdminCategory from './pages/adminPage/categoryPage/AdminCategory';
 import AdminUser from './pages/adminPage/userPage/AdminUser';
-import AdminProductAdd from './pages/adminPage/AdminProductAdd';
 import AdminOrder from './pages/adminPage/orderPage/AdminOrder';
+import AdminProductAdd from './pages/adminPage/productPage/productPage/AdminProductAdd';
 // import AdminDashboardPage from './pages/adminPage/AdminDashboardPage';
 
 function App() {
@@ -52,14 +52,10 @@ function App() {
           <Route path="/account/changePassword" element={<LayoutProfile Component={changePassword} />} />
 
           <Route path="/admin" element={<LayoutAdmin Component={AdminPage} />} />
-
           <Route path="/admin/product" element={<LayoutAdmin Component={AdminProduct} />} />
           <Route path="/admin/product/add" element={<LayoutAdmin Component={AdminProductAdd} />} />
-
           <Route path="/admin/category" element={<LayoutAdmin Component={AdminCategory} />} />
-
           <Route path="/admin/user" element={<LayoutAdmin Component={AdminUser} />} />
-
           <Route path="/admin/order" element={<LayoutAdmin Component={AdminOrder} />} />
           {/* <Route path="/admin/dashboard" element={<Layout Component={AdminDashboardPage} />} /> */}
           {/* <Route path="/" element={<About />} /> */}

@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfileUser.css';
 import { meBeSrc } from "../../service/meBeSrc";
 import { jwtDecode } from "jwt-decode";
-import Successful from "../../components/successful/Successful";
+import Successful from "../../components/popupSuccessful/Successful";
 
 export default function ProfileUser() {
     const [user, setUser] = useState({

@@ -166,10 +166,10 @@ i.fa-solid.fa-chevron-down.filter {
 }
 
 .product-item img {
-    position: relative;
-    width: 100%;
-    height: auto;
     border-radius: 3px;
+    height: 234px;
+    position: relative;
+    max-width: fit-content;
 }
 
 span.discount {

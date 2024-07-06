@@ -1,21 +1,34 @@
-import React, { useState } from 'react';
-import './PopupAddCategory.css';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { meBeSrc } from '../../../../service/meBeSrc';
 import Successful from '../../../../components/popupSuccessful/Successful';
 import PopupError from '../../../../components/popupError/PopupError';
 
-const PopupAddCategory = ({ show, handleClose }) => {
+const PopupUpdateCategory = ({ show, handleClose, categoryId }) => {
     const [showModalSuccess, setShowModalSuccess] = useState(false);
     const [showModalError, setShowModalError] = useState(false);
+
+    /**
+     * Get category by id
+     */
+    // const [category, setCategory] = useState([]);
+    // useEffect(() => {
+    //     meBeSrc.getCategoryById(categoryId)
+    //         .then((res) => {
+    //             setCategory(res.data);
+    //         }).catch((err) => {
+    //             console.log(err);
+    //         });
+    // }, [categoryId]);
+    //-----End-----//
 
 
     /**
      * Form data
      */
     const [formData, setFormData] = useState({
-        name: '',
-        slug: '',
+        // name: category.name,
+        // slug: category.slug,
     });
     //-----End-----//
 
@@ -52,18 +65,18 @@ const PopupAddCategory = ({ show, handleClose }) => {
                 setShowModalError(true);
                 setTimeout(() => setShowModalError(false), 3000);
             });
-
-
     };
     //-----End-----//
+
+
 
 
     return (
         <Modal visible={show} onCancel={handleClose} footer={null} width={"auto"} centered>
             <Successful show={showModalSuccess} onHide={() => setShowModalSuccess(false)} message={`Tạo danh mục ${formData.name} thành công`} />
             <PopupError show={showModalError} onHide={() => setShowModalError(false)} message={`Danh mục ${formData.name} đã tồn tại`} />
-            <div className="admin-category-add">
-                <h1>Thêm danh mục mới</h1>
+            <div className="admin-category-update">
+                <h1>Cập nhật thông tin danh mục</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group name">
                         <label htmlFor="name">Tên danh mục</label>
@@ -100,4 +113,4 @@ const PopupAddCategory = ({ show, handleClose }) => {
     );
 };
 
-export default PopupAddCategory;
+export default PopupUpdateCategory;
