@@ -5,12 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { meBeSrc } from "../../service/meBeSrc";
 import {jwtDecode} from 'jwt-decode';  
 
-
 export default function ChangePasswordPage() {
     const [passwordOld, setPasswordOld] = useState('');
     const [passwordNew, setPasswordNew] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [userId, setUserId] = useState(null);
+    const [errors, setErrors] = useState({
+        passwordOld: '',
+        passwordNew: '',
+        confirmPassword: '',
+    });
 
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
@@ -30,13 +34,38 @@ export default function ChangePasswordPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
     
-        if (!userId) {
-            toast.error('Không tìm thấy user ID');
+        let valid = true;
+        const newErrors = {
+            passwordOld: '',
+            passwordNew: '',
+            confirmPassword: '',
+        };
+
+        if (passwordOld.length < 6) {
+            newErrors.passwordOld = 'Mật khẩu cũ phải có ít nhất 6 ký tự';
+            valid = false;
+        }
+        if (passwordNew.length < 6) {
+            newErrors.passwordNew = 'Mật khẩu mới phải có ít nhất 6 ký tự';
+            valid = false;
+        }
+        if (confirmPassword.length < 6) {
+            newErrors.confirmPassword = 'Xác nhận mật khẩu mới phải có ít nhất 6 ký tự';
+            valid = false;
+        }
+        if (passwordNew !== confirmPassword) {
+            newErrors.confirmPassword = 'Mật khẩu mới không khớp';
+            valid = false;
+        }
+
+        setErrors(newErrors);
+
+        if (!valid) {
             return;
         }
-        
-        if (passwordNew !== confirmPassword) {
-            toast.error('Mật khẩu mới không khớp');
+
+        if (!userId) {
+            toast.error('Không tìm thấy user ID');
             return;
         }
     
@@ -64,7 +93,6 @@ export default function ChangePasswordPage() {
                 toast.error('Lỗi khi thay đổi mật khẩu');
             });
     };
-    
 
     return (
         <div className="changePasswordPage">
@@ -89,23 +117,23 @@ export default function ChangePasswordPage() {
                             <div className="form-group small-form-group">
                                 <label htmlFor="passwordOld" className="small-label">Mật khẩu cũ</label>
                                 <input type="password" id="passwordOld" className="form-control small-input" value={passwordOld} onChange={(e) => setPasswordOld(e.target.value)} required />
+                                {errors.passwordOld && <small className="text-danger">{errors.passwordOld}</small>}
                             </div>
                             <div className="form-group small-form-group">
                                 <label htmlFor="passwordNew" className="small-label">Mật khẩu mới</label>
                                 <input type="password" id="passwordNew" className="form-control small-input" value={passwordNew} onChange={(e) => setPasswordNew(e.target.value)} required />
+                                {errors.passwordNew && <small className="text-danger">{errors.passwordNew}</small>}
                             </div>
                             <div className="form-group small-form-group">
                                 <label htmlFor="confirmPassword" className="small-label">Xác nhận mật khẩu mới</label>
                                 <input type="password" id="confirmPassword" className="form-control small-input" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                                {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
                             </div>
                             <button type="submit" className="btn btn-success btn-lg float-right">Lưu</button>
                         </form>
                     </div>
                 </div>
             </div>
-
-            
-
         </div>
     );
 }
