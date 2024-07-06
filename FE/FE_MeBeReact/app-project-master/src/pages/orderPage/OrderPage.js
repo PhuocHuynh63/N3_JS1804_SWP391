@@ -71,7 +71,7 @@ export default function OrderPage() {
                     phoneNumber: formData.phone,
                     address: formData.address,
                     password: "guestPassword",
-                    birthOfDate: "01/01/1970"
+                    birthOfDate: ""
                 } : null,
                 userId: isLoggedIn ? userId : null,
                 voucherId: null,

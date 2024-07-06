@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { meBeSrc } from '../../service/meBeSrc';
 import { Modal } from 'antd';
+import {jwtDecode} from 'jwt-decode';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProductDetail.css";
 import ImageMagnifier from '../../components/imageMagnifier/imageMagnifier';
@@ -13,6 +14,7 @@ export default function DetailPage() {
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [user, setUser] = useState(null);
 
     const { productId } = useParams();
 
@@ -29,13 +31,34 @@ export default function DetailPage() {
             });
     }, [productId]);
 
+    /**
+     * Take user info (username) from local storage by token
+     */
+    useEffect(() => {
+        const token = localStorage.getItem('USER_INFO');
+        if (token) {
+            const decoded = jwtDecode(token);
+            const username = decoded.sub;
+
+            meBeSrc.getUserByUserName(username)
+                .then((res) => {
+                    const userData = {
+                        ...res.data,
+                    };
+                    setUser(userData);
+                })
+                .catch((err) => {
+                    console.log("Error fetching user", err);
+                });
+        }
+    }, []);
+
     const showModalnotify = (message) => {
         setModalMessage(message);
         setIsModalVisible(true);
     };
 
     const handleAddToCart = () => {
-        // Check if the product is out of stock or if quantity exceeds available stock
         if (product.status === 'Hết hàng' || product.quantity === 0) {
             setShowModal(true);
             setTimeout(() => {
@@ -57,14 +80,10 @@ export default function DetailPage() {
             totalPrice: quantity * (product.salePrice || product.price)
         };
 
-        // Get existing cart items from local storage
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-        // Check if the item is already in the cart
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
 
         if (existingItemIndex > -1) {
-            // Update the quantity and total price if the item exists, ensuring it does not exceed the max quantity
             const existingItem = cartItems[existingItemIndex];
             const newQuantity = existingItem.quantity + item.quantity;
             if (newQuantity > existingItem.max) {
@@ -77,7 +96,6 @@ export default function DetailPage() {
                 showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Cập nhật thành công</h1></div>);
             }
         } else {
-            // Add new item to the cart, ensuring it does not exceed the max quantity
             if (item.quantity > item.max) {
                 item.quantity = item.max;
                 item.totalPrice = item.price * item.max;
@@ -88,8 +106,39 @@ export default function DetailPage() {
             cartItems.push(item);
         }
 
-        // Save updated cart items to local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    };
+
+    const handleAddToWishlist = () => {
+        if (!user) {
+            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Vui lòng đăng nhập để thêm sản phẩm vào danh sách đặt trước</h1></div>);
+            return;
+        }
+
+        const item = {
+            productId: product.productId,
+            subCateId: product.subCateId,
+            salePrice: product.salePrice,
+            images: product.images,
+            name: product.name,
+            categoryId: product.categoryId,
+            quantity: 1,
+            max: product.quantity,
+            price: product.price,
+            totalPrice: product.salePrice || product.price
+        };
+
+        const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+        const existingItemIndex = wishlistItems.findIndex(wishlistItem => wishlistItem.productId === item.productId);
+
+        if (existingItemIndex > -1) {
+            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Sản phẩm đã có trong danh sách đặt trước</h1></div>);
+        } else {
+            wishlistItems.push(item);
+            showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm vào danh sách đặt trước thành công</h1></div>);
+        }
+
+        localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
     };
 
     const handleQuantityChange = (e) => {
@@ -132,7 +181,6 @@ export default function DetailPage() {
                 </nav>
                 <div className="row">
                     <div className="col-md-6">
-                        {/* Carousel for product images */}
                         <div id="productCarousel" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner">
                                 <div className="carousel-item active">
@@ -173,7 +221,11 @@ export default function DetailPage() {
                             <span>{product.quantity} sản phẩm có sẵn</span>
                         </div>
                         <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
-                        <button className="btn btn-primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
+                        {product.status === 'Hết hàng' || product.quantity === 0 ? (
+                            <button className="btn btn-secondary" onClick={handleAddToWishlist}>Thêm vào wishlist</button>
+                        ) : (
+                            <button className="btn btn-primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
+                        )}
                     </div>
                 </div>
                 <div className="product-description mt-5">
@@ -182,7 +234,7 @@ export default function DetailPage() {
                 </div>
                 <Modal
                     title="Notification"
-                    visible={isModalVisible}
+                    open={isModalVisible}
                     footer={null}
                     onCancel={() => setIsModalVisible(false)}
                     className="custom-modal"
