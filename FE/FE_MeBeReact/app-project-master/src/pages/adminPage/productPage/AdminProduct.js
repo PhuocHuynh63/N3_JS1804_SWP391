@@ -1,12 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./AdminProduct.css";
 import { useEffect, useState } from "react";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Pagination from "../../../components/pagination/Pagination";
 
-
 export default function AdminProduct() {
-  const [showAddCategory, setShowAddCategory] = useState(false);
 
   /**
    * Call API to get products
@@ -20,6 +18,7 @@ export default function AdminProduct() {
       })
   }, []);
   //-----End-----//
+
 
   /**
      * Search Product
@@ -72,7 +71,9 @@ export default function AdminProduct() {
       <h1 class="header-product">Quản lý sản phẩm</h1>
 
       <div className="admin-product_action">
-        <button className="btn-add_product" onClick={() => setShowAddCategory(true)}> + Thêm sản phẩm mới</button>
+        <Link to={'/admin/product/add'}>
+          <button className="btn-add_product"> + Thêm sản phẩm mới</button>
+        </Link>
         <div className="admin-product_search">
           <input type="text" className="admin-product_searchinput" placeholder="Nhập sản phẩm cần tìm" onChange={handleSearchChange} value={searchTerm} />
           <i id="search" className="fa-solid fa-magnifying-glass"></i>

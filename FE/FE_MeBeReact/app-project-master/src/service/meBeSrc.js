@@ -26,6 +26,10 @@ export const meBeSrc = {
         return https.get(`/product/search?name=${search}`);
     },
 
+    postProduct: (data) => {
+        return https.post(`/product/create_product`, data);
+    },
+
     getListCategory: () => {
         return https.get(`/category/list`);
     },
@@ -36,6 +40,14 @@ export const meBeSrc = {
 
     getCategoryBySlug: (slug) => {
         return https.get(`/category/slug=${slug}`);
+    },
+
+    postCategory: (data) => {
+        return https.post(`/category/create_cate`, data);
+    },
+
+    deleteCategory: (cateId) => {
+        return https.delete(`/category/delete_cate/cateId=${cateId}`);
     },
 
     getListSubCategory: () => {
@@ -76,6 +88,10 @@ export const meBeSrc = {
 
     putUserForAdmin: (user_id, data) => {
         return https.put(`/user/update_admin/uId=${user_id}`, data);
+    },
+
+    putUserStatus: (user_id, status) => {
+        return https.put(`/user/set_status/uId=${user_id}?status=${status}`);
     },
 
     getListOrder: () => {
@@ -125,13 +141,13 @@ export const meBeSrc = {
     deleteAddress: (address_id) => {
         return https.delete(`/address/delete/${address_id}`);
     },
-    
+
     setDefaultAddress: (address_id, defaultValue) => {
         return https.put(`/address/update/default/${address_id}?defaultValue=${defaultValue}`);
     },
 
-    setAvatar: (userId,  data) => {
-        return https.put(`/user/update_avatar/${userId}`,data);
+    setAvatar: (userId, data) => {
+        return https.put(`/user/update_avatar/${userId}`, data);
     }
 
 }

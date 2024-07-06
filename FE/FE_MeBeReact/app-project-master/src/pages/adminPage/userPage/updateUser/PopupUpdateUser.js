@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './PopupUpdateUser.css';
 import { Modal } from 'antd';
 import { meBeSrc } from '../../../../service/meBeSrc';
+import Successful from '../../../../components/popupSuccessful/Successful';
 
 const PopupUpdateUser = ({ show, handleClose, user_id }) => {
+    const [showModal, setShowModal] = useState(false);
+
     /**
      * Call API to get a user by id
      */
@@ -84,11 +87,15 @@ const PopupUpdateUser = ({ show, handleClose, user_id }) => {
             ...formData,
             birthOfDate: formatDateToBackend(formData.birthOfDate)
         };
-        console.log(updatedFormData);
         meBeSrc.putUserForAdmin(user_id, updatedFormData)
             .then((res) => {
                 console.log(res.data);
-                handleClose();
+                setShowModal(true);
+                setTimeout(() => {
+                    setShowModal(false);
+                    handleClose();
+                    window.location.reload();
+                }, 3000);
             }).catch((err) => {
                 console.log(err);
             });
@@ -97,6 +104,7 @@ const PopupUpdateUser = ({ show, handleClose, user_id }) => {
 
     return (
         <Modal visible={show} onCancel={handleClose} footer={null} width={"auto"} centered>
+            <Successful show={showModal} onHide={() => setShowModal(false)} message="Cập nhật thông tin thành công!" />
             <div className="admin-user-update">
                 <h1>Cập nhật thông tin</h1>
                 <form onSubmit={handleSubmit}>

@@ -3,10 +3,14 @@ import "./AdminCategory.css";
 import { meBeSrc } from "../../../service/meBeSrc";
 import PopupAddCategory from "./addCategory/PopupAddCategory";
 import PopupAddSubCategory from "./addSubCategory/PopupAddSubCategory";
+import PopupUpdateCategory from "./updateCategory/PopupUpdateCategory";
+import PopupDeleteCategory from "./deleteCategory/PopupDeleteCategory";
 
 export default function AdminCategory() {
-  const [showAddCategory, setShowAddCategory] = useState(false);
-  const [showAddSubCategory, setShowAddSubCategory] = useState(false);
+  const [showAddCategory, setShowAddCategory] = useState(false);        //Add category
+  const [showUpdateCategory, setShowUpdateCategory] = useState(false);  //Update subcategory
+  const [showDeleteCategory, setShowDeleteCategory] = useState(false);  //Delete subcategory
+  const [showAddSubCategory, setShowAddSubCategory] = useState(false);  //Add subcategory
   const [activeCategoryId, setActiveCategoryId] = useState(null); // State to track the currently active category
   const [activeCategoryName, setActiveCategoryName] = useState('');
 
@@ -23,6 +27,7 @@ export default function AdminCategory() {
       });
   }, []);
   //-----End-----//
+
 
   /**
    * List of subcategories
@@ -42,6 +47,7 @@ export default function AdminCategory() {
   };
   //-----End-----//
 
+
   /**
    * List of products
    */
@@ -60,6 +66,7 @@ export default function AdminCategory() {
   };
   //-----End-----//
 
+
   /**
    * Handle toggle subcategories
    * @param {*} categoryId 
@@ -68,6 +75,7 @@ export default function AdminCategory() {
     setActiveCategoryId(prevCategoryId => (prevCategoryId === categoryId ? null : categoryId));
   };
   //-----End-----//
+
 
   /**
    * Handle show add subcategory
@@ -81,10 +89,36 @@ export default function AdminCategory() {
   };
   //-----End-----//
 
+
+  /**
+   * Handle show update subcategory
+   * @param {*} categoryId 
+   */
+  const handleShowUpdateCategory = (categoryId) => {
+    setActiveCategoryId(categoryId);
+    setShowUpdateCategory(true);
+  };
+  //-----End-----//
+
+
+  /**
+   * Handle show delete subcategory
+   * @param {*} categoryId 
+   */
+
+  const handleShowDeleteCategory = (categoryId) => {
+    setActiveCategoryId(categoryId);
+    setShowDeleteCategory(true);
+  };
+  //-----End-----//
+
+
   return (
     <div className="admin-category">
       <PopupAddCategory show={showAddCategory} handleClose={() => setShowAddCategory(false)} />
       <PopupAddSubCategory show={showAddSubCategory} handleClose={() => setShowAddSubCategory(false)} parent_id={activeCategoryId} parentName={activeCategoryName} />
+      <PopupUpdateCategory show={showUpdateCategory} handleClose={() => setShowUpdateCategory(false)} categoryId={activeCategoryId} />
+      <PopupDeleteCategory show={showDeleteCategory} handleClose={() => setShowDeleteCategory(false)} categoryId={activeCategoryId} length={categories.length} />
 
       <div className="category-header-container">
         <h1>Quản lý danh mục</h1>
@@ -103,10 +137,10 @@ export default function AdminCategory() {
               <div className="category-info">
                 <span>Có {getSubcategoriesByParent(category.name).length} tiểu danh mục</span>
                 <div className="action">
-                  <button className="delete btn btn-danger btn-sm">
+                  <button className="delete btn btn-danger btn-sm" onClick={() => handleShowDeleteCategory(category.categoryId)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
-                  <button className="edit btn btn-success btn-sm">
+                  <button className="edit btn btn-success btn-sm" onClick={() => handleShowUpdateCategory(category.categoryId)}>
                     <i className="fa-solid fa-pen-to-square"></i>
                   </button>
                 </div>

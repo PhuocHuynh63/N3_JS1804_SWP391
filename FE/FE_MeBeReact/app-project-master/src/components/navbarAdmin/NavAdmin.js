@@ -92,9 +92,6 @@ export default function NavAdmin() {
               <NavLink to="/admin/category" className="collapse-item">
                 Quản lý danh muc
               </NavLink>
-              <NavLink to="/admin/category/add" className="collapse-item" href="utilities-border.html">
-                Thêm danh mục mới
-              </NavLink>
             </div>
           </div>
         </li>

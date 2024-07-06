@@ -21,7 +21,7 @@ const SuccessPage = ({ message }) => {
 
     return (
         <div className='susscess'>
-            <h1><img src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719835566/icons8-success_atnk2t.gif" /></h1>
+            <h1><img src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1720256749/z5607740215391_7fa95663f97ae3afd540a2abb82dc7fc_iycg8w.gif" /></h1>
             <p>{message}</p>
             <p>Chuyển hướng trong {countdown} giây</p>
         </div>

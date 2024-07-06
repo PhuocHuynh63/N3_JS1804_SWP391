@@ -16,7 +16,7 @@ const ErrorPage = ({ message }) => {
 
     return (
         <div className="error">
-            <h1><img src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719930252/icons8-cancel_gxbzhe.gif" /></h1>
+            <h1><img src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1720256949/z5607751146663_d034ee3d84a21e12c99d7e3a8d90c1df_csloch.gif" /></h1>
             <p>{message}</p>
             <p>Chuyển hướng trong {countdown} giây</p>
         </div>

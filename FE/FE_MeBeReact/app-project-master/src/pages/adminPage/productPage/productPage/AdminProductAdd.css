@@ -1,0 +1,94 @@
+.admin-product-add {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-product-add form {
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+}
+
+
+.admin-product-add .form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group_btn {
+  display: flex;
+  justify-content: space-around;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  flex: 1;
+  padding: 10px 0px 0px 10px;
+}
+
+.label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select,
+textarea {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn-add {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #3498db;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 200px;
+}
+
+.btn-add:hover {
+  background-color: #1577b8;
+  transition: all 0.4s ease;
+}
+
+a.btn-close_add {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #3498db;
+  background-color: #fff;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+a.btn-close_add:hover {
+  background-color: #4fa0d6;
+  color: #fff;
+  transition: all 0.4s ease;
+}
+
+.image-preview {
+  margin-top: 10px;
+  max-width: 150px;
+  height: auto;
+  /* scale: 0.7; */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}

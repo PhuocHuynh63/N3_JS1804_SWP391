@@ -39,7 +39,7 @@
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: #e74c3c;
+    background-color: #3498db;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -48,7 +48,7 @@
 }
 
 .admin-user-add .btn-add:hover {
-    background-color: #c0392b;
+    background-color: #3498db;
 }
 
 .admin-user-add .name {

@@ -12,9 +12,6 @@ export default function AdminUser() {
   const [showUpdateUser, setShowUpdateUser] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
-  /**
-   * List of users
-   */
   const [users, setUsers] = useState([]);
   useEffect(() => {
     meBeSrc.getListUser()
@@ -25,12 +22,7 @@ export default function AdminUser() {
         console.log(err);
       });
   }, []);
-  //-----End-----//
 
-
-  /**
-     * Search Product
-     */
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -41,7 +33,7 @@ export default function AdminUser() {
           console.log(res.data);
         })
         .catch((err) => {
-          console.log("Error fetching product", err);
+          console.log("Error fetching users", err);
         });
     } else {
       meBeSrc.getListUser()
@@ -49,7 +41,7 @@ export default function AdminUser() {
           setUsers(res.data);
         })
         .catch((err) => {
-          console.log("Error fetching product", err);
+          console.log("Error fetching users", err);
         });
     }
   }, [searchTerm]);
@@ -57,14 +49,20 @@ export default function AdminUser() {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  //-----End-----//
 
+  const handleStatusChange = (userId, event) => {
+    const isChecked = event.target.checked;
+    const newStatus = isChecked ? 'ban' : 'active';
+    meBeSrc.putUserStatus(userId, newStatus)
+      .then((res) => {
+        console.log(res.data);
+        alert(res.data); // Hiển thị thông báo thành công hoặc thất bại
+      })
+      .catch((err) => {
+        console.log("Error updating user status", err);
+      });
+  };
 
-  /**
-   * Get role of user
-   * @param {*} role 
-   * @returns 
-   */
   const getRole = (role) => {
     switch (role) {
       case 'admin':
@@ -79,12 +77,7 @@ export default function AdminUser() {
         return "Unknown";
     }
   };
-  //-----End-----//
 
-
-  /**
-   * Pagination
-   */
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
 
@@ -94,7 +87,6 @@ export default function AdminUser() {
 
   const currentUsers = users.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage);
   const totalPages = Math.ceil(users.length / usersPerPage);
-  //-----End-----//
 
   return (
     <div className="admin-user">
@@ -134,7 +126,14 @@ export default function AdminUser() {
                 <td>{new Date(user.createAt).toLocaleDateString()}</td>
                 <td>
                   <div className="container-checkbox">
-                    <input type="checkbox" className="checkbox" id={`checkbox-${index}`} />
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      id={`checkbox-${index}`}
+                      value={user.status === 'active' ? false : true}
+                    // onChange={(event) => handleStatusChange(user.id, event)}
+                    />
+                    {console.log(user.status)}
                     <label className="switch" htmlFor={`checkbox-${index}`}>
                       <span className="slider"></span>
                     </label>
