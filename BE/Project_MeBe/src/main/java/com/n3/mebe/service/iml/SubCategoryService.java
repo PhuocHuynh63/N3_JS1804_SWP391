@@ -59,6 +59,7 @@ public class SubCategoryService implements ISubCategoryService {
 
             subCategory.setCategory(category);
             subCategory.setName(request.getName());
+            subCategory.setSlug(request.getSlug());
 
             if(urlImg1 != null ){
                 subCategory.setImage(urlImg1);
@@ -97,6 +98,7 @@ public class SubCategoryService implements ISubCategoryService {
 
             subCategory.setCategory(category);
             subCategory.setName(request.getName());
+            subCategory.setSlug(request.getSlug());
 
             if(urlImg1 != null ){
                 subCategory.setImage(urlImg1);
