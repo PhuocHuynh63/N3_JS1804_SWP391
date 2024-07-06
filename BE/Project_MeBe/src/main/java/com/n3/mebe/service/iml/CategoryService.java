@@ -10,7 +10,7 @@ import com.n3.mebe.entity.Category;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.ICategoryRepository;
-import com.n3.mebe.repository.IUserRepository;
+
 import com.n3.mebe.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,10 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository icategoryRepository;
 
+    // <editor-fold default state="collapsed" desc="Get Category By Id">
+    Category getCategoryById (int id) throws AppException {
+        return icategoryRepository.findById(id).orElseThrow( () -> new AppException(ErrorCode.CATEGORY_NO_EXIST));
+    }//</editor-fold>
 
     /**
      *  Request from Client
@@ -71,11 +75,6 @@ public class CategoryService implements ICategoryService {
 
 
 
-    // <editor-fold default state="collapsed" desc="Get Category By Id">
-    Category getCategoryById (int id) throws AppException {
-        return icategoryRepository.findById(id).orElseThrow( () -> new AppException(ErrorCode.CATEGORY_NO_EXIST));
-    }//</editor-fold>
-
 
     /**
      *  Response to Client
@@ -113,6 +112,18 @@ public class CategoryService implements ICategoryService {
         categoryResponse.setName(category.getName());
         categoryResponse.setSlug(category.getSlug());
 
+        return categoryResponse;
+    } //</editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Get Category By ID Response">
+    @Override
+    public CategoryResponse getCategoryByIdResponse(int cateId) {
+        Category category  = getCategoryById(cateId);
+
+        CategoryResponse categoryResponse = new CategoryResponse();
+        categoryResponse.setCategoryId(category.getCategoryId());
+        categoryResponse.setName(category.getName());
+        categoryResponse.setSlug(category.getSlug());
         return categoryResponse;
     } //</editor-fold>
 

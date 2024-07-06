@@ -5,6 +5,7 @@ import com.n3.mebe.dto.request.category.CategoryRequest;
 import com.n3.mebe.dto.request.product.ProductRequest;
 import com.n3.mebe.dto.request.subcategory.SubCategoryRequest;
 import com.n3.mebe.dto.response.ResponseData;
+import com.n3.mebe.dto.response.category.CategoryResponse;
 import com.n3.mebe.dto.response.subcategory.SubCategoryResponse;
 import com.n3.mebe.service.ISubCategoryService;
 import com.n3.mebe.service.iml.SubCategoryService;
@@ -97,19 +98,28 @@ public class SubCategoryController  {
      * Response from client
      *
      */
+
     @GetMapping("/list_all")
     List<SubCategoryResponse> listAll() {
         return subCategoryService.getSubCategoriesResponse();
     }
 
+    // get list SubCate bu Cate name
     @GetMapping("/list/{cate}")
     List<SubCategoryResponse> listByNameCategory(@PathVariable("cate") String cate) {
         return subCategoryService.getSubCategoriesResponse(cate);
     }
 
+    // get SubCate by slug
     @GetMapping("/{slug}")
     List<SubCategoryResponse> getSubCategoryBySlug(@PathVariable("slug") String slug) {
         return subCategoryService.getSubCategoriesBySlug(slug);
+    }
+
+    //get SubCate by Id
+    @GetMapping("/sub_cateId={id}")
+    SubCategoryResponse getCategoryByID(@PathVariable("id") int subCateId) {
+        return subCategoryService.getSubCategoriesByIdResponse(subCateId);
     }
 
 }

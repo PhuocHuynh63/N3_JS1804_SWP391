@@ -17,4 +17,6 @@ public interface ICategoryService {
     List<CategoryResponse> getListCategory();
 
     CategoryResponse getCategoryBySlug(String slug);
+
+    CategoryResponse getCategoryByIdResponse(int cateId);
 }

@@ -12,6 +12,7 @@ public interface ISubCategoryRepository extends JpaRepository<SubCategory, Integ
     SubCategory findBySubCateId(int id);
 
     List<SubCategory> findByCategory(Category subCateName);
+
     List<SubCategory> findBySlug(String slug);
 
 
