@@ -212,8 +212,13 @@ export default function HomePage() {
                                                 <figcaption class="mb-0 mt-4 p-0">
                                                     <h4 class="mb-2">{product.name}</h4>
                                                     <p class="d-flex justify-content-center align-items-center gap-2 mb-0">
-                                                        <span class="text-primary">{product.price.toLocaleString('vi-VN')}₫</span>
+                                                        {product.salePrice ? (
+                                                            <span class="text-primary">{product.salePrice.toLocaleString('vi-VN')}₫</span>
+                                                        ) : (
+                                                            <span class="text-primary">{product.price.toLocaleString('vi-VN')}₫</span>
+                                                        )}
                                                     </p>
+
                                                 </figcaption>
                                             </figure>
                                             <span onClick={(e) => handleClickCart(e, product)} class="btn btn-accent mt-4 d-flex align-items-center justify-content-center gap-2">

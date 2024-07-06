@@ -24,7 +24,7 @@ export default function CartDetail() {
             const newQuantity = item.quantity + change;
             if (newQuantity > 0 && newQuantity <= item.max) {
                 item.quantity = newQuantity;
-                item.totalPrice = item.price * newQuantity;
+                item.totalPrice = (item.salePrice || item.price) * newQuantity;
             }
         }
         return item;
@@ -33,7 +33,7 @@ export default function CartDetail() {
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
 }
 
-  /**
+  /** 
    * *Get total quantity of items in the cart
    */
   const getTotalQuantity = () => {
@@ -99,7 +99,9 @@ export default function CartDetail() {
                       <button className="btn btn-link p-0" onClick={() => handleRemoveItem(item.productId)}>Xóa</button>
                     </div>
                     <div className="col-md-3 text-center">
-                      <span className="price">{item.price.toLocaleString('vi-VN')}₫</span>
+                      <span className="price">
+                        {item.salePrice ? item.salePrice.toLocaleString('vi-VN') : item.price.toLocaleString('vi-VN')}₫
+                      </span>
                     </div>
                     <div className="col-md-3">
                       <div className="input-group justify-content-center">

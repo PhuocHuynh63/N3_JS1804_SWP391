@@ -4,6 +4,7 @@ import HomePage from './pages/homePage/HomePage';
 import Layout from './layout/Layout';
 import DetailPage from './pages/detailPage/ProductDetailPage';
 import CartDetail from './pages/cartPage/CartDetail';
+import WishlistDetail from './pages/wishlistPage/wishlistDetail';
 import Category from './pages/categoryPage/Category';
 import SubCategory from './pages/subcategoryPage/SubCategoryPage';
 import ProfileUser from './pages/profilePage/ProfileUser';
@@ -43,6 +44,7 @@ function App() {
           <Route path="/subcategory/:subCategoryId" element={<Layout Component={SubCategory} />} />
           <Route path="/search/:name" element={<Layout Component={SearchPage} />} />
           <Route path="/cart" element={<Layout Component={CartDetail} />} />
+          <Route path="/wishlist" element={<Layout Component={WishlistDetail} />} />
           <Route path="/checkout" element={<OrderPage />} />
           <Route path="/order-success" element={<Layout Component={() => <SuccessPage message={"Đơn hàng đã được tạo thành công"} />} />} />
           <Route path="/order-error" element={<Layout Component={() => <ErrorPage message={"Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại!"} />} />} />

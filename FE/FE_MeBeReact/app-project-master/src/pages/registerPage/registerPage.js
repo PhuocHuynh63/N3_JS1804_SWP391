@@ -6,26 +6,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import bannerLogin from "../../images/Logo_Login.jpg";
 
-export default function RegisterPage(){
-    
+export default function RegisterPage() {
+
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-    const formatDate = (date) => {
-        const d = new Date(date);
-        let day = d.getDate();
-        let month = d.getMonth() + 1;
-        const year = d.getFullYear();
-    
-        if (day < 10) {
-            day = '0' + day;
-        }
-        if (month < 10) {
-            month = '0' + month;
-        }
-    
-        return `${day}/${month}/${year}`;
-    };
-
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -35,6 +19,25 @@ export default function RegisterPage(){
         birthOfDate: '',
         phone: '',
     });
+    const [isCheckingEmail, setIsCheckingEmail] = useState(true);
+    const [isExistingUser, setIsExistingUser] = useState(false);
+    const [userId, setUserId] = useState(null); // Thêm userId
+
+    const formatDate = (date) => {
+        const d = new Date(date);
+        let day = d.getDate();
+        let month = d.getMonth() + 1;
+        const year = d.getFullYear();
+
+        if (day < 10) {
+            day = '0' + day;
+        }
+        if (month < 10) {
+            month = '0' + month;
+        }
+
+        return `${year}-${month}-${day}`; // Định dạng ngày theo yyyy-MM-dd
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,27 +56,66 @@ export default function RegisterPage(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (isCheckingEmail) {
+            checkEmail();
+        } else {
+            validateAndSubmitForm();
+        }
+    };
+
+    const checkEmail = () => {
+        if (!formData.email.trim()) {
+            setIsCheckingEmail(false);
+            return;
+        }
+
+        meBeSrc.getUserByEmail(formData.email)
+            .then(response => {
+                const user = response.data;
+                if (user && user.username) {
+                    toast.error('Email đã có tài khoản, vui lòng đăng nhập.');
+                } else {
+                    setIsExistingUser(true);
+                    setUserId(user ? user.id : null); // Lưu userId nếu có
+                    setFormData({
+                        ...formData,
+                        firstName: user ? (user.firstName || '') : '',
+                        lastName: user ? (user.lastName || '') : '',
+                        userName: user ? (user.username || '') : '',
+                        birthOfDate: user ? (user.birthOfDate ? formatDate(new Date(user.birthOfDate)) : '') : '',
+                        phone: user ? (user.phoneNumber || '') : ''
+                    });
+                    setIsCheckingEmail(false);
+                }
+            })
+            .catch(error => {
+                setIsCheckingEmail(false);
+                setIsExistingUser(false);
+                console.error('Error checking email:', error);
+                toast.error('Đã xảy ra lỗi khi kiểm tra email, vui lòng thử lại sau.');
+            });
+    };
+
+    const validateAndSubmitForm = () => {
         const newErrors = {};
-        //validate
-        const isOnlyLetters = (name) => /^[a-zA-Z\s]+$/.test(name);
+        const isOnlyLetters = (name) => /^[a-zA-ZàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlKmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s]+$/.test(name);
         const isValidEmail = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
         const isValidPassword = (password) => password.length >= 6 && /[0-9]/.test(password);
-        const isValidPhone = (phone) =>  /^\d{10,11}$/.test(phone);
+        const isValidPhone = (phone) => /^\d{10,11}$/.test(phone);
         const isFutureDate = (date) => new Date(date) > new Date();
 
-        ///////////
         if (!formData.firstName) {
             newErrors.firstName = 'Vui lòng nhập họ.';
         } else if (!isOnlyLetters(formData.firstName)) {
             newErrors.firstName = 'Họ chỉ được phép chứa chữ cái.';
         }
-    
+
         if (!formData.lastName) {
             newErrors.lastName = 'Vui lòng nhập tên.';
         } else if (!isOnlyLetters(formData.lastName)) {
             newErrors.lastName = 'Tên chỉ được phép chứa chữ cái.';
         }
-    
+
         if (!formData.userName) newErrors.userName = 'Vui lòng nhập tên đăng nhập.';
         if (!formData.email) {
             newErrors.email = 'Vui lòng nhập email.';
@@ -105,135 +147,176 @@ export default function RegisterPage(){
                 username: formData.userName.trim(),
                 email: formData.email.trim(),
                 password: formData.password.trim(),
-                birthOfDate: formatDate(formData.birthOfDate),
+                birthOfDate: formData.birthOfDate, // Giữ định dạng ngày yyyy-MM-dd
                 phoneNumber: formData.phone.trim(),
             };
 
+            console.log('Sending user data:', userData); // Log payload để kiểm tra
 
-            meBeSrc.userSignUp(userData)
-                .then(response => {
-                    console.log('Đăng ký thành công', response.data);
-                    toast.success('Đăng ký thành công');
-                    setTimeout(() => {
-                        navigate('/');
-                    }, 1000);
-                })
-                .catch(error => {
-                    console.error('Đăng ký thất bại:', error);
-                    if (error.response && error.response.data) {
-                        console.error('Error response data:', error.response.data);
-                        toast.error(error.response.data.msg); 
-                    } else {
-                        toast.error('Đã xảy ra lỗi, vui lòng thử lại sau.');
-                    }
-                });
+            if (isExistingUser && userId) {
+                meBeSrc.updateGuestToUser(userId, userData)
+                    .then(response => {
+                        console.log('Đăng ký thành công', response.data);
+                        toast.success('Đăng ký thành công');
+                        setTimeout(() => {
+                            navigate('/signin');
+                        }, 1000);
+                    })
+                    .catch(error => {
+                        console.error('Đăng ký thất bại:', error);
+                        if (error.response && error.response.data) {
+                            console.error('Error response data:', error.response.data);
+                            toast.error(error.response.data.msg); // Hiển thị thông báo lỗi từ phản hồi API
+                        } else {
+                            toast.error('Đã xảy ra lỗi, vui lòng thử lại sau.');
+                        }
+                    });
+            } else {
+                meBeSrc.userSignUp(userData)
+                    .then(response => {
+                        console.log('Đăng ký thành công', response.data);
+                        toast.success('Đăng ký thành công');
+                        setTimeout(() => {
+                            navigate('/signin');
+                        }, 1000);
+                    })
+                    .catch(error => {
+                        console.error('Đăng ký thất bại:', error);
+                        if (error.response && error.response.data) {
+                            console.error('Error response data:', error.response.data);
+                            toast.error(error.response.data.msg); // Hiển thị thông báo lỗi từ phản hồi API
+                        } else {
+                            toast.error('Đã xảy ra lỗi, vui lòng thử lại sau.');
+                        }
+                    });
+            }
         }
     };
-    
+
     return (
         <div className="container col-12 mt-5">
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-        <div className="row">
-            <div className="col-md-6">
-                <img src={bannerLogin} alt="Descriptive Text" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </div>
-            <div className="col-md-6">
-                <h2>Tham gia cùng chúng tôi</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group mb-3">
-                        <div className="form-div">Họ</div>
-                        <input
-                            type="text"
-                            name="firstName"
-                            className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        />
-                        {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
-                    </div>
-                    <div className="form-group mb-3">
-                        <div className="form-div">Tên</div>
-                        <input
-                            type="text"
-                            name="lastName"
-                            className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        />
-                        {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
-                    </div>
-                    <div className="form-group mb-3">
-                        <div className="form-div">Tên Đăng Nhập</div>
-                        <input
-                            type="text"
-                            name="userName"
-                            className={`form-control ${errors.userName ? 'is-invalid' : ''}`}
-                            value={formData.userName}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        />
-                        {errors.userName && <div className="invalid-feedback">{errors.userName}</div>}
-                    </div>
-                    <div className="form-group mb-3">
-                        <div className="form-div">Email</div>
-                        <input
-                            type="email"
-                            name="email"
-                            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                            value={formData.email}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        />
-                        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-                    </div>
-                    <div className="form-group mb-3">
-                        <div className="form-div">Mật Khẩu</div>
-                        <input
-                            type="password"
-                            name="password"
-                            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                            value={formData.password}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        />
-                        {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-                    </div>
-                    <div className="form-group mb-3">
-                        <div className="form-div">Ngày Sinh</div>
-                        <input
-                            type="date"
-                            name="birthOfDate"
-                            className={`form-control ${errors.birthOfDate ? 'is-invalid' : ''}`}
-                            value={formData.birthOfDate}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        />
-                        {errors.birthOfDate && <div className="invalid-feedback">{errors.birthOfDate}</div>}
-                    </div>
-                    <div className="form-group mb-3">
-                        <div className="form-div">Số Điện Thoại</div>
-                        <input
-                            type="text"
-                            name="phone"
-                            className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                            value={formData.phone}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        />
-                        {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
-                    </div>
-                    <div className="form-group mb-3">
-                        <button type="submit" className="btn btn-outline-primary btn-lg">Đăng Ký</button>
-                    </div>
-                </form>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+            <div className="row">
+                <div className="col-md-6">
+                    <img src={bannerLogin} alt="Descriptive Text" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
+                <div className="col-md-6">
+                    <h2>Tham gia cùng chúng tôi</h2>
+                    <form onSubmit={handleSubmit}>
+                        {isCheckingEmail ? (
+                            <>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Email</div>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                    />
+                                    {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <button type="button" className="btn btn-outline-primary btn-lg" onClick={checkEmail}>Kiểm Tra Email</button>
+                                    <button type="button" className="btn btn-outline-primary btn-lg" onClick={() => setIsCheckingEmail(false)}>Bỏ Qua</button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Họ</div>
+                                    <input
+                                        type="text"
+                                        name="firstName"
+                                        className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                                        value={formData.firstName}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                    />
+                                    {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Tên</div>
+                                    <input
+                                        type="text"
+                                        name="lastName"
+                                        className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                                        value={formData.lastName}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                    />
+                                    {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Tên Đăng Nhập</div>
+                                    <input
+                                        type="text"
+                                        name="userName"
+                                        className={`form-control ${errors.userName ? 'is-invalid' : ''}`}
+                                        value={formData.userName}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                    />
+                                    {errors.userName && <div className="invalid-feedback">{errors.userName}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Email</div>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                        readOnly={isExistingUser}
+                                    />
+                                    {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Mật Khẩu</div>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                    />
+                                    {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Ngày Sinh</div>
+                                    <input
+                                        type="date"
+                                        name="birthOfDate"
+                                        className={`form-control ${errors.birthOfDate ? 'is-invalid' : ''}`}
+                                        value={formData.birthOfDate}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                    />
+                                    {errors.birthOfDate && <div className="invalid-feedback">{errors.birthOfDate}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <div className="form-div">Số Điện Thoại</div>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        style={{ width: "100%" }}
+                                    />
+                                    {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <button type="submit" className="btn btn-outline-primary btn-lg">Đăng Ký</button>
+                                </div>
+                            </>
+                        )}
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    
     );
-
 };
-
-    

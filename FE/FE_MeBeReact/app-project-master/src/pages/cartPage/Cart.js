@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 import "./Cart.css";
 import { NavLink } from "react-router-dom";
 
-
 const CartPage = ({ show, handleClose }) => {
     const [cartItems, setCartItems] = useState([]);
 
@@ -19,7 +18,7 @@ const CartPage = ({ show, handleClose }) => {
                 const newQuantity = item.quantity + change;
                 if (newQuantity > 0 && newQuantity <= item.max) {
                     item.quantity = newQuantity;
-                    item.totalPrice = item.price * newQuantity;
+                    item.totalPrice = (item.salePrice || item.price) * newQuantity;
                 }
             }
             return item;
@@ -80,7 +79,7 @@ const CartPage = ({ show, handleClose }) => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="price">{item.price.toLocaleString('vi-VN')}₫</td>
+                                    <td className="price">{(item.salePrice || item.price).toLocaleString('vi-VN')}₫</td>
                                     <td>
                                         <div className="quantity-control">
                                             <button className="minus-btn" onClick={() => updateQuantity(item.productId, -1)}>-</button>
