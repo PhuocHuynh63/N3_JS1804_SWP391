@@ -1,0 +1,17 @@
+.form-group_btn .btn-close_add {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #3498db;
+    background-color: #fff;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.form-group_btn .btn-close_add:hover {
+    background-color: #2c83bd;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+}

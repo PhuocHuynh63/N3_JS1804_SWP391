@@ -18,6 +18,18 @@ export const meBeSrc = {
         return https.get(`/product/list_subcate=${slug}`);
     },
 
+    getSubCategoryById: (subCateId) => {
+        return https.get(`/sub_category/sub_cateId=${subCateId}`);
+    },
+
+    putSubCatory: (subCateId, data) => {
+        return https.put(`/sub_category/update_sub_cate/subId=${subCateId}`, data);
+    },
+
+    deleteSubCategory: (subcategoryId) => {
+        return https.delete(`/sub_category/delete/subId=${subcategoryId}`);
+    },
+
     getProductLastest: () => {
         return https.get(`/product/list/create_at_desc`)
     },
@@ -42,6 +54,14 @@ export const meBeSrc = {
         return https.get(`/category/slug=${slug}`);
     },
 
+    getCategoryById: (cateId) => {
+        return https.get(`/category/cateId=${cateId}`);
+    },
+
+    putCategory: (cateId, data) => {
+        return https.put(`/category/update_cate/cateId=${cateId}`, data);
+    },
+
     postCategory: (data) => {
         return https.post(`/category/create_cate`, data);
     },
@@ -52,6 +72,10 @@ export const meBeSrc = {
 
     getListSubCategory: () => {
         return https.get(`/sub_category/list_all`);
+    },
+
+    postSubCategory: (data) => {
+        return https.post(`/sub_category/create_sub_cate`, data);
     },
 
     getListUser: () => {
@@ -150,12 +174,12 @@ export const meBeSrc = {
         return https.put(`/user/update_avatar/${userId}`, data);
     },
 
-    getUserByEmail:(email) =>{
+    getUserByEmail: (email) => {
         return https.get(`/user/check_email?email=${email}`);
     },
 
-    updateGuestToUser:(userId, data) =>{
-        return https.put(`/user/signup_guest/${userId}`,data);
+    updateGuestToUser: (userId, data) => {
+        return https.put(`/user/signup_guest/${userId}`, data);
     }
 
 }
