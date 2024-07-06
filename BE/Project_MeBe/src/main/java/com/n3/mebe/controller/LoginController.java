@@ -22,7 +22,7 @@ public class LoginController {
 
     @PostMapping()
     ResponseEntity<?> signin(@RequestParam String username,
-            @RequestParam String password) {
+                            @RequestParam String password) {
         ResponseData responseData = new ResponseData();
 
         /*

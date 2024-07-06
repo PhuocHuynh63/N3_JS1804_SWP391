@@ -33,6 +33,8 @@ public enum ErrorCode {
     VOUCHER_CODE_NO_EXIST(1025, "Code voucher không tồn tại"),
     VOUCHER_USED(1026, "Mã khuyến mãi đã được sử dụng"),
 
+    BAN_ACCOUNT(1027, "Tài khoản đã bị khóa"),
+
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;
 
