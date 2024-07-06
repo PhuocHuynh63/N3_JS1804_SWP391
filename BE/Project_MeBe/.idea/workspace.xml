@@ -57,7 +57,7 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.ProjectMeBeApplication.executor": "Run",
+    "Spring Boot.ProjectMeBeApplication.executor": "Debug",
     "git-widget-placeholder": "thuan2",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/vipha/OneDrive/Desktop/test_servere/BE/Project_MeBe/src/main/resources/templates",
@@ -179,7 +179,7 @@
       <workItem from="1720204156339" duration="6358000" />
       <workItem from="1720247196001" duration="12124000" />
       <workItem from="1720273323755" duration="1617000" />
-      <workItem from="1720275100829" duration="12524000" />
+      <workItem from="1720275100829" duration="14991000" />
     </task>
     <servers />
   </component>
@@ -208,6 +208,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java</url>
           <line>53</line>
           <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
+          <line>341</line>
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ICloudinaryService.java</url>
