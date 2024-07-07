@@ -1,6 +1,7 @@
 package com.n3.mebe.controller;
 
 
+import com.n3.mebe.dto.request.user.UserCreateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
@@ -10,7 +11,6 @@ import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 
 import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.IUserService;
-import com.n3.mebe.service.iml.mail.SendMailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -44,6 +44,23 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<ResponseData> createUser(@RequestBody @Valid UserCreateRequest request) {
         boolean check = userService.createUser(request);
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("Đăng ký thành công");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("Đăng ký thất bại");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
+        }
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+
+    @PostMapping("/admin/signup")
+    public ResponseEntity<ResponseData> createUserForAdmin(@RequestBody @Valid UserCreateForAdminRequest request) {
+        boolean check = userService.createUserForAdmin(request);
         ResponseData responseData = new ResponseData();
         if (check) {
             responseData.setDescription("Đăng ký thành công");
