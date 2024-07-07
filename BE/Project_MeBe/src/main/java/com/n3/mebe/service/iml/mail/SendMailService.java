@@ -26,6 +26,7 @@ public class SendMailService implements ISendMailService {
     @Autowired
     private MailService mailService;
 
+
     @Autowired
     private UserService userService;
 
@@ -173,6 +174,58 @@ public class SendMailService implements ISendMailService {
         }
         return false;
     }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="send Otp Check Email Exist">
+    @Override
+    public boolean sendOtpCheckEmailExist(String email) {
+        try {
+            GmailSendResponse response = new GmailSendResponse();
+
+            // ở đây là guest
+            User user = userService.getUserByEmail(email);
+
+            // Tạo mật khẩu tạm thời (OTP) gồm 6 ký tự
+            String OTP = DataUtils.generateTempPwd(6);
+
+            // Chuẩn bị dòng tiêu đề email OTP
+            String OTP_SEND = OTP + " " + ConstEmail.SEND_MAIL_SUBJECT.OTP_SEND;
+
+            // Tạo khóa Redis để lưu trữ OTP
+            String OTPKey = "OTP:" + OTP;
+
+            response.setTo(user.getEmail());
+            response.setSubject(OTP_SEND);
+
+            Map<String, Object> props = new HashMap<>();
+            props.put("OTP", OTP);
+            response.setProps(props);
+
+            // Lưu OTP vào Redis với thời gian tồn tại (TTL) là 1 phút
+            stringRedisTemplate.opsForValue().set(OTPKey, OTP, 1, TimeUnit.MINUTES);
+
+            mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.OTP_SEND);
+            return true;
+        } catch (MessagingException exp){
+            exp.printStackTrace();
+        }
+        return false;
+    }// </editor-fold>
+
+
+    // Method to check OTP
+    @Override
+    public boolean checkOtp(String identifier, String otp) {
+        String otpKey = "OTP:" + identifier;
+        String storedOtp = stringRedisTemplate.opsForValue().get(otpKey);
+        return otp.equals(storedOtp);
+    }
+
+    // Optional: Method to invalidate OTP
+    @Override
+    public void invalidateOtp(String identifier) {
+        String otpKey = "OTP:" + identifier;
+        stringRedisTemplate.delete(otpKey);
+    }
 
 
 }
