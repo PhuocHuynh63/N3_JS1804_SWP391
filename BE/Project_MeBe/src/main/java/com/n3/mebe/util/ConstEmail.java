@@ -6,6 +6,7 @@ public class ConstEmail {
         public final static String VERIFY_ORDER = "XÁC NHẬN ĐƠN HÀNG ĐÃ ĐẶT";
         public final static String COMFIRMED_WISHLIST = "XÁC NHẬN ĐÃ ĐĂNG KÝ NHẬN THÔNG TIN";
         public final static String NOTIFICATION_WISHLIST = "THÔNG BÁO ĐÃ CÓ HÀNG";
+        public final static String OTP_SEND = "LÀ MÃ XÁC MINH Email CỦA BẠN";
     }
 
 
@@ -14,6 +15,7 @@ public class ConstEmail {
         public final static String VERIFY_ORDER = "orderVerify";
         public final static String COMFIRMED_WISHLIST = "wishList";
         public final static String NOTIFICATION_WISHLIST = "wishListDONE";
+        public final static String OTP_SEND = "sendOTP";
     }
 
 

@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/sendOTP.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IAddressRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IAddressRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/ConstEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/ConstEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/client.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/client.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +66,7 @@
     "Spring Boot.ProjectMeBeApplication.executor": "Run",
     "git-widget-placeholder": "thuan2",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/vipha/OneDrive/Desktop/test_servere/BE/Project_MeBe/src/main/resources/templates",
+    "last_opened_file_path": "C:/Users/vipha/OneDrive/Desktop/code_main/N3_JS1804_SWP391/BE/Project_MeBe/src/main/resources/templates",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -78,11 +84,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vipha\OneDrive\Desktop\code_main\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources\templates" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\test_servere\BE\Project_MeBe\src\main\resources\templates" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\dto\response" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\config" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\util" />
-      <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.n3.mebe.dto.response.user.tracking" />
@@ -182,7 +188,7 @@
       <workItem from="1720275100829" duration="14991000" />
       <workItem from="1720292594947" duration="56000" />
       <workItem from="1720296037237" duration="7810000" />
-      <workItem from="1720344449852" duration="1953000" />
+      <workItem from="1720344449852" duration="7704000" />
     </task>
     <servers />
   </component>
@@ -208,13 +214,8 @@
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
-          <line>341</line>
+          <line>344</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
