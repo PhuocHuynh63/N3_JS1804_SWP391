@@ -12,6 +12,9 @@ export default function AdminUser() {
   const [showUpdateUser, setShowUpdateUser] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
+  /**
+   * Get list user from backend
+   */
   const [users, setUsers] = useState([]);
   useEffect(() => {
     meBeSrc.getListUser()
@@ -22,7 +25,12 @@ export default function AdminUser() {
         console.log(err);
       });
   }, []);
+  //------End------//
 
+
+  /**
+   * Search user by name
+   */
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -49,6 +57,8 @@ export default function AdminUser() {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+  //------End------//
+
 
   const handleStatusChange = (userId, event) => {
     const isChecked = event.target.checked;

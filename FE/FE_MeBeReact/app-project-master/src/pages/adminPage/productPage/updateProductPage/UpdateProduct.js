@@ -142,10 +142,6 @@ export default function UpdateProduct() {
         meBeSrc.putProduct(productId, productData)
             .then((res) => {
                 setShowModal(true);
-                setTimeout(() => {
-                    setShowModal(false);
-                    window.location.reload();
-                }, 3000);
                 console.log('Product created successfully', res.data);
             })
             .catch((err) => {
@@ -191,7 +187,7 @@ export default function UpdateProduct() {
 
     return (
         <div className="admin-product-add">
-            <Successful show={showModal} onHide={() => setShowModal(false)} message={"Sản phẩm đã được thêm thành công"} />
+            <Successful show={showModal} onHide={() => setShowModal(false)} message={"Sản phẩm đã được cập nhật thành công"} />
             <h1>Cập nhật sản phẩm</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-row">

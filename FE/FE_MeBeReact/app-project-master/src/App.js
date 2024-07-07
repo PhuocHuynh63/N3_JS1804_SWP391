@@ -27,7 +27,8 @@ import AdminCategory from './pages/adminPage/categoryPage/AdminCategory';
 import AdminUser from './pages/adminPage/userPage/AdminUser';
 import AdminOrder from './pages/adminPage/orderPage/AdminOrder';
 import AdminProductAdd from './pages/adminPage/productPage/addProductPage/AdminProductAdd';
-import UpdateProduct from './pages/adminPage/productPage/updateProductPage/UpdateProduct';;
+import UpdateProduct from './pages/adminPage/productPage/updateProductPage/UpdateProduct'; import ViewProduct from './pages/adminPage/productPage/viewProductPage/ViewProduct';
+;
 // import AdminDashboardPage from './pages/adminPage/AdminDashboardPage';
 
 function App() {
@@ -58,10 +59,11 @@ function App() {
           <Route path="/admin/product" element={<LayoutAdmin Component={AdminProduct} />} />
           <Route path="/admin/product/add" element={<LayoutAdmin Component={AdminProductAdd} />} />
           <Route path="/admin/product/update/:productId" element={<LayoutAdmin Component={UpdateProduct} />} />
+          <Route path="/admin/product/detail/:productId" element={<LayoutAdmin Component={ViewProduct} />} />
           <Route path="/admin/category" element={<LayoutAdmin Component={AdminCategory} />} />
           <Route path="/admin/user" element={<LayoutAdmin Component={AdminUser} />} />
           <Route path="/admin/order" element={<LayoutAdmin Component={AdminOrder} />} />
-          
+
           {/* <Route path="/admin/dashboard" element={<Layout Component={AdminDashboardPage} />} /> */}
           {/* <Route path="/" element={<About />} /> */}
           {/* <Route path="dashboard" element={<Dashboard />} /> */}
