@@ -27,17 +27,15 @@ public enum ErrorCode {
     PHONE_NUMBER_EXIST(1020, " Số điện thoại đã tồn tại"),
     PRODUCT_QUANTITY_NOT_OUT(1021, " Sản phẩm đã hết hàng"),
     SUB_CATEGORY_NO_EXIST(1022, "Id không tồn tại"),
-
     VOUCHER_NO_EXIST(1023, "Id voucher không tồn tại"),
     VOUCHER_CODE_EXIST(1024, "Code voucher đã tồn tại"),
     VOUCHER_CODE_NO_EXIST(1025, "Code voucher không tồn tại"),
     VOUCHER_USED(1026, "Mã khuyến mãi đã được sử dụng"),
-
     BAN_ACCOUNT(1027, "Tài khoản đã bị khóa"),
-
     EMAIL_NO_EXIST(1028, "Email không tồn tại trên hệ thống"),
-
-    SUB_CATEGORY_ID_NO_EXIST(1028, "ID không tồn tại"),
+    SUB_CATEGORY_ID_NO_EXIST(1029, "ID không tồn tại"),
+    SUB_CATEGORY_NAME_EXIST(1030, "Name SubCate đã tồn tại"),
+    SUB_CATEGORY_SLUG_EXIST(1031, "Slug SubCate đã tồn tại"),
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     ;
