@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./AdminOrder.css";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Pagination from "../../../components/pagination/Pagination";
+import { Link } from "react-router-dom";
+import TrackingPopup from "../../trackingPopup/TrackingPopup";
 
 export default function AdminOrder() {
 
@@ -21,6 +23,32 @@ export default function AdminOrder() {
   }, []);
   //-----End-----//
 
+
+  //---------------------------------OrderDetail---------------------------------//
+  const [showModalOrderDetail, setShowModalOrderDetail] = useState(false);
+
+  /**
+   * Call API to get order detail
+   */
+  const [activeOrderId, setActiveOrderId] = useState(null);
+  const [orderDetail, setOrderDetail] = useState([]);
+
+  const handleOrderDetail = (orderId) => {
+    setActiveOrderId(orderId);
+    setShowModalOrderDetail(true);
+
+    meBeSrc.getOrderDetail(orderId)
+      .then((res) => {
+        setOrderDetail(res.data);
+      })
+      .catch((err) => {
+        console.log("Error fetching orders", err);
+      });
+  };
+  //-----End-----//
+  //---------------------------------End---------------------------------//
+
+
   /**
    * Search Order
    */
@@ -28,9 +56,9 @@ export default function AdminOrder() {
 
   useEffect(() => {
     if (searchTerm) {
-      meBeSrc.getUserByUserName(searchTerm)
+      meBeSrc.getSearchOrderByEmailOrPhone(searchTerm)
         .then((res) => {
-          // setOrders(res.data);
+          setOrders(res.data);
         })
         .catch((err) => {
           console.log("Error fetching product", err);
@@ -51,6 +79,7 @@ export default function AdminOrder() {
   };
   //-----End-----//
 
+
   /**
    * Pagination
    */
@@ -64,6 +93,7 @@ export default function AdminOrder() {
   const currentUsers = orders.slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage);
   const totalPages = Math.ceil(orders.length / ordersPerPage);
   //-----End-----//
+
 
   /**
    * Update order status
@@ -90,8 +120,11 @@ export default function AdminOrder() {
   };
   //-----End-----//
 
+
   return (
     <div className="admin-order">
+      <TrackingPopup show={showModalOrderDetail} handleClose={() => setShowModalOrderDetail(false)} orderId={activeOrderId} />
+
       <h1>Quản lý đơn hàng</h1>
 
       <div className="admin-order_action">
@@ -135,7 +168,7 @@ export default function AdminOrder() {
                   </select>
                 </td>
                 <td>
-                  <a className="view btn btn-warning btn-sm" href="#">
+                  <a className="view btn btn-warning btn-sm" onClick={() => handleOrderDetail(order.orderId)}>
                     <i className="fa-solid fa-eye"></i>
                   </a>
                 </td>

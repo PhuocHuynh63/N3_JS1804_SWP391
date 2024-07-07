@@ -148,10 +148,22 @@ public class OrderController {
         return orderService.getOrdersList();
     }
 
-    //search Order by Email or phone number
-    @GetMapping("/search_order")
-    public List<OrderResponse> searchOrder(@RequestParam String email, @RequestParam String phoneNumber) {
-        return orderService.getOrdersList(email, phoneNumber);
+    //search Order by Email
+    @GetMapping("/search_order/email/")
+    public List<OrderResponse> searchOrderEmail(@RequestParam String email) {
+        return orderService.getOrdersListEmail(email);
+    }
+
+    //search Order by phone number
+    @GetMapping("/search_order/phone/")
+    public List<OrderResponse> searchOrder(@RequestParam String phone) {
+        return orderService.getOrdersListPhone(phone);
+    }
+
+    //search Order by id
+    @GetMapping("/oId={id}")
+    public OrderResponse getOrderByID(@PathVariable("id") int orderId) {
+        return orderService.getOrderResponse(orderId);
     }
 
 }

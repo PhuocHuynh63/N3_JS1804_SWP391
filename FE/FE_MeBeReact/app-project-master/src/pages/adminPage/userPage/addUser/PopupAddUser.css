@@ -26,6 +26,7 @@
 .admin-user-add input[type="email"],
 .admin-user-add input[type="phoneNumber"],
 .admin-user-add input[type="password"],
+.admin-user-add input[type="date"],
 .admin-user-add select {
     padding: 8px;
     font-size: 16px;

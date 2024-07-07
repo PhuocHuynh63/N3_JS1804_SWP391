@@ -1,6 +1,7 @@
 package com.n3.mebe.controller;
 
 
+import com.n3.mebe.dto.request.user.UserCreateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
@@ -8,9 +9,11 @@ import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 
+import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,12 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private ISendMailService sendMailService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      *  Request from Client
@@ -46,6 +55,50 @@ public class UserController {
             responseData.setStatus(400);
         }
         return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+
+    @PostMapping("/admin/signup")
+    public ResponseEntity<ResponseData> createUserForAdmin(@RequestBody @Valid UserCreateForAdminRequest request) {
+        boolean check = userService.createUserForAdmin(request);
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("Đăng ký thành công");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("Đăng ký thất bại");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
+        }
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+    @PostMapping("/send_otp_mail")
+    public ResponseEntity<ResponseData> sendOtpEmailExist(@RequestParam String email) {
+        boolean check = sendMailService.sendOtpCheckEmailExist(email);
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("Gửi mã xác minh thành công!");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("Email không tồn tại trong hệ thống!");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
+        }
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+    // API to check OTP
+    @PostMapping("/check_otp")
+    public ResponseEntity<String> checkOtp(@RequestParam String otp) {
+        boolean isValid = sendMailService.checkOtp(otp);
+        if (isValid) {
+            return ResponseEntity.ok("Xác minh thành công");
+        } else {
+            return ResponseEntity.status(400).body("Mã xác minh không đúng hoặc đã hết hạn!");
+        }
     }
 
     //Update guest to user

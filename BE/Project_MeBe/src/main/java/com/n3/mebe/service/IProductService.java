@@ -27,6 +27,8 @@ public interface IProductService {
 
     void deleteProduct(int id);
 
+    void deleteProductReal(int id);
+
     List<ProductResponse> getProductResponseList(String cate);
 
     List<ProductResponse> getListProductByName(String name);

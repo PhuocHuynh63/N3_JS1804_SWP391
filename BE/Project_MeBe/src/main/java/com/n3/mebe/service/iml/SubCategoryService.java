@@ -110,10 +110,12 @@ public class SubCategoryService implements ISubCategoryService {
         String folder = "Sub_Category";
         String urlImg1 = null;
         String urlImg2 = null;
-        if(!img1.isEmpty() ){
+
+        if(img1 != null){
             urlImg1 = cloudinaryService.saveFileToFolder(img1 , folder);
         }
-        if(!img2.isEmpty()){
+
+        if(img2 != null){
             urlImg2 = cloudinaryService.saveFileToFolder(img2 , folder);
         }
 

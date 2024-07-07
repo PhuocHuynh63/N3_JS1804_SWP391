@@ -5,7 +5,7 @@ import Successful from "../../../../components/popupSuccessful/Successful";
 import { Link } from "react-router-dom";
 
 export default function UpdateProduct() {
-
+    const productId = window.location.pathname.split("/").pop();
     const [showModal, setShowModal] = useState(false);
 
 
@@ -13,7 +13,7 @@ export default function UpdateProduct() {
      * State form data
      */
     const [formData, setFormData] = useState({
-        image: null,
+        image: '',
         subCategory: "",
         slug: "",
         productName: "",
@@ -75,9 +75,10 @@ export default function UpdateProduct() {
         meBeSrc.getProductById(productId)
             .then((res) => {
                 setProduct(res.data);
-                console.log(res.data);
+                // console.log(res.data);
                 setFormData({
                     ...formData,
+                    image: res.data.images,
                     subCategory: res.data.subCategory.subCateId,
                     slug: res.data.slug,
                     productName: res.data.name,
@@ -135,7 +136,10 @@ export default function UpdateProduct() {
             productView: formData.productView,
         }));
 
-        meBeSrc.postProduct(productData)
+        console.log(productId);
+        console.log(formData);
+
+        meBeSrc.putProduct(productId, productData)
             .then((res) => {
                 setShowModal(true);
                 setTimeout(() => {

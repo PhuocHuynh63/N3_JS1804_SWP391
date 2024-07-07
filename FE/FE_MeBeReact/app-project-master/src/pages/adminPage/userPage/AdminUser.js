@@ -55,8 +55,10 @@ export default function AdminUser() {
     const newStatus = isChecked ? 'ban' : 'active';
     meBeSrc.putUserStatus(userId, newStatus)
       .then((res) => {
-        console.log(res.data);
         alert(res.data); // Hiển thị thông báo thành công hoặc thất bại
+        setUsers(users.map(user =>
+          user.id === userId ? { ...user, status: newStatus } : user
+        ))
       })
       .catch((err) => {
         console.log("Error updating user status", err);
@@ -130,8 +132,8 @@ export default function AdminUser() {
                       type="checkbox"
                       className="checkbox"
                       id={`checkbox-${index}`}
-                      value={user.status === 'active' ? false : true}
-                    // onChange={(event) => handleStatusChange(user.id, event)}
+                      checked={user.status !== "active"}
+                      onChange={(event) => handleStatusChange(user.id, event)}
                     />
                     {console.log(user.status)}
                     <label className="switch" htmlFor={`checkbox-${index}`}>

@@ -30,8 +30,8 @@ public class SubCategoryController  {
 
     @PostMapping(value = "/create_sub_cate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createCategory(
-            @RequestPart("img1") MultipartFile img1,
-            @RequestPart("img2") MultipartFile img2,
+            @RequestPart( value ="img1" , required = false) MultipartFile img1,
+            @RequestPart( value ="img2" , required = false) MultipartFile img2,
             @RequestPart("requestJson") String requestJson) {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -58,8 +58,8 @@ public class SubCategoryController  {
     @PutMapping(value = "/update_sub_cate/subId={id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateCategory(
             @PathVariable("id") int subId,
-            @RequestPart("img1") MultipartFile img1,
-            @RequestPart("img2") MultipartFile img2,
+            @RequestPart( value ="img1" , required = false) MultipartFile img1,
+            @RequestPart( value ="img2" , required = false ) MultipartFile img2,
             @RequestPart("requestJson") String requestJson) {
 
         ObjectMapper objectMapper = new ObjectMapper();

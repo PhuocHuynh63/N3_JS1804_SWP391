@@ -323,62 +323,6 @@ export default function AdminPage() {
           ))}
         </div>
       </div>
-
-      <div className="box-message">
-        <h3>Phản hồi từ người dùng</h3>
-        <table className="message">
-          <tr>
-            <th>Người dùng</th>
-            <th>Họ tên</th>
-            <th>Bình luận</th>
-            <th>Đánh giá</th>
-          </tr>
-          <tr>
-            <td>
-              <img className="user-avatar" src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/449211428_1548454112768538_6701101107381770885_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=4DSdNERHVRMQ7kNvgEdmHZm&_nc_ht=scontent.fsgn5-5.fna&gid=AgZq26kWZCfCOQ8DvjUrf6w&oh=00_AYB8W25ohYBOR5Nzw9HBpOvbFBJwMbL7s89WWZqZVk4xfA&oe=668AD024" alt="Avatar" />
-            </td>
-            <td>
-              <div className="user-name">Trương Thành Đạt</div>
-            </td>
-            <td>
-              <div className="message-user">
-                <p>Hài lòng</p>
-              </div>
-            </td>
-            <td>
-              <div className="user-rate">
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star-half-stroke"></i>
-                <i className="fa-regular fa-star"></i>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img className="user-avatar" src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-1/449211428_1548454112768538_6701101107381770885_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=4DSdNERHVRMQ7kNvgEdmHZm&_nc_ht=scontent.fsgn5-5.fna&gid=AgZq26kWZCfCOQ8DvjUrf6w&oh=00_AYB8W25ohYBOR5Nzw9HBpOvbFBJwMbL7s89WWZqZVk4xfA&oe=668AD024" alt="Avatar" />
-            </td>
-            <td>
-              <div className="user-name">Trương Thành Đạt</div>
-            </td>
-            <td>
-              <div className="message-user">
-                <p>Hài lòng</p>
-              </div>
-            </td>
-            <td>
-              <div className="user-rate">
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star-half-stroke"></i>
-                <i className="fa-regular fa-star"></i>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
     </div>
   );
 }

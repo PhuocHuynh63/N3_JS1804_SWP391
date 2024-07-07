@@ -52,8 +52,8 @@ public class ProductController {
     // Update a product by id
     @PutMapping("/update_product={id}")
     public ResponseEntity<?> updateProduct(@PathVariable("id") int id,
-                          @RequestPart("file") MultipartFile file,
-                          @RequestPart("product") String productJson) {
+                                           @RequestPart(value = "file", required = false) MultipartFile file,
+                                           @RequestPart("product") String productJson) {
 
         // Convert JSON string to ProductRequest object
         ObjectMapper objectMapper = new ObjectMapper();
@@ -79,6 +79,13 @@ public class ProductController {
     String deleteProduct(@PathVariable("id") int id) {
         productService.deleteProduct(id);
         return "Product deleted";
+    }
+
+    // Delete Real product by id
+    @DeleteMapping("/delete_real/product_id={id}")
+    String deleteProductReal(@PathVariable("id") int id) {
+        productService.deleteProductReal(id);
+        return "Product deleted real";
     }
 
     /**
