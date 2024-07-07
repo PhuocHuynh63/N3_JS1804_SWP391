@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfileUser.css';
 import { meBeSrc } from "../../service/meBeSrc";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import Successful from "../../components/popupSuccessful/Successful";
 
 export default function ProfileUser() {
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         username: "",
         firstName: "",
@@ -15,11 +17,8 @@ export default function ProfileUser() {
     });
 
     const [showModal, setShowModal] = useState(false);
+    const [errors, setErrors] = useState({});
 
-
-    /**
-     * Format the date to yyyy-MM-dd for input type="date"
-     */
     const formatDateToInput = (date) => {
         const d = new Date(date);
         const month = `0${d.getMonth() + 1}`.slice(-2);
@@ -27,25 +26,17 @@ export default function ProfileUser() {
         const year = d.getFullYear();
         return `${year}-${month}-${day}`;
     };
-    //-----End------//
 
-
-    /**
-     * Format the date to dd/MM/yyyy for backend
-     */
     const formatDateToBackend = (date) => {
         const [year, month, day] = date.split('-');
         return `${day}/${month}/${year}`;
     };
-    //-----End------//
 
-
-    /**
-     * Take user info (username) from local storage by token
-     */
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
-        if (token) {
+        if (!token) {
+            navigate('/');
+        } else {
             const decoded = jwtDecode(token);
             const username = decoded.sub;
 
@@ -53,29 +44,16 @@ export default function ProfileUser() {
                 .then((res) => {
                     const userData = {
                         ...res.data,
-                        birthOfDate: formatDateToInput(res.data.birthOfDate) // Formatting the date for input
+                        birthOfDate: formatDateToInput(res.data.birthOfDate)
                     };
                     setUser(userData);
-                    console.log("User data", {
-                        username: userData.username,
-                        firstName: userData.firstName,
-                        lastName: userData.lastName,
-                        phoneNumber: userData.phoneNumber,
-                        birthOfDate: userData.birthOfDate
-                    });
                 })
                 .catch((err) => {
                     console.log("Error fetching user", err);
                 });
         }
-    }, []);
-    //-----End------//
+    }, [navigate]);
 
-
-    /**
-     * Change value when input change
-     * @param {*} e 
-     */
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setUser((prevState) => ({
@@ -83,37 +61,45 @@ export default function ProfileUser() {
             [id]: value
         }));
     };
-    //-----End------//
 
+    const validateForm = () => {
+        const errors = {};
 
-    /**
-     * Handle form submission
-     */
+        if (!user.firstName || /\d/.test(user.firstName)) {
+            errors.firstName = "Họ không được để trống hoặc có số.";
+        }
+        if (!user.lastName || /\d/.test(user.lastName)) {
+            errors.lastName = "Tên không được để trống hoặc có số.";
+        }
+        if (!user.phoneNumber || !/^\d{10,11}$/.test(user.phoneNumber)) {
+            errors.phoneNumber = "Số điện thoại phải có 10-11 chữ số.";
+        }
+        if (new Date(user.birthOfDate) > new Date()) {
+            errors.birthOfDate = "Ngày sinh không được ở tương lai.";
+        }
+
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const updatedUser = {
-            ...user,
-            birthOfDate: formatDateToBackend(user.birthOfDate) // Formatting the date for backend
-        };
+        if (validateForm()) {
+            const updatedUser = {
+                ...user,
+                birthOfDate: formatDateToBackend(user.birthOfDate)
+            };
 
-        meBeSrc.updateUserProfile(user.id, updatedUser)
-            .then((res) => {
-                setShowModal(true);
-                setTimeout(() => setShowModal(false), 3000); // Hide modal after 3 seconds
-                console.log("User updated successfully", {
-                    username: user.username,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    phoneNumber: user.phoneNumber,
-                    birthOfDate: user.birthOfDate
+            meBeSrc.updateUserProfile(user.id, updatedUser)
+                .then((res) => {
+                    setShowModal(true);
+                    setTimeout(() => setShowModal(false), 3000);
+                })
+                .catch((err) => {
+                    console.log("Error updating user", err);
                 });
-            })
-            .catch((err) => {
-                console.log("Error updating user", err);
-            });
+        }
     };
-    //-----End------//
-
 
     return (
         <div className="profileUser">
@@ -133,18 +119,22 @@ export default function ProfileUser() {
                             <div className="form-group-profile small-form-group">
                                 <label htmlFor="firstName" className="small-label profile">Họ</label>
                                 <input type="text" id="firstName" className="form-control small-input profile" value={user.firstName} onChange={handleInputChange} />
+                                {errors.firstName && <div className="error">{errors.firstName}</div>}
                             </div>
                             <div className="form-group-profile small-form-group">
                                 <label htmlFor="lastName" className="small-label profile">Tên</label>
                                 <input type="text" id="lastName" className="form-control small-input profile" value={user.lastName} onChange={handleInputChange} />
+                                {errors.lastName && <div className="error">{errors.lastName}</div>}
                             </div>
                             <div className="form-group-profile small-form-group">
                                 <label htmlFor="phoneNumber" className="small-label profile">Số điện thoại</label>
                                 <input type="text" id="phoneNumber" className="form-control small-input profile" value={user.phoneNumber} readOnly />
+                                {errors.phoneNumber && <div className="error">{errors.phoneNumber}</div>}
                             </div>
                             <div className="form-group-profile small-form-group">
                                 <label htmlFor="birthOfDate" className="small-label profile">Ngày sinh</label>
                                 <input type="date" id="birthOfDate" className="form-control small-input profile" value={user.birthOfDate} onChange={handleInputChange} />
+                                {errors.birthOfDate && <div className="error">{errors.birthOfDate}</div>}
                             </div>
                             <button type="submit" className="small-btn profile-save">Lưu</button>
                         </form>

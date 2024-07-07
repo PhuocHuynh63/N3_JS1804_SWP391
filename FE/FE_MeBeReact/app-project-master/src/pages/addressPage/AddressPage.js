@@ -4,8 +4,10 @@ import {jwtDecode} from "jwt-decode";
 import { meBeSrc } from "../../service/meBeSrc";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 export default function AddressPage() {
+    const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [addresses, setAddresses] = useState([]);
     const [newAddress, setNewAddress] = useState({ title: "", address: "", default: false });
@@ -16,7 +18,9 @@ export default function AddressPage() {
 
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
-        if (token) {
+        if (!token) {
+            navigate('/');
+        } else {
             const decoded = jwtDecode(token);
             const username = decoded.sub;
             meBeSrc.getUserByUserName(username)

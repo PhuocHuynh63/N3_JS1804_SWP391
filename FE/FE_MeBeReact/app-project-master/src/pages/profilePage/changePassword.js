@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { meBeSrc } from "../../service/meBeSrc";
 import {jwtDecode} from 'jwt-decode';  
 
 export default function ChangePasswordPage() {
+    const navigate = useNavigate();
     const [passwordOld, setPasswordOld] = useState('');
     const [passwordNew, setPasswordNew] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -18,7 +20,9 @@ export default function ChangePasswordPage() {
 
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
-        if (token) {
+        if (!token) {
+            navigate('/');
+        } else {
             const decoded = jwtDecode(token);
             const username = decoded.sub;
             meBeSrc.getUserByUserName(username)
