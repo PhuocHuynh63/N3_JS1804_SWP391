@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { meBeSrc } from '../../service/meBeSrc';
 import { Modal } from 'antd';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProductDetail.css";
 import ImageMagnifier from '../../components/imageMagnifier/imageMagnifier';
@@ -22,7 +22,7 @@ export default function DetailPage() {
 
     // Get product detail by productId
     useEffect(() => {
-        meBeSrc.getProductDetail(productId)
+        meBeSrc.getProductById(productId)
             .then((res) => {
                 setProduct(res.data);
                 console.log(res.data);

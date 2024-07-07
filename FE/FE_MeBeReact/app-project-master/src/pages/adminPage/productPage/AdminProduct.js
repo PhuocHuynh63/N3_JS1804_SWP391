@@ -52,6 +52,17 @@ export default function AdminProduct() {
 
 
   /**
+   * Handle Active Product Id
+   */
+  const [activeProductId, setActiveProductId] = useState(null);
+
+  const handleActiveProductId = (id) => {
+    setActiveProductId(id);
+  }
+  //-----End-----//
+
+
+  /**
      * Pagination
      */
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,9 +124,9 @@ export default function AdminProduct() {
                     <a class="delete btn btn-danger btn-sm" href="#">
                       <i class="fa-solid fa-trash"></i>
                     </a>
-                    <a class="edit btn btn-success btn-sm" href="#">
+                    <Link class="edit btn btn-success btn-sm" to={`/admin/product/update/${product.productId}`}>
                       <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
+                    </Link>
                   </div>
                 </td>
               </tr>

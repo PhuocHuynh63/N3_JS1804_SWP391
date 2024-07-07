@@ -22,7 +22,7 @@ const UserDropdown = ({ user, logoutBtn }) => {
   // Thêm mục Admin nếu người dùng có vai trò 'admin' hoặc 'staff'
   if (user && (user.role === 'admin' || user.role === 'staff')) {
     menuItems.push({
-      label: <NavLink to={"/admin"}>Admin</NavLink>,
+      label: <NavLink to={"/admin"}>Quản trị viên</NavLink>,
       key: "4",
     });
   }
