@@ -4,6 +4,8 @@ import com.n3.mebe.dto.response.gmail.GmailSendResponse;
 import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.entity.WishList;
+import com.n3.mebe.exception.AppException;
+import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ISendMailService;
@@ -183,6 +185,10 @@ public class SendMailService implements ISendMailService {
 
             // ở đây là guest
             User user = userService.getUserByEmail(email);
+            String role = "guest";
+            if(user.getRole().equalsIgnoreCase(role)){
+                throw new AppException(ErrorCode.EMAIL_HAVE_ACCOUNT);
+            }
 
             // Tạo mật khẩu tạm thời (OTP) gồm 6 ký tự
             String OTP = DataUtils.generateTempPwd(6);
