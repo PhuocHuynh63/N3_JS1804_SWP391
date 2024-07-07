@@ -124,11 +124,14 @@ export default function AdminProduct() {
                 <td>{product.subCategory.category.name}</td>
                 <td>{product.salePrice.toLocaleString()} đ</td>
                 <td>{(product.price).toLocaleString()} đ</td>
-                <td>
+                <td style={{ textAlign: "end" }}>
                   <div className="action">
                     <a className="delete btn btn-danger btn-sm" onClick={() => handleDeleteProduct(product.productId)}>
                       <i className="fa-solid fa-trash"></i>
                     </a>
+                    <Link className="view btn btn-warning btn-sm" to={`/admin/product/detail/${product.productId}`}>
+                      <i className="fa-solid fa-eye"></i>
+                    </Link>
                     <Link className="edit btn btn-success btn-sm" to={`/admin/product/update/${product.productId}`}>
                       <i className="fa-solid fa-pen-to-square"></i>
                     </Link>
