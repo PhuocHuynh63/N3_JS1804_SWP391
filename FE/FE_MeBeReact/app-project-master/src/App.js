@@ -61,6 +61,7 @@ function App() {
           <Route path="/admin/category" element={<LayoutAdmin Component={AdminCategory} />} />
           <Route path="/admin/user" element={<LayoutAdmin Component={AdminUser} />} />
           <Route path="/admin/order" element={<LayoutAdmin Component={AdminOrder} />} />
+          
           {/* <Route path="/admin/dashboard" element={<Layout Component={AdminDashboardPage} />} /> */}
           {/* <Route path="/" element={<About />} /> */}
           {/* <Route path="dashboard" element={<Dashboard />} /> */}

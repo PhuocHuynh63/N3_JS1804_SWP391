@@ -3,6 +3,7 @@ import "./AdminProduct.css";
 import { useEffect, useState } from "react";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Pagination from "../../../components/pagination/Pagination";
+import PopupDeleteProduct from "./deleteProduct/PopupDeleteProduct";
 
 export default function AdminProduct() {
 
@@ -52,12 +53,14 @@ export default function AdminProduct() {
 
 
   /**
-   * Handle Active Product Id
+   * Handle Delete Product Id
    */
   const [activeProductId, setActiveProductId] = useState(null);
+  const [showModalDelete, setShowModalDelete] = useState(false);
 
-  const handleActiveProductId = (id) => {
+  const handleDeleteProduct = (id) => {
     setActiveProductId(id);
+    setShowModalDelete(true);
   }
   //-----End-----//
 
@@ -78,8 +81,10 @@ export default function AdminProduct() {
 
 
   return (
-    <div class="admin-product">
-      <h1 class="header-product">Quản lý sản phẩm</h1>
+    <div className="admin-product">
+      <PopupDeleteProduct show={showModalDelete} handleClose={() => setShowModalDelete(false)} productId={activeProductId} />
+
+      <h1 className="header-product">Quản lý sản phẩm</h1>
 
       <div className="admin-product_action">
         <Link to={'/admin/product/add'}>
@@ -93,8 +98,8 @@ export default function AdminProduct() {
 
 
       {/* Table Product */}
-      <div class="box-product">
-        <table class="product-list">
+      <div className="box-product">
+        <table className="product-list">
           <thead>
             <tr>
               <th>ID</th>
@@ -108,11 +113,11 @@ export default function AdminProduct() {
             </tr>
           </thead>
           {currentProducts.map(product => (
-            <tbody>
+            <tbody key={product.productId}>
               <tr>
                 <td>{product.productId}</td>
                 <td>
-                  <img class="product-image" src={product.images}></img>
+                  <img className="product-image" src={product.images}></img>
                 </td>
                 <td style={{ textAlign: "left" }}>{product.name}</td>
                 <td>{product.status}</td>
@@ -120,12 +125,12 @@ export default function AdminProduct() {
                 <td>{product.salePrice.toLocaleString()} đ</td>
                 <td>{(product.price).toLocaleString()} đ</td>
                 <td>
-                  <div class="action">
-                    <a class="delete btn btn-danger btn-sm" href="#">
-                      <i class="fa-solid fa-trash"></i>
+                  <div className="action">
+                    <a className="delete btn btn-danger btn-sm" onClick={() => handleDeleteProduct(product.productId)}>
+                      <i className="fa-solid fa-trash"></i>
                     </a>
-                    <Link class="edit btn btn-success btn-sm" to={`/admin/product/update/${product.productId}`}>
-                      <i class="fa-solid fa-pen-to-square"></i>
+                    <Link className="edit btn btn-success btn-sm" to={`/admin/product/update/${product.productId}`}>
+                      <i className="fa-solid fa-pen-to-square"></i>
                     </Link>
                   </div>
                 </td>

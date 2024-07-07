@@ -39,11 +39,15 @@ export const meBeSrc = {
     },
 
     putProduct: (productId, data) => {
-        return https.put(`/product/update_product/${productId}`, data);
+        return https.put(`/product/update_product=${productId}`, data);
     },
 
     postProduct: (data) => {
         return https.post(`/product/create_product`, data);
+    },
+
+    deleteProduct: (productId) => {
+        return https.delete(`/product/delete_real/product_id=${productId}`);
     },
 
     getListCategory: () => {
@@ -124,6 +128,10 @@ export const meBeSrc = {
 
     getListOrder: () => {
         return https.get(`/order/list`);
+    },
+
+    getSearchOrderByEmailOrPhone: (email, phoneNumber) => {
+        return https.get(`/order/search_order?email=${email || ''}&phoneNumber=${phoneNumber || ''}`);
     },
 
     createOrder: (data) => {

@@ -4,6 +4,7 @@ import "./TrackingPopup.css";
 import { meBeSrc } from "../../service/meBeSrc";
 
 const TrackingPopup = ({ show, handleClose, orderId }) => {
+    console.log(orderId);
     /**
      * Call API to get order detail
      */

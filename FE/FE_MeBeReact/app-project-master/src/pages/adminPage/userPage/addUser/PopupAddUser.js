@@ -112,6 +112,16 @@ const PopupAddUser = ({ show, handleClose }) => {
                         />
                     </div>
 
+                    <div className="form-group birthOfDate">
+                        <label htmlFor="birthOfDate">Ngày sinh</label>
+                        <input
+                            type="date"
+                            id="birthOfDate"
+                            value={formData.birthOfDate}
+                            onChange={handleChange}
+                        />
+                    </div>
+
                     <div className="form-group password">
                         <label htmlFor="password">Mật khẩu</label>
                         <input
