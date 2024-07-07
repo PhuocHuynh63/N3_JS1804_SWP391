@@ -13,6 +13,7 @@ import com.n3.mebe.service.IUserService;
 import com.n3.mebe.service.iml.mail.SendMailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,9 @@ public class UserController {
 
     @Autowired
     private ISendMailService sendMailService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      *  Request from Client
@@ -71,13 +75,12 @@ public class UserController {
 
     // API to check OTP
     @PostMapping("/check_otp")
-    public ResponseEntity<String> checkOtp(@RequestParam String identifier, @RequestParam String otp) {
-        boolean isValid = sendMailService.checkOtp(identifier, otp);
+    public ResponseEntity<String> checkOtp(@RequestParam String otp) {
+        boolean isValid = sendMailService.checkOtp(otp);
         if (isValid) {
-            sendMailService.invalidateOtp(identifier);
             return ResponseEntity.ok("Xác minh thành công");
         } else {
-            return ResponseEntity.status(400).body("Mã xác minh không đúng!");
+            return ResponseEntity.status(400).body("Mã xác minh không đúng hoặc đã hết hạn!");
         }
     }
 

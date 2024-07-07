@@ -16,7 +16,7 @@ public interface ISendMailService {
 
     boolean sendOtpCheckEmailExist(String email);
 
-    boolean checkOtp(String identifier, String otp);
+    boolean checkOtp(String otp);
 
     void invalidateOtp(String identifier);
 

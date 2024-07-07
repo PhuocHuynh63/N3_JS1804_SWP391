@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IProductRespository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IProductRespository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/sendOTP.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/sendOTP.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +192,8 @@
       <workItem from="1720365887623" duration="1199000" />
       <workItem from="1720368859709" duration="5000" />
       <workItem from="1720368880600" duration="40000" />
-      <workItem from="1720370756463" duration="234000" />
+      <workItem from="1720370756463" duration="1150000" />
+      <workItem from="1720373084829" duration="638000" />
     </task>
     <servers />
   </component>

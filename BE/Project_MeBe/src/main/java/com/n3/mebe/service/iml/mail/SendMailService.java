@@ -214,10 +214,16 @@ public class SendMailService implements ISendMailService {
 
     // Method to check OTP
     @Override
-    public boolean checkOtp(String identifier, String otp) {
-        String otpKey = "OTP:" + identifier;
-        String storedOtp = stringRedisTemplate.opsForValue().get(otpKey);
-        return otp.equals(storedOtp);
+    public boolean checkOtp(String otp) {
+        String OTPKey = "OTP:" + otp;
+        String storedOtp = stringRedisTemplate.opsForValue().get(OTPKey);
+
+        if (storedOtp != null && storedOtp.equals(otp)) {
+            invalidateOtp(otp);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Optional: Method to invalidate OTP
