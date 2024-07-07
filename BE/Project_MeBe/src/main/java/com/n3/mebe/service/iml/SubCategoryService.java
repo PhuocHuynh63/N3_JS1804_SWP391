@@ -51,15 +51,38 @@ public class SubCategoryService implements ISubCategoryService {
         boolean check = false;
         Category category = icategoryRepository.findByName(request.getCategoryParentName());
         String folder = "Sub_Category";
-        String urlImg1 = cloudinaryService.saveFileToFolder(img1 , folder);
-        String urlImg2 = cloudinaryService.saveFileToFolder(img2 , folder);
+        String urlImg1 = null;
+
+        String urlImg2 = null;
+
+        if(img1 != null){
+             urlImg1 = cloudinaryService.saveFileToFolder(img1 , folder);
+        }else {
+            urlImg1 = "https://newhorizonindia.edu/nhengineering/innovation/wp-content/uploads/2020/01/default-placeholder.png";
+        }
+
+        if(img2 != null){
+            urlImg2 = cloudinaryService.saveFileToFolder(img2 , folder);
+        }else {
+            urlImg2 = "https://newhorizonindia.edu/nhengineering/innovation/wp-content/uploads/2020/01/default-placeholder.png";
+        }
+
 
         if (category != null){
             SubCategory subCategory = new SubCategory();
 
             subCategory.setCategory(category);
-            subCategory.setName(request.getName());
-            subCategory.setSlug(request.getSlug());
+            if(subCategoryRepository.existsByName(request.getName())){
+                throw new AppException(ErrorCode.SUB_CATEGORY_NAME_EXIST);
+            }else {
+                subCategory.setName(request.getName());
+            }
+
+            if(subCategoryRepository.existsBySlug(request.getSlug())){
+                throw new AppException(ErrorCode.SUB_CATEGORY_SLUG_EXIST);
+            }else {
+                subCategory.setSlug(request.getSlug());
+            }
 
             if(urlImg1 != null ){
                 subCategory.setImage(urlImg1);
@@ -97,8 +120,17 @@ public class SubCategoryService implements ISubCategoryService {
         if (category != null){
 
             subCategory.setCategory(category);
-            subCategory.setName(request.getName());
-            subCategory.setSlug(request.getSlug());
+            if(subCategoryRepository.existsByName(request.getName())){
+                throw new AppException(ErrorCode.SUB_CATEGORY_NAME_EXIST);
+            }else {
+                subCategory.setName(request.getName());
+            }
+
+            if(subCategoryRepository.existsBySlug(request.getSlug())){
+                throw new AppException(ErrorCode.SUB_CATEGORY_SLUG_EXIST);
+            }else {
+                subCategory.setSlug(request.getSlug());
+            }
 
             if(urlImg1 != null ){
                 subCategory.setImage(urlImg1);

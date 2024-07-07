@@ -84,7 +84,7 @@ public class SubCategoryController  {
     }
 
     @DeleteMapping("/delete/subId={id}")
-    public ResponseEntity<?> deleteSubCategory(@PathVariable("subId") int id){
+    public ResponseEntity<?> deleteSubCategory(@PathVariable("id") int id){
         subCategoryService.deleteSubCategory(id);
         ResponseData  responseData  = new ResponseData();
         responseData.setDescription("Xóa thành công");

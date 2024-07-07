@@ -9,6 +9,11 @@ import java.util.List;
 
 @Repository
 public interface ISubCategoryRepository extends JpaRepository<SubCategory, Integer> {
+
+    boolean existsByName(String name);
+
+    boolean existsBySlug(String slug);
+
     SubCategory findBySubCateId(int id);
 
     List<SubCategory> findByCategory(Category subCateName);
