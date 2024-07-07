@@ -26,5 +26,7 @@ public interface IOrderService {
 
     String setStatusOrder(OrderStatusRequest request);
 
-    List<OrderResponse> getOrdersList(String email, String phone);
+    List<OrderResponse> getOrdersListEmail(String email);
+
+    List<OrderResponse> getOrdersListPhone(String phone);
 }
