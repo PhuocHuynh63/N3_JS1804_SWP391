@@ -1,11 +1,38 @@
 import "./HeaderAdmin.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, NavLink } from "react-router-dom";
 import { localService } from "../../service/localService";
+import { jwtDecode } from "jwt-decode";
+import { meBeSrc } from "../../service/meBeSrc";
 
 export default function HeaderAdmin() {
+
+  /**
+     * Take user info (username) from local storage by token
+     */
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('USER_INFO');
+    if (token) {
+      const decoded = jwtDecode(token);
+      const username = decoded.sub;
+
+      meBeSrc.getUserByUserName(username)
+        .then((res) => {
+          const userData = {
+            ...res.data,
+          };
+          setUser(userData);
+        })
+        .catch((err) => {
+          console.log("Error fetching user", err);
+        });
+    }
+  }, []);
+  //-----End-----//
 
   /**
     * Logout
@@ -100,11 +127,11 @@ export default function HeaderAdmin() {
               aria-expanded="false"
             >
               <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-                Anh Dat ne Ku!
+                {user && user.firstName + " " + user.lastName}
               </span>
               <img
                 className="img-profile rounded-circle"
-                src="https://scontent.fsgn18-1.fna.fbcdn.net/v/t39.30808-1/449211428_1548454112768538_6701101107381770885_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeH8SJHoFsaDuMCLDER7WV4UffuU2YKQ7Px9-5TZgpDs_BSfofbZSbeU8HRUJO5SfEEwfrNUIW9lCDMNgSjU9IxJ&_nc_ohc=7f2BC83wgKoQ7kNvgGcSkBa&_nc_ht=scontent.fsgn18-1.fna&oh=00_AYCB5yRscvzIIOzvvmN9tTOeKhhCGad45LoEWErcQ2eIcA&oe=668713E4"
+                src={user && user.avatar}
               />
             </a>
 

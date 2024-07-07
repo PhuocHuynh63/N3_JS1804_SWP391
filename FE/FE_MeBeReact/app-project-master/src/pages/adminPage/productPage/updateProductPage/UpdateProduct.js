@@ -8,6 +8,7 @@ export default function UpdateProduct() {
 
     const [showModal, setShowModal] = useState(false);
 
+
     /**
      * State form data
      */
@@ -28,6 +29,7 @@ export default function UpdateProduct() {
 
     const [discount, setDiscount] = useState(0);
 
+
     /**
      * Handle Change Input
      * @param {*} e 
@@ -44,8 +46,8 @@ export default function UpdateProduct() {
         const value = Math.max(0, Math.min(100, e.target.value));
         setDiscount(value);
     };
-
     //-----End-----//
+
 
     /**
      * Call API to get sub category
@@ -57,6 +59,39 @@ export default function UpdateProduct() {
             .then((res) => {
                 setSubCategory(res.data);
             }).catch((err) => {
+                console.log(err);
+            });
+    }, []);
+    //-----End-----//
+
+
+    /**
+     * Call API to get product by id
+     */
+    const [product, setProduct] = useState(null);
+
+    useEffect(() => {
+        const productId = window.location.pathname.split("/").pop();
+        meBeSrc.getProductById(productId)
+            .then((res) => {
+                setProduct(res.data);
+                console.log(res.data);
+                setFormData({
+                    ...formData,
+                    subCategory: res.data.subCategory.subCateId,
+                    slug: res.data.slug,
+                    productName: res.data.name,
+                    description: res.data.description,
+                    price: res.data.price,
+                    salePrice: res.data.salePrice,
+                    status: res.data.status,
+                    totalSold: res.data.totalSold,
+                    quantity: res.data.quantity,
+                    productView: res.data.productView,
+                });
+                setDiscount(((res.data.price - res.data.salePrice) / res.data.price * 100).toFixed(2));
+            })
+            .catch((err) => {
                 console.log(err);
             });
     }, []);
@@ -77,6 +112,7 @@ export default function UpdateProduct() {
         setImagePreview(URL.createObjectURL(file));
     };
     //-----End-----//
+
 
     /**
      * Handle Submit Form
@@ -131,6 +167,7 @@ export default function UpdateProduct() {
     }, [formData.quantity]);
     //-----End-----//
 
+
     /**
      * Handle sale price
      */
@@ -151,7 +188,7 @@ export default function UpdateProduct() {
     return (
         <div className="admin-product-add">
             <Successful show={showModal} onHide={() => setShowModal(false)} message={"Sản phẩm đã được thêm thành công"} />
-            <h1>Cập nhật sản phẩm mới</h1>
+            <h1>Cập nhật sản phẩm</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-row">
                     <div className="form-group">
@@ -173,7 +210,6 @@ export default function UpdateProduct() {
                             onChange={handleChange}
                             required
                         >
-                            <option value="">------------------Chọn danh mục------------------</option>
                             {subCategory.map((item) => (
                                 <option key={item.subCategoryId} value={item.subCategoryId}>{item.name}</option>
                             ))}
@@ -187,7 +223,7 @@ export default function UpdateProduct() {
                         <input
                             type="number"
                             id="price"
-                            value={formData.price}
+                            value={formData.price.toLocaleString()}
                             onChange={handleChange}
                             required
                         />
@@ -238,7 +274,7 @@ export default function UpdateProduct() {
 
                 <div className="form-group_btn">
                     <Link to={'/admin/product'} className="btn-close_add">Quay lại</Link>
-                    <button className="btn-add" type="submit">Thêm sản phẩm</button>
+                    <button className="btn-add" type="submit">Lưu</button>
                 </div>
             </form>
         </div>

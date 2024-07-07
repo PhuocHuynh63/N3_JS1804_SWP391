@@ -57,7 +57,7 @@ function App() {
           <Route path="/admin" element={<LayoutAdmin Component={AdminPage} />} />
           <Route path="/admin/product" element={<LayoutAdmin Component={AdminProduct} />} />
           <Route path="/admin/product/add" element={<LayoutAdmin Component={AdminProductAdd} />} />
-          <Route path="/admin/product/update" element={<LayoutAdmin Component={UpdateProduct} />} />
+          <Route path="/admin/product/update/:productId" element={<LayoutAdmin Component={UpdateProduct} />} />
           <Route path="/admin/category" element={<LayoutAdmin Component={AdminCategory} />} />
           <Route path="/admin/user" element={<LayoutAdmin Component={AdminUser} />} />
           <Route path="/admin/order" element={<LayoutAdmin Component={AdminOrder} />} />

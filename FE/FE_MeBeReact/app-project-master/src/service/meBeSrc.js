@@ -9,7 +9,7 @@ export const meBeSrc = {
         return https.get(`/product/list`);
     },
 
-    getProductDetail: (productId) => {
+    getProductById: (productId) => {
         // console.log(productId)
         return https.get(`/product/${productId}`);
     },
@@ -36,6 +36,10 @@ export const meBeSrc = {
 
     getProductBySearch: (search) => {
         return https.get(`/product/search?name=${search}`);
+    },
+
+    putProduct: (productId, data) => {
+        return https.put(`/product/update_product/${productId}`, data);
     },
 
     postProduct: (data) => {

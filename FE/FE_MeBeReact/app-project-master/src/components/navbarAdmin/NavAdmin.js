@@ -120,9 +120,6 @@ export default function NavAdmin() {
               <NavLink to="/admin/product/add" className="collapse-item">
                 Thêm sản phẩm mới
               </NavLink>
-              <NavLink to="/admin/product/update" className="collapse-item">
-                Quản lý sản phẩm
-              </NavLink>
             </div>
           </div>
         </li>
