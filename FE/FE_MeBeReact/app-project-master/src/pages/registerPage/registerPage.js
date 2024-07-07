@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import bannerLogin from "../../images/Logo_Login.jpg";
 
 export default function RegisterPage() {
-
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
@@ -21,9 +20,9 @@ export default function RegisterPage() {
     });
     const [isCheckingEmail, setIsCheckingEmail] = useState(true);
     const [isExistingUser, setIsExistingUser] = useState(false);
-    const [userId, setUserId] = useState(null); // Thêm userId
+    const [userId, setUserId] = useState(null); 
 
-    const formatDate = (date) => {
+    const formatDateToDDMMYYYY = (date) => {
         const d = new Date(date);
         let day = d.getDate();
         let month = d.getMonth() + 1;
@@ -36,7 +35,7 @@ export default function RegisterPage() {
             month = '0' + month;
         }
 
-        return `${year}-${month}-${day}`; // Định dạng ngày theo yyyy-MM-dd
+        return `${day}/${month}/${year}`; // Định dạng ngày theo dd/MM/yyyy
     };
 
     const handleChange = (e) => {
@@ -52,6 +51,14 @@ export default function RegisterPage() {
                 [name]: ''
             });
         }
+    };
+
+    const handleDateChange = (e) => {
+        const date = e.target.value;
+        setFormData({
+            ...formData,
+            birthOfDate: formatDateToDDMMYYYY(date)
+        });
     };
 
     const handleSubmit = (e) => {
@@ -82,7 +89,7 @@ export default function RegisterPage() {
                         firstName: user ? (user.firstName || '') : '',
                         lastName: user ? (user.lastName || '') : '',
                         userName: user ? (user.username || '') : '',
-                        birthOfDate: user ? (user.birthOfDate ? formatDate(new Date(user.birthOfDate)) : '') : '',
+                        birthOfDate: user ? (user.birthOfDate ? formatDateToDDMMYYYY(new Date(user.birthOfDate)) : '') : '',
                         phone: user ? (user.phoneNumber || '') : ''
                     });
                     setIsCheckingEmail(false);
@@ -102,7 +109,10 @@ export default function RegisterPage() {
         const isValidEmail = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
         const isValidPassword = (password) => password.length >= 6 && /[0-9]/.test(password);
         const isValidPhone = (phone) => /^\d{10,11}$/.test(phone);
-        const isFutureDate = (date) => new Date(date) > new Date();
+        const isFutureDate = (date) => {
+            const [day, month, year] = date.split('/');
+            return new Date(`${year}-${month}-${day}`) > new Date();
+        };
 
         if (!formData.firstName) {
             newErrors.firstName = 'Vui lòng nhập họ.';
@@ -147,7 +157,7 @@ export default function RegisterPage() {
                 username: formData.userName.trim(),
                 email: formData.email.trim(),
                 password: formData.password.trim(),
-                birthOfDate: formData.birthOfDate, // Giữ định dạng ngày yyyy-MM-dd
+                birthOfDate: formData.birthOfDate.trim(), // Giữ định dạng dd/MM/yyyy
                 phoneNumber: formData.phone.trim(),
             };
 
@@ -291,8 +301,8 @@ export default function RegisterPage() {
                                         type="date"
                                         name="birthOfDate"
                                         className={`form-control ${errors.birthOfDate ? 'is-invalid' : ''}`}
-                                        value={formData.birthOfDate}
-                                        onChange={handleChange}
+                                        value={formData.birthOfDate ? formData.birthOfDate.split('/').reverse().join('-') : ''}
+                                        onChange={handleDateChange}
                                         style={{ width: "100%" }}
                                     />
                                     {errors.birthOfDate && <div className="invalid-feedback">{errors.birthOfDate}</div>}
