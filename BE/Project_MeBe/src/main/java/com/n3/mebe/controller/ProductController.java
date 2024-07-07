@@ -52,8 +52,8 @@ public class ProductController {
     // Update a product by id
     @PutMapping("/update_product={id}")
     public ResponseEntity<?> updateProduct(@PathVariable("id") int id,
-                          @RequestPart("file") MultipartFile file,
-                          @RequestPart("product") String productJson) {
+                                           @RequestPart(value = "file", required = false) MultipartFile file,
+                                           @RequestPart("product") String productJson) {
 
         // Convert JSON string to ProductRequest object
         ObjectMapper objectMapper = new ObjectMapper();
