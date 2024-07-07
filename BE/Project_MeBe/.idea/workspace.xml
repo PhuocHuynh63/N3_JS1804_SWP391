@@ -7,9 +7,8 @@
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/SubCategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/SubCategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/SubCategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/SubCategoryService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +187,10 @@
       <workItem from="1720344449852" duration="7704000" />
       <workItem from="1720356148861" duration="143000" />
       <workItem from="1720365152931" duration="256000" />
-      <workItem from="1720365887623" duration="518000" />
+      <workItem from="1720365887623" duration="1199000" />
+      <workItem from="1720368859709" duration="5000" />
+      <workItem from="1720368880600" duration="40000" />
+      <workItem from="1720370756463" duration="234000" />
     </task>
     <servers />
   </component>

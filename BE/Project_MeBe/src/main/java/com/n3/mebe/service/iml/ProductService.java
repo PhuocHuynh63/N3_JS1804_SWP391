@@ -181,6 +181,12 @@ public class ProductService implements IProductService {
         product.setStatus(status);
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Delete Product">
+    @Override
+    public void deleteProductReal(int id) {
+        iProductRespository.deleteById(id);
+    }// </editor-fold>
+
 
     @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Ho_Chi_Minh") // Chạy hàng ngày vào lúc nửa đêm
     public void updateProductStatus() {

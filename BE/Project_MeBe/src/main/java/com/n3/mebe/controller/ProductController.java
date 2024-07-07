@@ -81,6 +81,13 @@ public class ProductController {
         return "Product deleted";
     }
 
+    // Delete Real product by id
+    @DeleteMapping("/delete_real/product_id={id}")
+    String deleteProductReal(@PathVariable("id") int id) {
+        productService.deleteProductReal(id);
+        return "Product deleted real";
+    }
+
     /**
      * Response to Client
      *
