@@ -1,5 +1,6 @@
 package com.n3.mebe.service;
 
+import com.n3.mebe.dto.request.user.UserCreateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
@@ -13,6 +14,8 @@ import java.util.List;
 public interface IUserService {
 
     boolean createUser(UserCreateRequest request);
+
+    boolean createUserForAdmin(UserCreateForAdminRequest request);
 
     List<UserResponse> getAllUser();
 

@@ -149,13 +149,13 @@ public class OrderController {
     }
 
     //search Order by Email
-    @GetMapping("/search_order")
+    @GetMapping("/search_order/email/")
     public List<OrderResponse> searchOrderEmail(@RequestParam String email) {
         return orderService.getOrdersListEmail(email);
     }
 
     //search Order by phone number
-    @GetMapping("/search_order")
+    @GetMapping("/search_order/phone/")
     public List<OrderResponse> searchOrder(@RequestParam String phone) {
         return orderService.getOrdersListPhone(phone);
     }

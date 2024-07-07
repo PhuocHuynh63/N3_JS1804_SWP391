@@ -1,10 +1,10 @@
 package com.n3.mebe.service.iml;
 
 
+import com.n3.mebe.dto.request.user.UserCreateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
-import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.dto.response.user.*;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 import com.n3.mebe.dto.response.user.tracking.UserOrderDetailsResponse;
@@ -14,8 +14,6 @@ import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.*;
 import com.n3.mebe.service.ICloudinaryService;
-import com.n3.mebe.service.IProductService;
-import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -214,6 +212,68 @@ public class UserService implements IUserService {
             user.setAvatar(avatar);
             user.setPoint(point);
             user.setStatus(status);
+
+            Date now = new Date();// lấy thời gian hiện tại
+
+            user.setCreateAt(now);
+            user.setUpdateAt(now);
+            user.setDeleteAt(null);
+
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Create User For Admin">
+    @Override
+    public boolean createUserForAdmin(UserCreateForAdminRequest request) {
+        boolean check = false;
+        User user = new User();
+        String role = "member";
+
+        String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
+        int point = 0;
+        String status = "active";
+
+        if (iUserRepository.existsByEmail(request.getEmail())){
+            throw new AppException(ErrorCode.EMAIL_EXIST);
+        }else if (iUserRepository.existsByUsername(request.getUsername())){
+            throw new AppException(ErrorCode.USERNAME_EXIST);
+        }else if(iUserRepository.existsByPhoneNumber(request.getPhoneNumber())){
+            throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
+        } else {
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+
+            user.setEmail(request.getEmail());
+
+            user.setUsername(request.getUsername());
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+            if(!user.getRole().isEmpty()){
+                user.setRole(request.getRole());
+            }else {
+                user.setRole(role);
+            }
+
+            user.setBirthOfDate(request.getBirthOfDate());
+            user.setPhoneNumber(request.getPhoneNumber());
+            user.setAvatar(avatar);
+
+            if(request.getPoint() != 0){
+                user.setPoint(request.getPoint());
+            }else {
+                user.setPoint(point);
+            }
+
+            if(request.getStatus().isEmpty()){
+                user.setStatus(request.getStatus());
+            }else {
+                user.setStatus(status);
+            }
 
             Date now = new Date();// lấy thời gian hiện tại
 
