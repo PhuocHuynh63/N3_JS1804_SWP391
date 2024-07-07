@@ -26,7 +26,8 @@ import AdminProduct from './pages/adminPage/productPage/AdminProduct';
 import AdminCategory from './pages/adminPage/categoryPage/AdminCategory';
 import AdminUser from './pages/adminPage/userPage/AdminUser';
 import AdminOrder from './pages/adminPage/orderPage/AdminOrder';
-import AdminProductAdd from './pages/adminPage/productPage/productPage/AdminProductAdd';
+import AdminProductAdd from './pages/adminPage/productPage/addProductPage/AdminProductAdd';
+import UpdateProduct from './pages/adminPage/productPage/updateProductPage/UpdateProduct';;
 // import AdminDashboardPage from './pages/adminPage/AdminDashboardPage';
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
           <Route path="/admin" element={<LayoutAdmin Component={AdminPage} />} />
           <Route path="/admin/product" element={<LayoutAdmin Component={AdminProduct} />} />
           <Route path="/admin/product/add" element={<LayoutAdmin Component={AdminProductAdd} />} />
+          <Route path="/admin/product/update" element={<LayoutAdmin Component={UpdateProduct} />} />
           <Route path="/admin/category" element={<LayoutAdmin Component={AdminCategory} />} />
           <Route path="/admin/user" element={<LayoutAdmin Component={AdminUser} />} />
           <Route path="/admin/order" element={<LayoutAdmin Component={AdminOrder} />} />

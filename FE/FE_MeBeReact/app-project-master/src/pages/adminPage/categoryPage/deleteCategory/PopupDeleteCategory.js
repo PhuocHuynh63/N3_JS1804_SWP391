@@ -30,11 +30,10 @@ const PopupDeleteCategory = ({ show, handleClose, categoryId, length }) => {
         meBeSrc.deleteCategory(categoryId)
             .then((res) => {
                 setShowModalConfirm(false);
-                setShowModalSuccess(true);
-                setTimeout(() => {
-                    setShowModalSuccess(false);
-                    window.location.reload();
-                }, 3000)
+
+                if (handleClose) {
+                    setTimeout(() => window.location.reload(), 150);
+                }
             })
             .catch((err) => {
                 console.log(err);

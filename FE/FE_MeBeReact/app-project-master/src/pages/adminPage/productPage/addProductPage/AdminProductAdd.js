@@ -155,7 +155,7 @@ export default function AdminProductAdd() {
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="productName">Tên sản phẩm:</label>
+            <label htmlFor="productName">Tên sản phẩm: <span className="obligatory">*</span></label>
             <input
               type="text"
               id="productName"
@@ -166,7 +166,7 @@ export default function AdminProductAdd() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="subCategory">Loại sản phẩm:</label>
+            <label htmlFor="subCategory">Loại sản phẩm: <span className="obligatory">*</span></label>
             <select
               id="subCategory"
               value={formData.subCategory}
@@ -183,7 +183,7 @@ export default function AdminProductAdd() {
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="price">Giá:</label>
+            <label htmlFor="price">Giá: <span className="obligatory">*</span></label>
             <input
               type="number"
               id="price"
@@ -200,7 +200,6 @@ export default function AdminProductAdd() {
               id="discount"
               value={discount}
               onChange={handleDiscountChange}
-              required
               min="0"
               max="100"
             />
@@ -215,14 +214,13 @@ export default function AdminProductAdd() {
               id="quantity"
               value={formData.quantity}
               onChange={handleChange}
-              required
             />
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group image">
-            <label htmlFor="image">Ảnh:</label>
+            <label htmlFor="image">Ảnh: <span className="obligatory">*</span></label>
             <input type="file" id="image" onChange={handleImageChange} />
             {imagePreview && <img src={imagePreview} alt="Image Preview" className="image-preview" />}
           </div>
@@ -235,7 +233,6 @@ export default function AdminProductAdd() {
             rows="4"
             value={formData.description}
             onChange={handleChange}
-            required
           />
         </div>
 

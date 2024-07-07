@@ -49,15 +49,16 @@ export default function NavAdmin() {
         <li className="nav-item">
           <NavLink
             className={`nav-link ${isCollapsedUser ? "collapsed" : ""}`}
-            onClick={handleToggleUser}
+            // onClick={handleToggleUser}
             aria-expanded={!isCollapsedUser}
             aria-controls="collapseTwo"
+            to="/admin/user"
           >
             <i class="fa-solid fa-user"></i>
             <span>Người dùng</span>
           </NavLink>
 
-          <div
+          {/* <div
             id="collapseTwo"
             className={`collapse ${isCollapsedUser ? "" : "show"}`}
             aria-labelledby="headingTwo"
@@ -68,21 +69,22 @@ export default function NavAdmin() {
                 Quản lý người dùng
               </NavLink>
             </div>
-          </div>
+          </div> */}
         </li>
 
         <li className="nav-item">
           <NavLink
             className={`nav-link ${isCollapsedCategory ? "collapsed" : ""}`}
-            onClick={handleToggleCategory}
+            // onClick={handleToggleCategory}
             aria-expanded={!isCollapsedCategory}
             aria-controls="collapseCategory"
+            to="/admin/category"
           >
             <i class="fa-solid fa-layer-group"></i>
             <span>Danh mục</span>
           </NavLink>
 
-          <div
+          {/* <div
             id="collapseCategory"
             className={`collapse ${isCollapsedCategory ? "" : "show"}`}
             aria-labelledby="headingUtilities"
@@ -93,7 +95,7 @@ export default function NavAdmin() {
                 Quản lý danh muc
               </NavLink>
             </div>
-          </div>
+          </div> */}
         </li>
 
         <li className="nav-item">
@@ -102,6 +104,7 @@ export default function NavAdmin() {
             onClick={handleToggleProduct}
             aria-expanded={!isCollapsedProduct}
             aria-controls="collapseProduct"
+            to="/admin/product"
           >
             <i class="fa-solid fa-cube"></i>
             <span>Sản phẩm</span>
@@ -114,11 +117,11 @@ export default function NavAdmin() {
             data-parent="#accordionSidebar"
           >
             <div className="bg-white py-2 collapse-inner rounded">
-              <NavLink to="/admin/product" className="collapse-item">
-                Quản lý sản phẩm
-              </NavLink>
               <NavLink to="/admin/product/add" className="collapse-item">
                 Thêm sản phẩm mới
+              </NavLink>
+              <NavLink to="/admin/product/update" className="collapse-item">
+                Quản lý sản phẩm
               </NavLink>
             </div>
           </div>
@@ -127,9 +130,10 @@ export default function NavAdmin() {
         <li className="nav-item">
           <NavLink
             className={`nav-link ${isCollapsedOrder ? "collapsed" : ""}`}
-            onClick={handleToggleOrder}
+            // onClick={handleToggleOrder}
             aria-expanded={!isCollapsedOrder}
             aria-controls="collapseOrder"
+            to="/admin/order"
           >
             <i class="fa-solid fa-money-bill"></i>
             <span>Đơn hàng</span>
@@ -142,14 +146,14 @@ export default function NavAdmin() {
             data-parent="#accordionSidebar"
           >
             <div className="bg-white py-2 collapse-inner rounded">
-              <NavLink to="/admin/order" className="collapse-item" >
+              {/* <NavLink to="/admin/order" className="collapse-item" >
                 Quản lý đơn hàng
-              </NavLink>
+              </NavLink> */}
             </div>
           </div>
         </li>
 
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             className={`nav-link ${isCollapsedFeedBack ? "collapsed" : ""}`}
             onClick={handleToggleFeedBack}
@@ -186,7 +190,7 @@ export default function NavAdmin() {
             <i class="fa-solid fa-envelope"></i>
             <span>Hộp thư</span>
           </a>
-        </li>
+        </li> */}
       </ul>
     </div>
   );
