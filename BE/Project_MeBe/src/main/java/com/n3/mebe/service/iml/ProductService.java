@@ -127,30 +127,35 @@ public class ProductService implements IProductService {
         boolean isInsertedSuccess = false;
         try {
             String folder = "Product";
-            String imageUrl = cloudinaryService.saveFileToFolder(file, folder);
+
+            String imageUrl = null;
+            if(file != null){
+                imageUrl = cloudinaryService.saveFileToFolder(file, folder);
+            }
             if (imageUrl != null) {
                 product.setImages(imageUrl);
-
-                SubCategory subCategory = iSubCategoryRepository.findBySubCateId(request.getSubCategoryId());
-                product.setSubCategory(subCategory);
-
-                product.setSlug(request.getSlug());
-                product.setName(request.getName());
-                product.setDescription(request.getDescription());
-                product.setPrice(request.getPrice());
-                product.setSalePrice(request.getSalePrice());
-                product.setStatus(request.getStatus());
-                product.setTotalSold(request.getTotalSold());
-                product.setQuantity(request.getQuantity());
-                product.setProductView(request.getProductView());
-
-                Date now = new Date();
-                product.setCreateAt(now);
-                product.setUpdateAt(now);
-
-                iProductRespository.save(product);
-                isInsertedSuccess = true;
             }
+
+            SubCategory subCategory = iSubCategoryRepository.findBySubCateId(request.getSubCategoryId());
+            product.setSubCategory(subCategory);
+
+            product.setSlug(request.getSlug());
+            product.setName(request.getName());
+            product.setDescription(request.getDescription());
+            product.setPrice(request.getPrice());
+            product.setSalePrice(request.getSalePrice());
+            product.setStatus(request.getStatus());
+            product.setTotalSold(request.getTotalSold());
+            product.setQuantity(request.getQuantity());
+            product.setProductView(request.getProductView());
+
+            Date now = new Date();
+            product.setCreateAt(now);
+            product.setUpdateAt(now);
+
+            iProductRespository.save(product);
+            isInsertedSuccess = true;
+
         } catch (Exception e) {
             System.out.println("Lỗi cập nhập sản phẩm" + e.getMessage());
         }
