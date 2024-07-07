@@ -21,6 +21,9 @@ export default function RegisterPage() {
     const [isCheckingEmail, setIsCheckingEmail] = useState(true);
     const [isExistingUser, setIsExistingUser] = useState(false);
     const [userId, setUserId] = useState(null); 
+    const [otp, setOtp] = useState('');
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpVerified, setOtpVerified] = useState(false);
 
     const formatDateToDDMMYYYY = (date) => {
         const d = new Date(date);
@@ -64,18 +67,65 @@ export default function RegisterPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isCheckingEmail) {
-            checkEmail();
+            if (!otpSent) {
+                sendOtp();
+            } else if (!otpVerified) {
+                verifyOtp();
+            }
         } else {
             validateAndSubmitForm();
         }
     };
 
-    const checkEmail = () => {
+    const sendOtp = () => {
         if (!formData.email.trim()) {
-            setIsCheckingEmail(false);
+            toast.error('Vui lòng nhập email trước khi gửi mã OTP.');
             return;
         }
 
+        meBeSrc.sendOtp(formData.email)
+            .then(response => {
+                console.log('sendOtp response:', response);
+                if (response.data.success) {
+                    toast.success('Gửi mã xác minh thành công!');
+                    setOtpSent(true);
+                } else {
+                    toast.error(response.data.description || 'Không thể gửi mã OTP, vui lòng thử lại sau.');
+                }
+            })
+            .catch(error => {
+                console.error('Error sending OTP:', error);
+                const errorMessage = error.response && error.response.data && error.response.data.msg ? error.response.data.msg : 'Đã xảy ra lỗi khi gửi mã OTP, vui lòng thử lại sau.';
+                toast.error(errorMessage);
+            });
+    };
+
+    const verifyOtp = () => {
+        if (!otp.trim()) {
+            toast.error('Vui lòng nhập mã OTP.');
+            return;
+        }
+
+        meBeSrc.checkOtp(otp)
+            .then(response => {
+                if (response.data === "Xác minh thành công") {
+                    toast.success('Xác minh mã OTP thành công!');
+                    setOtpVerified(true);
+                    fetchUserData(); // Gọi hàm lấy thông tin người dùng
+                } else {
+                    toast.error(response.data || 'Mã xác minh không đúng!');
+                    setOtpVerified(false);
+                }
+            })
+            .catch(error => {
+                console.error('Error verifying OTP:', error);
+                const errorMessage = error.response && error.response.data ? error.response.data : 'Đã xảy ra lỗi khi xác minh mã OTP, vui lòng thử lại sau.';
+                toast.error(errorMessage);
+                setOtpVerified(false);
+            });
+    };
+
+    const fetchUserData = () => {
         meBeSrc.getUserByEmail(formData.email)
             .then(response => {
                 const user = response.data;
@@ -216,7 +266,7 @@ export default function RegisterPage() {
                         {isCheckingEmail ? (
                             <>
                                 <div className="form-group mb-3">
-                                    <div className="form-div">Email</div>
+                                    <div className="form-div">Điền email nếu bạn đã từng mua hàng để nhận voucher</div>
                                     <input
                                         type="email"
                                         name="email"
@@ -227,8 +277,34 @@ export default function RegisterPage() {
                                     />
                                     {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                                 </div>
+                                {!otpSent && (
+                                    <div className="form-group mb-3">
+                                        <button type="button" className="btn btn-outline-primary btn-lg" onClick={sendOtp}>Kiểm Tra Email</button>
+                                    </div>
+                                )}
+                                {otpSent && !otpVerified && (
+                                    <>
+                                        <div className="form-group mb-3">
+                                            <div className="form-div">Mã OTP</div>
+                                            <input
+                                                type="text"
+                                                name="otp"
+                                                className={`form-control ${errors.otp ? 'is-invalid' : ''}`}
+                                                value={otp}
+                                                onChange={(e) => setOtp(e.target.value)}
+                                                style={{ width: "100%" }}
+                                            />
+                                            {errors.otp && <div className="invalid-feedback">{errors.otp}</div>}
+                                        </div>
+                                        <div className="form-group mb-3">
+                                            <button type="button" className="btn btn-outline-primary btn-lg" onClick={verifyOtp}>Xác Minh OTP</button>
+                                        </div>
+                                        <div className="form-group mb-3">
+                                            <button type="button" className="btn btn-outline-primary btn-lg" onClick={sendOtp}>Gửi lại OTP</button>
+                                        </div>
+                                    </>
+                                )}
                                 <div className="form-group mb-3">
-                                    <button type="button" className="btn btn-outline-primary btn-lg" onClick={checkEmail}>Kiểm Tra Email</button>
                                     <button type="button" className="btn btn-outline-primary btn-lg" onClick={() => setIsCheckingEmail(false)}>Bỏ Qua</button>
                                 </div>
                             </>

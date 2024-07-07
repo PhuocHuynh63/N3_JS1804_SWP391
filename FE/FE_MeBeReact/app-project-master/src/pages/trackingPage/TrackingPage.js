@@ -5,8 +5,10 @@ import TrackingHeader from "../../components/trackingHeader/TrackingHeader";
 import { meBeSrc } from "../../service/meBeSrc";
 import { jwtDecode } from "jwt-decode";
 import TrackingCancel from "./TrackingCancel";
+import { useNavigate } from "react-router-dom";
 
 export default function TrackingPage() {
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [user, setUser] = useState({});
     const [statusFilter, setStatusFilter] = useState('Tất cả');
@@ -34,7 +36,9 @@ export default function TrackingPage() {
      */
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
-        if (token) {
+        if (!token) {
+            navigate('/');
+        } else {
             const decoded = jwtDecode(token);
             const username = decoded.sub;
 

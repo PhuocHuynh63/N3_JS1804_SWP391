@@ -192,6 +192,14 @@ export const meBeSrc = {
 
     updateGuestToUser: (userId, data) => {
         return https.put(`/user/signup_guest/${userId}`, data);
-    }
+    },
+
+    sendOtp:(email) =>{
+        return https.post(`/user/send_otp_mail?email=${email}`);
+    },
+
+    checkOtp:(otp) => {
+        return https.post(`/user/check_otp?otp=${otp}`);
+    },
 
 }
