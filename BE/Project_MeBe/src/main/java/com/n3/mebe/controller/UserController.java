@@ -32,8 +32,7 @@ public class UserController {
     @Autowired
     private ISendMailService sendMailService;
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+
 
     /**
      *  Request from Client
@@ -41,11 +40,13 @@ public class UserController {
      */
 
     //sign up user
+    //Đăng ký thành công gửi Email thông báo
     @PostMapping("/signup")
     public ResponseEntity<ResponseData> createUser(@RequestBody @Valid UserCreateRequest request) {
         boolean check = userService.createUser(request);
         ResponseData responseData = new ResponseData();
         if (check) {
+            sendMailService.sendMailCreateSuccess(request.getEmail());
             responseData.setDescription("Đăng ký thành công");
             responseData.setSuccess(true);
             responseData.setStatus(200);

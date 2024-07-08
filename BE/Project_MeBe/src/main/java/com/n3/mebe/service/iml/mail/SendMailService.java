@@ -186,7 +186,7 @@ public class SendMailService implements ISendMailService {
             // ở đây là guest
             User user = userService.getUserByEmail(email);
             String role = "guest";
-            if(user.getRole().equalsIgnoreCase(role)){
+            if(!user.getRole().equalsIgnoreCase(role)){
                 throw new AppException(ErrorCode.EMAIL_HAVE_ACCOUNT);
             }
 
@@ -238,6 +238,36 @@ public class SendMailService implements ISendMailService {
         String otpKey = "OTP:" + identifier;
         stringRedisTemplate.delete(otpKey);
     }
+
+
+    // <editor-fold default state="collapsed" desc="send Mail Create Success">
+    @Override
+    public boolean sendMailCreateSuccess(String email) {
+        try {
+            GmailSendResponse response = new GmailSendResponse();
+
+            // lấy user đăng ký thành công ra
+            User user = userService.getUserByEmail(email);
+
+            if(user == null){
+                throw new AppException(ErrorCode.NO_USER_EXIST);
+            }
+            response.setTo(user.getEmail());
+            response.setSubject(ConstEmail.SEND_MAIL_SUBJECT.CREATE_USER_SUCCESS);
+
+            Map<String, Object> props = new HashMap<>();
+            props.put("firstName", user.getFirstName());
+            props.put("lastName", user.getLastName());
+            response.setProps(props);
+
+
+            mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.CREATE_USER_SUCCESS);
+            return true;
+        } catch (MessagingException exp){
+            exp.printStackTrace();
+        }
+        return false;
+    }// </editor-fold>
 
 
 }

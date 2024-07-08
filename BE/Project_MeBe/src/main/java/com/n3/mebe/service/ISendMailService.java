@@ -20,4 +20,6 @@ public interface ISendMailService {
 
     void invalidateOtp(String identifier);
 
+    boolean sendMailCreateSuccess(String email);
+
 }

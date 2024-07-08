@@ -15,6 +15,7 @@ import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.*;
 import com.n3.mebe.service.ICloudinaryService;
 import com.n3.mebe.service.IUserService;
+import com.n3.mebe.service.iml.mail.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,8 +43,6 @@ public class UserService implements IUserService {
 
     @Autowired
     private ICloudinaryService cloudinaryService;
-
-
 
 
 
@@ -253,7 +252,7 @@ public class UserService implements IUserService {
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
             user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-            if(!user.getRole().isEmpty()){
+            if(!request.getRole().isEmpty()){
                 user.setRole(request.getRole());
             }else {
                 user.setRole(role);

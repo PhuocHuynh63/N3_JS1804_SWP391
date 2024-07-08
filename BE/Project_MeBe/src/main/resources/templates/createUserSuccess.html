@@ -1,116 +1,93 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
     <style>
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background-color: #f8f8f8;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
         .container {
-            width: 80%;
+            max-width: 600px;
             margin: auto;
-            background-color: #ffffff;
-            color: #333;
+            background: #fff;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
-        .header, .footer {
-            background-color: #fafafa;
-            padding: 10px 0;
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
             text-align: center;
-        }
-        .header h2 {
-            color: #c2b57f;
+            margin-bottom: 20px;
         }
         .content {
-            padding: 20px;
-            background-color: #fdfdfd;
-        }
-        .order-info {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
             margin-bottom: 20px;
         }
-        .order-info .mail{
-            text-decoration: none;
+        .content p {
+            margin: 0 0 10px;
         }
-        .order-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
         }
-        .order-item img {
-            max-width: 150px;
-            margin-right: 20px;
-            border: 1px solid #ddd;
-            padding: 5px;
-            background-color: #fff;
-        }
-        .order-details {
-            flex-grow: 1;
-        }
-        .order-summary {
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-        .order-summary {
-            font-size: 1.2em;
-            color: #c2b57f;
-        }
-        .link-product a {
+        .button {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #c2b57f;
-            color: #fff;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 6px;
+            background-color: #f97316;
+            color: #ffffff;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
+            transition: background-color 0.3s;
         }
-        .link-product a:hover {
-            background-color: #b0a46e;
+        .button:hover {
+            background-color: #e67e22;
+        }
+        .note {
+            font-size: 14px;
+            color: #e74c3c;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+        .footer a {
+            color: #888;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <h2>Đã Có Hàng</h2>
-    </div>
+    <div class="header" th:text="${'Xin chào, ' + firstName + ' ' + lastName}"></div>
     <div class="content">
-        <div class="order-info">
-            <div>
-                <p th:text="${'Tên khách hàng: '+ firstName + ' ' + lastName}"></p>
-                <p class="mail" th:text="${'Email: '+ email}"></p>
-
-            </div>
-            <div>
-                <p th:text="${'Wish List ID: '+ wishListId}"></p>
-                <p th:text="${'Trạng thái: ' + status}"></p>
-            </div>
-        </div>
-        <div class="order-summary">
-        </div>
-        <div class="order-item">
-            <img th:src="${img}">
-            <div class="order-details">
-                <h3 th:text="${name}"></h3>
-                <p th:text="${'VNĐ ' + #numbers.formatDecimal(price, 0, 0)}"></p>
-                <p th:text="${'Số lượng: '+ quantity}"></p>
-            </div>
-        </div>
-
-        <div class="link-product">
-            <a th:href="${link}">Click here</a>
+        <p>Xin chúc mừng bạn đã đăng ký thành công!</p>
+        <div class="button-container">
+            <a href="http://14.225.253.116" class="button">Mua sắm ngay</a>
         </div>
     </div>
+    <div class="note">Đây là email tự động, vui lòng không trả lời.</div>
     <div class="footer">
-        <p>&copy; 2024 Shop MẸ&BÉ</p>
+        <p>&copy; <span th:text="${#dates.format(today, 'yyyy')}">2024</span> Shop <a href="http://14.225.253.116" target="_blank">MẸ VÀ BÉ</a>.</p>
+        <a href="http://14.225.253.116" target="_blank" class="unsubscribe">Xem shop tại đây</a>
     </div>
 </div>
 </body>
