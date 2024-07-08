@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/request/user/UserCreateForAdminRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/ConstEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/ConstEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/createUserSuccess.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/createUserSuccess.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../MeBeTest.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../MeBeTest.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +197,14 @@
       <workItem from="1720368880600" duration="40000" />
       <workItem from="1720370756463" duration="1150000" />
       <workItem from="1720373084829" duration="869000" />
-      <workItem from="1720375131421" duration="2096000" />
+      <workItem from="1720375131421" duration="2277000" />
+      <workItem from="1720378017432" duration="776000" />
+      <workItem from="1720379581867" duration="702000" />
+      <workItem from="1720382741728" duration="300000" />
+      <workItem from="1720401642346" duration="2653000" />
+      <workItem from="1720422802923" duration="1412000" />
+      <workItem from="1720424731712" duration="307000" />
+      <workItem from="1720448195240" duration="1609000" />
     </task>
     <servers />
   </component>
@@ -211,7 +221,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
-          <line>404</line>
+          <line>403</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

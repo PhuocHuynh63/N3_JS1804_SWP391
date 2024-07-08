@@ -25,11 +25,8 @@ GO
 
 INSERT INTO [user] (avatar, first_name, last_name, username, email, [password], birth_date, [role], phone, point, [status])
 VALUES
-	-- 123/ 1234 / 555 
-    ('avatar1.jpg', N'Nguyễn', N'Văn A', N'user1', 'user1@example.com', '$2a$10$C0Fe7kS86ZiupWiZwKJRbeiY7IMeiY9MfZhH09ZcV46eyvAbDjyRW', '1990-01-01', 'admin', '0123456789', 100, N'active'),
-    ('avatar2.jpg', N'Trần', N'Thị B', N'user2', 'user2@example.com', '$2a$10$GAB3II6hwaJ.dU9FQ6VSL.46Hl5Oi0V12u6fNjm0WbRVokLn7ERfO', '1995-05-10', 'staff', '0987654321', 50, N'active'),
-    ('avatar3.jpg', N'Lê', N'Văn C', N'user3', 'user3@example.com', '$2a$10$MicDh3ueKAAtAoImX0fmA.nsStMOFIBKhbUpF7a0IploKJjo.tI1S', '1988-12-15', 'member', '0909090909', 75, N'inactive');
-
+	-- 123456
+    ('avatar1.jpg', N'Nguyễn', N'Văn A', N'admin', 'phuochmse171830@fpt.edu.vn', '$2a$12$4NRzSP/sbWK6R/yoy5LdeeKkk.pdjEMJWO/KwU259RxZagP38verm', '1990-01-01', 'admin', '0123456789', 100, N'active')
 
 -- Tạo bảng Address
 CREATE TABLE [address] (
@@ -45,9 +42,8 @@ CREATE TABLE [address] (
 INSERT INTO [address] ([user_id], is_default, title, [address])
 VALUES
     (1, 1, N'Nhà riêng', N'123 Đường ABC'),
-    (1, 0, N'Văn phòng', N'456 Đường XYZ'),
-    (2, 1, N'Nhà riêng', N'789 Đường DEF'),
-    (3, 1, N'Nhà riêng', N'147 Đường GHI')
+    (1, 0, N'Văn phòng', N'456 Đường XYZ');
+    
 
 -- Tạo bảng Category
 CREATE TABLE category (
@@ -236,6 +232,15 @@ CREATE TABLE wishlist (
 	FOREIGN KEY ([user_id]) REFERENCES [user]([user_id]),
     FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
+
+-- Thêm dữ liệu vào bảng wishlist
+INSERT INTO wishlist ([user_id], product_id, [status], quantity, total_amount, estimated_date)
+VALUES
+(1, 1, N'active', 2, 160000.00, '2024-08-01 00:00:00'),
+(1, 2, N'active', 1, 32000.00, '2024-08-05 00:00:00'),
+(2, 3, N'pending', 3, 99000.00, '2024-08-10 00:00:00'),
+(3, 4, N'cancelled', 1, 135000.00, '2024-08-15 00:00:00');
+
 
 -- Tạo bảng Payment
 CREATE TABLE payment (
