@@ -20,6 +20,10 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     User findByUsername(String username);
 
+    @Query("SELECT u FROM User u WHERE LOWER(u.firstName) LIKE LOWER(CONCAT('%', :name, '%'))" +
+            " OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<User> findByName(String name);
+
 
 
 }
