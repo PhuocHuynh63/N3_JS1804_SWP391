@@ -11,17 +11,19 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserUpdateForAdminRequest {
+public class UserCreateForAdminRequest {
 
     private String firstName;
     private String lastName;
     private String email;
+    private String username;
     private String password;
     @JsonFormat(pattern = "dd/MM/yyyy") //format date
     private Date birthOfDate;
     private String phoneNumber;
     private String role;
     private int point;
+    private String status;
 
 
 }

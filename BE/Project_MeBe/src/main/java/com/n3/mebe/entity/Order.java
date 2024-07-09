@@ -29,6 +29,12 @@ public class Order {
     @JoinColumn(name = "voucher_id")
     private Voucher voucher;
 
+    @Column(name = "order_code")
+    private String orderCode;
+
+    @Column(name = "shipping_address")
+    private String shipAddress;
+
     @Column(name = "[status]")
     private String status;
 

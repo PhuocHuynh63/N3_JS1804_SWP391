@@ -2,6 +2,8 @@ package com.n3.mebe.service.iml;
 
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.entity.User;
+import com.n3.mebe.exception.AppException;
+import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,13 @@ public class LoginService implements ILoginService {
     @Override
     public boolean checkLogin(String userName, String password) {
         User user = userRepository.findByUsername(userName);
-        return passwordEncoder.matches(password, user.getPassword()); //Tham số đầu tiên là chưa được mã hoá, tham số sau đã được mã hoá
+        String ban = "ban";
+        if(user.getStatus().equalsIgnoreCase(ban)){
+            throw new AppException(ErrorCode.BAN_ACCOUNT);
+        }else {
+            //Tham số đầu tiên là chưa được mã hoá, tham số sau đã được mã hoá
+            return  passwordEncoder.matches(password, user.getPassword());
+        }
     }
 
     @Override

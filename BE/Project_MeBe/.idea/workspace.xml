@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../et --hard 815fdc13d3d011cbd71cede4433ba15b47b13824" afterDir="false" />
-    </list>
+    <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,9 +13,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -40,12 +38,16 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2iFJkdV8sDqnrn6qjVyFc1Opn79" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "DefaultHtmlFileTemplate": "HTML File",
     "Maven.mebe [clean].executor": "Run",
     "Maven.mebe [install].executor": "Run",
@@ -56,10 +58,10 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.ProjectMeBeApplication.executor": "Run",
+    "Spring Boot.ProjectMeBeApplication.executor": "Debug",
     "git-widget-placeholder": "thuan3",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/vipha/OneDrive/Desktop/test_servere/BE/Project_MeBe/src/main/resources/templates",
+    "last_opened_file_path": "C:/Users/vipha/OneDrive/Desktop/code_main/N3_JS1804_SWP391/BE/Project_MeBe/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,16 +79,16 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vipha\OneDrive\Desktop\code_main\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources" />
+      <recent name="C:\Users\vipha\OneDrive\Desktop\code_main\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources\templates" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\test_servere\BE\Project_MeBe\src\main\resources\templates" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\dto\response" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\config" />
-      <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\util" />
-      <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.n3.mebe.dto.request.user" />
       <recent name="com.n3.mebe.dto.response.user.tracking" />
       <recent name="com.n3.mebe.dto.response.user" />
-      <recent name="com.n3.mebe.dto.request.user" />
       <recent name="com.n3.mebe.controller" />
     </key>
   </component>
@@ -169,11 +171,58 @@
       <workItem from="1720103054784" duration="97000" />
       <workItem from="1720103161697" duration="3023000" />
       <workItem from="1720107449371" duration="341000" />
+      <workItem from="1720180964524" duration="4928000" />
+      <workItem from="1720186552687" duration="2563000" />
+      <workItem from="1720190756103" duration="6854000" />
+      <workItem from="1720197773837" duration="485000" />
+      <workItem from="1720200546772" duration="117000" />
+      <workItem from="1720200748373" duration="391000" />
+      <workItem from="1720204156339" duration="6358000" />
+      <workItem from="1720247196001" duration="12124000" />
+      <workItem from="1720273323755" duration="1617000" />
+      <workItem from="1720275100829" duration="14991000" />
+      <workItem from="1720292594947" duration="56000" />
+      <workItem from="1720296037237" duration="7810000" />
+      <workItem from="1720344449852" duration="7704000" />
+      <workItem from="1720356148861" duration="143000" />
+      <workItem from="1720365152931" duration="256000" />
+      <workItem from="1720365887623" duration="1199000" />
+      <workItem from="1720368859709" duration="5000" />
+      <workItem from="1720368880600" duration="40000" />
+      <workItem from="1720370756463" duration="1150000" />
+      <workItem from="1720373084829" duration="869000" />
+      <workItem from="1720375131421" duration="2277000" />
+      <workItem from="1720378017432" duration="776000" />
+      <workItem from="1720379581867" duration="702000" />
+      <workItem from="1720382741728" duration="300000" />
+      <workItem from="1720401642346" duration="2653000" />
+      <workItem from="1720422802923" duration="1412000" />
+      <workItem from="1720424731712" duration="307000" />
+      <workItem from="1720448195240" duration="1609000" />
+      <workItem from="1720450958594" duration="4122000" />
+      <workItem from="1720530188887" duration="10500000" />
+      <workItem from="1720542120038" duration="1573000" />
+      <workItem from="1720551501311" duration="17000" />
+      <workItem from="1720551647394" duration="2935000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -184,9 +233,24 @@
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java</url>
-          <line>174</line>
-          <option name="timeStamp" value="52" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
+          <line>586</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/AddressSerivce.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
+          <line>227</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/LoginController.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="70" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

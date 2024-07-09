@@ -1,18 +1,23 @@
 package com.n3.mebe.controller;
 
 
+import com.n3.mebe.dto.request.user.UserCreateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.ResponseData;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
-import com.n3.mebe.entity.User;
+
+import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,26 +29,77 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private ISendMailService sendMailService;
+
+
+
     /**
      *  Request from Client
      *
      */
 
     //sign up user
+    //Đăng ký thành công gửi Email thông báo
     @PostMapping("/signup")
     public ResponseEntity<ResponseData> createUser(@RequestBody @Valid UserCreateRequest request) {
         boolean check = userService.createUser(request);
         ResponseData responseData = new ResponseData();
         if (check) {
-            responseData.setDescription("User created successfully");
+            sendMailService.sendMailCreateSuccess(request.getEmail());
+            responseData.setDescription("Đăng ký thành công");
             responseData.setSuccess(true);
             responseData.setStatus(200);
         } else {
-            responseData.setDescription("User creation failed");
+            responseData.setDescription("Đăng ký thất bại");
             responseData.setSuccess(false);
             responseData.setStatus(400);
         }
         return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+
+    @PostMapping("/admin/signup")
+    public ResponseEntity<ResponseData> createUserForAdmin(@RequestBody @Valid UserCreateForAdminRequest request) {
+        boolean check = userService.createUserForAdmin(request);
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("Đăng ký thành công");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("Đăng ký thất bại");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
+        }
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+    @PostMapping("/send_otp_mail")
+    public ResponseEntity<ResponseData> sendOtpEmailExist(@RequestParam String email) {
+        boolean check = sendMailService.sendOtpCheckEmailExist(email);
+        ResponseData responseData = new ResponseData();
+        if (check) {
+            responseData.setDescription("Gửi mã xác minh thành công!");
+            responseData.setSuccess(true);
+            responseData.setStatus(200);
+        } else {
+            responseData.setDescription("Email không tồn tại trong hệ thống!");
+            responseData.setSuccess(false);
+            responseData.setStatus(400);
+        }
+        return ResponseEntity.status(responseData.getStatus()).body(responseData);
+    }
+
+    // API to check OTP
+    @PostMapping("/check_otp")
+    public ResponseEntity<String> checkOtp(@RequestParam String otp) {
+        boolean isValid = sendMailService.checkOtp(otp);
+        if (isValid) {
+            return ResponseEntity.ok("Xác minh thành công");
+        } else {
+            return ResponseEntity.status(400).body("Mã xác minh không đúng hoặc đã hết hạn!");
+        }
     }
 
     //Update guest to user
@@ -52,11 +108,11 @@ public class UserController {
         boolean check = userService.updateGuestToUser(user_id , request);
         ResponseData responseData = new ResponseData();
         if (check) {
-            responseData.setDescription("User created successfully");
+            responseData.setDescription("Đăng ký thành công");
             responseData.setSuccess(true);
             responseData.setStatus(200);
         } else {
-            responseData.setDescription("User creation failed");
+            responseData.setDescription("Đăng ký thất bại");
             responseData.setSuccess(false);
             responseData.setStatus(400);
         }
@@ -70,32 +126,82 @@ public class UserController {
         String msg;
         boolean check = userService.updateUserById(user_id , request);
         if (check){
-            msg = "User updated successfully";
+            msg = "Cập nhập thành công";
         }else {
-            msg = "User updating failed";
+            msg = "Cập nhập thất bại";
+        }
+        return msg;
+    }
+
+    //Update user by id
+    @PutMapping(value = "/update_avatar/{user_id}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String setAvatar(@PathVariable("user_id") int user_id, @RequestPart("file") MultipartFile file) {
+        String msg;
+        boolean check = userService.setAvatar(user_id , file);
+        if (check){
+            msg = "Cập nhập ảnh đại diện thành công";
+        }else {
+            msg = "Cập nhập ảnh đại diện thất bại";
         }
         return msg;
     }
 
 
-    //Update user by id
+    //Update user by id for admin
     @PutMapping("/update_admin/uId={user_id}")
     public String updateUserForAdmin(@PathVariable("user_id") int user_id, @RequestBody UserUpdateForAdminRequest request) {
         String msg;
         boolean check = userService.updateUserByIdForAdmin(user_id , request);
         if (check){
-            msg = "User updated successfully";
+            msg = "Cập nhập người dùng thành công";
         }else {
-            msg = "User updating failed";
+            msg = "Cập nhập người dùng thất bại";
         }
         return msg;
     }
 
-    @PutMapping("/change_password/{user_id}")
+    @PutMapping("/update_role/uId={user_id}")
+    public String updateRoleForAdmin(@PathVariable("user_id") int user_id, @RequestParam String role) {
+        String msg;
+        boolean check = userService.updateRoleForAdmin(user_id , role);
+        if (check){
+            msg = "Cập nhập role thành công";
+        }else {
+            msg = "Cập nhập role thất bại";
+        }
+        return msg;
+    }
+
+    @PutMapping("/change_password/uId={user_id}")
     public String changePasswordUser(@PathVariable("user_id") int user_id,
                                      @RequestParam String passwordOld,
                                      @RequestParam String passwordNew) {
         return userService.changePassword(user_id, passwordOld, passwordNew);
+    }
+
+    @PutMapping("/set_status/uId={user_id}")
+    public String setStatusForAdmin(@PathVariable("user_id") int user_id, @RequestParam String status) {
+        String msg= "";
+
+        boolean check = userService.setStatusUserForAdmin(user_id , status);
+
+        switch (status) {
+            case "ban":
+                if (check){
+                    msg = "Khóa tài khoản thành công";
+                }else {
+                    msg = "Khóa tài khoản thất bại";
+                }
+                break;
+            case "active":
+                if (check){
+                    msg = "Mở khóa tài khoản thành công";
+                }else {
+                    msg = "Mở khóa tài khoản thất bại";
+                }
+                break;
+        }
+        return msg;
     }
 
     //Delete user by id
@@ -129,7 +235,8 @@ public class UserController {
         return userService.getUserByUserNameResponse(user_name);
     }
 
-
+    // check email lấy ra user bằng email
+    //nếu email không có trên hệ thống thông báo email không tồn tại
     @GetMapping("/check_email")
     public UserResponse getUserByEmail(@RequestParam String email) {
         return userService.getUserByEmailResponse(email);
@@ -140,5 +247,10 @@ public class UserController {
         return userService.getUserTrackingByIdResponse(userId);
     }
 
+
+    @GetMapping("/search_name")
+    public List<UserResponse> searchByNameForAdmin(@RequestParam String name) {
+        return userService.searchUserByNameForAdmin(name);
+    }
 
 }

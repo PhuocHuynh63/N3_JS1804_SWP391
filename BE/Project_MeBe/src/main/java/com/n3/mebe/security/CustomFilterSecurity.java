@@ -1,9 +1,11 @@
 package com.n3.mebe.security;
 
+import com.n3.mebe.controller.VoucherController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,24 +39,22 @@ public class CustomFilterSecurity {
         String[] list = { "/login/**", "/user/**", "/category/**", "/sub_category/**",
                 "/product/**",
                 "/forgot_password/**", "/order/**", "/order_details/**", "/address/**",
-                "/payment/**", "/wishlist/**" };
+                "/api/payment/**", "/wishlist/**", "/voucher/**" };
 
         // http: là nơi định nghĩa cái rule, tức là link nào được phép hoặc không được
         // phép
         // csrf: là lợi dụng người dùng đăng nhập vào trang web hợp lệ để gửi những yêu
         // cầu trái phép
         http.cors().disable()
-                .csrf().disable() // Chống tấn công Token
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Khai báo ứng dụng không
-                                                                                            // được dùng session
-                .and()
                 .authorizeHttpRequests() // authorizeHttpRequests: Can thiệp người dùng truy cập
                 .requestMatchers(list) // requestMatchers: Chỉ định đường dẫn người dùng không được truy cập
-                                       // **: là tất cả
+                // **: là tất cả
                 .permitAll() // permitAll: Không cần chứng thực
-                             // authenticated: Bắt chứng thực
+                // authenticated: Bắt chứng thực
                 .anyRequest() // anyRequest: Những request còn lại đều phải chứng thực
-                .authenticated();
+                .authenticated()
+                .and()
+                .oauth2Login(Customizer.withDefaults());
 
         http.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

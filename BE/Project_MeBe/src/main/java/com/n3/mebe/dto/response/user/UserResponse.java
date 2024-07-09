@@ -1,6 +1,7 @@
 package com.n3.mebe.dto.response.user;
 
 
+import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.util.Date;
@@ -22,6 +23,8 @@ public class UserResponse {
     private Date birthOfDate;
     private String phoneNumber;
     private int point;
+    private String status;
+
     private Date createAt;
     private Date updateAt;
     private Date deleteAt;

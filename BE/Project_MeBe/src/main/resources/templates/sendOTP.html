@@ -36,6 +36,10 @@
         .content p {
             margin: 0 0 10px;
         }
+        .otp {
+            font-weight: bold;
+            color: #007bff;
+        }
         .button-container {
             text-align: center;
             margin: 20px 0;
@@ -77,16 +81,11 @@
 </head>
 <body>
 <div class="container">
-    <div class="header" th:text="${'Xin chào, ' + firstName + ' ' + lastName}"></div>
+    <div class="header" th:text="${'Xin chào bạn' }"></div>
     <div class="content">
-        <p>Chúng tôi gửi thông tin truy cập hệ thống của bạn:</p>
-        <p th:text="${'- Tên truy cập: ' + username}"></p>
-        <p th:text="${'- Mật khẩu truy cập tạm thời: ' + password}"></p>
-        <p> Bạn có thể đăng nhặp vào và thay đổi thành mật khẩu mong muốn với mật khẩu đã cấp.</p>
-        <p>Lưu ý: Đây là mật khẩu mặc định được tạo bởi hệ thống và chỉ có giá trị trong vòng 15p! Bạn vui lòng đổi lại để đảm bảo an toàn thông tin.</p>
-        <div class="button-container">
-            <a href="http://14.225.253.116/signin" class="button">Change Password</a>
-        </div>
+        <p>Chúng tôi gửi thông tin xác thực email:</p>
+        <p>- Mã OTP: <span class="otp" th:text="${OTP}"></span></p>
+        <p>Bạn vui lòng nhập mã otp đã cấp trong vòng 1 phút. Sau 1 phút otp này sẽ hết hạn.</p>
     </div>
     <div class="note">Đây là email tự động, vui lòng không trả lời.</div>
     <div class="footer">
