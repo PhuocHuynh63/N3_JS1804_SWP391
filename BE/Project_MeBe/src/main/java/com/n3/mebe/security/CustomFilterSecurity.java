@@ -1,6 +1,5 @@
 package com.n3.mebe.security;
 
-import com.n3.mebe.controller.VoucherController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +32,12 @@ public class CustomFilterSecurity {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, VoucherController voucherController) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         String[] list = { "/login/**", "/user/**", "/category/**", "/sub_category/**",
                 "/product/**",
                 "/forgot_password/**", "/order/**", "/order_details/**", "/address/**",
-                "/payment/**", "/wishlist/**", "/voucher/**" };
+                "/payment/**", "/wishlist/**" };
 
         // http: là nơi định nghĩa cái rule, tức là link nào được phép hoặc không được
         // phép

@@ -4,8 +4,6 @@ import com.n3.mebe.dto.response.gmail.GmailSendResponse;
 import com.n3.mebe.entity.Order;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.entity.WishList;
-import com.n3.mebe.exception.AppException;
-import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IOrderDetailsRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ISendMailService;
@@ -27,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 public class SendMailService implements ISendMailService {
     @Autowired
     private MailService mailService;
-
 
     @Autowired
     private UserService userService;
@@ -93,8 +90,9 @@ public class SendMailService implements ISendMailService {
             Map<String, Object> props = new HashMap<>();
             props.put("firstName", user.getFirstName());
             props.put("lastName", user.getLastName());
-            props.put("orderCode", order.getOrderCode());
-            props.put("shipAddress", order.getShipAddress());
+            props.put("orderId", order.getOrderId());
+
+
 
             props.put("orderDetails", IOrderDetailsRepository.findByOrderOrderId(order.getOrderId()));
             props.put("totalAmount",  order.getTotalAmount());
@@ -171,98 +169,6 @@ public class SendMailService implements ISendMailService {
             mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.NOTIFICATION_WISHLIST);
             return true;
         } catch (MessagingException exp) {
-            exp.printStackTrace();
-        }
-        return false;
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="send Otp Check Email Exist">
-    @Override
-    public boolean sendOtpCheckEmailExist(String email) {
-        try {
-            GmailSendResponse response = new GmailSendResponse();
-
-            // ở đây là guest
-            User user = userService.getUserByEmail(email);
-            String role = "guest";
-            if(!user.getRole().equalsIgnoreCase(role)){
-                throw new AppException(ErrorCode.EMAIL_HAVE_ACCOUNT);
-            }
-
-            // Tạo mật khẩu tạm thời (OTP) gồm 6 ký tự
-            String OTP = DataUtils.generateTempPwd(6);
-
-            // Chuẩn bị dòng tiêu đề email OTP
-            String OTP_SEND = OTP + " " + ConstEmail.SEND_MAIL_SUBJECT.OTP_SEND;
-
-            // Tạo khóa Redis để lưu trữ OTP
-            String OTPKey = "OTP:" + OTP;
-
-            response.setTo(user.getEmail());
-            response.setSubject(OTP_SEND);
-
-            Map<String, Object> props = new HashMap<>();
-            props.put("OTP", OTP);
-            response.setProps(props);
-
-            // Lưu OTP vào Redis với thời gian tồn tại (TTL) là 1 phút
-            stringRedisTemplate.opsForValue().set(OTPKey, OTP, 1, TimeUnit.MINUTES);
-
-            mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.OTP_SEND);
-            return true;
-        } catch (MessagingException exp){
-            exp.printStackTrace();
-        }
-        return false;
-    }// </editor-fold>
-
-
-    // Method to check OTP
-    @Override
-    public boolean checkOtp(String otp) {
-        String OTPKey = "OTP:" + otp;
-        String storedOtp = stringRedisTemplate.opsForValue().get(OTPKey);
-
-        if (storedOtp != null && storedOtp.equals(otp)) {
-            invalidateOtp(otp);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Optional: Method to invalidate OTP
-    @Override
-    public void invalidateOtp(String identifier) {
-        String otpKey = "OTP:" + identifier;
-        stringRedisTemplate.delete(otpKey);
-    }
-
-
-    // <editor-fold default state="collapsed" desc="send Mail Create Success">
-    @Override
-    public boolean sendMailCreateSuccess(String email) {
-        try {
-            GmailSendResponse response = new GmailSendResponse();
-
-            // lấy user đăng ký thành công ra
-            User user = userService.getUserByEmail(email);
-
-            if(user == null){
-                throw new AppException(ErrorCode.NO_USER_EXIST);
-            }
-            response.setTo(user.getEmail());
-            response.setSubject(ConstEmail.SEND_MAIL_SUBJECT.CREATE_USER_SUCCESS);
-
-            Map<String, Object> props = new HashMap<>();
-            props.put("firstName", user.getFirstName());
-            props.put("lastName", user.getLastName());
-            response.setProps(props);
-
-
-            mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.CREATE_USER_SUCCESS);
-            return true;
-        } catch (MessagingException exp){
             exp.printStackTrace();
         }
         return false;

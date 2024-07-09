@@ -74,6 +74,7 @@ public class AddressSerivce implements IAddressService {
             }
         }
         if (!request.getAddress().equals(address.getAddress())){
+            address.setDefault(request.isDefault());
             address.setTitle(request.getTitle());
             address.setAddress(request.getAddress());
             addressRepository.save(address);
@@ -100,7 +101,7 @@ public class AddressSerivce implements IAddressService {
     // <editor-fold default state="collapsed" desc="Delete Address">
     @Override
     public void deleteAddress(int addressId) {
-        addressRepository.deleteAddressById(addressId);
+        addressRepository.deleteById(addressId) ;
     }  // </editor-fold>
 
     /**

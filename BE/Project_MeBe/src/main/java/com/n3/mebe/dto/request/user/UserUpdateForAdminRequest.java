@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserUpdateForAdminRequest {
 
+    private String avatar;
     private String firstName;
     private String lastName;
     private String email;
@@ -20,8 +21,6 @@ public class UserUpdateForAdminRequest {
     @JsonFormat(pattern = "dd/MM/yyyy") //format date
     private Date birthOfDate;
     private String phoneNumber;
-    private String role;
-    private int point;
 
 
 }

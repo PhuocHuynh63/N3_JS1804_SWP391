@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateAddressRequest {
 
+
+    private boolean isDefault;
     private String title;
     private String address;
+
 
 }

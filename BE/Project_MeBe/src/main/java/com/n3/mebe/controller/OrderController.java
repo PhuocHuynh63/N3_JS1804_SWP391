@@ -104,9 +104,6 @@ public class OrderController {
         productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
         TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();
         // lưu order vào cơ sở dữ liệu
-
-        String type = "COD";
-        orderRequest.setOrderType(type);
         boolean success = orderService.createOrder(orderRequest);
         if (success) {
             transactionStatusDTO.setStatus("Ok");
@@ -146,24 +143,6 @@ public class OrderController {
     @GetMapping("/list")
     public List<OrderResponse> getOrdersList() {
         return orderService.getOrdersList();
-    }
-
-    //search Order by Email
-    @GetMapping("/search_order/email/")
-    public List<OrderResponse> searchOrderEmail(@RequestParam String email) {
-        return orderService.getOrdersListEmail(email);
-    }
-
-    //search Order by phone number
-    @GetMapping("/search_order/phone/")
-    public List<OrderResponse> searchOrder(@RequestParam String phone) {
-        return orderService.getOrdersListPhone(phone);
-    }
-
-    //search Order by id
-    @GetMapping("/oId={id}")
-    public OrderResponse getOrderByID(@PathVariable("id") int orderId) {
-        return orderService.getOrderResponse(orderId);
     }
 
 }

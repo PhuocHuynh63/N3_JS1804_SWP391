@@ -4,17 +4,20 @@ package com.n3.mebe.service.iml;
 import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
 import com.n3.mebe.dto.request.product.ProductRequest;
 import com.n3.mebe.dto.response.product.ProductResponse;
+import com.n3.mebe.entity.OrderDetail;
 import com.n3.mebe.entity.Product;
 import com.n3.mebe.entity.SubCategory;
+import com.n3.mebe.entity.WishList;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IProductRespository;
 import com.n3.mebe.repository.ISubCategoryRepository;
-import com.n3.mebe.service.ICloudinaryService;
+import com.n3.mebe.service.IFileService;
 import com.n3.mebe.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class ProductService implements IProductService {
     private IProductRespository iProductRespository;
 
     @Autowired
-    private ICloudinaryService cloudinaryService;
+    private IFileService fileServiceImp;
 
     @Autowired
     private ISubCategoryRepository iSubCategoryRepository;
@@ -84,27 +87,65 @@ public class ProductService implements IProductService {
 
     // <editor-fold default state="collapsed" desc="Create Product">
     @Override
-    public boolean createProduct(MultipartFile file, ProductRequest request) {
+    public boolean createProduct(MultipartFile file, int subCategoryId, String slug, String name, String description, float price,
+                                 float salePrice, String status, int totalSold, int quantity,int productView) {
         boolean isInsertedSuccess = false;
         try {
-            String folder = "Product";
-            String imageUrl = cloudinaryService.saveFileToFolder(file, folder);
-            if (imageUrl != null) {
-                Product product = new Product();
-                product.setImages(imageUrl);
+        boolean isSaveFileSuccess = fileServiceImp.saveFile(file);
+            if(isSaveFileSuccess) {
+            Product product = new Product();
+            product.setImages(file.getOriginalFilename());
 
-                SubCategory subCategory = iSubCategoryRepository.findBySubCateId(request.getSubCategoryId());
+            SubCategory subCategory = iSubCategoryRepository.findBySubCateId(subCategoryId);
+            product.setSubCategory(subCategory);
+
+            product.setSlug(slug);
+            product.setName(name);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setSalePrice(salePrice);
+            product.setStatus(status);
+            product.setTotalSold(totalSold);
+            product.setQuantity(quantity);
+            product.setProductView(productView);
+
+            Date now = new Date();
+            product.setCreateAt(now);
+            product.setUpdateAt(now);
+
+            iProductRespository.save(product);
+            isInsertedSuccess = true;
+            }
+        } catch (Exception e) {
+            System.out.println("Error in insert product" + e.getMessage());
+        }
+        return isInsertedSuccess;
+    }// </editor-fold>
+
+    //  <editor-fold default state="collapsed" desc="Update Product">
+    @Override
+    public boolean updateProduct(int id, MultipartFile file, int subCategoryId, String slug, String name, String description,
+                                 float price, float salePrice, String status, int totalSold, int quantity, int productView) {
+        Product product = iProductRespository.findById(id).
+                orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
+        boolean isInsertedSuccess = false;
+        try {
+            boolean isSaveFileSuccess = fileServiceImp.saveFile(file);
+            if(isSaveFileSuccess) {
+                product.setImages(file.getOriginalFilename());
+
+                SubCategory subCategory = iSubCategoryRepository.findBySubCateId(subCategoryId);
                 product.setSubCategory(subCategory);
 
-                product.setSlug(request.getSlug());
-                product.setName(request.getName());
-                product.setDescription(request.getDescription());
-                product.setPrice(request.getPrice());
-                product.setSalePrice(request.getSalePrice());
-                product.setStatus(request.getStatus());
-                product.setTotalSold(request.getTotalSold());
-                product.setQuantity(request.getQuantity());
-                product.setProductView(request.getProductView());
+                product.setSlug(slug);
+                product.setName(name);
+                product.setDescription(description);
+                product.setPrice(price);
+                product.setSalePrice(salePrice);
+                product.setStatus(status);
+                product.setTotalSold(totalSold);
+                product.setQuantity(quantity);
+                product.setProductView(productView);
 
                 Date now = new Date();
                 product.setCreateAt(now);
@@ -114,50 +155,7 @@ public class ProductService implements IProductService {
                 isInsertedSuccess = true;
             }
         } catch (Exception e) {
-            System.out.println("Lỗi thêm sản phẩm" + e.getMessage());
-        }
-        return isInsertedSuccess;
-    }// </editor-fold>
-
-    //  <editor-fold default state="collapsed" desc="Update Product">
-    @Override
-    public boolean updateProduct(int id, MultipartFile file, ProductRequest request) {
-        Product product = iProductRespository.findById(id).
-                orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
-        boolean isInsertedSuccess = false;
-        try {
-            String folder = "Product";
-
-            String imageUrl = null;
-            if(file != null){
-                imageUrl = cloudinaryService.saveFileToFolder(file, folder);
-            }
-            if (imageUrl != null) {
-                product.setImages(imageUrl);
-            }
-
-            SubCategory subCategory = iSubCategoryRepository.findBySubCateId(request.getSubCategoryId());
-            product.setSubCategory(subCategory);
-
-            product.setSlug(request.getSlug());
-            product.setName(request.getName());
-            product.setDescription(request.getDescription());
-            product.setPrice(request.getPrice());
-            product.setSalePrice(request.getSalePrice());
-            product.setStatus(request.getStatus());
-            product.setTotalSold(request.getTotalSold());
-            product.setQuantity(request.getQuantity());
-            product.setProductView(request.getProductView());
-
-            Date now = new Date();
-            product.setCreateAt(now);
-            product.setUpdateAt(now);
-
-            iProductRespository.save(product);
-            isInsertedSuccess = true;
-
-        } catch (Exception e) {
-            System.out.println("Lỗi cập nhập sản phẩm" + e.getMessage());
+            System.out.println("Error in insert product" + e.getMessage());
         }
         return isInsertedSuccess;
     }// </editor-fold>
@@ -179,12 +177,6 @@ public class ProductService implements IProductService {
         Product product = getProductById(id);
         String status = "delete";
         product.setStatus(status);
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="Delete Product">
-    @Override
-    public void deleteProductReal(int id) {
-        iProductRespository.deleteById(id);
     }// </editor-fold>
 
 

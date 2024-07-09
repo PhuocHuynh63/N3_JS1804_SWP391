@@ -32,6 +32,7 @@ public class User {
 
      String password;
 
+
     @Column(name = "[birth_date]")
      Date birthOfDate;
 
