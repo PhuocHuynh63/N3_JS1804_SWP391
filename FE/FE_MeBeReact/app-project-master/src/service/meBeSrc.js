@@ -106,6 +106,10 @@ export const meBeSrc = {
         return https.post(`/user/signup`, data)
     },
 
+    postUserForAdmin: (data) => {
+        return https.post(`/user/admin/signup`, data);
+    },
+
     changePassword: (user_id, data) => {
         return https.put(`/user/change_password/uId=${user_id}`, null, { params: data });
     },
@@ -194,11 +198,11 @@ export const meBeSrc = {
         return https.put(`/user/signup_guest/${userId}`, data);
     },
 
-    sendOtp:(email) =>{
+    sendOtp: (email) => {
         return https.post(`/user/send_otp_mail?email=${email}`);
     },
 
-    checkOtp:(otp) => {
+    checkOtp: (otp) => {
         return https.post(`/user/check_otp?otp=${otp}`);
     },
 
