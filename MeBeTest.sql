@@ -1,7 +1,7 @@
-﻿CREATE DATABASE me_be_test
+﻿CREATE DATABASE me_be_test1
 GO
 
-USE me_be_test
+USE me_be_test1
 GO
 
 -- Tạo bảng User
@@ -117,8 +117,7 @@ CREATE TABLE product (
 
 INSERT INTO product (subcategory_id, slug, name, images, [description], price, sale_price, [status], total_sold, quantity, product_view)
 VALUES
-    (1, N'san-pham-dinh-duong-cong-thuc-chuan-so-3-withmom-cesar', N'Sản phẩm dinh dưỡng công thức Withmom Cesar số 3',
-	N'https://product.hstatic.net/200000178477/product/z5370813280050_ac580a92aecd1a21f63875f962ee9e17_35c853c65002483ab1732f61e229c01f_master.jpg', N'Sữa tươi loại 1-A không kháng sinh 17,54% (Hàn Quốc, theo tiêu chuẩn số lượng vi khuẩn), lactose, dextrin, dầu ăn hỗn hợp [dầu đậu nành, dầu dừa, dầu chế biến 6,02% (dầu cọ, dầu hướng dương)', 799000.00, 700000.000, N'Hết hàng', 0, 0, 0),
+    (1, N'san-pham-dinh-duong-cong-thuc-chuan-so-3-withmom-cesar', N'Sản phẩm dinh dưỡng công thức Withmom Cesar số 3',N'https://product.hstatic.net/200000178477/product/z5370813280050_ac580a92aecd1a21f63875f962ee9e17_35c853c65002483ab1732f61e229c01f_master.jpg', N'Sữa tươi loại 1-A không kháng sinh 17,54% (Hàn Quốc, theo tiêu chuẩn số lượng vi khuẩn), lactose, dextrin, dầu ăn hỗn hợp [dầu đậu nành, dầu dừa, dầu chế biến 6,02% (dầu cọ, dầu hướng dương)', 799000.00, 700000.000, N'Hết hàng', 0, 0, 0),
     (1, N'sua-aptamil-duc-so-3', N'Sữa Aptamil Đức số 3', N'https://product.hstatic.net/200000178477/product/image_2023-02-13_120841960_c12f93fbd6b7433988d8a8320ac37283_master.png', N'Lấy đầy muỗng sữa và gạt ngang miệng (1 muỗng Aptamil 3 gạt ngang tương đương 5g sữa) đong 4 muỗng sữa pha với 120ml nước được dung dịch 130ml sữa.', 595000.00, 0, N'Còn hàng', 0, 10, 0),
     (1, N'sua-bot-aptamil-essensis-organic-so-1', N'Sữa bột Aptamil Essensis Organic số 3', N'https://product.hstatic.net/200000178477/product/image_2022-06-15_105147544_6991b8fd5794438aad389b803b29fcdf_master.png', N'Sữa Aptamil Essensis Organic số 1 - dòng sữa công thức cao cấp dành cho trẻ', 1295000.00, 0, N'Còn hàng', 0, 10, 0),
     (1, N'sua-blackmores-jnr', N'Sữa Blackmores JNR Balance+ 850g', N'https://product.hstatic.net/200000178477/product/sua_blackmores_jnr_balance__5_22d53dbe69854f54b34f307cc99d6439_master.png', N'Blackmores JNR Balance+ thuộc tập đoàn BLACKMORES – Đơn vị hàng đầu thế giới về chăm sóc sức khoẻ con người. Công thức độc đáo của sữa Blackmores JNR Balance+ được nghiên cứu bởi những chuyên gia hàng đầu của Blackmores. Sản phẩm bổ sung dinh dưỡng trong giai đoạn từ 1 -10 tuổi, giúp bé phát triển toàn diện.', 690000.00, 0, N'Còn hàng', 0, 30, 0),
@@ -155,7 +154,7 @@ VALUES
 
 	(13, N'lot-chong-tham-chong-trao-nguoc-hybaby', N'Lót chống thấm chống trào ngược Hybaby', N'https://product.hstatic.net/200000178477/product/image_2022-06-04_211725522_79c01c860e364b1ea8271d4102b97f6a_master.png', N'Lót thay tã, lót ngủ Hybaby cho bé với mẫu mã xinh xắn, thấm hút mồ hôi, chất lỏng ngăn thấm ngược sẽ là lựa chọn số 1 cùng mẹ chăm sóc bé yêu.', 169000.00, 0, N'Còn hàng', 0, 10, 0),
 	(13, N'mieng-lot-tham-sua-ku-ku-36-mieng', N'Miếng lót thấm sữa Ku-Ku 36 miếng', N'https://product.hstatic.net/200000178477/product/anh_web_08fe2ba8d7b44144b71a123a9696dc40_master.jpg', N'Miếng Lót Thấm Sữa Kuku là loại sử dụng một lần, tiện mang theo để sử dụng hằng ngày. Sản phẩm giúp bạn chăm sóc vệ sinh khuôn ngực, tránh cho bầu vú không bị hăm vì ướt sữa trong giai đoạn cho con bú.', 115000.00, 100000.00, N'Còn hàng', 0, 10, 0),
-	(13, N'lot-tham-sua-moby-60-mieng', N'Lót thấm sữa Moby ( 60 miếng )', N'https://product.hstatic.net/200000178477/product/anh_web_6fbe35f2ed0246a8ba638435c2198179_master.jpg', N'Thiết kế đường viền khóa chống tràn 4 bên ngăn rò gỉ hiệu quả, Miếng lót thấm sữa Baby Moby 60 miếng với lớp gel siêu thấm, nhanh chóng thấm hút lượng sữa thừa, dàn đều và khóa chặt chúng bên trong, không gây tràn ngược trở lại. Bề mặt đường lưới kim cương tăng cường độ mềm mại và sự thoải mái bởi không khí sẽ dễ dàng lưu thông bên trong tạo sự thông thoáng, giữ cho ngực mẹ luôn khô ráo và thoáng mát suốt ngày dài.', 220000.00, 0, N'Còn hàng', 0, 10, 0)
+	(13, N'lot-tham-sua-moby-60-mieng', N'Lót thấm sữa Moby ( 60 miếng )', N'https://product.hstatic.net/200000178477/product/anh_web_6fbe35f2ed0246a8ba638435c2198179_master.jpg', N'Thiết kế đường viền khóa chống tràn 4 bên ngăn rò gỉ hiệu quả, Miếng lót thấm sữa Baby Moby 60 miếng với lớp gel siêu thấm, nhanh chóng thấm hút lượng sữa thừa, dàn đều và khóa chặt chúng bên trong, không gây tràn ngược trở lại. Bề mặt đường lưới kim cương tăng cường độ mềm mại và sự thoải mái bởi không khí sẽ dễ dàng lưu thông bên trong tạo sự thông thoáng, giữ cho ngực mẹ luôn khô ráo và thoáng mát suốt ngày dài.', 220000.00, 0, N'Còn hàng', 0, 10, 0);
 
 -- Tạo bảng Review
 CREATE TABLE review (
@@ -195,6 +194,8 @@ CREATE TABLE [order] (
     order_id INT PRIMARY KEY IDENTITY(1,1),
     [user_id] INT,
     voucher_id INT,
+	order_code NVARCHAR(50) UNIQUE,
+	shipping_address NVARCHAR(255),
 	[status] NVARCHAR(50),
 	total_amount DECIMAL(10, 2),
 	order_type NVARCHAR(50),
@@ -233,15 +234,6 @@ CREATE TABLE wishlist (
     FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
--- Thêm dữ liệu vào bảng wishlist
-INSERT INTO wishlist ([user_id], product_id, [status], quantity, total_amount, estimated_date)
-VALUES
-(1, 1, N'active', 2, 160000.00, '2024-08-01 00:00:00'),
-(1, 2, N'active', 1, 32000.00, '2024-08-05 00:00:00'),
-(2, 3, N'pending', 3, 99000.00, '2024-08-10 00:00:00'),
-(3, 4, N'cancelled', 1, 135000.00, '2024-08-15 00:00:00');
-
-
 -- Tạo bảng Payment
 CREATE TABLE payment (
     payment_id INT PRIMARY KEY IDENTITY(1,1),
@@ -255,14 +247,11 @@ CREATE TABLE payment (
 	FOREIGN KEY (order_id) REFERENCES [order](order_id),
 );
 
-
-
 -- Thêm dữ liệu vào bảng review
 INSERT INTO review ([user_id], product_id, rate, comment)
 VALUES
-(1, 1, 4, N'Sản phẩm tốt, chất lượng đáng tin cậy.'),
-(2, 1, 5, N'Rất hài lòng với sản phẩm này.'),
-(3, 2, 3, N'Sản phẩm khá ổn, nhưng giá hơi cao.');
+(1, 1, 4, N'Sản phẩm tốt, chất lượng đáng tin cậy.');
+ 
 
 -- Thêm dữ liệu vào bảng voucher
 INSERT INTO voucher (voucher_code, discount_type, discount_value, [name], cost, quantity, minimum_apply, max_discount, is_active, is_public, date_start, date_end)
@@ -272,32 +261,33 @@ VALUES
 (N'NEWUSER', N'Percentage', 15.00, N'Giảm giá 15% cho khách hàng mới', 0.00, 200, 0.00, 200000.00, 1, 0, '2024-07-01 00:00:00', '2024-12-31 23:59:59');
 
 -- Thêm dữ liệu vào bảng order
-INSERT INTO [order] ([user_id], voucher_id, [status], total_amount, order_type, payment_status, note)
+INSERT INTO [order] ([user_id], voucher_id, order_code, shipping_address, [status], total_amount, order_type, payment_status, note)
 VALUES
-(1, NULL, N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
-(1, NULL, N'Đã hủy', 1200000.00, N'Online', N'Chưa thanh toán', N'Giao hàng nhanh'),
-(2, NULL, N'Hoàn thành',750000.00, N'COD', N'Đã thanh toán', NULL),
-(3, NULL, N'Đang giao', 1200000.00, N'Online', N'Đã thanh toán', N'Giao hàng nhanh');
+(1, NULL, 'ORD001', N'123 Đường ABC', N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
+(1, NULL, 'ORD002', N'456 Đường XYZ', N'Đã hủy', 1200000.00, N'Online', N'Chưa thanh toán', N'Giao hàng nhanh');
+
 
 -- Thêm dữ liệu vào bảng order_detail
 INSERT INTO order_detail (order_id, product_id, quantity, price, sale_price)
 VALUES
 (1, 1, 2, 32000.00, 0),
 (1, 2, 1, 32000.00, 0),
-(2, 3, 2, 30000.00, 0),
-(3, 4, 3, 135000.00, 130000.00),
-(3, 5, 1, 135000.00, 130000.00),
-(4, 3, 5, 32000.00, 0),
-(4, 4, 1, 135000.00, 130000.00);
+(2, 3, 2, 30000.00, 0);
 
- 
 -- Thêm dữ liệu vào bảng payment
 INSERT INTO payment (order_id, amount, payment_type, transaction_reference)
 VALUES
 
 (1, 500000.00, N'Online', N'TRX001'),
-(2, 750000.00, N'COD', NULL),
-(3, 1200000.00, N'Online', N'TRX002');
+(2, 750000.00, N'COD', NULL);
+
+-- Thêm dữ liệu vào bảng wishlist
+INSERT INTO wishlist ([user_id], product_id, [status], quantity, total_amount, estimated_date)
+VALUES
+(1, 1, N'active', 2, 160000.00, '2024-08-01 00:00:00'),
+(1, 2, N'active', 1, 32000.00, '2024-08-05 00:00:00');
+
+
 
 
 

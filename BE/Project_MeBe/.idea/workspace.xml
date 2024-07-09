@@ -7,12 +7,16 @@
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/ISendMailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/request/order/OrderRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/request/order/OrderRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/response/order/OrderResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/response/order/OrderResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/response/user/UserOrderResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/dto/response/user/UserOrderResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IAddressRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IAddressRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IOrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IOrderRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/mail/SendMailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/ConstEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/ConstEmail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/createUserSuccess.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/createUserSuccess.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/DataUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/util/DataUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/orderVerify.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/orderVerify.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../MeBeTest.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../MeBeTest.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -205,11 +209,24 @@
       <workItem from="1720422802923" duration="1412000" />
       <workItem from="1720424731712" duration="307000" />
       <workItem from="1720448195240" duration="1609000" />
+      <workItem from="1720450958594" duration="4122000" />
+      <workItem from="1720530188887" duration="3867000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -223,11 +240,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
           <line>403</line>
           <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/AddressController.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/AddressSerivce.java</url>

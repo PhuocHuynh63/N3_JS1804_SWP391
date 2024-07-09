@@ -16,6 +16,7 @@ public class OrderRequest {
     private int userId;
     //lay voucherId tu request
     private int voucherId;
+    private String shipAddress;
     private String status;
     private float totalAmount;
     private String orderType;

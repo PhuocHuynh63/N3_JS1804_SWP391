@@ -93,9 +93,8 @@ public class SendMailService implements ISendMailService {
             Map<String, Object> props = new HashMap<>();
             props.put("firstName", user.getFirstName());
             props.put("lastName", user.getLastName());
-            props.put("orderId", order.getOrderId());
-
-
+            props.put("orderCode", order.getOrderCode());
+            props.put("shipAddress", order.getShipAddress());
 
             props.put("orderDetails", IOrderDetailsRepository.findByOrderOrderId(order.getOrderId()));
             props.put("totalAmount",  order.getTotalAmount());
