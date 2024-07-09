@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import './PopupAddUser.css';
 import { Modal } from 'antd';
+import { meBeSrc } from '../../../../service/meBeSrc';
 
 const PopupAddUser = ({ show, handleClose }) => {
 
+    //-----------------------------Form Data-----------------------------//
     /**
-     * Form data
+     * Form data for adding a new user
      */
     const [formData, setFormData] = useState({
-        userName: '',
+        username: '',
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
         password: '',
-        status: '',
+        status: 'active',
         birthOfDate: '',
         role: '',
+        point: 0,
     });
-    //-----End-----//
-
+    //------End------//
 
     /**
-     * Handle change input
+     * Handle input change
      * @param {*} e 
      */
     const handleChange = (e) => {
@@ -31,31 +33,49 @@ const PopupAddUser = ({ show, handleClose }) => {
             [e.target.id]: e.target.value,
         });
     };
-    //-----End-----//
+    //------End------//
 
 
     /**
-     * Handle form submission
+     * Change date format from 'yyyy-mm-dd' to 'dd/mm/yyyy'
+     * @param {*} date 
+     * @returns 
+     */
+    const formatDateToBackend = (date) => {
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`;
+    };
+    //------End------//
+    //-------------------------------------------------------------------//
+
+
+    /**
+     * Handle Submit
      * @param {*} e 
      */
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({
-            userName: formData.userName,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            phoneNumber: formData.phoneNumber,
-            password: formData.password,
-            status: formData.status,
-            role: formData.role,
-        });
-    };
-    //-----End-----//
 
+        const formattedData = {
+            ...formData,
+            birthOfDate: formData.birthOfDate ? formatDateToBackend(formData.birthOfDate) : '',
+        };
+
+        console.log('Submitting data:', formattedData);
+
+        meBeSrc.postUserForAdmin(formattedData)
+            .then((res) => {
+                console.log('Response:', res);
+                handleClose();
+            })
+            .catch((err) => {
+                console.error('Error:', err);
+            });
+    };
+    //------End------//
 
     return (
-        <Modal visible={show} onCancel={handleClose} footer={null} width={"auto"} centered>
+        <Modal visible={show} onCancel={handleClose} footer={null} width="auto" centered>
             <div className="admin-user-add">
                 <h1>Thêm người dùng mới</h1>
                 <form onSubmit={handleSubmit}>
@@ -63,8 +83,8 @@ const PopupAddUser = ({ show, handleClose }) => {
                         <label htmlFor="userName">Tên đăng nhập</label>
                         <input
                             type="text"
-                            id="userName"
-                            value={formData.userName}
+                            id="username"
+                            value={formData.username}
                             onChange={handleChange}
                         />
                     </div>
@@ -91,7 +111,6 @@ const PopupAddUser = ({ show, handleClose }) => {
                         </div>
                     </div>
 
-
                     <div className="form-group email">
                         <label htmlFor="email">Email</label>
                         <input
@@ -105,7 +124,7 @@ const PopupAddUser = ({ show, handleClose }) => {
                     <div className="form-group email">
                         <label htmlFor="phoneNumber">Số điện thoại</label>
                         <input
-                            type="phoneNumber"
+                            type="text"
                             id="phoneNumber"
                             value={formData.phoneNumber}
                             onChange={handleChange}
@@ -150,10 +169,10 @@ const PopupAddUser = ({ show, handleClose }) => {
 
                     <div className="form-group hidden">
                         <input
+                            type="hidden"
                             id="status"
                             value='active'
                             onChange={handleChange}
-                            type="hidden"
                         />
                     </div>
 
