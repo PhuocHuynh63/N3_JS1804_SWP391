@@ -19,11 +19,11 @@ import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.IPaymentService;
 import com.n3.mebe.service.iml.ProductService;
 import com.n3.mebe.service.iml.UserService;
-import com.n3.mebe.service.iml.mail.MailService;
 import com.n3.mebe.service.iml.mail.SendMailService;
+import com.n3.mebe.util.DataUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -159,8 +159,18 @@ public class OrderService implements IOrderService {
         order.setUser(user);
         //   order.setVoucher(); --> chua them vao
 
+
         order.setStatus(status);
 
+        String code_order;
+        do {
+            code_order = DataUtils.generateCode(8);
+        } while (orderRepository.existsByOrderCode(code_order));
+        // Mỗi đơn hàng có 1 code riêng
+        order.setOrderCode(code_order);
+
+
+        order.setShipAddress(orderRequest.getShipAddress());
         order.setTotalAmount(orderRequest.getTotalAmount());
         order.setOrderType(orderRequest.getOrderType());
         order.setPaymentStatus(orderRequest.getPaymentStatus());
@@ -206,7 +216,7 @@ public class OrderService implements IOrderService {
         //   order.setVoucher(); --> chua them vao
 
         order.setStatus(orderRequest.getStatus());
-
+        order.setShipAddress(orderRequest.getShipAddress());
         order.setTotalAmount(orderRequest.getTotalAmount());
         order.setOrderType(orderRequest.getOrderType());
         order.setPaymentStatus(orderRequest.getPaymentStatus());
@@ -261,6 +271,44 @@ public class OrderService implements IOrderService {
        return "Update status "+ request.getStatus() + "thành công";
     }// </editor-fold>
 
+
+
+
+    /**
+     *  Response from Client
+     *
+     */
+
+    // <editor-fold default state="collapsed" desc="Get List Orders">
+    @Override
+    public List<OrderResponse> getOrdersList() {
+        List<Order> list = orderRepository.findAll();
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+
+        for (Order order : list) {
+            OrderResponse orderResponse = new OrderResponse();
+
+            orderResponse.setOrderId(order.getOrderId());
+            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+            orderResponse.setVoucher(order.getVoucher());
+            orderResponse.setStatus(order.getStatus());
+            orderResponse.setOrderCode(order.getOrderCode());
+            orderResponse.setShipAddress(order.getShipAddress());
+
+            orderResponse.setTotalAmount(order.getTotalAmount());
+
+            orderResponse.setOrderType(order.getOrderType());
+            orderResponse.setPaymentStatus(order.getPaymentStatus());
+            orderResponse.setNote(order.getNote());
+            orderResponse.setCreatedAt(order.getCreatedAt());
+            orderResponse.setUpdatedAt(order.getUpdatedAt());
+
+            orderResponseList.add(orderResponse);
+        }
+
+        return orderResponseList;
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="Get List Orders Email">
     @Override
     public List<OrderResponse> getOrdersListEmail(String email) {
@@ -274,6 +322,8 @@ public class OrderService implements IOrderService {
             orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
+            orderResponse.setOrderCode(order.getOrderCode());
+            orderResponse.setShipAddress(order.getShipAddress());
 
             orderResponse.setTotalAmount(order.getTotalAmount());
 
@@ -302,40 +352,8 @@ public class OrderService implements IOrderService {
             orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
-
-            orderResponse.setTotalAmount(order.getTotalAmount());
-
-            orderResponse.setOrderType(order.getOrderType());
-            orderResponse.setPaymentStatus(order.getPaymentStatus());
-            orderResponse.setNote(order.getNote());
-            orderResponse.setCreatedAt(order.getCreatedAt());
-            orderResponse.setUpdatedAt(order.getUpdatedAt());
-
-            orderResponseList.add(orderResponse);
-        }
-
-        return orderResponseList;
-    }// </editor-fold>
-
-
-    /**
-     *  Response from Client
-     *
-     */
-
-    // <editor-fold default state="collapsed" desc="Get List Orders">
-    @Override
-    public List<OrderResponse> getOrdersList() {
-        List<Order> list = orderRepository.findAll();
-        List<OrderResponse> orderResponseList = new ArrayList<>();
-
-        for (Order order : list) {
-            OrderResponse orderResponse = new OrderResponse();
-
-            orderResponse.setOrderId(order.getOrderId());
-            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
-            orderResponse.setVoucher(order.getVoucher());
-            orderResponse.setStatus(order.getStatus());
+            orderResponse.setOrderCode(order.getOrderCode());
+            orderResponse.setShipAddress(order.getShipAddress());
 
             orderResponse.setTotalAmount(order.getTotalAmount());
 
@@ -364,6 +382,8 @@ public class OrderService implements IOrderService {
         orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
         orderResponse.setVoucher(order.getVoucher());
         orderResponse.setStatus(order.getStatus());
+        orderResponse.setOrderCode(order.getOrderCode());
+        orderResponse.setShipAddress(order.getShipAddress());
 
         orderResponse.setTotalAmount(order.getTotalAmount());
 

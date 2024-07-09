@@ -79,7 +79,8 @@
 <div class="container">
     <div class="header" th:text="${'Xin chào, ' + firstName + ' ' + lastName}"></div>
     <div class="content">
-        <p>Đơn hàng của bạn đã được đặt thành công với mã đơn hàng: <strong><span th:text="${orderId}"></span></strong></p>
+        <p>Đơn hàng của bạn đã được đặt thành công với mã đơn hàng: <strong><span th:text="${orderCode}"></span></strong></p>
+        <p>Địa chỉ giao: <strong><span th:text="${shipAddress}"></span></strong></p>
         <p>Chi tiết đơn hàng:</p>
         <ul th:each="detail : ${orderDetails}">
             <li>

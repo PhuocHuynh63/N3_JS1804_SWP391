@@ -3,6 +3,7 @@ package com.n3.mebe.repository;
 
 import com.n3.mebe.entity.Address;
 import com.n3.mebe.entity.Product;
+import com.n3.mebe.entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

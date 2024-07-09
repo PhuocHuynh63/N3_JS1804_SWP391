@@ -45,7 +45,7 @@ public class LoginController {
             // Tạo khóa Redis để lưu trữ token
             String tokenKey = "TOKEN:" + token;
 
-            // Lưu OTP vào Redis với thời gian tồn tại (TTL) là 1 phút
+            // Lưu OTP vào Redis với thời gian tồn tại (TTL) là 1 days
             stringRedisTemplate.opsForValue().set(tokenKey, token, 1, TimeUnit.DAYS);
             String role = loginServiceImp.getUserRole(username);
             responseData.setData(token);
@@ -57,5 +57,25 @@ public class LoginController {
         }
 
         return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+
+
+    // Endpoint kiểm tra sự tồn tại của TOKEN
+    @GetMapping("/check-token")
+    public ResponseEntity<Map<String, String>> checkToken(@RequestParam String token) {
+        Map<String, String> response = new HashMap<>();
+        String tokenKey = "TOKEN:" + token;
+        try {
+            Boolean hasKey = stringRedisTemplate.hasKey(tokenKey);
+            if (Boolean.TRUE.equals(hasKey)) {
+                response.put("status", "Token exists");
+            } else {
+                response.put("status", "Token does not exist");
+            }
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status", "Error checking token");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 }
