@@ -11,11 +11,4 @@ public interface IOrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findByUserUserId(int userId);
 
-    List<Order> findByUserEmail(String email);
-
-    List<Order> findByUserPhoneNumber(String phoneNumber);
-
-    boolean existsByVoucherVoucherCodeAndUserUserId(String code, int userId);
-
-    boolean existsByOrderCode(String code);
 }

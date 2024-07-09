@@ -50,12 +50,6 @@ public class Voucher {
     @Column(name = "is_public")
     private boolean isPublic;
 
-    @Column(name = "date_start")
-    private Date startDate;
-
-    @Column(name = "date_end")
-    private Date endDate;
-
     @Column(name = "create_at")
     private Date createAt;
 

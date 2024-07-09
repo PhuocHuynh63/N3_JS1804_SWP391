@@ -12,8 +12,6 @@ public class UserOrderResponse {
     private int orderId;
     private Voucher voucher;
     private String status;
-    private String orderCode;
-    private String shipAddress;
     private float deliveryFee;
     private float totalAmount;
     private float depositeAmount;
