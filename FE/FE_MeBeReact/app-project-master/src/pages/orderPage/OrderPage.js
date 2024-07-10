@@ -80,6 +80,7 @@ export default function OrderPage() {
                 orderType: selectedPaymentMethod,
                 paymentStatus: selectedPaymentMethod === 'COD' ? "pending" : "unpaid",
                 note: formData.note,
+                shipAddress: formData.address,
                 item: cartItems.map(item => ({
                     productId: item.productId,
                     quantity: item.quantity,

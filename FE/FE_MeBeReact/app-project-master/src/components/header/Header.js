@@ -191,7 +191,7 @@ export default function Header() {
                         <span className="icons-header" onClick={handleShowCart}>
                             <i className="fa-solid fa-cart-shopping"></i>
                         </span>
-                        
+
                     </div>
                 </header>
 
@@ -308,18 +308,18 @@ export default function Header() {
                                     onClick={handleLogout}
                                     className={"dropdown-item"}
                                 >
-                                    Logout
+                                    Đăng xuất
                                 </button>
 
                             }>
                         </UserDropdown>
-                            <span className="icons-header" onClick={handleShowCart}>
-                                <i className="fa-solid fa-cart-shopping"></i>
-                            </span>
+                        <span className="icons-header" onClick={handleShowCart}>
+                            <i className="fa-solid fa-cart-shopping"></i>
+                        </span>
 
-                            <span className="icons-header" onClick={handleShowWishlist}>
-                                <i className="fa-solid fa-hand-holding-heart"></i>
-                            </span>
+                        <span className="icons-header" onClick={handleShowWishlist}>
+                            <i className="fa-solid fa-hand-holding-heart"></i>
+                        </span>
                     </div>
                 </header >
 
