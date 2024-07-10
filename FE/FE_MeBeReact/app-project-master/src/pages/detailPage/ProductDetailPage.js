@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { meBeSrc } from '../../service/meBeSrc';
 import { Modal } from 'antd';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ProductDetail.css";
 import ImageMagnifier from '../../components/imageMagnifier/imageMagnifier';
@@ -15,12 +15,12 @@ export default function DetailPage() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     const { productId } = useParams();
 
     const discount = product.price && product.salePrice ? ((1 - (product.salePrice / product.price)) * 100).toFixed(2) : 0;
 
-    // Get product detail by productId
     useEffect(() => {
         meBeSrc.getProductById(productId)
             .then((res) => {
@@ -31,9 +31,6 @@ export default function DetailPage() {
             });
     }, [productId]);
 
-    /**
-     * Take user info (username) from local storage by token
-     */
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
         if (token) {
@@ -109,7 +106,7 @@ export default function DetailPage() {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
 
-    const handleAddToWishlist = () => {
+    const handleAddToWishlist = async () => {
         if (!user) {
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Vui lòng đăng nhập để thêm sản phẩm vào danh sách đặt trước</h1></div>);
             return;
@@ -135,10 +132,22 @@ export default function DetailPage() {
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Sản phẩm đã có trong danh sách đặt trước</h1></div>);
         } else {
             wishlistItems.push(item);
+            localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm vào danh sách đặt trước thành công</h1></div>);
-        }
 
-        localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+            try {
+                await meBeSrc.createWishlist({
+                    userId: user.id,
+                    productId: item.productId,
+                    quantity: item.quantity,
+                    totalAmount: item.totalPrice
+                });
+            } catch (error) {
+                console.error('Error adding to wishlist:', error);
+            }
+
+            window.dispatchEvent(new Event('storage'));
+        }
     };
 
     const handleQuantityChange = (e) => {
