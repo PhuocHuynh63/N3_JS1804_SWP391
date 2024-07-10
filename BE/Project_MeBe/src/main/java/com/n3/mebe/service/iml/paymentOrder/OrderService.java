@@ -100,7 +100,6 @@ public class OrderService implements IOrderService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
 
-
             Product product = productService.getProductById(item.getProductId());
             //cộng số lượng đã bán
             int totalSold = product.getTotalSold() + item.getQuantity();
@@ -123,6 +122,24 @@ public class OrderService implements IOrderService {
         address.setAddress(orderRequest.getGuest().getAddress());
         addressRepository.save(address); // Save Address for guess user
     }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="cancelOrderDetails">
+    private void cancelOrderDetails(List<OrderDetail> items) {
+        for (OrderDetail item : items) {
+            OrderDetail orderDetail = new OrderDetail();
+
+            Product product = orderDetail.getProduct();
+            //cộng số lượng đã bán
+            int totalSold = product.getTotalSold() - item.getQuantity();
+            product.setTotalSold(totalSold);
+            //trả lại số lượng đã bán
+            int quantity = product.getQuantity() + item.getQuantity();
+            product.setQuantity(quantity);
+            productRespository.save(product);
+    }
+    }// </editor-fold>
+
+
 
     /**
      *  Request from Client
@@ -247,7 +264,9 @@ public class OrderService implements IOrderService {
             msg = "Hủy thành công";
             order.setStatus(status);
             order.setNote(request.getNote());
+            List<OrderDetail> orderDetails = order.getOrderDetails();
 
+            cancelOrderDetails(orderDetails);
             Date now = new Date();
             order.setUpdatedAt(now);
 
