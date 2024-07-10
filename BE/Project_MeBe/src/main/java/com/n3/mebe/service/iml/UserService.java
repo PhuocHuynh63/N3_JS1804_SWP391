@@ -1,10 +1,7 @@
 package com.n3.mebe.service.iml;
 
 
-import com.n3.mebe.dto.request.user.UserCreateRequest;
-import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
-import com.n3.mebe.dto.request.user.UserUpdateRequest;
-import com.n3.mebe.dto.response.order.OrderResponse;
+import com.n3.mebe.dto.request.user.*;
 import com.n3.mebe.dto.response.user.*;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 import com.n3.mebe.dto.response.user.tracking.UserOrderDetailsResponse;
@@ -13,12 +10,14 @@ import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.*;
-import com.n3.mebe.service.IProductService;
+import com.n3.mebe.service.ICloudinaryService;
 import com.n3.mebe.service.IUserService;
+import com.n3.mebe.service.iml.mail.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,16 +33,13 @@ public class UserService implements IUserService {
     private IAddressRepository iAddressRepository;
 
     @Autowired
-    private IReviewRepository iReviewRepository;
-
-    @Autowired
     private IOrderRepository iOrderRepository;
 
     @Autowired
     private IOrderDetailsRepository iOrderDetailsRepository;
 
     @Autowired
-    private IProductService productService;
+    private ICloudinaryService cloudinaryService;
 
 
 
@@ -60,7 +56,7 @@ public class UserService implements IUserService {
         if(iUserRepository.existsByEmail(email)){
             return iUserRepository.findByEmail(email);
         }else{
-            throw new AppException(ErrorCode.NO_USER_EXIST);
+            throw new AppException(ErrorCode.EMAIL_NO_EXIST);
         }
     }// </editor-fold>
 
@@ -186,6 +182,7 @@ public class UserService implements IUserService {
         User user = new User();
         String role = "member";
 
+        String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
         int point = 0;
         String status = "active";
 
@@ -208,8 +205,115 @@ public class UserService implements IUserService {
             user.setRole(role);
             user.setBirthOfDate(request.getBirthOfDate());
             user.setPhoneNumber(request.getPhoneNumber());
+            user.setAvatar(avatar);
             user.setPoint(point);
             user.setStatus(status);
+
+            Date now = new Date();// lấy thời gian hiện tại
+
+            user.setCreateAt(now);
+            user.setUpdateAt(now);
+            user.setDeleteAt(null);
+
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Create User Google">
+    @Override
+    public boolean createUserGoogle(GoogleUser request) {
+        boolean check = false;
+        if(request != null){
+
+            User user = iUserRepository.findByEmail(request.getEmail());
+            if(user != null){
+                return true;
+            }else {
+
+                user = new User();
+                String role = "member";
+
+                int point = 0;
+                String status = "active";
+
+                user.setFirstName(request.getName());
+                user.setLastName(request.getFamilyName());
+
+                user.setUsername(request.getEmail());
+                user.setEmail(request.getEmail());
+
+                user.setRole(role);
+
+                user.setAvatar(request.getPicture());
+                user.setPoint(point);
+                user.setStatus(status);
+
+
+
+                Date now = new Date();// lấy thời gian hiện tại
+
+                user.setCreateAt(now);
+                user.setUpdateAt(now);
+                user.setDeleteAt(null);
+
+                iUserRepository.save(user);
+                check = true;
+            }
+        }
+        return check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Create User For Admin">
+    @Override
+    public boolean createUserForAdmin(UserCreateForAdminRequest request) {
+        boolean check = false;
+        User user = new User();
+        String role = "member";
+
+        String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
+        int point = 0;
+        String status = "active";
+
+        if (iUserRepository.existsByEmail(request.getEmail())){
+            throw new AppException(ErrorCode.EMAIL_EXIST);
+        }else if (iUserRepository.existsByUsername(request.getUsername())){
+            throw new AppException(ErrorCode.USERNAME_EXIST);
+        }else if(iUserRepository.existsByPhoneNumber(request.getPhoneNumber())){
+            throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
+        } else {
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+
+            user.setEmail(request.getEmail());
+
+            user.setUsername(request.getUsername());
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+            if(!request.getRole().isEmpty()){
+                user.setRole(request.getRole());
+            }else {
+                user.setRole(role);
+            }
+
+            user.setBirthOfDate(request.getBirthOfDate());
+            user.setPhoneNumber(request.getPhoneNumber());
+            user.setAvatar(avatar);
+
+            if(request.getPoint() != 0){
+                user.setPoint(request.getPoint());
+            }else {
+                user.setPoint(point);
+            }
+
+            if(request.getStatus().isEmpty()){
+                user.setStatus(request.getStatus());
+            }else {
+                user.setStatus(status);
+            }
 
             Date now = new Date();// lấy thời gian hiện tại
 
@@ -248,6 +352,24 @@ public class UserService implements IUserService {
         return check ;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Set Avatar">
+    @Override
+    public boolean setAvatar(int id, MultipartFile file) {
+        boolean check = false;
+        String folder = "Avatar User";
+
+        String urlAvatar = cloudinaryService.saveFileToFolder(file , folder);
+        if(urlAvatar != null){
+            User user = getUserById(id);
+
+            user.setAvatar(urlAvatar);
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return check;
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="Update Guest To User">
     @Override
     public boolean updateGuestToUser(int id, UserCreateRequest request){
@@ -255,47 +377,65 @@ public class UserService implements IUserService {
         User user = getUserById(id);
         String role = "member";
 
+        String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
+
         int point = 0;
         String status = "active";
         if(request.getEmail().equals(user.getEmail())){
             //check xem Username da ton tai chua
             if (iUserRepository.existsByUsername(request.getUsername())) {
                 throw new AppException(ErrorCode.USERNAME_EXIST);
-            }else if (iUserRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-                throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
-            }
-        }else {
-            if (iUserRepository.existsByEmail(request.getEmail())){
-                throw new AppException(ErrorCode.EMAIL_EXIST);
-            }else {
-                // Neu thay doi Email khi dang ky thi check xem
-                // Email do co ton tai trong he thong khong
-                user.setEmail(request.getEmail());
-            }
-            user.setFirstName(request.getFirstName());
-            user.setLastName(request.getLastName());
-            //da check thanh cong khong co Username bi trung
-            user.setUsername(request.getUsername());
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            }else
+                if(request.getPhoneNumber().equals(user.getPhoneNumber())){
+                    user.setFirstName(request.getFirstName());
+                    user.setLastName(request.getLastName());
+                    //da check thanh cong khong co Username bi trung
+                    user.setUsername(request.getUsername());
+                    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+                    user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-            user.setRole(role);
-            user.setBirthOfDate(request.getBirthOfDate());
-            user.setPhoneNumber(request.getPhoneNumber());
-            user.setPoint(point);
-            user.setStatus(status);
+                    user.setRole(role);
+                    user.setBirthOfDate(request.getBirthOfDate());
+                    user.setPhoneNumber(request.getPhoneNumber());
+                    user.setPoint(point);
+                    user.setAvatar(avatar);
+                    user.setStatus(status);
 
-            Date now = new Date();// lấy thời gian hiện tại
+                    Date now = new Date();// lấy thời gian hiện tại
 
-            user.setCreateAt(now);
-            user.setUpdateAt(now);
-            user.setDeleteAt(null);
+                    user.setCreateAt(now);
+                    user.setUpdateAt(now);
+                    user.setDeleteAt(null);
+                    iUserRepository.save(user);
+                    check = true;
+                }else {
+                    if (!iUserRepository.existsByPhoneNumber(request.getPhoneNumber())) {
+                        user.setFirstName(request.getFirstName());
+                        user.setLastName(request.getLastName());
+                        //da check thanh cong khong co Username bi trung
+                        user.setUsername(request.getUsername());
+                        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+                        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
+                        user.setRole(role);
+                        user.setBirthOfDate(request.getBirthOfDate());
+                        user.setPhoneNumber(request.getPhoneNumber());
+                        user.setPoint(point);
+                        user.setAvatar(avatar);
+                        user.setStatus(status);
 
-            iUserRepository.save(user);
-            check = true;
+                        Date now = new Date();// lấy thời gian hiện tại
+
+                        user.setCreateAt(now);
+                        user.setUpdateAt(now);
+                        user.setDeleteAt(null);
+                        iUserRepository.save(user);
+                        check = true;
+                    }else {
+                        throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
+                    }
+                }
         }
-
         return check;
     }// </editor-fold>
 
@@ -305,19 +445,61 @@ public class UserService implements IUserService {
         boolean check = false;
 
         User user = getUserById(id);
-        user.setAvatar(request.getAvatar());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
+        if(user != null){
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+            user.setEmail(request.getEmail());
 
-        user.setBirthOfDate(request.getBirthOfDate());
-        user.setPhoneNumber(request.getPhoneNumber());
+            user.setBirthOfDate(request.getBirthOfDate());
+            user.setPhoneNumber(request.getPhoneNumber());
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-        Date now = new Date();
-        user.setUpdateAt(now);
-        iUserRepository.save(user);
-        check = true;
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setRole(request.getRole());
+            user.setPoint(request.getPoint());
 
+            Date now = new Date();
+            user.setUpdateAt(now);
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return  check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Update User Role By Id For Admin">
+    @Override
+    public boolean updateRoleForAdmin(int id, String role){
+        boolean check = false;
+
+        User user = getUserById(id);
+        String admin = "admin";
+
+        if(user != null && user.getRole().equalsIgnoreCase(admin)){
+            user.setRole(role);
+
+            Date now = new Date();
+            user.setUpdateAt(now);
+            iUserRepository.save(user);
+            check = true;
+        }
+
+        return  check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Set Status User For Admin">
+    @Override
+    public boolean setStatusUserForAdmin(int id, String status) {
+        boolean check = false;
+        String admin = "admin";
+        User user = getUserById(id);
+        if(user != null && !user.getRole().equalsIgnoreCase(admin)){
+            user.setStatus(status);
+            Date now = new Date();
+            user.setUpdateAt(now);
+            iUserRepository.save(user);
+            check = true;
+        }
         return  check;
     }// </editor-fold>
 
@@ -371,6 +553,7 @@ public class UserService implements IUserService {
             userResponse.setBirthOfDate(user.getBirthOfDate());
             userResponse.setPhoneNumber(user.getPhoneNumber());
             userResponse.setPoint(user.getPoint());
+            userResponse.setStatus(user.getStatus());
 
             List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
             userResponse.setListAddress(addressResponses);
@@ -405,6 +588,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
+        userResponse.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
@@ -447,6 +631,7 @@ public class UserService implements IUserService {
         userResponse.setBirthOfDate(user.getBirthOfDate());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setPoint(user.getPoint());
+        userResponse.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         userResponse.setListAddress(addressResponses);
@@ -464,6 +649,7 @@ public class UserService implements IUserService {
     // <editor-fold default state="collapsed" desc="get User By Email Response">
     @Override
     public UserResponse getUserByEmailResponse(String email) {
+        //lấy ra user by email
         User user = getUserByEmail(email);
         UserResponse response =  new UserResponse();
 
@@ -478,6 +664,7 @@ public class UserService implements IUserService {
         response.setBirthOfDate(user.getBirthOfDate());
         response.setPhoneNumber(user.getPhoneNumber());
         response.setPoint(user.getPoint());
+        response.setStatus(user.getStatus());
 
         List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
         response.setListAddress(addressResponses);
@@ -492,5 +679,43 @@ public class UserService implements IUserService {
         return response;
     }
     // </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="search User By Name For Admin">
+    @Override
+    public List<UserResponse> searchUserByNameForAdmin(String name) {
+        List<User> users = iUserRepository.findByName(name);
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (User user : users){
+
+            UserResponse userResponse = new UserResponse();
+
+            userResponse.setId(user.getUserId());
+            userResponse.setAvatar(user.getAvatar());
+            userResponse.setUsername(user.getUsername());
+            userResponse.setFirstName(user.getFirstName());
+            userResponse.setLastName(user.getLastName());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setPassword(user.getPassword());
+            userResponse.setRole(user.getRole());
+            userResponse.setBirthOfDate(user.getBirthOfDate());
+            userResponse.setPhoneNumber(user.getPhoneNumber());
+            userResponse.setPoint(user.getPoint());
+            userResponse.setStatus(user.getStatus());
+
+            List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
+            userResponse.setListAddress(addressResponses);
+
+            List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
+            userResponse.setOrder(orderResponses);
+
+            userResponse.setCreateAt(user.getCreateAt());
+            userResponse.setUpdateAt(user.getUpdateAt());
+            userResponse.setDeleteAt(user.getDeleteAt());
+            userResponses.add(userResponse);
+        }
+        return userResponses;
+    }// </editor-fold>
+
+
 
 }

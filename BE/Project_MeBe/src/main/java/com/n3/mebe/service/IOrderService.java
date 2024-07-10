@@ -22,7 +22,13 @@ public interface IOrderService {
 
     OrderResponse getOrderResponse(int orId);
 
+    OrderResponse getOrderCodeResponse(String code);
+
     void deleteOrder(String orderId);
 
     String setStatusOrder(OrderStatusRequest request);
+
+    List<OrderResponse> getOrdersListEmail(String email);
+
+    List<OrderResponse> getOrdersListPhone(String phone);
 }

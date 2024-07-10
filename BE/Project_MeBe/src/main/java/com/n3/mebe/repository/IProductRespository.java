@@ -23,7 +23,7 @@ public interface IProductRespository extends JpaRepository<Product, Integer> {
     List<Product> findProductByName(@Param("name") String name);
 
 
-    @Query("SELECT p FROM Product p ORDER BY p.createAt DESC")
+    @Query("SELECT p FROM Product p WHERE p.quantity != 0 ORDER BY p.createAt DESC")
     List<Product> findAllProductByCreatedAtDesc();
 
     @Query("SELECT p FROM Product p ORDER BY p.createAt ASC ")

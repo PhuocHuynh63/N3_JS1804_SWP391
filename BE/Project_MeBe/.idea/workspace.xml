@@ -6,9 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="68e7aaec-de9b-49a0-b2cd-bf8491a7af3e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../FE/FE_MeBeReact/app-project-master/src/pages/loginPage/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../FE/FE_MeBeReact/app-project-master/src/pages/loginPage/LoginPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../FE/FE_MeBeReact/app-project-master/src/pages/loginPage/SignInPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../FE/FE_MeBeReact/app-project-master/src/pages/loginPage/SignInPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../FE/FE_MeBeReact/app-project-master/src/pages/registerPage/registerPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../FE/FE_MeBeReact/app-project-master/src/pages/registerPage/registerPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/exception/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IOrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/repository/IOrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/IOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +21,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -43,10 +46,14 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2iFJkdV8sDqnrn6qjVyFc1Opn79" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
@@ -73,23 +80,52 @@
     "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Maven.mebe [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.mebe [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.mebe [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.mebe [verify].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ProjectMeBeApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;thuan2&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vipha/OneDrive/Desktop/code_main/N3_JS1804_SWP391/BE/Project_MeBe/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vipha\OneDrive\Desktop\code_main\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources" />
+      <recent name="C:\Users\vipha\OneDrive\Desktop\code_main\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources\templates" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\test_servere\BE\Project_MeBe\src\main\resources\templates" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\dto\response" />
       <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\config" />
-      <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\java\com\n3\mebe\util" />
-      <recent name="C:\Users\vipha\OneDrive\Desktop\Codemain\N3_JS1804_SWP391\BE\Project_MeBe\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.n3.mebe.dto.request.user" />
       <recent name="com.n3.mebe.dto.response.user.tracking" />
       <recent name="com.n3.mebe.dto.response.user" />
-      <recent name="com.n3.mebe.dto.request.user" />
       <recent name="com.n3.mebe.controller" />
     </key>
   </component>
@@ -172,12 +208,68 @@
       <workItem from="1720103054784" duration="97000" />
       <workItem from="1720103161697" duration="3023000" />
       <workItem from="1720107449371" duration="341000" />
+
       <workItem from="1720614413619" duration="504000" />
+
+      <workItem from="1720180964524" duration="4928000" />
+      <workItem from="1720186552687" duration="2563000" />
+      <workItem from="1720190756103" duration="6854000" />
+      <workItem from="1720197773837" duration="485000" />
+      <workItem from="1720200546772" duration="117000" />
+      <workItem from="1720200748373" duration="391000" />
+      <workItem from="1720204156339" duration="6358000" />
+      <workItem from="1720247196001" duration="12124000" />
+      <workItem from="1720273323755" duration="1617000" />
+      <workItem from="1720275100829" duration="14991000" />
+      <workItem from="1720292594947" duration="56000" />
+      <workItem from="1720296037237" duration="7810000" />
+      <workItem from="1720344449852" duration="7704000" />
+      <workItem from="1720356148861" duration="143000" />
+      <workItem from="1720365152931" duration="256000" />
+      <workItem from="1720365887623" duration="1199000" />
+      <workItem from="1720368859709" duration="5000" />
+      <workItem from="1720368880600" duration="40000" />
+      <workItem from="1720370756463" duration="1150000" />
+      <workItem from="1720373084829" duration="869000" />
+      <workItem from="1720375131421" duration="2277000" />
+      <workItem from="1720378017432" duration="776000" />
+      <workItem from="1720379581867" duration="702000" />
+      <workItem from="1720382741728" duration="300000" />
+      <workItem from="1720401642346" duration="2653000" />
+      <workItem from="1720422802923" duration="1412000" />
+      <workItem from="1720424731712" duration="307000" />
+      <workItem from="1720448195240" duration="1609000" />
+      <workItem from="1720450958594" duration="4122000" />
+      <workItem from="1720530188887" duration="10500000" />
+      <workItem from="1720542120038" duration="1573000" />
+      <workItem from="1720551501311" duration="17000" />
+      <workItem from="1720551647394" duration="5327000" />
+      <workItem from="1720592585959" duration="7045000" />
+      <workItem from="1720602813855" duration="798000" />
+      <workItem from="1720604257578" duration="348000" />
+      <workItem from="1720606656079" duration="317000" />
+      <workItem from="1720607152664" duration="2708000" />
+      <workItem from="1720610294768" duration="2305000" />
+
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -188,9 +280,24 @@
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/paymentOrder/OrderService.java</url>
-          <line>174</line>
-          <option name="timeStamp" value="52" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
+          <line>586</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/AddressSerivce.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/service/iml/UserService.java</url>
+          <line>227</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/n3/mebe/controller/OrderController.java</url>
+          <line>103</line>
+          <option name="timeStamp" value="69" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
