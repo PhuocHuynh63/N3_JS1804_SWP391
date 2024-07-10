@@ -14,9 +14,9 @@ import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.*;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.IPaymentService;
+import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.iml.ProductService;
 import com.n3.mebe.service.iml.UserService;
-import com.n3.mebe.service.iml.mail.SendMailService;
 import com.n3.mebe.util.DataUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +49,16 @@ public class OrderService implements IOrderService {
     private ProductService productService;
 
     @Autowired
-    private SendMailService sendMailService;
+    private ISendMailService sendMailService;
 
     @Autowired
     private IPaymentService paymentService;
 
     @Autowired
     private IProductRespository productRespository;
+
+    @Autowired
+    private IPaymentRepository paymentRepository;
 
 
     @Override
@@ -203,6 +206,7 @@ public class OrderService implements IOrderService {
         order.setCreatedAt(now);
         order.setUpdatedAt(now);
         orderRepository.save(order);
+
         saveOrderDetails(orderRequest.getItem(), order);
         paymentService.savePayment(order , orderRequest.getTransactionReference());
         sendMailService.createSendEmailVerifyOrder(user.getEmail(), order);
@@ -286,10 +290,21 @@ public class OrderService implements IOrderService {
     public String setStatusOrder(OrderStatusRequest request) {
        Order order = getOrder(request.getOrderId());
        String msg = "";
+       String status = "Đã thanh toán";
        if(order.getStatus().isEmpty()){
            return "Update Status không thành công";
        }
-       order.setStatus(request.getStatus());
+
+       // Nếu set status là đa giao thì cập nhập thanh toán thành công
+        if(request.equals("Đã giao")){
+            order.setStatus(request.getStatus());
+            order.setPaymentStatus(status);
+            Payment payment = paymentRepository.findByOrderOrderId(request.getOrderId());
+            payment.setPaymentStatus(status);
+        }else {
+            order.setStatus(request.getStatus());
+        }
+
        orderRepository.save(order);
 
        return "Update status "+ request.getStatus() + "thành công";

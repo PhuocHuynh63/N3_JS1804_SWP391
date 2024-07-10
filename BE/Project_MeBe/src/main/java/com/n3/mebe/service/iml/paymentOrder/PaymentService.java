@@ -25,15 +25,22 @@ public class PaymentService implements IPaymentService {
         payment.setOrder(order);
         payment.setAmount(order.getTotalAmount());
         payment.setPaymentType(order.getOrderType());
-
+        payment.setPaymentStatus(order.getPaymentStatus());
         Date now = new Date();
         payment.setCreateAt(now);
         payment.setUpdateAt(now);
         if(order.getOrderType().equals("COD")){
-           payment.setTransactionReference(DataUtils.generateTempPwd(8));
+            payment.setPaymentStatus("pending");
+            payment.setTransactionReference(DataUtils.generateTempPwd(8));
         }else if(order.getOrderType().equals("Online")){
+            payment.setPaymentStatus("Đã thanh toán");
             payment.setTransactionReference(transactionReference);
         }
         paymentRepository.save(payment);
+    }
+
+    @Override
+    public void setStatusPayment(Order order) {
+
     }
 }
