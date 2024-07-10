@@ -206,4 +206,8 @@ export const meBeSrc = {
         return https.post(`/user/check_otp?otp=${otp}`);
     },
 
+    createWishlist :(data) => {
+        return https.post(`/wishlist/create`,data);
+    }
+
 }

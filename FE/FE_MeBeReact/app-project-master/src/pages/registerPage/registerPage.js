@@ -24,29 +24,27 @@ export default function RegisterPage() {
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
     const [otpVerified, setOtpVerified] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isOtpLoading, setIsOtpLoading] = useState(false); // New state for OTP loading
 
-    const formatDateToDDMMYYYY = (date) => {
-        const d = new Date(date);
-        let day = d.getDate();
-        let month = d.getMonth() + 1;
-        const year = d.getFullYear();
-
-        if (day < 10) {
-            day = '0' + day;
-        }
-        if (month < 10) {
-            month = '0' + month;
-        }
-
-        return `${day}/${month}/${year}`; // Định dạng ngày theo dd/MM/yyyy
+    const formatDateToBackend = (date) => {
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`;
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        if (name === "birthOfDate") {
+            setFormData({
+                ...formData,
+                birthOfDate: formatDateToBackend(value)
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
 
         if (errors[name]) {
             setErrors({
@@ -56,16 +54,9 @@ export default function RegisterPage() {
         }
     };
 
-    const handleDateChange = (e) => {
-        const date = e.target.value;
-        setFormData({
-            ...formData,
-            birthOfDate: formatDateToDDMMYYYY(date)
-        });
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         if (isCheckingEmail) {
             if (!otpSent) {
                 sendOtp();
@@ -80,9 +71,11 @@ export default function RegisterPage() {
     const sendOtp = () => {
         if (!formData.email.trim()) {
             toast.error('Vui lòng nhập email trước khi gửi mã OTP.');
+            setIsLoading(false);
             return;
         }
 
+        setIsOtpLoading(true);
         meBeSrc.sendOtp(formData.email)
             .then(response => {
                 console.log('sendOtp response:', response);
@@ -97,15 +90,21 @@ export default function RegisterPage() {
                 console.error('Error sending OTP:', error);
                 const errorMessage = error.response && error.response.data && error.response.data.msg ? error.response.data.msg : 'Đã xảy ra lỗi khi gửi mã OTP, vui lòng thử lại sau.';
                 toast.error(errorMessage);
+            })
+            .finally(() => {
+                setIsOtpLoading(false);
+                setIsLoading(false);
             });
     };
 
     const verifyOtp = () => {
         if (!otp.trim()) {
             toast.error('Vui lòng nhập mã OTP.');
+            setIsLoading(false);
             return;
         }
 
+        setIsOtpLoading(true);
         meBeSrc.checkOtp(otp)
             .then(response => {
                 if (response.data === "Xác minh thành công") {
@@ -122,6 +121,10 @@ export default function RegisterPage() {
                 const errorMessage = error.response && error.response.data ? error.response.data : 'Đã xảy ra lỗi khi xác minh mã OTP, vui lòng thử lại sau.';
                 toast.error(errorMessage);
                 setOtpVerified(false);
+            })
+            .finally(() => {
+                setIsOtpLoading(false);
+                setIsLoading(false);
             });
     };
 
@@ -139,7 +142,7 @@ export default function RegisterPage() {
                         firstName: user ? (user.firstName || '') : '',
                         lastName: user ? (user.lastName || '') : '',
                         userName: user ? (user.username || '') : '',
-                        birthOfDate: user ? (user.birthOfDate ? formatDateToDDMMYYYY(new Date(user.birthOfDate)) : '') : '',
+                        birthOfDate: user ? (user.birthOfDate ? formatDateToBackend(new Date(user.birthOfDate).toISOString().split('T')[0]) : '') : '',
                         phone: user ? (user.phoneNumber || '') : ''
                     });
                     setIsCheckingEmail(false);
@@ -150,6 +153,9 @@ export default function RegisterPage() {
                 setIsExistingUser(false);
                 console.error('Error checking email:', error);
                 toast.error('Đã xảy ra lỗi khi kiểm tra email, vui lòng thử lại sau.');
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -157,7 +163,7 @@ export default function RegisterPage() {
         const newErrors = {};
         const isOnlyLetters = (name) => /^[a-zA-ZàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlKmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s]+$/.test(name);
         const isValidEmail = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
-        const isValidPassword = (password) => password.length >= 6 && /[0-9]/.test(password);
+        const isValidPassword = (password) => password.length >= 6;
         const isValidPhone = (phone) => /^\d{10,11}$/.test(phone);
         const isFutureDate = (date) => {
             const [day, month, year] = date.split('/');
@@ -185,7 +191,7 @@ export default function RegisterPage() {
         if (!formData.password) {
             newErrors.password = 'Vui lòng nhập mật khẩu.';
         } else if (!isValidPassword(formData.password)) {
-            newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự số.';
+            newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự .';
         }
         if (!formData.birthOfDate) {
             newErrors.birthOfDate = 'Vui lòng nhập ngày sinh.';
@@ -200,6 +206,7 @@ export default function RegisterPage() {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setIsLoading(false);
         } else {
             const userData = {
                 firstName: formData.firstName.trim(),
@@ -230,6 +237,9 @@ export default function RegisterPage() {
                         } else {
                             toast.error('Đã xảy ra lỗi, vui lòng thử lại sau.');
                         }
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
                     });
             } else {
                 meBeSrc.userSignUp(userData)
@@ -248,6 +258,9 @@ export default function RegisterPage() {
                         } else {
                             toast.error('Đã xảy ra lỗi, vui lòng thử lại sau.');
                         }
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
                     });
             }
         }
@@ -279,7 +292,9 @@ export default function RegisterPage() {
                                 </div>
                                 {!otpSent && (
                                     <div className="form-group mb-3">
-                                        <button type="button" className="btn btn-outline-primary btn-lg" onClick={sendOtp}>Kiểm Tra Email</button>
+                                        <button type="button" className="btn btn-outline-primary btn-lg" onClick={sendOtp} disabled={isOtpLoading}>
+                                            {isOtpLoading ? 'Đang gửi...' : 'Kiểm Tra Email'}
+                                        </button>
                                     </div>
                                 )}
                                 {otpSent && !otpVerified && (
@@ -297,10 +312,14 @@ export default function RegisterPage() {
                                             {errors.otp && <div className="invalid-feedback">{errors.otp}</div>}
                                         </div>
                                         <div className="form-group mb-3">
-                                            <button type="button" className="btn btn-outline-primary btn-lg" onClick={verifyOtp}>Xác Minh OTP</button>
+                                            <button type="button" className="btn btn-outline-primary btn-lg" onClick={verifyOtp} disabled={isOtpLoading}>
+                                                {isOtpLoading ? 'Đang xác minh...' : 'Xác Minh OTP'}
+                                            </button>
                                         </div>
                                         <div className="form-group mb-3">
-                                            <button type="button" className="btn btn-outline-primary btn-lg" onClick={sendOtp}>Gửi lại OTP</button>
+                                            <button type="button" className="btn btn-outline-primary btn-lg" onClick={sendOtp} disabled={isOtpLoading}>
+                                                {isOtpLoading ? 'Đang gửi lại...' : 'Gửi lại OTP'}
+                                            </button>
                                         </div>
                                     </>
                                 )}
@@ -378,7 +397,7 @@ export default function RegisterPage() {
                                         name="birthOfDate"
                                         className={`form-control ${errors.birthOfDate ? 'is-invalid' : ''}`}
                                         value={formData.birthOfDate ? formData.birthOfDate.split('/').reverse().join('-') : ''}
-                                        onChange={handleDateChange}
+                                        onChange={handleChange}
                                         style={{ width: "100%" }}
                                     />
                                     {errors.birthOfDate && <div className="invalid-feedback">{errors.birthOfDate}</div>}
@@ -396,7 +415,9 @@ export default function RegisterPage() {
                                     {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                                 </div>
                                 <div className="form-group mb-3">
-                                    <button type="submit" className="btn btn-outline-primary btn-lg">Đăng Ký</button>
+                                    <button type="submit" className="btn btn-outline-primary btn-lg" disabled={isLoading}>
+                                        {isLoading ? 'Đang đăng ký...' : 'Đăng Ký'}
+                                    </button>
                                 </div>
                             </>
                         )}
