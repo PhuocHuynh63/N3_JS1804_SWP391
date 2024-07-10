@@ -73,7 +73,6 @@ public class SendMailService implements ISendMailService {
             stringRedisTemplate.opsForValue().set(passwordKey, password, 15, TimeUnit.MINUTES);
 
 
-
             mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.CLIENT_REGISTER);
             return true;
         } catch (MessagingException exp){

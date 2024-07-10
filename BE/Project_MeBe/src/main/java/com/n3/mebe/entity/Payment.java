@@ -30,6 +30,9 @@ public class Payment {
     @Column(name = "payment_type")
     private String paymentType;
 
+    @Column(name = "payment_status")
+    private String paymentStatus;
+
     @Column(name = "transaction_reference")
     private String transactionReference;
 
