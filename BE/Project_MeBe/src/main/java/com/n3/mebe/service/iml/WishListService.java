@@ -151,7 +151,7 @@ public class WishListService implements IWishListService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
 //      calendar.add(Calendar.DATE, 7);// Thêm 7 ngày
-        calendar.add(Calendar.MINUTE, 5); // Thêm 5 phút
+        calendar.add(Calendar.DATE, 1); // Thêm 5 phút
         return calendar.getTime();
     }
 
