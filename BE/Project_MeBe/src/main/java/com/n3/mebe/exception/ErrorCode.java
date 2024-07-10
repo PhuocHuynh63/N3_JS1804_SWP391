@@ -15,7 +15,7 @@ public enum ErrorCode {
     PRODUCT_SKU_NO_EXIST(1008, "Product sku does not exist"),
     PRODUCT_ATTRIBUTE_NO_EXIST(1009, "Product attribute does not exist"),
     PRODUCT_ATTRIBUTE_EXIST(1010, "Product attribute exist"),
-    ORDER_NO_EXIST(1011, "Order does not exist"),
+    ORDER_NO_EXIST(1011, "Đơn hàng không tồn tại"),
     ORDER_NOT_CANCEL(1014, "Order cannot be cancelled"),
     INVENTORY_NO_EXIST(1012, "Inventory does not exist"),
     PRODUCT_QUANTITY_END(1013, "Product quantity out"),

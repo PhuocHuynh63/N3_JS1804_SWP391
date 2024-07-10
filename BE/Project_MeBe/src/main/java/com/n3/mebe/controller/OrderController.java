@@ -166,4 +166,11 @@ public class OrderController {
         return orderService.getOrderResponse(orderId);
     }
 
+    @GetMapping("/code={code}")
+    public OrderResponse getOrderByCode(@PathVariable("code") String code) {
+        return orderService.getOrderCodeResponse(code);
+    }
+
+
+
 }
