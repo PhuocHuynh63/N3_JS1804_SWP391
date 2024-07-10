@@ -4,13 +4,33 @@ import { Modal } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './wishlistDetail.css';
 import { meBeSrc } from '../../service/meBeSrc';  
-
+import {jwtDecode} from 'jwt-decode';  
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function WishlistDetail() {
+    const [userId, setUserId] = useState(null);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('USER_INFO');
+        if (!token) {
+            navigate('/');
+        } else {
+            const decoded = jwtDecode(token);
+            const username = decoded.sub;
+            meBeSrc.getUserByUserName(username)
+                .then((res) => {
+                    setUserId(res.data.id);
+                })
+                .catch((err) => {
+                    toast.error('Không tìm thấy user ID');
+                });
+        }
+    }, []);
 
     useEffect(() => {
         const storedWishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
