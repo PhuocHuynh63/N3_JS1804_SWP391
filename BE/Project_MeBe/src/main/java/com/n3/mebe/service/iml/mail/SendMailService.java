@@ -56,9 +56,10 @@ public class SendMailService implements ISendMailService {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             String encodedPassword = encoder.encode(password);
             user.setPassword(encodedPassword);
+
+            String status = "forgot";
+            user.setStatus(status);
             IUserRepository.save(user);
-
-
 
             Map<String, Object> props = new HashMap<>();
             props.put("firstName", user.getFirstName());
@@ -69,7 +70,9 @@ public class SendMailService implements ISendMailService {
 
             // Lưu thông tin thanh toán vào Redis
             String passwordKey = "password:" + password;
-            stringRedisTemplate.opsForValue().set(passwordKey, "password", 15, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(passwordKey, password, 15, TimeUnit.MINUTES);
+
+
 
             mailService.sendHtmlMail(response, ConstEmail.TEMPLATE_FILE_NAME.CLIENT_REGISTER);
             return true;

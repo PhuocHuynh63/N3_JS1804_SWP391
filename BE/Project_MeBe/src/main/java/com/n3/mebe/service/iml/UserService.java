@@ -14,6 +14,7 @@ import com.n3.mebe.service.ICloudinaryService;
 import com.n3.mebe.service.IUserService;
 import com.n3.mebe.service.iml.mail.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService implements IUserService {
@@ -40,7 +42,8 @@ public class UserService implements IUserService {
 
     @Autowired
     private ICloudinaryService cloudinaryService;
-
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
 
     // <editor-fold default state="collapsed" desc="Get User By Id">
@@ -166,6 +169,26 @@ public class UserService implements IUserService {
         return response;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Check Password Redis">
+    private boolean checkPasswordRedis(String password) {
+        String passwordKey = "password:" + password;
+        String storedOtp = stringRedisTemplate.opsForValue().get(passwordKey);
+
+        // check xem mật khẩu trên redis còn tồn tại không và có metch với mật khẩu đã nhập
+        if (storedOtp != null && storedOtp.equals(password)) {
+            //nếu có thì xóa redis
+            invalidatePassword(password);
+            return true;
+        } else {
+            return false;
+        }
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Invalidate Password">
+    private void invalidatePassword(String password) {
+        String passwordKey = "password:" + password;
+        stringRedisTemplate.delete(passwordKey);
+    }// </editor-fold>
 
 
 
@@ -513,16 +536,36 @@ public class UserService implements IUserService {
     @Override
     public String changePassword(int id, String oldPassword, String newPassword) {
         User user = getUserById(id);
+
         String msg;
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean check = passwordEncoder.matches(oldPassword, user.getPassword());
 
+        String status = "forgot";
+        String active = "active";
+        // Nếu trạng thái là quên thì mới vào
+        if (user.getStatus().equals(status)){
+            boolean checkRedis = checkPasswordRedis(oldPassword);
+            //check xem redis mật khẩu còn hạn không
+            if(!checkRedis){
+                throw new AppException(ErrorCode.PASSWORD_TIME_OUT);
+            }else {
+
+                //nếu còn hạn thì save mật khẩu mới và set lại status là active
+                user.setPassword(passwordEncoder.encode(newPassword));
+                user.setStatus(active);
+                iUserRepository.save(user);
+                return "Thay đổi mật khẩu thành công";
+            }
+        }
+
+        // Nếu không là forgot thì xuống đây update mật khẩu
         if (check) {
             user.setPassword(passwordEncoder.encode(newPassword));
             iUserRepository.save(user);
-            msg = "Change successfully";
+            msg = "Thay đổi mật khẩu thành công";
         }else{
-            msg = "Password old does not match";
+            msg = "Mật khẩu cũ không khớp";
         }
         return msg;
     }// </editor-fold>
