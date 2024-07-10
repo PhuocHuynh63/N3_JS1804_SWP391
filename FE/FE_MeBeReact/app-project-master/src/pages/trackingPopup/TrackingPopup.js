@@ -4,28 +4,34 @@ import "./TrackingPopup.css";
 import { meBeSrc } from "../../service/meBeSrc";
 
 const TrackingPopup = ({ show, handleClose, orderId }) => {
-    console.log(orderId);
+
     /**
-     * Call API to get order detail
+     * Call API to get order details
      */
-    const [orderDetails, setOrderDetails] = useState([])
+    const [orderDetails, setOrderDetails] = useState([]);
     useEffect(() => {
         meBeSrc.getOrderDetail(orderId)
             .then((res) => {
-                setOrderDetails(res.data)
+                setOrderDetails(res.data);
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
-    }, [orderId])
-    //-----End-----//
+    }, [orderId]);
+    //------End-------//
+
 
     /**
-     * parse order date & total price
+     * Get order details
      */
-    const orderDate = (orderDetails[0]?.order?.createdAt) ? new Date(orderDetails[0]?.order?.createdAt).toLocaleDateString() : "";
+    const orderDate = orderDetails[0]?.order?.createdAt ? new Date(orderDetails[0]?.order?.createdAt).toLocaleDateString('en-GB') : "";
     const totalPrice = orderDetails.reduce((total, item) => total + item.salePrice * item.quantity, 0).toLocaleString();
-    //-----End-----//
-
+    const orderCode = orderDetails[0]?.order?.orderCode;
+    const userName = `${orderDetails[0]?.order?.user?.firstName} ${orderDetails[0]?.order?.user?.lastName}`;
+    const phoneNumber = orderDetails[0]?.order?.user?.phoneNumber;
+    const shipAddress = orderDetails[0]?.order?.shipAddress;
+    const orderType = orderDetails[0]?.order?.orderType;
+    const paymentStatus = orderDetails[0]?.order?.paymentStatus;
+    //------End-------//
 
     return (
         <Modal visible={show} onCancel={handleClose} footer={null} centered>
@@ -33,25 +39,33 @@ const TrackingPopup = ({ show, handleClose, orderId }) => {
                 <div className="tracking-popup_header">
                     <h2 style={{ textAlign: "start" }}>Chi tiết đơn hàng</h2>
                 </div>
-                <p style={{ textAlign: "start", fontSize: "17px" }}>Ngày đặt hàng: {orderDate}</p>
-                {orderDetails.map((item) => {
-                    return (
-                        <div key={item.odId} className="tracking-popup_body">
-                            <div className="tracking-popup_body_item">
-                                <div className="left">
-                                    <img src={item.product.images} alt="Hình ảnh" style={{ textAlign: "start" }} />
-                                    <div className="content">
-                                        <p style={{ marginBottom: "0px", fontSize: "17px" }}>{item.product.name}</p>
-                                        <p style={{ textAlign: "start" }}>x{item.quantity}</p>
-                                    </div>
-                                </div>
-                                <div className="right">
-                                    <p>{item.salePrice.toLocaleString()} đ</p>
+                <div className="tracking-popup_infobase">
+                    <span style={{ fontSize: "17px" }}>Ngày đặt hàng: {orderDate}</span>
+                    <span style={{ fontSize: "17px" }}>Mã đơn hàng: <span style={{ color: "red" }}>{orderCode}</span></span>
+                </div>
+                <div className="tracking-popup_infodetails">
+                    <span style={{ fontSize: "15px", fontWeight: "normal" }}>Tên khách hàng: <span style={{ fontWeight: "500" }}>{userName}</span></span>
+                    <span style={{ fontSize: "15px", fontWeight: "normal" }}>Số điện thoại: <span style={{ fontWeight: "500" }}>{phoneNumber}</span></span>
+                    <span style={{ fontSize: "15px", fontWeight: "normal" }}>Địa chỉ giao hàng: <span style={{ fontWeight: "500" }}>{shipAddress}</span></span>
+                    <span style={{ fontSize: "15px", fontWeight: "normal" }}>Loại đơn hàng: <span style={{ fontWeight: "500" }}>{orderType}</span></span>
+                    <span style={{ fontSize: "15px", fontWeight: "normal" }}>Trạng thái thanh toán: <span style={{ fontWeight: "500" }}>{paymentStatus}</span></span>
+                </div>
+                <div className="tracking-popup_body">
+                    {orderDetails.map((item) => (
+                        <div className="tracking-popup_body_item" key={item.odId}>
+                            <div className="left">
+                                <img src={item.product.images} alt="Hình ảnh" style={{ textAlign: "start" }} />
+                                <div className="content">
+                                    <p style={{ marginBottom: "0px", fontSize: "17px" }}>{item.product.name}</p>
+                                    <p style={{ textAlign: "start" }}>x{item.quantity}</p>
                                 </div>
                             </div>
+                            <div className="right">
+                                <p style={{ textAlign: "end" }}>{item.salePrice.toLocaleString()}đ</p>
+                            </div>
                         </div>
-                    );
-                })}
+                    ))}
+                </div>
                 <div className="total">
                     <span>Tổng: </span>
                     <span style={{ fontSize: "22px", color: "red" }}>
