@@ -120,9 +120,11 @@ export default function AdminProduct() {
                   <img className="product-image" src={product.images}></img>
                 </td>
                 <td style={{ textAlign: "left" }}>{product.name}</td>
-                <td>{product.status}</td>
+                <td style={{ color: product.status === 'Hết hàng' ? 'red' : 'black' }}>
+                    {product.status}
+                </td>
                 <td>{product.subCategory.category.name}</td>
-                <td>{product.salePrice.toLocaleString()} đ</td>
+                <td>{product.salePrice > 0 ? product.salePrice.toLocaleString() : product.price.toLocaleString()} đ</td>
                 <td>{(product.price).toLocaleString()} đ</td>
                 <td style={{ textAlign: "end" }}>
                   <div className="action">

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './PopupAddUser.css';
 import { Modal } from 'antd';
 import { meBeSrc } from '../../../../service/meBeSrc';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PopupAddUser = ({ show, handleClose }) => {
 
@@ -23,6 +25,8 @@ const PopupAddUser = ({ show, handleClose }) => {
     });
     //------End------//
 
+    const [errors, setErrors] = useState({});
+
     /**
      * Handle input change
      * @param {*} e 
@@ -34,7 +38,6 @@ const PopupAddUser = ({ show, handleClose }) => {
         });
     };
     //------End------//
-
 
     /**
      * Change date format from 'yyyy-mm-dd' to 'dd/mm/yyyy'
@@ -48,6 +51,37 @@ const PopupAddUser = ({ show, handleClose }) => {
     //------End------//
     //-------------------------------------------------------------------//
 
+    /**
+     * Validate the form data
+     */
+    const validateForm = () => {
+        const newErrors = {};
+        const today = new Date().toISOString().split('T')[0];
+
+        if (!formData.username) newErrors.username = 'Tên đăng nhập là bắt buộc';
+        if (!formData.firstName) newErrors.firstName = 'Họ là bắt buộc';
+        if (!formData.lastName) newErrors.lastName = 'Tên là bắt buộc';
+        if (!formData.email) newErrors.email = 'Email là bắt buộc';
+        if (!formData.phoneNumber) {
+            newErrors.phoneNumber = 'Số điện thoại là bắt buộc';
+        } else if (!/^\d{10,11}$/.test(formData.phoneNumber)) {
+            newErrors.phoneNumber = 'Số điện thoại phải từ 10 đến 11 ký tự số';
+        }
+        if (!formData.birthOfDate) {
+            newErrors.birthOfDate = 'Ngày sinh là bắt buộc';
+        } else if (formData.birthOfDate > today) {
+            newErrors.birthOfDate = 'Ngày sinh không được ở tương lai';
+        }
+        if (!formData.password) {
+            newErrors.password = 'Mật khẩu là bắt buộc';
+        } else if (formData.password.length < 6) {
+            newErrors.password = 'Mật khẩu tối thiểu 6 ký tự';
+        }
+        if (!formData.role) newErrors.role = 'Ủy quyền là bắt buộc';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+    //------End------//
 
     /**
      * Handle Submit
@@ -55,38 +89,46 @@ const PopupAddUser = ({ show, handleClose }) => {
      */
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            toast.error('Vui lòng kiểm tra lại thông tin');
+            return;
+        }
 
         const formattedData = {
             ...formData,
             birthOfDate: formData.birthOfDate ? formatDateToBackend(formData.birthOfDate) : '',
         };
 
-        console.log('Submitting data:', formattedData);
-
         meBeSrc.postUserForAdmin(formattedData)
             .then((res) => {
-                console.log('Response:', res);
-                handleClose();
+                toast.success('Thêm người dùng thành công');
+                setTimeout(() => {
+                    handleClose();
+                    window.location.reload();
+                }, 1000); // Wait 1 second before closing and reloading
             })
-            .catch((err) => {
-                console.error('Error:', err);
+            .catch((error) => {
+                toast.error('Có lỗi xảy ra: ' + (error.response?.data?.msg || error.message));
             });
     };
     //------End------//
 
     return (
         <Modal visible={show} onCancel={handleClose} footer={null} width="auto" centered>
+            <ToastContainer />
             <div className="admin-user-add">
                 <h1>Thêm người dùng mới</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group username">
-                        <label htmlFor="userName">Tên đăng nhập</label>
+                        <label htmlFor="username">Tên đăng nhập</label>
                         <input
                             type="text"
                             id="username"
                             value={formData.username}
                             onChange={handleChange}
+                            required
                         />
+                        {errors.username && <p className="error">{errors.username}</p>}
                     </div>
 
                     <div className='name'>
@@ -97,7 +139,9 @@ const PopupAddUser = ({ show, handleClose }) => {
                                 id="firstName"
                                 value={formData.firstName}
                                 onChange={handleChange}
+                                required
                             />
+                            {errors.firstName && <p className="error">{errors.firstName}</p>}
                         </div>
 
                         <div className="form-group lastname">
@@ -107,7 +151,9 @@ const PopupAddUser = ({ show, handleClose }) => {
                                 id="lastName"
                                 value={formData.lastName}
                                 onChange={handleChange}
+                                required
                             />
+                            {errors.lastName && <p className="error">{errors.lastName}</p>}
                         </div>
                     </div>
 
@@ -118,17 +164,21 @@ const PopupAddUser = ({ show, handleClose }) => {
                             id="email"
                             value={formData.email}
                             onChange={handleChange}
+                            required
                         />
+                        {errors.email && <p className="error">{errors.email}</p>}
                     </div>
 
-                    <div className="form-group email">
+                    <div className="form-group phoneNumber">
                         <label htmlFor="phoneNumber">Số điện thoại</label>
                         <input
                             type="text"
                             id="phoneNumber"
                             value={formData.phoneNumber}
                             onChange={handleChange}
+                            required
                         />
+                        {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>}
                     </div>
 
                     <div className="form-group birthOfDate">
@@ -138,7 +188,9 @@ const PopupAddUser = ({ show, handleClose }) => {
                             id="birthOfDate"
                             value={formData.birthOfDate}
                             onChange={handleChange}
+                            required
                         />
+                        {errors.birthOfDate && <p className="error">{errors.birthOfDate}</p>}
                     </div>
 
                     <div className="form-group password">
@@ -150,6 +202,7 @@ const PopupAddUser = ({ show, handleClose }) => {
                             onChange={handleChange}
                             required
                         />
+                        {errors.password && <p className="error">{errors.password}</p>}
                     </div>
 
                     <div className="form-group role">
@@ -165,6 +218,7 @@ const PopupAddUser = ({ show, handleClose }) => {
                             <option value="staff">Nhân viên</option>
                             <option value="admin">Quản trị viên</option>
                         </select>
+                        {errors.role && <p className="error">{errors.role}</p>}
                     </div>
 
                     <div className="form-group hidden">

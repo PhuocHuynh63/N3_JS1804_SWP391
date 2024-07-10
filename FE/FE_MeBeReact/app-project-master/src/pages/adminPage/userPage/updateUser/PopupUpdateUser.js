@@ -6,6 +6,7 @@ import Successful from '../../../../components/popupSuccessful/Successful';
 
 const PopupUpdateUser = ({ show, handleClose, user_id }) => {
     const [showModal, setShowModal] = useState(false);
+    const [errors, setErrors] = useState({}); // Added state for errors
 
     /**
      * Call API to get a user by id
@@ -78,11 +79,35 @@ const PopupUpdateUser = ({ show, handleClose, user_id }) => {
     //-----End-----//
 
     /**
+     * Validate the form data
+     */
+    const validateForm = () => {
+        const today = new Date().toISOString().split('T')[0];
+        const newErrors = {};
+
+        if (!/^\d{10,11}$/.test(formData.phoneNumber)) {
+            newErrors.phoneNumber = 'Số điện thoại phải từ 10 đến 11 ký tự số';
+        }
+        if (formData.birthOfDate > today) {
+            newErrors.birthOfDate = 'Ngày sinh không được ở tương lai';
+        }
+        if (formData.point < 0) {
+            newErrors.point = 'Điểm không thể âm';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+    //-----End-----//
+
+    /**
      * Handle form submission
      * @param {*} e 
      */
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return;
+        }
         const updatedFormData = {
             ...formData,
             birthOfDate: formatDateToBackend(formData.birthOfDate)
@@ -149,6 +174,7 @@ const PopupUpdateUser = ({ show, handleClose, user_id }) => {
                             value={formData.birthOfDate}
                             onChange={handleChange}
                         />
+                        {errors.birthOfDate && <p className="error">{errors.birthOfDate}</p>}
                     </div>
 
                     <div className="form-group email">
@@ -169,6 +195,7 @@ const PopupUpdateUser = ({ show, handleClose, user_id }) => {
                             value={formData.phoneNumber}
                             onChange={handleChange}
                         />
+                        {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>}
                     </div>
 
                     <div className="form-group password">
@@ -195,7 +222,6 @@ const PopupUpdateUser = ({ show, handleClose, user_id }) => {
                             </select>
                         </div>
 
-
                         <div className="form-group point">
                             <label htmlFor="point">Điểm</label>
                             <input
@@ -204,6 +230,7 @@ const PopupUpdateUser = ({ show, handleClose, user_id }) => {
                                 value={formData.point}
                                 onChange={handleChange}
                             />
+                            {errors.point && <p className="error">{errors.point}</p>}
                         </div>
                     </div>
 
