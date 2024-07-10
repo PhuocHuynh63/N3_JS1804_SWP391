@@ -11,10 +11,7 @@ import com.n3.mebe.dto.response.user.UserAddressResponse;
 import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
-import com.n3.mebe.repository.IAddressRepository;
-import com.n3.mebe.repository.IOrderDetailsRepository;
-import com.n3.mebe.repository.IOrderRepository;
-import com.n3.mebe.repository.IUserRepository;
+import com.n3.mebe.repository.*;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.IPaymentService;
 import com.n3.mebe.service.iml.ProductService;
@@ -56,6 +53,9 @@ public class OrderService implements IOrderService {
 
     @Autowired
     private IPaymentService paymentService;
+
+    @Autowired
+    private IProductRespository productRespository;
 
 
     @Override
@@ -100,7 +100,12 @@ public class OrderService implements IOrderService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
 
+
             Product product = productService.getProductById(item.getProductId());
+            //cộng số lượng đã bán
+            int totalSold = product.getTotalSold() + item.getQuantity();
+            product.setTotalSold(totalSold);
+            productRespository.save(product);
 
             orderDetail.setProduct(product);
             orderDetail.setQuantity(item.getQuantity());
