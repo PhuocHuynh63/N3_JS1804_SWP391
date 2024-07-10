@@ -18,4 +18,6 @@ public interface IOrderRepository extends JpaRepository<Order, Integer> {
     boolean existsByVoucherVoucherCodeAndUserUserId(String code, int userId);
 
     boolean existsByOrderCode(String code);
+
+    Order findByOrderCode(String code);
 }

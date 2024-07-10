@@ -84,7 +84,7 @@ public class UserController {
             responseData.setSuccess(true);
             responseData.setStatus(200);
         } else {
-            responseData.setDescription("Email không tồn tại trong hệ thống!");
+            responseData.setDescription("Bạn chưa từng mua hàng!");
             responseData.setSuccess(false);
             responseData.setStatus(400);
         }

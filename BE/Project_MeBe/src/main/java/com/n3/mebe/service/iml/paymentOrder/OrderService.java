@@ -420,8 +420,34 @@ public class OrderService implements IOrderService {
         return orderResponse;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Get Order Code Response">
+    @Override
+    public OrderResponse getOrderCodeResponse(String code) {
+        if(!orderRepository.existsByOrderCode(code)){
+            throw new AppException(ErrorCode.ORDER_NO_EXIST);
+        }
+        Order order = orderRepository.findByOrderCode(code);
+
+        OrderResponse orderResponse = new OrderResponse();
+
+        orderResponse.setOrderId(order.getOrderId());
 
 
+        orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+        orderResponse.setVoucher(order.getVoucher());
+        orderResponse.setStatus(order.getStatus());
+        orderResponse.setOrderCode(order.getOrderCode());
+        orderResponse.setShipAddress(order.getShipAddress());
+
+        orderResponse.setTotalAmount(order.getTotalAmount());
+
+        orderResponse.setOrderType(order.getOrderType());
+        orderResponse.setPaymentStatus(order.getPaymentStatus());
+        orderResponse.setNote(order.getNote());
+        orderResponse.setCreatedAt(order.getCreatedAt());
+        orderResponse.setUpdatedAt(order.getUpdatedAt());
+        return orderResponse;
+    }// </editor-fold>
 
 
 }
