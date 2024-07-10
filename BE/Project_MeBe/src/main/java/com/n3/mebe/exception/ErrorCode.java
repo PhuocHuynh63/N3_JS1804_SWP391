@@ -36,8 +36,8 @@ public enum ErrorCode {
     SUB_CATEGORY_ID_NO_EXIST(1029, "ID không tồn tại"),
     SUB_CATEGORY_NAME_EXIST(1030, "Name SubCate đã tồn tại"),
     SUB_CATEGORY_SLUG_EXIST(1031, "Slug SubCate đã tồn tại"),
-
     EMAIL_HAVE_ACCOUNT(1032, "Email đã có tài khoản đăng ký, vui lòng chuyển sang trang nhập hoặc nhập email mới"),
+    PASSWORD_TIME_OUT(1033, "Mật khẩu tạm thời đã hết hạn!"),
 
 
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
