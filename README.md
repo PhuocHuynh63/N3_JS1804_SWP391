@@ -29,7 +29,7 @@
    |        Name         |       Role      |   Student ID   |      Sprint 1       |               Sprint 2             |      Sprint 3      |      Sprint 4      |
    |---------------------|-----------------|----------------|---------------------|------------------------------------|--------------------|--------------------|
    |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |UC-34:Create Address |UC-06: Update Account |UC-22: Tracks Order<br> UC-24: Update Order |UC-35: Update Address<br> UC-36: Delete Address |                                    
-   |Huỳnh Minh Phước     |      Member     |    SE171830    |UC-16: Add to Cart   |                                    |UC-19: View Cart |UC-09: Edit Profile |
+   |Huỳnh Minh Phước     |      Member     |    SE171830    |UC-16: Add to Cart   |UC-04: Forgot Password |UC-19: View Cart |UC-09: Edit Profile |
    |Hứa Đình Thuận       |      Member     |    SE171787    |UC-01: Login        |                                    |                    |                    |
    |Nguyễn Chí Thành     |      Member     |    SE171820    |UC-03: Register     |                                    |                    |                    |
    |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |UC-10: Create Product |UC-02: Logout<br> UC-05: Change Password<br> |UC-23: Views Order |                    |
