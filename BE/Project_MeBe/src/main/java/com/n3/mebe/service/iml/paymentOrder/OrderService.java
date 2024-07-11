@@ -129,9 +129,8 @@ public class OrderService implements IOrderService {
     // <editor-fold default state="collapsed" desc="cancelOrderDetails">
     private void cancelOrderDetails(List<OrderDetail> items) {
         for (OrderDetail item : items) {
-            OrderDetail orderDetail = new OrderDetail();
 
-            Product product = orderDetail.getProduct();
+            Product product = item.getProduct();
             //cộng số lượng đã bán
             int totalSold = product.getTotalSold() - item.getQuantity();
             product.setTotalSold(totalSold);
@@ -268,7 +267,8 @@ public class OrderService implements IOrderService {
             msg = "Hủy thành công";
             order.setStatus(status);
             order.setNote(request.getNote());
-            List<OrderDetail> orderDetails = order.getOrderDetails();
+            List<OrderDetail> orderDetails = orderDetailsRepository.findByOrderOrderId(orderId);
+
 
             cancelOrderDetails(orderDetails);
             Date now = new Date();
