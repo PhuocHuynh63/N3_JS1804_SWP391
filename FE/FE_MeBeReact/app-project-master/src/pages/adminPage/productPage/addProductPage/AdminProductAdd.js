@@ -135,13 +135,17 @@ export default function AdminProductAdd() {
    * Handle sale price
    */
   const handleSalePrice = () => {
-    const price = formData.price;
-    const salePrice = price - (price * discount) / 100;
+    const price = parseFloat(formData.price) || 0;
+    const discountValue = parseFloat(discount) || 0;
+    const salePrice = price - (price * discountValue) / 100;
+    console.log('Price:', price);
+    console.log('Discount:', discountValue);
+    console.log('Calculated Sale Price:', salePrice);
     setFormData({ ...formData, salePrice: salePrice });
   };
 
   useEffect(() => {
-    if (formData.price && discount) {
+    if (formData.price !== "" && discount !== "") {
       handleSalePrice();
     }
   }, [formData.price, discount]);
@@ -189,6 +193,7 @@ export default function AdminProductAdd() {
               id="price"
               value={formData.price}
               onChange={handleChange}
+              min="0"
               required
             />
           </div>
@@ -214,6 +219,7 @@ export default function AdminProductAdd() {
               id="quantity"
               value={formData.quantity}
               onChange={handleChange}
+              min="0"
             />
           </div>
         </div>

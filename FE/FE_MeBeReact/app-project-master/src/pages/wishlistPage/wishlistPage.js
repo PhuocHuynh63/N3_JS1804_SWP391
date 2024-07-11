@@ -2,23 +2,63 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import "./wishlistPage.css";
 import { useNavigate } from "react-router-dom";
+import {jwtDecode} from 'jwt-decode';
+import { meBeSrc } from '../../service/meBeSrc';
 
 const WishlistPage = ({ show, handleClose }) => {
     const [wishlistItems, setWishlistItems] = useState([]);
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        const token = localStorage.getItem('USER_INFO');
+        if (!token) {
+            navigate('/');
+        } else {
+            const decoded = jwtDecode(token);
+            const username = decoded.sub;
+
+            meBeSrc.getUserByUserName(username)
+                .then((res) => {
+                    const userData = {
+                        ...res.data,
+                    };
+                    setUser(userData);
+                })
+                .catch((err) => {
+                    console.log("Error fetching user", err);
+                });
+        }
+    }, [navigate]);
+
+    useEffect(() => {
         const storedWishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
-        setWishlistItems(storedWishlistItems);
+        console.log("Loaded wishlist items from localStorage:", storedWishlistItems);
+
+        const fetchProductDetails = async () => {
+            const updatedWishlistItems = await Promise.all(storedWishlistItems.map(async (item) => {
+                try {
+                    const response = await meBeSrc.getProductDetail(item.productId);
+                    return { ...item, max: response.data.quantity };
+                } catch (error) {
+                    console.error('Error fetching product details:', error);
+                    return item;
+                }
+            }));
+            setWishlistItems(updatedWishlistItems);
+            localStorage.setItem('wishlistItems', JSON.stringify(updatedWishlistItems));
+        };
+
+        fetchProductDetails();
     }, [show]);
 
     const updateQuantity = (productId, change) => {
         const updatedWishlistItems = wishlistItems.map(item => {
             if (item.productId === productId) {
                 const newQuantity = item.quantity + change;
-                if (newQuantity > 0) {
+                if (newQuantity > 0 && newQuantity <= item.max) {
                     item.quantity = newQuantity;
                     item.totalPrice = (item.salePrice || item.price) * newQuantity;
                 }
@@ -52,6 +92,19 @@ const WishlistPage = ({ show, handleClose }) => {
         handleClose();
         navigate(url);
     }
+
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const storedWishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+            setWishlistItems(storedWishlistItems);
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -91,9 +144,17 @@ const WishlistPage = ({ show, handleClose }) => {
                                     <td className="price">{(item.salePrice || item.price).toLocaleString('vi-VN')}₫</td>
                                     <td>
                                         <div className="quantity-control">
-                                            <button className="minus-btn" onClick={() => updateQuantity(item.productId, -1)}>-</button>
+                                            <button 
+                                                className="minus-btn" 
+                                                onClick={() => updateQuantity(item.productId, -1)} 
+                                                disabled={item.quantity === 1}
+                                            >-</button>
                                             <input type="text" className="wishlist-quantity" value={item.quantity} readOnly />
-                                            <button className="plus-btn" onClick={() => updateQuantity(item.productId, 1)}>+</button>
+                                            <button 
+                                                className="plus-btn" 
+                                                onClick={() => updateQuantity(item.productId, 1)} 
+                                                disabled={item.quantity >= item.max}
+                                            >+</button>
                                         </div>
                                     </td>
                                     <td className="subtotal">{item.totalPrice.toLocaleString('vi-VN')}₫</td>

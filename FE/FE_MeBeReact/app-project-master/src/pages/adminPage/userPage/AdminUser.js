@@ -111,7 +111,7 @@ export default function AdminUser() {
       <div className="admin-user_action">
         <button className="btn-add_user" onClick={() => setShowAddUser(true)}> + Thêm người dùng mới</button>
         <div className="admin-user_search">
-          <input type="text" className="admin-user_searchinput" placeholder="Nhập người dùng cần tìm" onChange={handleSearchChange} value={searchTerm} />
+          <input type="text" className="admin-user_searchinput" placeholder="Nhập tên người dùng cần tìm" onChange={handleSearchChange} value={searchTerm} />
           <i id="search" className="fa-solid fa-magnifying-glass"></i>
         </div>
       </div>

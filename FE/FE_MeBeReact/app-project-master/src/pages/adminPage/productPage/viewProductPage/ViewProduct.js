@@ -14,7 +14,8 @@ export default function ViewProduct() {
         salePrice: 0,
         quantity: 0,
         description: '',
-        image: ''
+        image: '',
+        totalSold: 0
     });
 
     /**
@@ -44,6 +45,10 @@ export default function ViewProduct() {
             });
     }, [productId]);
     //-----End-----//
+
+    const calculateRevenue = () => {
+        return product.totalSold * product.salePrice;
+    };
 
     return (
         <div className="admin-product-view">
@@ -80,7 +85,7 @@ export default function ViewProduct() {
                         <input
                             type="number"
                             id="price"
-                            value={product.price.toLocaleString()}
+                            value={product.price}
                             disabled
                         />
                     </div>
@@ -112,7 +117,6 @@ export default function ViewProduct() {
                     <div className="form-group image">
                         <label htmlFor="image">Ảnh: <span className="obligatory">*</span></label>
                         <input type="file" id="image" disabled />
-
                     </div>
                 </div>
 
@@ -125,7 +129,27 @@ export default function ViewProduct() {
                         disabled
                     />
                 </div>
-                <h3>Thống kê số lượng sản phẩm đã được bán</h3>
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="total_sold">Số lượt bán: </label>
+                        <input
+                            type="text"
+                            id="total_sold"
+                            value={product.totalSold}
+                            disabled
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="revenue">Doanh thu: </label>
+                        <input
+                            type="text"
+                            id="revenue"
+                            value={calculateRevenue().toLocaleString()}
+                            disabled
+                        />
+                    </div>
+                </div>
                 <div className="form-group_btn">
                     <Link to={'/admin/product'} className="btn-close_add">Quay lại</Link>
                     <Link to={`/admin/product/update/${productId}`} className="btn-add" style={{ textAlign: "center" }}>Cập nhật <i className="fa-solid fa-arrow-right"></i></Link>

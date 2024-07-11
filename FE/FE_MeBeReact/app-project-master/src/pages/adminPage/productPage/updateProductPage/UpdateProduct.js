@@ -8,7 +8,6 @@ export default function UpdateProduct() {
     const productId = window.location.pathname.split("/").pop();
     const [showModal, setShowModal] = useState(false);
 
-
     /**
      * State form data
      */
@@ -29,7 +28,6 @@ export default function UpdateProduct() {
 
     const [discount, setDiscount] = useState(0);
 
-
     /**
      * Handle Change Input
      * @param {*} e 
@@ -48,7 +46,6 @@ export default function UpdateProduct() {
     };
     //-----End-----//
 
-
     /**
      * Call API to get sub category
      */
@@ -64,18 +61,15 @@ export default function UpdateProduct() {
     }, []);
     //-----End-----//
 
-
     /**
      * Call API to get product by id
      */
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        const productId = window.location.pathname.split("/").pop();
         meBeSrc.getProductById(productId)
             .then((res) => {
                 setProduct(res.data);
-                // console.log(res.data);
                 setFormData({
                     ...formData,
                     image: res.data.images,
@@ -95,9 +89,8 @@ export default function UpdateProduct() {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [productId]);
     //-----End-----//
-
 
     /**
      * Handle Image Change
@@ -113,7 +106,6 @@ export default function UpdateProduct() {
         setImagePreview(URL.createObjectURL(file));
     };
     //-----End-----//
-
 
     /**
      * Handle Submit Form
@@ -136,20 +128,16 @@ export default function UpdateProduct() {
             productView: formData.productView,
         }));
 
-        console.log(productId);
-        console.log(formData);
-
         meBeSrc.putProduct(productId, productData)
             .then((res) => {
                 setShowModal(true);
-                console.log('Product created successfully', res.data);
+                console.log('Product updated successfully', res.data);
             })
             .catch((err) => {
-                console.error('Error creating product', err);
+                console.error('Error updating product', err);
             });
     };
     //-----End-----//
-
 
     /**
      * Handle status product
@@ -167,23 +155,22 @@ export default function UpdateProduct() {
     }, [formData.quantity]);
     //-----End-----//
 
-
     /**
      * Handle sale price
      */
     const handleSalePrice = () => {
-        const price = formData.price;
-        const salePrice = price - (price * discount) / 100;
-        setFormData({ ...formData, salePrice: salePrice });
+        const price = parseFloat(formData.price) || 0;
+        const discountValue = parseFloat(discount) || 0;
+        const salePrice = discountValue === 0 ? price : price - (price * discountValue) / 100;
+        setFormData({ ...formData, salePrice: salePrice.toFixed(2) });
     };
 
     useEffect(() => {
-        if (formData.price && discount) {
+        if (formData.price && discount >= 0) {
             handleSalePrice();
         }
     }, [formData.price, discount]);
     //-----End-----//
-
 
     return (
         <div className="admin-product-add">
@@ -223,9 +210,10 @@ export default function UpdateProduct() {
                         <input
                             type="number"
                             id="price"
-                            value={formData.price.toLocaleString()}
+                            value={formData.price}
                             onChange={handleChange}
                             required
+                            min="0"
                         />
                     </div>
 
@@ -250,6 +238,7 @@ export default function UpdateProduct() {
                             id="quantity"
                             value={formData.quantity}
                             onChange={handleChange}
+                            min="0"
                         />
                     </div>
                 </div>
