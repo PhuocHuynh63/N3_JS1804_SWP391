@@ -28,60 +28,49 @@
 &nbsp;&nbsp;&nbsp;&nbsp;**1.6 Member in project**
    |        Name         |       Role      |   Student ID   |      Sprint 1       |               Sprint 2             |      Sprint 3      |      Sprint 4      |
    |---------------------|-----------------|----------------|---------------------|------------------------------------|--------------------|--------------------|
-   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |UC-34:Create Address |UC-06: Update Account |UC-22: Tracks Order<br> UC-24: Update Order |UC-35: Update Address<br> UC-36: Delete Address |                                    
+   |Đặng Lê Hoàng Phúc   |      Leader     |    SE171826    |UC-34:Create Address |UC-06: Update Account |UC-22: Tracks Order<br> UC-24: Update Order |UC-35: Update Address<br> UC-36: Delete Address |                       
    |Huỳnh Minh Phước     |      Member     |    SE171830    |UC-16: Add to Cart   |UC-04: Forgot Password |UC-19: View Cart |UC-09: Edit Profile |
-   |Hứa Đình Thuận       |      Member     |    SE171787    |UC-01: Login        |                                    |                    |                    |
+   |Hứa Đình Thuận       |      Member     |    SE171787    |UC-01: Login        |Whislist                                    |                    |                    |
    |Nguyễn Chí Thành     |      Member     |    SE171820    |UC-03: Register     |                                    |                    |                    |
    |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |UC-10: Create Product |UC-02: Logout<br> UC-05: Change Password<br> |UC-23: Views Order |                    |
    |Lâm Xuân Thái        |      Member     |    SE17xxxx    |UC-17: Update Cart   |                                    |                    |                    |
    
 ## **2. Use case**
 
-**UC-01: Log-in**<br>
-**UC-02: Log-out**<br>
-**UC-03: Register**<br>
-**UC-04: Forgot Password**<br>
-**UC-05: Change Password**<br>
-**UC-06: Update Account**<br>
-**UC-07: Delete Account**<br>
-**UC-08: View Accounts**<br>
-**UC-09: Edit Profile**<br>
+**UC-01: Register**<br>
+**UC-02: Log-in**<br>
+**UC-03: Forgot Password**<br>
+**UC-04: Change Password**<br>
+**UC-05: Manage Personal Information**<br>
 
-**UC-10: Create Product**<br>
-**UC-11: Update Product**<br>
-**UC-12: View Products**<br>
+**UC-06: Create Address**<br>
+**UC-07: Update Address**<br>
+**UC-08: Delete Address**<br>
 
-**UC-13:	Search Product**<br>
-**UC-14:	Sort Product**<br>
-**UC-15:	Filter Product**<br>
-**UC-16:	Add to Cart**<br>
-**UC-17:	Update Cart**<br>
-**UC-18:	Remove Cart**<br>
-**UC-19:	View Cart**<br>
+**UC-09: Add Products**<br>
+**UC-10: Filter Search Option**<br>
+**UC-11: Sort Product**<br>
+**UC-12: Delete Product**<br>
+**UC-13: Search Products**<br>
+**UC-14:	Update Product**<br>
+**UC-15:	View Product Detail**<br>
 
-**UC-20: Checkout**<br>
-**UC-21: Payment**<br>
-**UC-22: Track Orders**<br>
-**UC-23: View Orders**<br>
-**UC-24: Update Order**<br>
-**UC-25: Delete Order**<br>
-**UC-26: Return / Refund**<br>
+**UC-16:	Add Products to Wishlist**<br>
+**UC-17: Remove Products From Wishlist**<br>
+**UC-18:	View Wishlist**<br>
 
-**UC-27: Apply Voucher**<br>
-**UC-28: Create Voucher**<br>
-**VM-29:	Update Voucher**<br>
+**UC-19:	Add Products to Cart**<br>
+**UC-20:Remove Products From Cart**<br>
+**UC-21: View Cart**<br>
 
-**UC-30:	Create Review**<br>
-**UC-31:	Update Review**<br>
-**UC-32:	Delete Review**<br>
-**UC-33:	View Reviews**<br>
-
-**UC-34:	Create Address**<br>
-**UC-35:	Update Address**<br>
-**UC-36:	Delete Address**<br>
-
-**UC-37:	Financial Reports**<br>
-
+**UC-22: Order**<br>
+**UC-23: Cancel Orders**<br>
+**UC-24: View Orders Details**<br>
+**UC-25: View Orders History**<br>
+**UC-26: View All Products**<br>
+**UC-27: View All Orders**<br>
+**UC-28: View All Account**<br>
+**UC-28:View Dashboard**<br>
   
 
 
