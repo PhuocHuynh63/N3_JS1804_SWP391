@@ -60,6 +60,11 @@ export default function AdminUser() {
   //------End------//
 
 
+  /**
+   * Handle change status of user
+   * @param {*} userId 
+   * @param {*} event 
+   */
   const handleStatusChange = (userId, event) => {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? 'ban' : 'active';
@@ -74,7 +79,10 @@ export default function AdminUser() {
         console.log("Error updating user status", err);
       });
   };
+  //------End------//
 
+
+  // Get role of user
   const getRole = (role) => {
     switch (role) {
       case 'admin':
@@ -89,6 +97,7 @@ export default function AdminUser() {
         return "Unknown";
     }
   };
+  //------End------//
 
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;

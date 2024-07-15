@@ -30,13 +30,13 @@ export default function HomePage() {
 
     const handleClickCart = (e, product) => {
         e.preventDefault();
-    
+
         // Prevent adding to cart if product is out of stock
         if (product.status === 'Hết hàng' || product.quantity === 0) {
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Sản phẩm đã hết hàng</h1></div>);
             return;
         }
-    
+
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -49,13 +49,13 @@ export default function HomePage() {
             price: product.salePrice || product.price,
             totalPrice: product.salePrice || product.price,
         };
-    
+
         // Get existing cart items from local storage
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    
+
         // Check if the item is already in the cart
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
-    
+
         if (existingItemIndex > -1) {
             const existingItem = cartItems[existingItemIndex];
             const newQuantity = existingItem.quantity + item.quantity;
@@ -78,11 +78,12 @@ export default function HomePage() {
                 showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm sản phẩm thành công</h1></div>);
             }
         }
-    
+
         // Save updated cart items to local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
-    
+
+    const filterProduct = products.filter((product) => product.status !== 'Không còn bán');
 
     return (
         <div className='homepage'>
@@ -202,7 +203,7 @@ export default function HomePage() {
 
                 <div class="container overflow-hidden">
                     <div class="row gy-4 gy-xxl-5">
-                        {products.map((product) => (
+                        {filterProduct.map((product) => (
                             <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
                                 <NavLink to={`/product/${product.productId}`}>
                                     <div class="card text-center border-dark overflow-hidden h-100">

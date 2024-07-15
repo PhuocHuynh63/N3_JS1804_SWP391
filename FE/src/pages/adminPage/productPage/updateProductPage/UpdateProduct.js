@@ -26,6 +26,8 @@ export default function UpdateProduct() {
     });
     //-----End-----//
 
+    console.log(formData);
+
     const [discount, setDiscount] = useState(0);
 
     /**
@@ -43,6 +45,13 @@ export default function UpdateProduct() {
     const handleDiscountChange = (e) => {
         const value = Math.max(0, Math.min(100, e.target.value));
         setDiscount(value);
+    };
+
+    const handleStatusChange = (e) => {
+        setFormData({
+            ...formData,
+            status: e.target.checked ? "Không còn bán" : formData.quantity > 0 ? "Còn hàng" : "Hết hàng"
+        });
     };
     //-----End-----//
 
@@ -143,9 +152,9 @@ export default function UpdateProduct() {
      * Handle status product
      */
     const handleStatus = () => {
-        if (formData.quantity > 0) {
+        if (formData.quantity > 0 && formData.status !== "Không còn bán") {
             setFormData({ ...formData, status: "Còn hàng" });
-        } else {
+        } else if (formData.quantity === 0 && formData.status !== "Không còn bán") {
             setFormData({ ...formData, status: "Hết hàng" });
         }
     };
@@ -240,6 +249,17 @@ export default function UpdateProduct() {
                             onChange={handleChange}
                             min="0"
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="statusCheckbox">Trạng thái:</label>
+                        <input
+                            type="checkbox"
+                            id="statusCheckbox"
+                            checked={formData.status === "Không còn bán"}
+                            onChange={handleStatusChange}
+                        />
+                        <span>{formData.status}</span>
                     </div>
                 </div>
 
