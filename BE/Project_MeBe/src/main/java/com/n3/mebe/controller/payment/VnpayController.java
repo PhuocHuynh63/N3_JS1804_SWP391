@@ -3,6 +3,7 @@ package com.n3.mebe.controller.payment;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.n3.mebe.dto.TransactionStatusDTO;
+import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.payment.PaymentRequest;
 
 import com.n3.mebe.dto.response.payment.PaymentResponse;
@@ -29,7 +30,7 @@ public class VnpayController {
     private VNPayService paymentService;
 
     @PostMapping("/create")
-    ResponseEntity<?> createPayment(@RequestBody PaymentRequest request) throws UnsupportedEncodingException, JsonProcessingException {
+    ResponseEntity<?> createPayment(@RequestBody OrderRequest request) throws UnsupportedEncodingException, JsonProcessingException {
 
         PaymentResponse response = paymentService.createPaymentUrl(request);
 
