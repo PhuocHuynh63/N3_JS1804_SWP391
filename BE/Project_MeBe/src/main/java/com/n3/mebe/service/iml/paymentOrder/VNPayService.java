@@ -3,6 +3,7 @@ package com.n3.mebe.service.iml.paymentOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.config.Config;
+import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.payment.PaymentRequest;
 import com.n3.mebe.dto.response.payment.PaymentResponse;
 import com.n3.mebe.service.IOrderService;
@@ -36,11 +37,12 @@ public class VNPayService {
 
     // <editor-fold default state="collapsed" desc="createPaymentUrl">
     @Transactional
-    public PaymentResponse createPaymentUrl(PaymentRequest request) throws UnsupportedEncodingException, JsonProcessingException {
+    public PaymentResponse createPaymentUrl(OrderRequest orderRequest) throws UnsupportedEncodingException, JsonProcessingException {
 
-        String orderType = request.getType();
-        long amount =  request.getAmount()*100L; // Định dạng của VNPay 100L = 10000
-        String bankCode = request.getBankCode();
+        String orderType = orderRequest.getOrderType();
+        long amount =  (long) orderRequest.getTotalAmount()*100L; // Định dạng của VNPay 10
+        // 0L = 10000
+        String bankCode = "NCB";
 
         String vnp_TxnRef = Config.getRandomNumber(8);
         String vnp_IpAddr = Config.getIpAddress();
@@ -68,7 +70,7 @@ public class VNPayService {
         String orderRequestId = UUID.randomUUID().toString();
         String orderRequestKey = "orderRequest:" + orderRequestId;
         ObjectMapper objectMapper = new ObjectMapper();
-        redisTemplate.opsForValue().set(orderRequestKey, objectMapper.writeValueAsString(request.getOrderRequest()), 15, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(orderRequestKey, objectMapper.writeValueAsString(orderRequest), 15, TimeUnit.MINUTES);
 
         // thêm orderId vào link return để lấy ra bẳng redis
         vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl + "?orderRequestId=" + URLEncoder.encode(orderRequestId, StandardCharsets.UTF_8));

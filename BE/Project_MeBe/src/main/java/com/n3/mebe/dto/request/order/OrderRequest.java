@@ -11,7 +11,6 @@ public class OrderRequest {
 
     // neu nhu day la GUESS thi se chuyen vao
     private OrderUserCreateRequest guest;
-
     //lay userId tu request
     private int userId;
     //lay voucherId tu request
