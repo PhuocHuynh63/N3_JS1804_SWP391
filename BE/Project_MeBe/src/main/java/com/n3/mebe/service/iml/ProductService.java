@@ -177,7 +177,7 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProduct(int id) {
         Product product = getProductById(id);
-        String status = "delete";
+        String status = "Không còn bán";
         product.setStatus(status);
     }// </editor-fold>
 
