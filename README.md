@@ -33,7 +33,7 @@
    |Hứa Đình Thuận       |      Member     |    SE171787    |UC-01: Login        |Whislist                                    |                    |                    |
    |Nguyễn Chí Thành     |      Member     |    SE171820    |UC-03: Register     |                                    |                    |                    |
    |Nguyễn Trường Phi Vũ |      Member     |    SE171728    |UC-10: Create Product |UC-02: Logout<br> UC-05: Change Password<br> |UC-23: Views Order |                    |
-   |Lâm Xuân Thái        |      Member     |    SE17xxxx    |UC-17: Update Cart   |                                    |                    |                    |
+   |Lâm Xuân Thái        |      Member     |    SE171890    |UC-17: Edit Profile |                                    |                    |                    |
    
 ## **2. Use case**
 
