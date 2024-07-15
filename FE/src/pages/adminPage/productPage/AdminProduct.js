@@ -15,7 +15,6 @@ export default function AdminProduct() {
     meBeSrc.getProduct()
       .then((res) => {
         setProducts(res.data);
-        console.log(res);
       })
   }, []);
   //-----End-----//
@@ -121,7 +120,7 @@ export default function AdminProduct() {
                 </td>
                 <td style={{ textAlign: "left" }}>{product.name}</td>
                 <td style={{ color: product.status === 'Hết hàng' ? 'red' : 'black' }}>
-                    {product.status}
+                  {product.status}
                 </td>
                 <td>{product.subCategory.category.name}</td>
                 <td>{product.salePrice > 0 ? product.salePrice.toLocaleString() : product.price.toLocaleString()} đ</td>

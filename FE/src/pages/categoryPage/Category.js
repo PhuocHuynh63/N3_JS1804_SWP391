@@ -9,8 +9,8 @@ export default function Category() {
     const [category, setCategory] = useState({}); // State để lưu thông tin category hiện tại
     const { slug } = useParams(); // Lấy slug từ URL params
     const navigate = useNavigate(); // Hook để điều hướng
-    const location = useLocation(); // Hook để lấy thông tin về vị trí hiện tại
-    const parentCategory = location.state?.parentCategory; // Lấy parentCategory từ state nếu có
+    // const location = useLocation(); // Hook để lấy thông tin về vị trí hiện tại
+    // const parentCategory = location.state?.parentCategory; // Lấy parentCategory từ state nếu có
 
     // Gọi API để lấy thông tin category theo slug
     useEffect(() => {
@@ -54,13 +54,13 @@ export default function Category() {
     // Hàm xử lý khi nhấn nút thêm vào giỏ hàng
     const handleClickCart = (e, product) => {
         e.preventDefault();
-    
+
         // Prevent adding to cart if product is out of stock
         if (product.status === 'Hết hàng' || product.quantity === 0) {
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Sản phẩm đã hết hàng</h1></div>);
             return;
         }
-    
+
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -73,13 +73,13 @@ export default function Category() {
             price: product.salePrice || product.price,
             totalPrice: product.salePrice || product.price,
         };
-    
+
         // Get existing cart items from local storage
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    
+
         // Check if the item is already in the cart
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
-    
+
         if (existingItemIndex > -1) {
             const existingItem = cartItems[existingItemIndex];
             const newQuantity = existingItem.quantity + item.quantity;
@@ -102,18 +102,18 @@ export default function Category() {
                 showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm sản phẩm thành công</h1></div>);
             }
         }
-    
+
         // Save updated cart items to local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
-    
+
 
     // Hàm hiển thị modal thông báo
     const showModalnotify = (message) => {
         setModalMessage(message);
         setIsModalVisible(true);
     };
-    
+
     // Hàm xử lý khi nhấn vào subcategory
     const handleSubCategoryClick = (subCategory) => {
         // Điều hướng đến trang subcategory và truyền thông tin parent category qua state
@@ -137,7 +137,7 @@ export default function Category() {
             </div>
 
             {subCategories.map((subCategory) => {
-                const filteredProducts = products.filter(product => product.subCategory.name === subCategory.name).slice(0, 3);
+                const filteredProducts = products.filter(product => product.subCategory.name === subCategory.name && product.status !== 'Không còn bán').slice(0, 3);
                 return (
                     <div className="category-section" key={subCategory.name}>
                         <div className='title'>

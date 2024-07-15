@@ -9,8 +9,6 @@ import { meBeSrc } from '../../service/meBeSrc';
 export default function SubCategoryPage() {
     const [selectedPrices, setSelectedPrices] = useState([]);
     const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
-    const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [sortOption, setSortOption] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -18,6 +16,9 @@ export default function SubCategoryPage() {
     const location = useLocation();
     const parentCategory = location.state?.parentCategory;
 
+    /**
+     * Call API to get products by subcategory
+     */
     useEffect(() => {
         if (subCategoryId) {
             meBeSrc.getProductBySubCategory(subCategoryId)
@@ -28,13 +29,28 @@ export default function SubCategoryPage() {
                 });
         }
     }, [subCategoryId]);
+    //------End------//
 
+    /**
+     * Filter and sort products whenever the product list, sort option, or selected prices change
+     */
     useEffect(() => {
         const sortedProducts = sortProducts(products);
         const filteredAndSortedProducts = filterProducts(sortedProducts);
         setFilteredProducts(filteredAndSortedProducts);
     }, [products, sortOption, selectedPrices]);
 
+    /**
+     * Handle click on cart icon
+     * @param {*} e 
+     * @param {*} product 
+     * @returns 
+     */
+    //State message
+    const [modalMessage, setModalMessage] = useState('');
+    //End//
+
+    //Handle click on cart icon
     const handleClickCart = (e, product) => {
         e.preventDefault();
         if (product.status === 'Hết hàng' || product.quantity === 0) {
@@ -88,7 +104,17 @@ export default function SubCategoryPage() {
         setModalMessage(message);
         setIsModalVisible(true);
     };
+    //------End------//
 
+    /**
+     * Sort products by selected option
+     * @param {*} products 
+     * @returns 
+     */
+    //State
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
+    //Sort products
     const sortProducts = (products) => {
         console.log('Sorting with option:', sortOption);
         return products.slice().sort((a, b) => {  // Use slice() to avoid mutating the original array
@@ -111,12 +137,15 @@ export default function SubCategoryPage() {
             }
         });
     };
+    //End//
 
+    //Filter products by price range and status
     const filterProducts = (products) => {
+        const filteredByStatus = products.filter(product => product.status !== 'Không còn bán');
         if (selectedPrices.length === 0) {
-            return products;
+            return filteredByStatus;
         }
-        return products.filter(product => {
+        return filteredByStatus.filter(product => {
             const price = product.salePrice || product.price;
             return selectedPrices.some(range => {
                 switch (range) {
@@ -136,27 +165,14 @@ export default function SubCategoryPage() {
             });
         });
     };
+    //End//
 
+    /**
+     * Menu for sorting products
+     */
     const handleSortChange = ({ key }) => {
         console.log('Setting sort option to:', key);
         setSortOption(key);
-    };
-
-    const handleCheckboxChange = (event) => {
-        const value = event.target.value;
-        setSelectedPrices(prevState =>
-            prevState.includes(value)
-                ? prevState.filter(price => price !== value)
-                : [...prevState, value]
-        );
-    };
-
-    const handleDivClick = (id) => {
-        const checkbox = document.getElementById(id);
-        if (checkbox) {
-            checkbox.checked = !checkbox.checked;
-            handleCheckboxChange({ target: checkbox });
-        }
     };
 
     const sortMenu = (
@@ -168,6 +184,34 @@ export default function SubCategoryPage() {
             <Menu.Item key="newest">Mới nhất</Menu.Item>
         </Menu>
     );
+    //------End------//
+
+    /**
+     * Menu for filtering products by price range
+     */
+    //Handle div click
+    const handleDivClick = (id) => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+            handleCheckboxChange({ target: checkbox });
+        }
+    };
+    //End//
+
+    /**
+     * Handle checkbox change
+     */
+    //Handle checkbox change
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+        setSelectedPrices(prevState =>
+            prevState.includes(value)
+                ? prevState.filter(price => price !== value)
+                : [...prevState, value]
+        );
+    };
+    //End//
 
     const priceMenu = (
         <Menu>
@@ -203,6 +247,7 @@ export default function SubCategoryPage() {
             </Menu.Item>
         </Menu>
     );
+    //------End------//
 
     return (
         <div className='subcategory'>
