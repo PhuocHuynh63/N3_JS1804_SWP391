@@ -28,10 +28,10 @@ import java.util.concurrent.TimeUnit;
 public class LoginController {
 
     @Autowired
-    ILoginService loginServiceImp;
+    private ILoginService loginServiceImp;
 
     @Autowired
-    JwtUtilHelper jwtUtilHelper;
+    private JwtUtilHelper jwtUtilHelper;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired

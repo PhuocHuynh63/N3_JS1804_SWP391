@@ -14,7 +14,8 @@ public class Config {
     public static String vnp_TmnCode = "R3HFJX2C";
     public static String secretKey = "SP0OUIE0U1JSK6MP15UA50IW3U4IU76Y";
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://14.225.253.116:8081/order/create_vnpay"; // tra ve api order để check và tạo order
+    public static String vnp_ReturnUrl = "http://localhost:8080/order/create_vnpay";
+//    public static String vnp_ReturnUrl = "http://14.225.253.116:8081/order/create_vnpay"; // tra ve api order để check và tạo order
 
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";

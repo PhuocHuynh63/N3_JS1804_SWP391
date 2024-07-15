@@ -9,5 +9,6 @@ public class PaymentResponse {
     private String message;
     private String URL;
     private String paymentID;
+    private String orderRequestId;
 
 }

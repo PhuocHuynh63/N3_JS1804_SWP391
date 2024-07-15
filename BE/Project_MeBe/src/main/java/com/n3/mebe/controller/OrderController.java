@@ -1,5 +1,7 @@
 package com.n3.mebe.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.dto.TransactionStatusDTO;
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
@@ -10,12 +12,14 @@ import com.n3.mebe.service.IOrderDetailsService;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.iml.ProductService;
 import com.n3.mebe.service.iml.paymentOrder.VNPayService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -44,21 +48,40 @@ public class OrderController {
      */
 
     // Create order
-    @PostMapping("/create_vnpay")
-    public ResponseEntity<TransactionStatusDTO> createOrderByVNPay(@RequestBody OrderRequest orderRequest,
-            @RequestParam Map<String, String> vnp_Params) {
+    @GetMapping("/create_vnpay")
+    public void createOrderByVNPay(
+            @RequestParam Map<String, String> vnp_Params,
+            @RequestParam("orderRequestId") String orderRequestId,
+            HttpServletResponse response) throws IOException {
 
-        productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
+        // Lấy OrderRequest từ Redis
+        String orderRequestKey = "orderRequest:" + orderRequestId;
+        String orderRequestJson = stringRedisTemplate.opsForValue().get(orderRequestKey);
+        if (orderRequestJson == null) {
+            // Xử lý khi không tìm thấy OrderRequest
+            response.sendRedirect("http://14.225.253.116/order-error?message=Order request not found or expired");
+            return;
+        }
+
+        OrderRequest orderRequest;
+        try {
+            orderRequest = new ObjectMapper().readValue(orderRequestJson, OrderRequest.class);
+        } catch (JsonProcessingException e) {
+            // Xử lý khi không thể parse OrderRequest
+            response.sendRedirect("http://14.225.253.116/order-error?message=Failed to parse order request");
+            return;
+        }
+
+        productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
+
         // Lấy paymentId từ params
         String paymentId = vnp_Params.get("vnp_TxnRef");
         String transactionReference = vnp_Params.get("vnp_OrderInfo");
         if (paymentId == null) {
             // Không có paymentId trong params
-            TransactionStatusDTO status = new TransactionStatusDTO();
-            status.setStatus("No");
-            status.setMessage("Payment information not found");
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(status);
+            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found");
+            return;
         }
 
         // Kiểm tra thông tin thanh toán trong Redis
@@ -67,20 +90,15 @@ public class OrderController {
 
         if (paymentStatus == null) {
             // Thông tin thanh toán không tồn tại hoặc đã hết hạn
-            TransactionStatusDTO status = new TransactionStatusDTO();
-            status.setStatus("No");
-            status.setMessage("Payment information not found or expired");
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(status);
+            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found or expired");
+            return;
         }
 
         boolean paymentSuccess = vnPayService.handleVNPayResponse(vnp_Params);
 
-        TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();
         if (paymentSuccess) {
-            transactionStatusDTO.setStatus("Ok");
-            transactionStatusDTO.setMessage("Payment successfully processed");
-            // lưu order vào cơ sở dữ liệu
+            // Lưu order vào cơ sở dữ liệu
             orderRequest.setTransactionReference(transactionReference);
             orderRequest.setOrderType("Online");
             orderRequest.setPaymentStatus("Đã thanh toán");
@@ -88,15 +106,16 @@ public class OrderController {
 
             // Sau khi lưu order, xóa thông tin thanh toán khỏi Redis
             stringRedisTemplate.delete(paymentKey);
-        } else {
-            transactionStatusDTO.setStatus("No");
-            transactionStatusDTO.setMessage("Payment failed");
-            productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
-        }
 
-        return ResponseEntity.status(paymentSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
-                .body(transactionStatusDTO);
+            // Chuyển hướng đến trang thành công
+            response.sendRedirect("http://14.225.253.116/order-success");
+        } else {
+            productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
+            // Chuyển hướng đến trang thất bại
+            response.sendRedirect("http://14.225.253.116/order-error?message=Payment failed");
+        }
     }
+
 
     // Create order
     @PostMapping("/create_cod")
