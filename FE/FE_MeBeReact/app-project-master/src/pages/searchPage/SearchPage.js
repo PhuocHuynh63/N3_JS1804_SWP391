@@ -9,13 +9,12 @@ import { meBeSrc } from '../../service/meBeSrc';
 export default function SearchPage() {
     const [selectedPrices, setSelectedPrices] = useState([]);
     const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [modalMessage, setModalMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [sortOption, setSortOption] = useState('');
     const [showModal, setShowModal] = useState(false);
 
-    const { name, subCategoryId } = useParams();
+    const { name } = useParams();
 
     useEffect(() => {
         if (name) {
@@ -28,32 +27,29 @@ export default function SearchPage() {
         }
     }, [name]);
 
-    useEffect(() => {
-        if (subCategoryId) {
-            meBeSrc.getProductBySubCategory(subCategoryId)
-                .then(res => {
-                    setProducts(res.data);
-                }).catch(err => {
-                    console.log(err);
-                });
-        }
-    }, [subCategoryId]);
-
-    useEffect(() => {
+     /**
+     * Filter and sort products whenever the product list, sort option, or selected prices change
+     */
+     useEffect(() => {
         const sortedProducts = sortProducts(products);
         const filteredAndSortedProducts = filterProducts(sortedProducts);
         setFilteredProducts(filteredAndSortedProducts);
     }, [products, sortOption, selectedPrices]);
 
+    /**
+     * Handle click on cart icon
+     * @param {*} e 
+     * @param {*} product 
+     * @returns 
+     */
+    //Handle click on cart icon
     const handleClickCart = (e, product) => {
         e.preventDefault();
-    
-        // Prevent adding to cart if product is out of stock
         if (product.status === 'Hết hàng' || product.quantity === 0) {
             showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Sản phẩm đã hết hàng</h1></div>);
             return;
         }
-    
+
         const item = {
             productId: product.productId,
             subCateId: product.subCateId,
@@ -66,13 +62,10 @@ export default function SearchPage() {
             price: product.salePrice || product.price,
             totalPrice: product.salePrice || product.price,
         };
-    
-        // Get existing cart items from local storage
+
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    
-        // Check if the item is already in the cart
         const existingItemIndex = cartItems.findIndex(cartItem => cartItem.productId === item.productId);
-    
+
         if (existingItemIndex > -1) {
             const existingItem = cartItems[existingItemIndex];
             const newQuantity = existingItem.quantity + item.quantity;
@@ -95,8 +88,7 @@ export default function SearchPage() {
                 showModalnotify(<div className='notice__content'><i className="check__icon fa-solid fa-circle-check"></i><h1>Thêm sản phẩm thành công</h1></div>);
             }
         }
-    
-        // Save updated cart items to local storage
+
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     };
 
@@ -104,9 +96,20 @@ export default function SearchPage() {
         setModalMessage(message);
         setIsModalVisible(true);
     };
+    //------End------//
 
+    /**
+     * Sort products by selected option
+     * @param {*} products 
+     * @returns 
+     */
+    //State
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
+    //Sort products
     const sortProducts = (products) => {
-        return products.sort((a, b) => {
+        console.log('Sorting with option:', sortOption);
+        return products.slice().sort((a, b) => {  // Use slice() to avoid mutating the original array
             const aPrice = a.salePrice || a.price;
             const bPrice = b.salePrice || b.price;
 
@@ -116,9 +119,9 @@ export default function SearchPage() {
                 case 'priceDesc':
                     return bPrice - aPrice;
                 case 'nameAsc':
-                    return a.name.localeCompare(b.name);
+                    return a.name.localeCompare(b.name , 'vi', { sensitivity: 'base', ignorePunctuation: true });
                 case 'nameDesc':
-                    return b.name.localeCompare(a.name);
+                    return b.name.localeCompare(a.name , 'vi', { sensitivity: 'base', ignorePunctuation: true });
                 case 'newest':
                     return b.productId - a.productId;
                 default:
@@ -126,12 +129,15 @@ export default function SearchPage() {
             }
         });
     };
+    //End//
 
+    //Filter products by price range and status
     const filterProducts = (products) => {
+        const filteredByStatus = products.filter(product => product.status !== 'Không còn bán');
         if (selectedPrices.length === 0) {
-            return products;
+            return filteredByStatus;
         }
-        return products.filter(product => {
+        return filteredByStatus.filter(product => {
             const price = product.salePrice || product.price;
             return selectedPrices.some(range => {
                 switch (range) {
@@ -151,11 +157,44 @@ export default function SearchPage() {
             });
         });
     };
+    //End//
 
-    const handleSortChange = (key) => {
+    /**
+     * Menu for sorting products
+     */
+    const handleSortChange = ({ key }) => {
+        console.log('Setting sort option to:', key);
         setSortOption(key);
     };
 
+    const sortMenu = (
+        <Menu onClick={handleSortChange}>
+            <Menu.Item key="priceAsc">Giá: Tăng dần</Menu.Item>
+            <Menu.Item key="priceDesc">Giá: Giảm dần</Menu.Item>
+            <Menu.Item key="nameAsc">Tên: A-Z</Menu.Item>
+            <Menu.Item key="nameDesc">Tên: Z-A</Menu.Item>
+            <Menu.Item key="newest">Mới nhất</Menu.Item>
+        </Menu>
+    );
+    //------End------//
+
+    /**
+     * Menu for filtering products by price range
+     */
+    //Handle div click
+    const handleDivClick = (id) => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+            handleCheckboxChange({ target: checkbox });
+        }
+    };
+    //End//
+
+    /**
+     * Handle checkbox change
+     */
+    //Handle checkbox change
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
         setSelectedPrices(prevState =>
@@ -164,24 +203,7 @@ export default function SearchPage() {
                 : [...prevState, value]
         );
     };
-
-    const handleDivClick = (id) => {
-        const checkbox = document.getElementById(id);
-        if (checkbox) {
-            checkbox.checked = !checkbox.checked;
-            handleCheckboxChange({ target: checkbox });
-        }
-    };
-
-    const sortMenu = (
-        <Menu>
-            <Menu.Item key="priceAsc" onClick={() => handleSortChange('priceAsc')}>Giá: Tăng dần</Menu.Item>
-            <Menu.Item key="priceDesc" onClick={() => handleSortChange('priceDesc')}>Giá: Giảm dần</Menu.Item>
-            <Menu.Item key="nameAsc" onClick={() => handleSortChange('nameAsc')}>Tên: A-Z</Menu.Item>
-            <Menu.Item key="nameDesc" onClick={() => handleSortChange('nameDesc')}>Tên: Z-A</Menu.Item>
-            <Menu.Item key="newest" onClick={() => handleSortChange('newest')}>Mới nhất</Menu.Item>
-        </Menu>
-    );
+    //End//
 
     return (
         <div className='search'>
@@ -257,7 +279,7 @@ export default function SearchPage() {
                             <a href={`/product/${product.productId}`} key={product.productId}>
                                 <div className="product-item">
                                     <img src={product.images} alt={product.name} />
-                                    {discount && <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>}
+                                    {discount && <span className={(discount < 100) &&(discount >0) ? "discount" : "not-discount"}>{discount}%</span>}
                                     <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
                                     <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
                                     <p>{product.name}</p>

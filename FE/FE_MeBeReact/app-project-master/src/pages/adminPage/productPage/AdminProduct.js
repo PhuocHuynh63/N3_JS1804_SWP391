@@ -65,8 +65,8 @@ export default function AdminProduct() {
 
 
   /**
-     * Pagination
-     */
+  * Pagination
+  */
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 15;
 

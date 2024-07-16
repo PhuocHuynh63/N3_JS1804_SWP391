@@ -201,9 +201,6 @@ export default function Header() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="/about">Giới Thiệu MeBe</a>
-                            </li>
                             <li className="nav-item dropdown">
                                 <NavLink to={`/category/sua-binh-sua`} className="nav-link dropdown-toggle">
                                     Sữa & Bình Sữa
@@ -329,9 +326,7 @@ export default function Header() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="/about">Giới Thiệu MeBe</a>
-                            </li>
+
                             <li className="nav-item dropdown">
                                 <NavLink to={`/category/sua-binh-sua`} className="nav-link dropdown-toggle">
                                     Sữa & Bình Sữa

@@ -101,7 +101,7 @@ const CartPage = ({ show, handleClose }) => {
                 <div className="cart-actions">
                     <a href="/cart" className="view-cart-btn">Xem giỏ hàng</a>
                     <NavLink to={"/checkout"}>
-                        <button className="checkout-btn">Thanh toán</button>
+                        <button className="checkout-btn1">Thanh toán</button>
                     </NavLink>
                 </div>
             </div>

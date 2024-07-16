@@ -40,7 +40,7 @@ const WishlistPage = ({ show, handleClose }) => {
         const fetchProductDetails = async () => {
             const updatedWishlistItems = await Promise.all(storedWishlistItems.map(async (item) => {
                 try {
-                    const response = await meBeSrc.getProductDetail(item.productId);
+                    const response = await meBeSrc.getProductById(item.productId);
                     return { ...item, max: response.data.quantity };
                 } catch (error) {
                     console.error('Error fetching product details:', error);
@@ -169,7 +169,7 @@ const WishlistPage = ({ show, handleClose }) => {
                     <p>Tổng cộng: <span id="total-price">{getTotalPrice()}₫</span></p>
                 </div>
                 <div className="wishlist-actions">
-                    <button className="view-cart-btn" onClick={() => handleNavigate("/wishlist")}>Xem wishlist</button>
+                    <button className="view-cart-btn" onClick={() => handleNavigate("/wishlist")}>Xem danh sách đặt trước</button>
                 </div>
             </div>
             <Modal

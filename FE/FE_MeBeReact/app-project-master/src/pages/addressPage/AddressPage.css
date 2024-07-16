@@ -62,8 +62,9 @@ p.address-title {
 
 .address-item_right {
     display: flex;
-    flex-direction: column;
-    align-items: end;
+    flex-direction: row; /* Thay đổi từ column sang row để sắp xếp các nút theo hàng ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa các nút */
 }
 
 .address-btn_update {
@@ -88,7 +89,6 @@ p.address-title {
 .address-btn_update:hover,
 .address-btn_delete:hover {
     color: rgb(21, 130, 255);
-
 }
 
 .address-btn_default {
@@ -105,5 +105,5 @@ p.address-title {
 
 .error {
     color: red;
-    margin-top:0 !important;
+    margin-top: 0;
 }

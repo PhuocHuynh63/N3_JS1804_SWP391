@@ -154,7 +154,7 @@ export default function Category() {
                                     <div className="product" key={product.id}>
                                         <a href={`/product/${product.productId}`}>
                                             <img src={`${product.images}`} alt={product.name} />
-                                            <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
+                                            <span className={discount < 100 &&(discount >0) ? "discount" : "not-discount"}>{discount}%</span>
                                             <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
                                             <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
                                             <p>{product.name}</p>

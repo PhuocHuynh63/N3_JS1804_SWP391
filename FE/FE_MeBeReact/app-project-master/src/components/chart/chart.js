@@ -1,9 +1,9 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 // Register the necessary components from Chart.js
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const RevenueChart = ({ data }) => {
   const chartData = {
@@ -20,7 +20,7 @@ const RevenueChart = ({ data }) => {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Ensure the aspect ratio is not maintained to fit the parent size
+    maintainAspectRatio: false, 
     plugins: {
       legend: {
         display: true,
@@ -40,7 +40,7 @@ const RevenueChart = ({ data }) => {
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
-      <Line data={chartData} options={options} />
+      <Bar data={chartData} options={options} />
     </div>
   );
 };

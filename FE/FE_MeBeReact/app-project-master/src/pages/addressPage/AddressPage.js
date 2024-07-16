@@ -267,10 +267,15 @@ export default function AddressPage() {
                             </div>
                         )}
                         <div className="address-item_right">
-                            <button className="address-btn_update" onClick={() => handleEditClick(address.addressId)}>Cập nhật</button>
-                            {!address.default && <button className="address-btn_delete" onClick={() => handleDeleteAddress(address.addressId)}>Xóa</button>}
-                            {!address.default && <button className="address-btn_default" onClick={() => handleSetDefault(address.addressId)}>Thiết lập mặc định</button>}
+                            <button className="address-btn_update" onClick={() => handleEditClick(address.addressId)}><i className="fa-solid fa-pen-to-square"></i></button>
+                            {!address.default && (
+                                <>
+                                    <button className="address-btn_delete" onClick={() => handleDeleteAddress(address.addressId)}><i className="fa-solid fa-trash"></i></button>
+                                    <button className="address-btn_default" onClick={() => handleSetDefault(address.addressId)}>Thiết lập mặc định</button>
+                                </>
+                            )}
                         </div>
+
                     </div>
                 ))}
             </div>
