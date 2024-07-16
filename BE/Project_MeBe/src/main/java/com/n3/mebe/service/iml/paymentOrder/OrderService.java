@@ -181,6 +181,7 @@ public class OrderService implements IOrderService {
 
         }
 
+        order.setUser(user);
         if(orderRequest.getStatus() != null){
             if(orderRequest.getStatus().equals("Đang được xử lý")){
                 order.setStatus(orderRequest.getStatus());
