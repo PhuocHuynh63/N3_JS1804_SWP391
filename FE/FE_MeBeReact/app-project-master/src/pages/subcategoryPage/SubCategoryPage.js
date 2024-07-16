@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown, Menu, Space, Modal } from 'antd';
 import OutOfStock from '../../components/outOfStock/OutOfStock';
 import { meBeSrc } from '../../service/meBeSrc';
+import Pagination from '../../components/pagination/Pagination';
 
 export default function SubCategoryPage() {
     const [selectedPrices, setSelectedPrices] = useState([]);
@@ -126,10 +127,10 @@ export default function SubCategoryPage() {
                     return aPrice - bPrice;
                 case 'priceDesc':
                     return bPrice - aPrice;
-                case 'nameAsc':
-                    return a.name.localeCompare(b.name);
-                case 'nameDesc':
-                    return b.name.localeCompare(a.name);
+                    case 'nameAsc':
+                        return a.name.localeCompare(b.name , 'vi', { sensitivity: 'base', ignorePunctuation: true });
+                    case 'nameDesc':
+                        return b.name.localeCompare(a.name , 'vi', { sensitivity: 'base', ignorePunctuation: true });
                 case 'newest':
                     return b.productId - a.productId;
                 default:
@@ -249,6 +250,28 @@ export default function SubCategoryPage() {
     );
     //------End------//
 
+        /**
+         * Pagination
+         */
+        const [currentPage, setCurrentPage] = useState(1);
+        const productsPerPage = 8;
+
+        useEffect(() => {
+            setCurrentPage(1); // Reset to first page on filter/sort change
+        }, [filteredProducts]);
+    
+        const currentProducts = filteredProducts.slice(
+            (currentPage - 1) * productsPerPage,
+            currentPage * productsPerPage
+        );
+    
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    
+        const handlePageChange = (pageNumber) => {
+            setCurrentPage(pageNumber);
+        };
+
+
     return (
         <div className='subcategory'>
             <div className="breadcrumbs">
@@ -280,17 +303,17 @@ export default function SubCategoryPage() {
             </div>
 
             <div className="products">
-                {filteredProducts.length === 0 ? (
+                {currentProducts.length === 0 ? (
                     <p style={{ textAlign: "center", width: "100%" }}>Chưa có sản phẩm nào cho danh mục này</p>
-                ) : (
-                    filteredProducts.map((product) => {
+                ) : (  
+                    currentProducts.map((product) => {
                         const discount = product.salePrice ? ((1 - (product.salePrice / product.price)) * 100).toFixed(0) : null;
                         const finalPrice = product.salePrice || product.price;
                         return (
                             <a href={`/product/${product.productId}`} key={product.productId}>
                                 <div className="product-item">
                                     <img src={product.images} alt={product.name} />
-                                    {discount && <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>}
+                                    {discount && <span className={discount < 100 &&(discount >0) ? "discount" : "not-discount"}>{discount}%</span>}
                                     <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
                                     <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
                                     <p>{product.name}</p>
@@ -313,6 +336,12 @@ export default function SubCategoryPage() {
             >
                 <div>{modalMessage}</div>
             </Modal>
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 }

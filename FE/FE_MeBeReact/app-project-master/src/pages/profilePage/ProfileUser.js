@@ -10,6 +10,7 @@ export default function ProfileUser() {
     const navigate = useNavigate();
     const [user, setUser] = useState({
         username: "",
+        email:"",
         firstName: "",
         lastName: "",
         phoneNumber: "",
@@ -71,9 +72,7 @@ export default function ProfileUser() {
         if (!user.lastName || /\d/.test(user.lastName)) {
             errors.lastName = "Tên không được để trống hoặc có số.";
         }
-        if (!user.phoneNumber || !/^\d{10,11}$/.test(user.phoneNumber)) {
-            errors.phoneNumber = "Số điện thoại phải có 10-11 chữ số.";
-        }
+
         if (new Date(user.birthOfDate) > new Date()) {
             errors.birthOfDate = "Ngày sinh không được ở tương lai.";
         }
@@ -117,6 +116,10 @@ export default function ProfileUser() {
                                 <input type="text" id="username" className="form-control small-input profile" value={user.username} readOnly style={{ backgroundColor: `#e0e0e0` }} />
                             </div>
                             <div className="form-group-profile small-form-group">
+                                <label htmlFor="email" className="small-label profile">Email</label>
+                                <input type="text" id="email" className="form-control small-input profile" value={user.email} readOnly style={{ backgroundColor: `#e0e0e0` }} />
+                            </div>
+                            <div className="form-group-profile small-form-group">
                                 <label htmlFor="firstName" className="small-label profile">Họ</label>
                                 <input type="text" id="firstName" className="form-control small-input profile" value={user.firstName} onChange={handleInputChange} />
                                 {errors.firstName && <div className="error">{errors.firstName}</div>}
@@ -128,8 +131,7 @@ export default function ProfileUser() {
                             </div>
                             <div className="form-group-profile small-form-group">
                                 <label htmlFor="phoneNumber" className="small-label profile">Số điện thoại</label>
-                                <input type="text" id="phoneNumber" className="form-control small-input profile" value={user.phoneNumber} readOnly />
-                                {errors.phoneNumber && <div className="error">{errors.phoneNumber}</div>}
+                                <input type="text" id="phoneNumber" className="form-control small-input profile" value={user.phoneNumber} readOnly  style={{ backgroundColor: `#e0e0e0` }} />
                             </div>
                             <div className="form-group-profile small-form-group">
                                 <label htmlFor="birthOfDate" className="small-label profile">Ngày sinh</label>
