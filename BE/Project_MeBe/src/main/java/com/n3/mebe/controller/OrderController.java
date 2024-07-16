@@ -100,7 +100,6 @@ public class OrderController {
         if (paymentSuccess) {
             // Lưu order vào cơ sở dữ liệu
             orderRequest.setTransactionReference(transactionReference);
-            orderRequest.setOrderType("Online");
             orderRequest.setPaymentStatus("Đã thanh toán");
             boolean success = orderService.createOrder(orderRequest);
 
@@ -154,7 +153,7 @@ public class OrderController {
 
     // Cancel order by id
     @PutMapping("/status")
-    public String cancelOrder(@RequestBody OrderStatusRequest request) {
+    public String setStatusOrder(@RequestBody OrderStatusRequest request) {
         return orderService.setStatusOrder(request);
     }
 

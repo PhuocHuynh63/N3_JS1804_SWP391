@@ -180,7 +180,14 @@ public class OrderService implements IOrderService {
             user = userService.getUserById(orderRequest.getUserId());
 
         }
-        order.setUser(user);
+
+        if(orderRequest.getStatus() != null){
+            if(orderRequest.getStatus().equals("Đang được xử lý")){
+                order.setStatus(orderRequest.getStatus());
+            }else if(orderRequest.getStatus().equals("Chờ xác nhận")){
+                order.setStatus(status);
+            }
+        }
         //   order.setVoucher(); --> chua them vao
 
 
@@ -192,8 +199,7 @@ public class OrderService implements IOrderService {
         } while (orderRepository.existsByOrderCode(code_order));
         // Mỗi đơn hàng có 1 code riêng
         order.setOrderCode(code_order);
-
-
+        
         order.setShipAddress(orderRequest.getShipAddress());
         order.setTotalAmount(orderRequest.getTotalAmount());
         order.setOrderType(orderRequest.getOrderType());
