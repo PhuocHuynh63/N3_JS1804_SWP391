@@ -33,6 +33,11 @@ export default function OrderPage() {
         }
     }, [navigate]);
 
+
+    /**
+     * handleChange function to handle input change
+     * @param {*} e 
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -47,7 +52,13 @@ export default function OrderPage() {
             });
         }
     };
+    //-----End-----//
 
+
+    /**
+     * handle submit function to handle form submit
+     * @param {*} e 
+     */
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
@@ -61,6 +72,7 @@ export default function OrderPage() {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setLoading(false);
         } else {
             const orderData = {
                 guest: !isLoggedIn ? {
@@ -75,7 +87,8 @@ export default function OrderPage() {
                 } : null,
                 userId: isLoggedIn ? userId : null,
                 voucherId: null,
-                status: "Chờ xác nhận",
+                shipAddress: formData.address,
+                status: selectedPaymentMethod === 'COD' ? "Chờ xác nhận" : "Đang được xử lý",
                 totalAmount: parseFloat(getTotalPrice().replace(/\./g, '')),
                 orderType: selectedPaymentMethod,
                 paymentStatus: selectedPaymentMethod === 'COD' ? "pending" : "unpaid",
@@ -90,6 +103,7 @@ export default function OrderPage() {
 
             if (selectedPaymentMethod === 'COD') {
                 // Place order directly
+                console.log(orderData);
                 meBeSrc.createOrder(orderData)
                     .then(response => {
                         console.log('Order created successfully:', response.data);
@@ -103,15 +117,10 @@ export default function OrderPage() {
                         console.error('Error response data:', error.response.data);
                     });
             } else if (selectedPaymentMethod === 'VNPay') {
-                const paymentData = {
-                    bankCode: "NCB",
-                    type: "Online",
-                    amount: orderData.totalAmount,
-                }
 
-                meBeSrc.createVNPay(paymentData)
+                console.log('Order data:', orderData);
+                meBeSrc.createVNPay(orderData)
                     .then(response => {
-                        console.log('Order created successfully:', response.data);
                         // Clear cartItems from state and localStorage
                         setCartItems([]);
                         localStorage.removeItem('cartItems');
@@ -125,19 +134,17 @@ export default function OrderPage() {
             }
         }
     };
+    //-----End-----//
+
 
     const getTotalPrice = () => {
         return cartItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('vi-VN');
     };
 
-    const [user, setUser] = useState({
-        username: "",
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
-        email: ""
-    });
 
+    /**
+     * Fetch user data from API and set it to state
+     */
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');
         if (token) {
@@ -167,6 +174,15 @@ export default function OrderPage() {
     }, []);
 
 
+    const [user, setUser] = useState({
+        username: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: ""
+    });
+    //-----End-----//
+
 
     return loading ? (<Loading />) : (
         <div className="order-container">
@@ -178,7 +194,9 @@ export default function OrderPage() {
                     </div>
                     <div className='order-left_body'>
                         <h4>Thông tin giao hàng</h4>
-                        <p>Bạn đã có tài khoản? <Link to="/signin">Đăng nhập</Link></p>
+                        {isLoggedIn ? true : (
+                            <p>Bạn đã có tài khoản? <Link to="/signin">Đăng nhập</Link></p>
+                        )}
                         <div className='order-name'>
                             <div className="order-input-group">
                                 <input
@@ -291,10 +309,6 @@ export default function OrderPage() {
                         </div>
                     ))}
 
-                    <div className='voucher'>
-                        <input type='text' className='order-input' placeholder='Mã giảm giá' />
-                        <button className='order-button'>Sử dụng</button>
-                    </div>
                     <div className="order-total">
                         <span>Tổng cộng: </span><span>{getTotalPrice()}₫</span>
                     </div>
