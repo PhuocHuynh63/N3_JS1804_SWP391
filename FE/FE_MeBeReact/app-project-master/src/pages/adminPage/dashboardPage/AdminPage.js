@@ -1,9 +1,10 @@
 import "./AdminPage.css";
 import User from "../../../components/user/User";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Successful from "../../../components/popupSuccessful/Successful";
 import TrackingPopup from "../../trackingPopup/TrackingPopup";
+import RevenueChart from "../../../components/chart/chart";
 
 export default function AdminPage() {
   const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,7 @@ export default function AdminPage() {
       .then((res) => {
         const orderData = res.data;
         setOrder(orderData);
+        calculateDailyRevenue(orderData);
       })
       .catch((err) => {
         console.log("Error fetching order", err);
@@ -27,7 +29,6 @@ export default function AdminPage() {
 
   const sortOrders = order.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   //-----End-----//
-
 
   /**
    * Get product API
@@ -46,11 +47,9 @@ export default function AdminPage() {
   }, []);
   //-----End-----//
 
-
   /**
    * Get order status API
    */
-
   const handleStatusOrder = (orderId) => {
     const payload = { orderId, status: "Đang được xử lý" };
 
@@ -70,7 +69,6 @@ export default function AdminPage() {
       });
   }
   //-----End-----//
-
 
   /**
    * Get API to get user
@@ -92,25 +90,47 @@ export default function AdminPage() {
   console.log(filterNewUsers());
   //-----End-----//
 
-
   /**
    * revenue calculation
    * @returns revenue
    */
+  const [dailyRevenue, setDailyRevenue] = useState([]);
+
   const calculateRevenue = () => {
-    let complatedOrders = order.filter((item) => item.status === "Đã giao");
-    let revenue = complatedOrders.reduce((total, item) => total + item.totalAmount, 0);
+    let completedOrders = order.filter((item) => item.status === "Đã giao");
+    let revenue = completedOrders.reduce((total, item) => total + item.totalAmount, 0);
     return revenue.toLocaleString('vi-VN');
   }
-  //-----End-----//
+  
+  const calculateDailyRevenue = (orderData) => {
+    let completedOrders = orderData.filter((item) => item.status === "Đã giao");
+  
+    let dailyRevenueData = completedOrders.reduce((acc, item) => {
+      let date = new Date(item.updatedAt); // Use updatedAt for the delivery date
+      let formattedDate = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      if (!acc[formattedDate]) {
+        acc[formattedDate] = 0;
+      }
+      acc[formattedDate] += item.totalAmount;
+      return acc;
+    }, {});
+  
+    let formattedDailyRevenueData = Object.keys(dailyRevenueData).map(date => ({
+      date,
+      revenue: dailyRevenueData[date]
+    }));
+  
+    setDailyRevenue(formattedDailyRevenueData);
+  }
+  
 
+  //-----End-----//
 
   /**
    * Filter order by status
    */
   const orderNeedConfirm = order.filter((item) => item.status === "Chờ xác nhận");
   //-----End-----//
-
 
   /**
    * calculateAccountAge
@@ -125,7 +145,6 @@ export default function AdminPage() {
     return diffDays;
   }
   //-----End-----//
-
 
   /**
    * Pagination
@@ -144,7 +163,6 @@ export default function AdminPage() {
   }
   //-----End-----//
 
-
   /**
    * Handle tracking popup
    */
@@ -157,6 +175,7 @@ export default function AdminPage() {
   };
   //-----End-----//
 
+  const memoizedDailyRevenue = useMemo(() => dailyRevenue, [dailyRevenue]);
 
   return (
     <div className="adminpage">
@@ -198,11 +217,11 @@ export default function AdminPage() {
                     Tổng doanh thu
                   </div>
                   <div className="h5 mb-0 font-weight-bold text-gray-800">
-                    {calculateRevenue()} VNĐ
+                    {calculateRevenue()} 
                   </div>
                 </div>
                 <div className="col-auto">
-                  <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  <i className="fa-solid fa-dong-sign fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
@@ -289,13 +308,15 @@ export default function AdminPage() {
         <hr />
       </div>
       <div className="box-detail">
-        <div className="chart">Vứt biểu đồ vào đây</div>
+        <div className="chart"> 
+            <RevenueChart data={memoizedDailyRevenue} />
+        </div>
 
         <div className="newuser-container">
           <h4>Khách hàng mới</h4>
           {filterNewUsers().map((user) => (
-            <div className="newuser">
-              <img src={user.avatar} className="avt-user" style={{ height: "50px", width: "50px" }} />
+            <div className="newuser" key={user.id}>
+              <img src={user.avatar} className="avt-user" style={{ height: "50px", width: "50px" }} alt="user avatar"/>
               <div className="info-newuser">
                 <div className="name"> {`${user.firstName} ${user.lastName}`}</div>
                 <div className="status"> {`Được tạo cách đây ${calculateAccountAge(user.createAt)} ngày`}</div>
