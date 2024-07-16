@@ -192,8 +192,6 @@ public class OrderService implements IOrderService {
         //   order.setVoucher(); --> chua them vao
 
 
-        order.setStatus(status);
-
         String code_order;
         do {
             code_order = DataUtils.generateCode(8);
