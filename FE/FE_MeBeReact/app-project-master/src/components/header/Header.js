@@ -141,6 +141,15 @@ export default function Header() {
     }, []);
     //-----End-----//
 
+
+    /**
+     * Total cart items
+     */
+    const getCart = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+    const totalCart = getCart.length
+    //-----End-----//
+
+
     if (!user) {
         return (
             <div className="header_container">
@@ -190,6 +199,7 @@ export default function Header() {
 
                         <span className="icons-header" onClick={handleShowCart}>
                             <i className="fa-solid fa-cart-shopping"></i>
+                            <p className="total-cart">{totalCart}</p>
                         </span>
 
                     </div>
@@ -312,10 +322,12 @@ export default function Header() {
                         </UserDropdown>
                         <span className="icons-header" onClick={handleShowCart}>
                             <i className="fa-solid fa-cart-shopping"></i>
+                            <span className="total-cart">{totalCart}</span>
                         </span>
 
                         <span className="icons-header" onClick={handleShowWishlist}>
                             <i className="fa-solid fa-hand-holding-heart"></i>
+                            <span className="total-wishlist">0</span>
                         </span>
                     </div>
                 </header >
