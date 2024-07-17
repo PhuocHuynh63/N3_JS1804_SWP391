@@ -1,7 +1,7 @@
-﻿CREATE DATABASE me_be_test1
+﻿CREATE DATABASE me_be_test
 GO
 
-USE me_be_test1
+USE me_be_test
 GO
 
 -- Tạo bảng User

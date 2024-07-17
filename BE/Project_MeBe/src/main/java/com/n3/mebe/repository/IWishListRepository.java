@@ -18,4 +18,9 @@ public interface IWishListRepository extends JpaRepository<WishList, Integer> {
 
     @Query("SELECT w FROM WishList w WHERE w.estimatedDate <= :currentDate and w.status ='Chờ thông báo'")
     List<WishList> findWishListsByEstimatedDate(@Param("currentDate") Date currentDate);
+
+
+    @Query("SELECT w FROM WishList w WHERE w.product.productId = :productId and w.status ='Chờ thông báo'")
+    List<WishList> findWishListsByProduct(@Param("productId") int productId);
+
 }

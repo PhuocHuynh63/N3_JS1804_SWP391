@@ -6,12 +6,16 @@ import com.n3.mebe.dto.request.product.ProductRequest;
 import com.n3.mebe.dto.response.product.ProductResponse;
 import com.n3.mebe.entity.Product;
 import com.n3.mebe.entity.SubCategory;
+import com.n3.mebe.entity.WishList;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IProductRespository;
 import com.n3.mebe.repository.ISubCategoryRepository;
+import com.n3.mebe.repository.IWishListRepository;
 import com.n3.mebe.service.ICloudinaryService;
 import com.n3.mebe.service.IProductService;
+import com.n3.mebe.service.IWishListService;
+import com.n3.mebe.service.iml.mail.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -33,11 +37,27 @@ public class ProductService implements IProductService {
     @Autowired
     private ISubCategoryRepository iSubCategoryRepository;
 
+    @Autowired
+    private IWishListRepository wishListRepository;
 
-    /**
-     *  Request from Client
-     *
-     */
+    @Autowired
+    private SendMailService sendMailService;
+
+
+
+    // <editor-fold default state="collapsed" desc="Send Email Wish List Done">
+    public void sendEmailWishListDone(int productId) {
+        Date currentDate = new Date();
+        List<WishList> wishLists = wishListRepository.findWishListsByProduct(productId);
+        for (WishList wishList : wishLists) {
+
+            wishList.setStatus("Đã có hàng");
+            //gửi mail thông báo đã có hàng
+            wishList.setUpdatedAt(new Date());
+            wishListRepository.save(wishList);
+            sendMailService.createSendEmailWishListNotifications(wishList);
+        }
+    }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Reduce Update Quantity Product By Id">
     public void reduceProductQuantity(int quanti, int prId) throws AppException {
@@ -81,6 +101,11 @@ public class ProductService implements IProductService {
         }
     }// </editor-fold>
 
+
+    /**
+     *  Request from Client
+     *
+     */
 
     // <editor-fold default state="collapsed" desc="Create Product">
     @Override
@@ -144,15 +169,24 @@ public class ProductService implements IProductService {
             product.setDescription(request.getDescription());
             product.setPrice(request.getPrice());
             product.setSalePrice(request.getSalePrice());
-            product.setStatus(request.getStatus());
+
             product.setTotalSold(request.getTotalSold());
+
             product.setQuantity(request.getQuantity());
+
+
             product.setProductView(request.getProductView());
 
             Date now = new Date();
             product.setCreateAt(now);
             product.setUpdateAt(now);
 
+            //gửi mail báo có hàng cho người dùng đặt trước
+            if(product.getStatus().equals("Hết hàng") && request.getQuantity() != 0){
+                sendEmailWishListDone(product.getProductId());
+            }
+            //set status này thành còn hàng sau khi cập nhập
+            product.setStatus(request.getStatus());
             iProductRespository.save(product);
             isInsertedSuccess = true;
 
