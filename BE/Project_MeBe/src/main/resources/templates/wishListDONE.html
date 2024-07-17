@@ -30,14 +30,25 @@
             background-color: #fdfdfd;
         }
         .order-info {
-            display: flex;
-            justify-content: space-between;
+            display: flex !important;
+            justify-content: space-between !important;
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
-        .order-info .mail{
+        .order-info > div {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .order-info > div:first-child {
+            margin-left: 0;
+        }
+        .order-info > div:last-child {
+            margin-right: 0;
+        }
+        .order-info .mail a {
             text-decoration: none;
+            color: #500050; /* Đảm bảo màu sắc phù hợp với email */
         }
         .order-item {
             display: flex;
@@ -53,27 +64,6 @@
         }
         .order-details {
             flex-grow: 1;
-        }
-        .order-summary {
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-        .order-summary {
-            font-size: 1.2em;
-            color: #c2b57f;
-        }
-        .link-product a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #c2b57f;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        .link-product a:hover {
-            background-color: #b0a46e;
         }
     </style>
 </head>
@@ -101,12 +91,7 @@
             <div class="order-details">
                 <h3 th:text="${name}"></h3>
                 <p th:text="${'VNĐ ' + #numbers.formatDecimal(price, 0, 0)}"></p>
-                <p th:text="${'Số lượng: '+ quantity}"></p>
             </div>
-        </div>
-
-        <div class="link-product">
-            <a th:href="${link}">Click here</a>
         </div>
     </div>
     <div class="footer">

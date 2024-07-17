@@ -47,8 +47,8 @@ public class ProductService implements IProductService {
 
     // <editor-fold default state="collapsed" desc="Send Email Wish List Done">
     public void sendEmailWishListDone(int productId) {
-        Date currentDate = new Date();
-        List<WishList> wishLists = wishListRepository.findWishListsByProduct(productId);
+        String status = "Chờ thông báo";
+        List<WishList> wishLists = wishListRepository.findWishListsByProduct(productId, status);
         for (WishList wishList : wishLists) {
 
             wishList.setStatus("Đã có hàng");

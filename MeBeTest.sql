@@ -237,7 +237,7 @@ CREATE TABLE wishlist (
 	wishlist_id INT PRIMARY KEY IDENTITY(1,1),
 	[user_id] INT,
 	product_id INT,
-	status NVARCHAR(50),
+	[status] NVARCHAR(MAX),
 	quantity INT,
 	total_amount DECIMAL(10, 2),
 	estimated_date DATETIME,
@@ -292,7 +292,6 @@ VALUES
 -- Thêm dữ liệu vào bảng wishlist
 INSERT INTO wishlist ([user_id], product_id, [status], quantity, total_amount, estimated_date)
 VALUES
-(1, 1, N'active', 2, 160000.00, '2024-08-01 00:00:00'),
 (1, 2, N'active', 1, 32000.00, '2024-08-05 00:00:00');
 
 
