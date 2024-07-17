@@ -26,8 +26,8 @@ const TrackingPopup = ({ show, handleClose, orderId }) => {
     const orderDate = orderDetails[0]?.order?.createdAt ? new Date(orderDetails[0]?.order?.createdAt).toLocaleDateString('en-GB') : "";
     const totalPrice = orderDetails.reduce((total, item) => total + item.salePrice * item.quantity, 0).toLocaleString();
     const orderCode = orderDetails[0]?.order?.orderCode;
-    const userName = `${orderDetails[0]?.order?.user?.firstName} ${orderDetails[0]?.order?.user?.lastName}`;
-    const phoneNumber = orderDetails[0]?.order?.user?.phoneNumber;
+    const userName = `${orderDetails[0]?.order?.firstName} ${orderDetails[0]?.order?.lastName}`;
+    const phoneNumber = orderDetails[0]?.order?.phoneNumber;
     const shipAddress = orderDetails[0]?.order?.shipAddress;
     const orderType = orderDetails[0]?.order?.orderType;
     const paymentStatus = orderDetails[0]?.order?.paymentStatus;

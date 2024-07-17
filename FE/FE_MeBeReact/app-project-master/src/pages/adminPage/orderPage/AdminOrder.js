@@ -151,8 +151,8 @@ export default function AdminOrder() {
             {currentUsers.map((order, index) => (
               <tr key={index}>
                 <td>{order.orderId}</td>
-                <td style={{ textAlign: "left" }}>{order.user.firstName} {order.user.lastName}</td>
-                <td style={{ textAlign: "left" }}>{order.user.email}</td>
+                <td style={{ textAlign: "left" }}>{order?.firstName} {order?.lastName}</td>
+                <td style={{ textAlign: "left" }}>{order?.email}</td>
                 <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                 <td>
                   <select

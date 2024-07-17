@@ -101,10 +101,10 @@ export default function AdminPage() {
     let revenue = completedOrders.reduce((total, item) => total + item.totalAmount, 0);
     return revenue.toLocaleString('vi-VN');
   }
-  
+
   const calculateDailyRevenue = (orderData) => {
     let completedOrders = orderData.filter((item) => item.status === "Đã giao");
-  
+
     let dailyRevenueData = completedOrders.reduce((acc, item) => {
       let date = new Date(item.updatedAt); // Use updatedAt for the delivery date
       let formattedDate = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -114,15 +114,15 @@ export default function AdminPage() {
       acc[formattedDate] += item.totalAmount;
       return acc;
     }, {});
-  
+
     let formattedDailyRevenueData = Object.keys(dailyRevenueData).map(date => ({
       date,
       revenue: dailyRevenueData[date]
     }));
-  
+
     setDailyRevenue(formattedDailyRevenueData);
   }
-  
+
 
   //-----End-----//
 
@@ -217,7 +217,7 @@ export default function AdminPage() {
                     Tổng doanh thu
                   </div>
                   <div className="h5 mb-0 font-weight-bold text-gray-800">
-                    {calculateRevenue()} 
+                    {calculateRevenue()}
                   </div>
                 </div>
                 <div className="col-auto">
@@ -272,7 +272,7 @@ export default function AdminPage() {
               </tr>
             ) : currentOrders.map((order) => (
               <tr className="adminpage" key={order.orderId}>
-                <td>{`${order.user.firstName} ${order.user.lastName}`}</td>
+                <td>{`${order?.firstName} ${order?.lastName}`}</td>
                 <td>{new Date(order.createdAt).toLocaleDateString('vi-VN')}</td>
                 <td>{(order.totalAmount).toLocaleString('vi-VN')}</td>
                 <td>{order.status}</td>
@@ -308,15 +308,15 @@ export default function AdminPage() {
         <hr />
       </div>
       <div className="box-detail">
-        <div className="chart"> 
-            <RevenueChart data={memoizedDailyRevenue} />
+        <div className="chart">
+          <RevenueChart data={memoizedDailyRevenue} />
         </div>
 
         <div className="newuser-container">
           <h4>Khách hàng mới</h4>
           {filterNewUsers().map((user) => (
             <div className="newuser" key={user.id}>
-              <img src={user.avatar} className="avt-user" style={{ height: "50px", width: "50px" }} alt="user avatar"/>
+              <img src={user.avatar} className="avt-user" style={{ height: "50px", width: "50px" }} alt="user avatar" />
               <div className="info-newuser">
                 <div className="name"> {`${user.firstName} ${user.lastName}`}</div>
                 <div className="status"> {`Được tạo cách đây ${calculateAccountAge(user.createAt)} ngày`}</div>
