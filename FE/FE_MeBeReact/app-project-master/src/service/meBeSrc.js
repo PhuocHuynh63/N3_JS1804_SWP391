@@ -191,7 +191,7 @@ export const meBeSrc = {
     },
 
     getUserByEmail: (email) => {
-        return https.get(`/user/check_email?email=${email}`);
+        return https.get(`/user/check_email_guest?email=${email}`);
     },
 
     updateGuestToUser: (userId, data) => {

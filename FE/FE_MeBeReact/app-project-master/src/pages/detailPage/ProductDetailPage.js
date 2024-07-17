@@ -213,28 +213,48 @@ export default function DetailPage() {
                             )}
                             {product.salePrice > 0 && (
                                 <span className='sale-percent'>
-                                    <span className={discount < 100 ? "discount" : "not-discount"}>{discount}%</span>
+                                    <span className={discount < 100 && discount > 0 ? "discount" : "not-discount"}>{discount}%</span>
                                 </span>
                             )}
                         </div>
                         <div className="product-quantity mb-3">
-                            <strong>Số lượng:</strong>
-                            <input
-                                type="number"
-                                value={quantity}
-                                min="1"
-                                max={product.quantity}
-                                onChange={handleQuantityChange}
-                                className="form-control d-inline-block ml-2"
-                            />
-                            <span>{product.quantity} sản phẩm có sẵn</span>
+                            {
+                            product.status === 'Hết hàng' ? (
+                                <>
+                                    <strong>Số lượng:</strong>
+                                        <input
+                                            type="number"
+                                            value={quantity}
+                                            min="1"
+                                            max={product.quantity}
+                                            onChange={handleQuantityChange}
+                                            className="form-control d-inline-block ml-2"
+                                        />
+                                    <strong  className="ml-5">{product.quantity} sản phẩm có sẵn</strong>
+                                    <button className="btn btn-secondary mt-5" onClick={handleAddToWishlist}>Thêm vào danh sách đặt trước</button>
+                                </>     
+                            ) : product.status === 'Không còn bán' ? (
+                                null
+                            ) : (
+                                <>
+                                    <strong>Số lượng:</strong>
+                                        <input
+                                            type="number"
+                                            value={quantity}
+                                            min="1"
+                                            max={product.quantity}
+                                            onChange={handleQuantityChange}
+                                            className="form-control d-inline-block ml-2"
+                                        />
+                                    <strong className="ml-5">{product.quantity} sản phẩm có sẵn</strong>
+                                    <button className="btn btn-primary mt-5" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
+                                </>
+                                
+                            )
+                        }
                         </div>
                         <OutOfStock show={showModal} onHide={() => setShowModal(false)} />
-                        {product.status === 'Hết hàng' || product.quantity === 0 ? (
-                            <button className="btn btn-secondary" onClick={handleAddToWishlist}>Thêm vào wishlist</button>
-                        ) : (
-                            <button className="btn btn-primary" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
-                        )}
+
                     </div>
                 </div>
                 <div className="product-description mt-5">

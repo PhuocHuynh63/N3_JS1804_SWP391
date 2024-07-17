@@ -63,11 +63,30 @@ export default function OrderPage() {
         setLoading(true);
         e.preventDefault();
         const newErrors = {};
+        const isOnlyLetters = (name) => name.trim().length > 0 && /^[a-zA-ZàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlKmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s]+$/.test(name);
+        const isValidEmail = (email) => email.trim().length > 0 && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+        const isValidPhone = (phone) => phone.trim().length > 0 &&/^\d{10,11}$/.test(phone);
+        if (!formData.firstName) {
+            newErrors.firstName = 'Vui lòng nhập họ.';
+        } else if (!isOnlyLetters(formData.firstName)) {
+            newErrors.firstName = 'Họ chỉ được phép chứa chữ cái.';
+        }
 
-        if (!formData.firstName) newErrors.firstName = 'Vui lòng nhập họ.';
-        if (!formData.lastName) newErrors.lastName = 'Vui lòng nhập tên.';
-        if (!formData.email) newErrors.email = 'Vui lòng nhập email.';
-        if (!formData.phone) newErrors.phone = 'Vui lòng nhập số điện thoại.';
+        if (!formData.lastName) {
+            newErrors.lastName = 'Vui lòng nhập tên.';
+        } else if (!isOnlyLetters(formData.lastName)) {
+            newErrors.lastName = 'Tên chỉ được phép chứa chữ cái.';
+        }
+        if (!formData.email) {
+            newErrors.email = 'Vui lòng nhập email.';
+        } else if (!isValidEmail(formData.email)) {
+            newErrors.email = 'Email không hợp lệ.';
+        }
+        if (!formData.phone) {
+            newErrors.phone = 'Vui lòng nhập số điện thoại.';
+        } else if (!isValidPhone(formData.phone)) {
+            newErrors.phone = 'Số điện thoại phải có 10-11 số.';
+        }
         if (!formData.address) newErrors.address = 'Vui lòng nhập địa chỉ.';
 
         if (Object.keys(newErrors).length > 0) {

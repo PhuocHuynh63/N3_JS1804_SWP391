@@ -15,7 +15,7 @@ export default function HomePage() {
     useEffect(() => {
         meBeSrc.getProductLastest()
             .then((res) => {
-                setProducts(res.data.slice(0, 8));
+                setProducts(res.data.slice(0, 20));
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
@@ -120,78 +120,9 @@ export default function HomePage() {
                 </Carousel.Item>
             </Carousel>
 
-            {/* //Gallery */}
-            <section class="home-gallery">
-                <div class="container">
-                    <div class="home-gallery-wrap">
-                        <div class="row justify-content-md-center">
-                            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
-                                <h2 class="mb-4 display-5 text-center"> Cùng khám phá </h2>
-                            </div>
-                        </div>
-                        <div class="gallery row">
-                            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                                <NavLink to="/subcategory/sua-bot">
-                                    <img
-                                        src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719062493/gallery1_lciftl.webp"
-                                        class="w-100 shadow-1-strong rounded mb-4"
-                                        alt=""
-                                    />
-                                </NavLink>
-                                <NavLink to="/subcategory/sua-pha-san">
-                                    <img
-                                        src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719062528/gallery2_hefnix.jpg"
-                                        class="w-100 shadow-1-strong rounded mb-4"
-                                        alt=""
-                                    />
-                                </NavLink>
-                            </div>
-
-                            <div class="col-lg-4 mb-4 mb-lg-0">
-                                <NavLink to="/subcategory/binh-sua">
-                                    <img
-                                        src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719062561/gallery3_mrl4sx.jpg"
-                                        class="w-100 shadow-1-strong rounded mb-4"
-                                        alt=""
-                                    />
-                                </NavLink>
-
-                                <NavLink to="/subcategory/bim-ta">
-                                    <img
-                                        src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719062754/gallery4_vcx56l.webp"
-                                        class="w-100 shadow-1-strong rounded mb-4"
-                                        alt=""
-                                    />
-                                </NavLink>
-
-                            </div>
-
-                            <div class="col-lg-4 mb-4 mb-lg-0">
-                                <NavLink to="/subcategory/bim-nguoi-lon">
-                                    <img
-                                        src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719062754/gallery5_x2xfxn.webp"
-                                        class="w-100 shadow-1-strong rounded mb-4"
-                                        alt=""
-                                    />
-                                </NavLink>
-                                <NavLink to="/subcategory/bo">
-                                    <img
-                                        src="https://res.cloudinary.com/dwyzqcunj/image/upload/v1719062755/gallery6_zftqhs.webp"
-                                        class="w-100 shadow-1-strong rounded mb-4"
-                                        alt=""
-                                    />
-                                </NavLink>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
             {/* Product lastest */}
 
-            <div class="pb-3 pb-md-5 pb-xl-8">
+            <div class="pb-3 mt-5 pb-md-5 pb-xl-8">
                 <div class="container">
                     <div class="row justify-content-md-center">
                         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
@@ -203,40 +134,29 @@ export default function HomePage() {
 
                 <div class="container overflow-hidden">
                     <div class="row gy-4 gy-xxl-5">
-                        {filterProduct.map((product) => (
-                            <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
-                                <NavLink to={`/product/${product.productId}`}>
-                                    <div class="card text-center border-dark overflow-hidden h-100">
-                                        <div class="card-body p-5 position-relative d-flex flex-column justify-content-between">
-                                            <figure class="m-0 p-0">
-                                                <img class="img-fluid" loading="lazy" src={`${product.images}`} alt={product.name} />
-                                                <figcaption class="mb-0 mt-4 p-0">
-                                                    <h4 class="mb-2">{product.name}</h4>
-                                                    <p class="d-flex justify-content-center align-items-center gap-2 mb-0">
-                                                        {product.salePrice ? (
-                                                            <span class="text-primary">{product.salePrice.toLocaleString('vi-VN')}₫</span>
-                                                        ) : (
-                                                            <span class="text-primary">{product.price.toLocaleString('vi-VN')}₫</span>
-                                                        )}
-                                                    </p>
-
-                                                </figcaption>
-                                            </figure>
-                                            <span onClick={(e) => handleClickCart(e, product)} class="btn btn-accent mt-4 d-flex align-items-center justify-content-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
-                                                    <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z" />
-                                                    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-                                                </svg>
-                                                <span>Thêm vào giỏ hàng</span>
-                                            </span>
-                                            <div class="position-absolute top-0 end-0 m-2 fs-5">
-                                                <span class="badge text-bg-primary">Mới</span>
+                    {filterProduct.map((product) => {
+                                const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(0);
+                                return (
+                                    <div className="product" key={product.id}>
+                                        <a href={`/product/${product.productId}`}>
+                                            <img src={`${product.images}`} alt={product.name} />
+                                            <span className={discount < 100 &&(discount >0) ? "discount" : "not-discount"}>{discount}%</span>
+                                            <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
+                                            <p>{product.name}</p>
+                                            <div className="product-price-container">
+                                                {product.salePrice > 0 ? (
+                                                    <>
+                                                        <span className="sale-price">{product.salePrice.toLocaleString('vi-VN')}₫</span>
+                                                        <span className="price-line_through">{product.price.toLocaleString('vi-VN')}₫</span>
+                                                    </>
+                                                ) : (
+                                                    <span className="normal-price">{product.price.toLocaleString('vi-VN')}₫</span>
+                                                )}
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
-                                </NavLink>
-                            </div>
-                        ))}
+                                );
+                            })}
                     </div>
                 </div>
 
