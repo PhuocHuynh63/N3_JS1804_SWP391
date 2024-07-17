@@ -151,7 +151,7 @@
     transition: all 0.3s ease;
 }
 
-.input-error {
+input[type="text"].input-error {
     border-color: red;
 }
 
@@ -236,7 +236,7 @@
 }
 
 .order-input.phone {
-    position: absolute;
+    margin-bottom: 13px;
     width: 280px;
 }
 

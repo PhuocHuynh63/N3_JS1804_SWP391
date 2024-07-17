@@ -65,7 +65,7 @@ export default function OrderPage() {
         const newErrors = {};
         const isOnlyLetters = (name) => name.trim().length > 0 && /^[a-zA-ZàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlKmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s]+$/.test(name);
         const isValidEmail = (email) => email.trim().length > 0 && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
-        const isValidPhone = (phone) => phone.trim().length > 0 &&/^\d{10,11}$/.test(phone);
+        const isValidPhone = (phone) => phone.trim().length > 0 && /^\d{10,11}$/.test(phone);
         if (!formData.firstName) {
             newErrors.firstName = 'Vui lòng nhập họ.';
         } else if (!isOnlyLetters(formData.firstName)) {
@@ -209,7 +209,7 @@ export default function OrderPage() {
                 <form onSubmit={handleSubmit}>
                     <div className="order-left_top">
                         <h3>Me&Be</h3>
-                        <p><NavLink to="/cart">Giỏ hàng</NavLink> {'>'} <NavLink>Thông tin giao hàng</NavLink> {'>'} Phương thức thanh toán</p>
+                        <p><NavLink to="/cart">Giỏ hàng</NavLink> {'>'} <NavLink>Thông tin giao hàng</NavLink></p>
                     </div>
                     <div className='order-left_body'>
                         <h4>Thông tin giao hàng</h4>
@@ -288,7 +288,7 @@ export default function OrderPage() {
                                 className={`order-input street ${errors.address ? 'input-error' : ''}`}
                                 placeholder='Địa chỉ'
                             />
-                            {errors.address && <p className="error-text">{errors.address}</p>}
+                            {errors.address && <p className="error-text" style={{ marginLeft: "20px" }}>{errors.address}</p>}
                         </div>
                     </div>
 
