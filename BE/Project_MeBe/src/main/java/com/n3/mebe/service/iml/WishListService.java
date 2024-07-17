@@ -83,7 +83,7 @@ public class WishListService implements IWishListService {
         return wishListResponses;
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Get WishList Response">
+    // <editor-fold default state="collapsed" desc="Get WishList Response By UserId">
     @Override
     public List<WishListResponse> getWishListResponse(int userId) {
 
@@ -154,7 +154,6 @@ public class WishListService implements IWishListService {
         calendar.add(Calendar.DATE, 1); // Thêm 5 phút
         return calendar.getTime();
     }
-
 
 
     @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Ho_Chi_Minh")// Chạy hàng ngày vào lúc nửa đêm

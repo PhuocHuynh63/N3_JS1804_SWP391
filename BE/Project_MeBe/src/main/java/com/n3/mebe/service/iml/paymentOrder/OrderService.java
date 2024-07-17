@@ -208,7 +208,7 @@ public class OrderService implements IOrderService {
 
         saveOrderDetails(orderRequest.getItem(), order);
         paymentService.savePayment(order , orderRequest.getTransactionReference());
-        sendMailService.createSendEmailVerifyOrder(user.getEmail(), order);
+        sendMailService.createSendEmailVerifyOrder(order);
         check = true;
 
 
@@ -327,7 +327,14 @@ public class OrderService implements IOrderService {
             OrderResponse orderResponse = new OrderResponse();
 
             orderResponse.setOrderId(order.getOrderId());
-            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+
+            if(order.getUser() != null){
+                orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+            }else {
+                orderResponse.setUser(null);
+            }
+
+
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
             orderResponse.setOrderCode(order.getOrderCode());
@@ -363,7 +370,15 @@ public class OrderService implements IOrderService {
             OrderResponse orderResponse = new OrderResponse();
 
             orderResponse.setOrderId(order.getOrderId());
-            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+
+
+            if(order.getUser() != null){
+                orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+            }else {
+                orderResponse.setUser(null);
+            }
+
+
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
             orderResponse.setOrderCode(order.getOrderCode());
@@ -398,7 +413,13 @@ public class OrderService implements IOrderService {
             OrderResponse orderResponse = new OrderResponse();
 
             orderResponse.setOrderId(order.getOrderId());
-            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+
+
+            if(order.getUser() != null){
+                orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+            }else {
+                orderResponse.setUser(null);
+            }
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
             orderResponse.setOrderCode(order.getOrderCode());
@@ -433,8 +454,12 @@ public class OrderService implements IOrderService {
 
         orderResponse.setOrderId(order.getOrderId());
 
+        if(order.getUser() != null){
+            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+        }else {
+            orderResponse.setUser(null);
+        }
 
-        orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
         orderResponse.setVoucher(order.getVoucher());
         orderResponse.setStatus(order.getStatus());
         orderResponse.setOrderCode(order.getOrderCode());
@@ -468,8 +493,12 @@ public class OrderService implements IOrderService {
 
         orderResponse.setOrderId(order.getOrderId());
 
+        if(order.getUser() != null){
+            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
+        }else {
+            orderResponse.setUser(null);
+        }
 
-        orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
         orderResponse.setVoucher(order.getVoucher());
         orderResponse.setStatus(order.getStatus());
         orderResponse.setOrderCode(order.getOrderCode());

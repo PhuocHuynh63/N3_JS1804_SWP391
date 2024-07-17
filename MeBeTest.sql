@@ -1,7 +1,7 @@
-﻿CREATE DATABASE me_be_test
+﻿CREATE DATABASE me_be_test1
 GO
 
-USE me_be_test
+USE me_be_test1
 GO
 
 -- Tạo bảng User
@@ -56,7 +56,7 @@ INSERT INTO category ([name], [slug])
 VALUES
     (N'Sữa & Bình Sữa', N'sua-binh-sua'),
     (N'Bỉm Tã - Vệ Sinh', N'bim-ta-ve-sinh'),
-    (N'Đồ Cho Mẹ', N'do-cho-me')
+    (N'Đồ Cho Mẹ', N'do-cho-me');
 
 -- Tạo bảng SubCategory
 CREATE TABLE subcategory (
@@ -91,7 +91,7 @@ VALUES
    --Đồ cho mẹ
    (3, 'sua-bau', N'Sữa bầu', N'https://www.acfc.com.vn/wp/wp-content/uploads/2022/06/top-10-loai-sua-cho-ba-bau-tot-nhat-hien-nay-10-1.jpg', 'https://i1-suckhoe.vnecdn.net/2019/08/06/three-week-old-baby-died-after-4738-9850-1565084585.png?w=1020&h=0&q=100&dpr=1&fit=crop&s=qtEB9ILQZD6Lh3TKhpDNnA'),
    (3, 'vitamin-cho-me', N'Vitamin cho mẹ', N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9TnBsVBaqpMT_xX8XVqB484Tsz1cyVDTKJg&s', 'https://i.pinimg.com/564x/5a/d6/cc/5ad6cc0165266256a8e95fae2786fe22.jpg'),
-   (3, 'phu-kien-cho-me', N'Phụ kiện cho mẹ', N'https://down-my.img.susercontent.com/file/95337ec902bf1522abbd3c424e1a0cb3', 'https://media.licdn.com/dms/image/D5622AQES46cuduYRLw/feedshare-shrink_1280/0/1700718448613?e=1721865600&v=beta&t=wdwjLSksF3S3XZa0sG8gf7MgCLIDGYVGBcpz2cx5B_Q')
+   (3, 'phu-kien-cho-me', N'Phụ kiện cho mẹ', N'https://down-my.img.susercontent.com/file/95337ec902bf1522abbd3c424e1a0cb3', 'https://media.licdn.com/dms/image/D5622AQES46cuduYRLw/feedshare-shrink_1280/0/1700718448613?e=1721865600&v=beta&t=wdwjLSksF3S3XZa0sG8gf7MgCLIDGYVGBcpz2cx5B_Q');
 
 
 
@@ -219,7 +219,6 @@ INSERT INTO [order] ([user_id], voucher_id, order_code, first_name, last_name, e
 VALUES
 (1, NULL, 'ORD001', N'Nguyễn', N'Văn A', 'phuochmse171830@fpt.edu.vn', '0123456789', N'123 Đường ABC', N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
 (1, NULL, 'ORD002', N'Nguyễn', N'Văn A', 'phuochmse171830@fpt.edu.vn', '0123456789', N'456 Đường XYZ', N'Đã hủy', 1200000.00, N'Online', N'Chưa thanh toán', N'Giao hàng nhanh');
-
 
 -- Tạo bảng OrderDetail
 CREATE TABLE order_detail (

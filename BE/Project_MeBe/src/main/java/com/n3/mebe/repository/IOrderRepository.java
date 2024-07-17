@@ -2,6 +2,8 @@ package com.n3.mebe.repository;
 
 import com.n3.mebe.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +15,8 @@ public interface IOrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findByUserEmail(String email);
 
-    Order findByEmail(String email);
+
+    Order findFirstByEmailOrderByCreatedAtAsc(String email);
 
     List<Order> findByUserPhoneNumber(String phoneNumber);
 
