@@ -6,10 +6,12 @@ import com.n3.mebe.dto.request.user.UserCreateRequest;
 import com.n3.mebe.dto.request.user.UserUpdateForAdminRequest;
 import com.n3.mebe.dto.request.user.UserUpdateRequest;
 import com.n3.mebe.dto.response.ResponseData;
+import com.n3.mebe.dto.response.user.GuestResponse;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 
 import com.n3.mebe.service.ISendMailService;
+
 import com.n3.mebe.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,9 +105,9 @@ public class UserController {
     }
 
     //Update guest to user
-    @PutMapping("/signup_guest/{user_id}")
-    public ResponseEntity<ResponseData> updateGuestToUser(@PathVariable("user_id") int user_id, @RequestBody @Valid UserCreateRequest request) {
-        boolean check = userService.updateGuestToUser(user_id , request);
+    @PostMapping("/signup_guest")
+    public ResponseEntity<ResponseData> updateGuestToUser(@RequestBody @Valid UserCreateRequest request) {
+        boolean check = userService.updateGuestToUser(request);
         ResponseData responseData = new ResponseData();
         if (check) {
             responseData.setDescription("Đăng ký thành công");
@@ -240,6 +242,13 @@ public class UserController {
     @GetMapping("/check_email")
     public UserResponse getUserByEmail(@RequestParam String email) {
         return userService.getUserByEmailResponse(email);
+    }
+
+
+    // Lấy ra guest từng đặt hàng bằng email có trong order
+    @GetMapping("/check_email_guest")
+    public GuestResponse getGuestByEmail(@RequestParam String email) {
+        return userService.getGuestByEmailResponse(email);
     }
 
     @GetMapping("/tracking/{userId}")

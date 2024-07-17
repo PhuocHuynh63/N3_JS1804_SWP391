@@ -395,21 +395,19 @@ public class UserService implements IUserService {
 
     // <editor-fold default state="collapsed" desc="Update Guest To User">
     @Override
-    public boolean updateGuestToUser(int id, UserCreateRequest request){
+    public boolean updateGuestToUser(UserCreateRequest request){
         boolean check = false;
-        User user = getUserById(id);
+        User user = new User();
         String role = "member";
 
         String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
-
         int point = 0;
         String status = "active";
-        if(request.getEmail().equals(user.getEmail())){
-            //check xem Username da ton tai chua
-            if (iUserRepository.existsByUsername(request.getUsername())) {
-                throw new AppException(ErrorCode.USERNAME_EXIST);
-            }else
-                if(request.getPhoneNumber().equals(user.getPhoneNumber())){
+        //check xem Username da ton tai chua
+        if (iUserRepository.existsByUsername(request.getUsername())) {
+            throw new AppException(ErrorCode.USERNAME_EXIST);
+        }else
+            if (!iUserRepository.existsByPhoneNumber(request.getPhoneNumber())) {
                     user.setFirstName(request.getFirstName());
                     user.setLastName(request.getLastName());
                     //da check thanh cong khong co Username bi trung
@@ -431,34 +429,10 @@ public class UserService implements IUserService {
                     user.setDeleteAt(null);
                     iUserRepository.save(user);
                     check = true;
-                }else {
-                    if (!iUserRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-                        user.setFirstName(request.getFirstName());
-                        user.setLastName(request.getLastName());
-                        //da check thanh cong khong co Username bi trung
-                        user.setUsername(request.getUsername());
-                        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-                        user.setPassword(passwordEncoder.encode(request.getPassword()));
+            }else {
+                throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
+            }
 
-                        user.setRole(role);
-                        user.setBirthOfDate(request.getBirthOfDate());
-                        user.setPhoneNumber(request.getPhoneNumber());
-                        user.setPoint(point);
-                        user.setAvatar(avatar);
-                        user.setStatus(status);
-
-                        Date now = new Date();// lấy thời gian hiện tại
-
-                        user.setCreateAt(now);
-                        user.setUpdateAt(now);
-                        user.setDeleteAt(null);
-                        iUserRepository.save(user);
-                        check = true;
-                    }else {
-                        throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
-                    }
-                }
-        }
         return check;
     }// </editor-fold>
 
@@ -718,6 +692,26 @@ public class UserService implements IUserService {
         response.setCreateAt(user.getCreateAt());
         response.setUpdateAt(user.getUpdateAt());
         response.setDeleteAt(user.getDeleteAt());
+
+        return response;
+    }
+    // </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="get Guest By Email Response">
+    @Override
+    public GuestResponse getGuestByEmailResponse(String email) {
+        //lấy ra user by email
+        Order order = iOrderRepository.findByEmail(email);
+
+        if(order == null){
+            throw new AppException(ErrorCode.EMAIL_NO_EXIST);
+        }
+        GuestResponse response =  new GuestResponse();
+
+        response.setFirstName(order.getFirstName());
+        response.setLastName(order.getLastName());
+        response.setEmail(order.getEmail());
+        response.setPhoneNumber(order.getPhoneNumber());
 
         return response;
     }

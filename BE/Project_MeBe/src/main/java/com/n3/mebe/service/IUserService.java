@@ -1,6 +1,7 @@
 package com.n3.mebe.service;
 
 import com.n3.mebe.dto.request.user.*;
+import com.n3.mebe.dto.response.user.GuestResponse;
 import com.n3.mebe.dto.response.user.UserResponse;
 import com.n3.mebe.dto.response.user.tracking.UserForTrackingResponse;
 import com.n3.mebe.entity.User;
@@ -28,7 +29,7 @@ public interface IUserService {
 
     boolean setAvatar(int id, MultipartFile file);
 
-    boolean updateGuestToUser(int id, UserCreateRequest request);
+    boolean updateGuestToUser(UserCreateRequest request);
 
     boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request);
 
@@ -43,6 +44,8 @@ public interface IUserService {
     User getUserByEmail(String email);
 
     UserResponse getUserByEmailResponse(String email);
+
+    GuestResponse getGuestByEmailResponse(String email);
 
     UserResponse getUserByUserNameResponse(String username);
 

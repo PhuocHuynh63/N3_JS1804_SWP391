@@ -1,7 +1,7 @@
-﻿CREATE DATABASE me_be_test1
+﻿CREATE DATABASE me_be_test
 GO
 
-USE me_be_test1
+USE me_be_test
 GO
 
 -- Tạo bảng User
@@ -195,7 +195,13 @@ CREATE TABLE [order] (
     [user_id] INT,
     voucher_id INT,
 	order_code NVARCHAR(50) UNIQUE,
+
+	first_name NVARCHAR(50),
+    last_name NVARCHAR(50),
+    email VARCHAR(100),
+    phone VARCHAR(20),
 	shipping_address NVARCHAR(255),
+	
 	[status] NVARCHAR(50),
 	total_amount DECIMAL(10, 2),
 	order_type NVARCHAR(50),
@@ -206,6 +212,14 @@ CREATE TABLE [order] (
     FOREIGN KEY ([user_id]) REFERENCES [user]([user_id]),
     FOREIGN KEY (voucher_id) REFERENCES voucher(voucher_id)
 );
+
+
+-- Thêm dữ liệu vào bảng order
+INSERT INTO [order] ([user_id], voucher_id, order_code, first_name, last_name, email, phone, shipping_address, [status], total_amount, order_type, payment_status, note)
+VALUES
+(1, NULL, 'ORD001', N'Nguyễn', N'Văn A', 'phuochmse171830@fpt.edu.vn', '0123456789', N'123 Đường ABC', N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
+(1, NULL, 'ORD002', N'Nguyễn', N'Văn A', 'phuochmse171830@fpt.edu.vn', '0123456789', N'456 Đường XYZ', N'Đã hủy', 1200000.00, N'Online', N'Chưa thanh toán', N'Giao hàng nhanh');
+
 
 -- Tạo bảng OrderDetail
 CREATE TABLE order_detail (
@@ -260,11 +274,6 @@ VALUES
 (N'FREESHIP', N'Fixed Amount', 30.00, N'Miễn phí vận chuyển cho đơn hàng từ 1,000,000đ', 0.00, 50, 1000000.00, 30000.00, 1, 1, '2024-07-01 00:00:00', '2024-12-31 23:59:59'),
 (N'NEWUSER', N'Percentage', 15.00, N'Giảm giá 15% cho khách hàng mới', 0.00, 200, 0.00, 200000.00, 1, 0, '2024-07-01 00:00:00', '2024-12-31 23:59:59');
 
--- Thêm dữ liệu vào bảng order
-INSERT INTO [order] ([user_id], voucher_id, order_code, shipping_address, [status], total_amount, order_type, payment_status, note)
-VALUES
-(1, NULL, 'ORD001', N'123 Đường ABC', N'Đang được xử lý', 500000.00, N'Online', N'Chưa thanh toán', N'Giao hàng trong giờ hành chính'),
-(1, NULL, 'ORD002', N'456 Đường XYZ', N'Đã hủy', 1200000.00, N'Online', N'Chưa thanh toán', N'Giao hàng nhanh');
 
 
 -- Thêm dữ liệu vào bảng order_detail
@@ -286,7 +295,6 @@ INSERT INTO wishlist ([user_id], product_id, [status], quantity, total_amount, e
 VALUES
 (1, 1, N'active', 2, 160000.00, '2024-08-01 00:00:00'),
 (1, 2, N'active', 1, 32000.00, '2024-08-05 00:00:00');
-
 
 
 

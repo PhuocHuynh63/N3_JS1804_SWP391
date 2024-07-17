@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import javax.management.Query;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -160,28 +161,22 @@ public class OrderService implements IOrderService {
 
         // Neu khong phai la guest thi kiem User bang ID
         if (orderRequest.getGuest() != null){
-            boolean checkEmail = iUserRepository.existsByEmail(orderRequest.getGuest().getEmail());
-            if(!checkEmail){
-                String roll = "guest";
-                // lay guess tu request de tao ra USER moi
-                user.setFirstName(orderRequest.getGuest().getFirstName());
-                user.setLastName(orderRequest.getGuest().getLastName());
-                user.setEmail(orderRequest.getGuest().getEmail());
-                user.setBirthOfDate(orderRequest.getGuest().getBirthOfDate());
-                user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
-                user.setRole(roll);
-                iUserRepository.save(user);
-                //save địa chỉ của guess
-                saveGuessUserAddress(orderRequest, user);
-            }else {
-                user = iUserRepository.findByEmail(orderRequest.getGuest().getEmail());
-            }
+            // lay guess tu request
+            order.setUser(null);
+            order.setFirstName(orderRequest.getGuest().getFirstName());
+            order.setLastName(orderRequest.getGuest().getLastName());
+            order.setEmail(orderRequest.getGuest().getEmail());
+            order.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
         }else {
             user = userService.getUserById(orderRequest.getUserId());
-
+            order.setUser(user);
+            order.setFirstName(user.getFirstName());
+            order.setLastName(user.getLastName());
+            order.setEmail(user.getEmail());
+            order.setPhoneNumber(user.getPhoneNumber());
         }
 
-        order.setUser(user);
+
         if(orderRequest.getStatus() != null){
             if(orderRequest.getStatus().equals("Đang được xử lý")){
                 order.setStatus(orderRequest.getStatus());
@@ -191,8 +186,6 @@ public class OrderService implements IOrderService {
         }
         //   order.setVoucher(); --> chua them vao
 
-
-        order.setStatus(status);
 
         String code_order;
         do {
@@ -237,7 +230,6 @@ public class OrderService implements IOrderService {
             user.setFirstName(orderRequest.getGuest().getFirstName());
             user.setLastName(orderRequest.getGuest().getLastName());
             user.setEmail(orderRequest.getGuest().getEmail());
-            user.setBirthOfDate(orderRequest.getGuest().getBirthOfDate());
             user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
             user.setRole(roll);
         }else {
@@ -339,6 +331,12 @@ public class OrderService implements IOrderService {
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
             orderResponse.setOrderCode(order.getOrderCode());
+
+            orderResponse.setFirstName(order.getFirstName());
+            orderResponse.setLastName(order.getLastName());
+            orderResponse.setEmail(order.getEmail());
+            orderResponse.setPhoneNumber(order.getPhoneNumber());
+
             orderResponse.setShipAddress(order.getShipAddress());
 
             orderResponse.setTotalAmount(order.getTotalAmount());
@@ -369,6 +367,11 @@ public class OrderService implements IOrderService {
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
             orderResponse.setOrderCode(order.getOrderCode());
+
+            orderResponse.setFirstName(order.getFirstName());
+            orderResponse.setLastName(order.getLastName());
+            orderResponse.setEmail(order.getEmail());
+            orderResponse.setPhoneNumber(order.getPhoneNumber());
             orderResponse.setShipAddress(order.getShipAddress());
 
             orderResponse.setTotalAmount(order.getTotalAmount());
@@ -399,6 +402,12 @@ public class OrderService implements IOrderService {
             orderResponse.setVoucher(order.getVoucher());
             orderResponse.setStatus(order.getStatus());
             orderResponse.setOrderCode(order.getOrderCode());
+
+            orderResponse.setFirstName(order.getFirstName());
+            orderResponse.setLastName(order.getLastName());
+            orderResponse.setEmail(order.getEmail());
+            orderResponse.setPhoneNumber(order.getPhoneNumber());
+
             orderResponse.setShipAddress(order.getShipAddress());
 
             orderResponse.setTotalAmount(order.getTotalAmount());
@@ -429,6 +438,11 @@ public class OrderService implements IOrderService {
         orderResponse.setVoucher(order.getVoucher());
         orderResponse.setStatus(order.getStatus());
         orderResponse.setOrderCode(order.getOrderCode());
+
+        orderResponse.setFirstName(order.getFirstName());
+        orderResponse.setLastName(order.getLastName());
+        orderResponse.setEmail(order.getEmail());
+        orderResponse.setPhoneNumber(order.getPhoneNumber());
         orderResponse.setShipAddress(order.getShipAddress());
 
         orderResponse.setTotalAmount(order.getTotalAmount());
@@ -459,6 +473,11 @@ public class OrderService implements IOrderService {
         orderResponse.setVoucher(order.getVoucher());
         orderResponse.setStatus(order.getStatus());
         orderResponse.setOrderCode(order.getOrderCode());
+
+        orderResponse.setFirstName(order.getFirstName());
+        orderResponse.setLastName(order.getLastName());
+        orderResponse.setEmail(order.getEmail());
+        orderResponse.setPhoneNumber(order.getPhoneNumber());
         orderResponse.setShipAddress(order.getShipAddress());
 
         orderResponse.setTotalAmount(order.getTotalAmount());
