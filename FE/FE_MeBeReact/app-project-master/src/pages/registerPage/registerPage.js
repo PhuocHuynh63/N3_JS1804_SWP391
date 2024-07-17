@@ -25,7 +25,7 @@ export default function RegisterPage() {
     const [otpSent, setOtpSent] = useState(false);
     const [otpVerified, setOtpVerified] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isOtpLoading, setIsOtpLoading] = useState(false); // New state for OTP loading
+    const [isOtpLoading, setIsOtpLoading] = useState(false); 
 
     const formatDateToBackend = (date) => {
         const [year, month, day] = date.split('-');
@@ -110,7 +110,7 @@ export default function RegisterPage() {
                 if (response.data === "Xác minh thành công") {
                     toast.success('Xác minh mã OTP thành công!');
                     setOtpVerified(true);
-                    fetchUserData(); // Gọi hàm lấy thông tin người dùng
+                    fetchUserData(); 
                 } else {
                     toast.error(response.data || 'Mã xác minh không đúng!');
                     setOtpVerified(false);
@@ -161,10 +161,10 @@ export default function RegisterPage() {
 
     const validateAndSubmitForm = () => {
         const newErrors = {};
-        const isOnlyLetters = (name) => /^[a-zA-ZàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlKmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s]+$/.test(name);
-        const isValidEmail = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
-        const isValidPassword = (password) => password.length >= 6;
-        const isValidPhone = (phone) => /^\d{10,11}$/.test(phone);
+        const isOnlyLetters = (name) => name.trim().length > 0 && /^[a-zA-ZàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlKmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s]+$/.test(name);
+        const isValidEmail = (email) => email.trim().length > 0 && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+        const isValidPassword = (password) => password.trim().length > 0 && password.length >= 6;
+        const isValidPhone = (phone) => phone.trim().length > 0 &&/^\d{10,11}$/.test(phone);
         const isFutureDate = (date) => {
             const [day, month, year] = date.split('/');
             return new Date(`${year}-${month}-${day}`) > new Date();
@@ -182,7 +182,11 @@ export default function RegisterPage() {
             newErrors.lastName = 'Tên chỉ được phép chứa chữ cái.';
         }
 
-        if (!formData.userName) newErrors.userName = 'Vui lòng nhập tên đăng nhập.';
+        if (!formData.userName) {
+            newErrors.userName = 'Vui lòng nhập tên đăng nhập.';
+        } else if (!isOnlyLetters(formData.lastName)) {
+            newErrors.userName = 'Tên đăng nhập chỉ được phép chứa chữ cái.';
+        }
         if (!formData.email) {
             newErrors.email = 'Vui lòng nhập email.';
         } else if (!isValidEmail(formData.email)) {
@@ -209,13 +213,13 @@ export default function RegisterPage() {
             setIsLoading(false);
         } else {
             const userData = {
-                firstName: formData.firstName.trim(),
-                lastName: formData.lastName.trim(),
-                username: formData.userName.trim(),
-                email: formData.email.trim(),
-                password: formData.password.trim(),
-                birthOfDate: formData.birthOfDate.trim(), // Giữ định dạng dd/MM/yyyy
-                phoneNumber: formData.phone.trim(),
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                username: formData.userName,
+                email: formData.email,
+                password: formData.password,
+                birthOfDate: formData.birthOfDate, 
+                phoneNumber: formData.phone,
             };
 
             console.log('Sending user data:', userData); // Log payload để kiểm tra
