@@ -38,7 +38,7 @@ public class WishListService implements IWishListService {
     private IProductService productService;
 
     @Autowired
-    private SendMailService sendMailService; ;
+    private SendMailService sendMailService;
 
     // <editor-fold default state="collapsed" desc="get WishList User Responses All">
     public WishListUserResponse getWishListUser(User user) {
@@ -172,6 +172,7 @@ public class WishListService implements IWishListService {
             sendMailService.createSendEmailWishListNotifications(wishList);
         }
     }
+
 
 
 }

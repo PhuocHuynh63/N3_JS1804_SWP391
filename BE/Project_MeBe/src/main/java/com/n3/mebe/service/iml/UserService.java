@@ -449,9 +449,12 @@ public class UserService implements IUserService {
 
             user.setBirthOfDate(request.getBirthOfDate());
             user.setPhoneNumber(request.getPhoneNumber());
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            if(!request.getPassword().equals(user.getPassword())){
+                PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
+            }
+
             user.setRole(request.getRole());
             user.setPoint(request.getPoint());
 
