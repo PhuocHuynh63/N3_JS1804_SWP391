@@ -25,6 +25,17 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "first_name")
+    String firstName;
+
+    @Column(name = "last_name")
+    String lastName;
+
+    String email;
+
+    @Column(name = "phone")
+    String phoneNumber;
+
     @ManyToOne
     @JoinColumn(name = "voucher_id")
     private Voucher voucher;
