@@ -9,8 +9,8 @@ EXPOSE 8080
 
 # Đặt các biến môi trường
 
-# ENV SPRING_DATASOURCE_URL="jdbc:sqlserver://192.168.1.1:1444;databaseName=me_be_test;encrypt=true;trustServerCertificate=true"
-ENV SPRING_DATASOURCE_URL="jdbc:sqlserver://14.225.253.116:1444;databaseName=me_be_test;encrypt=true;trustServerCertificate=true"
+#ENV SPRING_DATASOURCE_URL="jdbc:sqlserver://192.168.1.7:1444;databaseName=me_be_test1;encrypt=true;trustServerCertificate=true"
+ENV SPRING_DATASOURCE_URL="jdbc:sqlserver://14.225.253.116:1444;databaseName=me_be_test1;encrypt=true;trustServerCertificate=true"
 ENV SPRING_DATASOURCE_USERNAME=SA
 ENV SPRING_DATASOURCE_PASSWORD=YourStrong@Passw0rd
 ENV SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.SQLServerDialect

@@ -21,7 +21,7 @@ public class WishListController {
         return wishListService.getWishListResponsesAll();
     }
 
-    @GetMapping("/wlId={id}")
+    @GetMapping("/userId={id}")
     List<WishListResponse> getWishList(@PathVariable("id") int id) {
         return wishListService.getWishListResponse(id);
     }

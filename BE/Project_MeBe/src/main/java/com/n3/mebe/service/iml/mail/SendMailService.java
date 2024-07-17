@@ -7,6 +7,7 @@ import com.n3.mebe.entity.WishList;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IOrderDetailsRepository;
+import com.n3.mebe.repository.IOrderRepository;
 import com.n3.mebe.repository.IUserRepository;
 import com.n3.mebe.service.ISendMailService;
 import com.n3.mebe.service.iml.UserService;
@@ -28,6 +29,8 @@ public class SendMailService implements ISendMailService {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private IUserRepository iUserRepository;
 
     @Autowired
     private UserService userService;
@@ -41,6 +44,8 @@ public class SendMailService implements ISendMailService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private IOrderRepository orderRepository;
 
     // <editor-fold default state="collapsed" desc="create Send Email Forgot">
     @Override
@@ -83,18 +88,18 @@ public class SendMailService implements ISendMailService {
 
     // <editor-fold default state="collapsed" desc="create Send Email Verify Order">
     @Override
-    public boolean createSendEmailVerifyOrder(String email, Order order) {
+    public boolean createSendEmailVerifyOrder(Order order) {
         try {
             GmailSendResponse response = new GmailSendResponse();
 
-            User user = userService.getUserByEmail(email);
-            response.setTo(user.getEmail());
+
+            response.setTo(order.getEmail());
             response.setSubject(ConstEmail.SEND_MAIL_SUBJECT.VERIFY_ORDER);
 
 
             Map<String, Object> props = new HashMap<>();
-            props.put("firstName", user.getFirstName());
-            props.put("lastName", user.getLastName());
+            props.put("firstName", order.getFirstName());
+            props.put("lastName", order.getLastName());
             props.put("orderCode", order.getOrderCode());
             props.put("shipAddress", order.getShipAddress());
 
@@ -185,9 +190,9 @@ public class SendMailService implements ISendMailService {
             GmailSendResponse response = new GmailSendResponse();
 
             // ở đây là guest
-            User user = userService.getUserByEmail(email);
-            String role = "guest";
-            if(!user.getRole().equalsIgnoreCase(role)){
+            Order order = orderRepository.findFirstByEmailOrderByCreatedAtAsc(email);
+
+            if(iUserRepository.existsByEmail(email)){
                 throw new AppException(ErrorCode.EMAIL_HAVE_ACCOUNT);
             }
 
@@ -200,7 +205,7 @@ public class SendMailService implements ISendMailService {
             // Tạo khóa Redis để lưu trữ OTP
             String OTPKey = "OTP:" + OTP;
 
-            response.setTo(user.getEmail());
+            response.setTo(order.getEmail());
             response.setSubject(OTP_SEND);
 
             Map<String, Object> props = new HashMap<>();

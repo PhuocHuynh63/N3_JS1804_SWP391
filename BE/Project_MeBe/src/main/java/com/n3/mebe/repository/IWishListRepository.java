@@ -13,6 +13,7 @@ import java.util.List;
 
 @Repository
 public interface IWishListRepository extends JpaRepository<WishList, Integer> {
+
     List<WishList> findByUserUserId(int userId);
 
     @Query("SELECT w FROM WishList w WHERE w.estimatedDate <= :currentDate and w.status ='Chờ thông báo'")

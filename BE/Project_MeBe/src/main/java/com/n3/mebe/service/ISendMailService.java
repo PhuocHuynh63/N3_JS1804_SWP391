@@ -8,7 +8,7 @@ public interface ISendMailService {
 
     boolean createSendEmailForgot(String email);
 
-    boolean createSendEmailVerifyOrder(String email, Order order);
+    boolean createSendEmailVerifyOrder(Order order);
 
     boolean createSendEmailWishListConfirmation(User user, WishList wishList);
 

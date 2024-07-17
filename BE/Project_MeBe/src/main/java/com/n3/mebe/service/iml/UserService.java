@@ -701,7 +701,7 @@ public class UserService implements IUserService {
     @Override
     public GuestResponse getGuestByEmailResponse(String email) {
         //lấy ra user by email
-        Order order = iOrderRepository.findByEmail(email);
+        Order order = iOrderRepository.findFirstByEmailOrderByCreatedAtAsc(email);
 
         if(order == null){
             throw new AppException(ErrorCode.EMAIL_NO_EXIST);
