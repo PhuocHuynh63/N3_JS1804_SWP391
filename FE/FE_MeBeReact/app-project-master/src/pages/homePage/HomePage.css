@@ -1,9 +1,21 @@
 .btn-accent {
-    transition: background-color 0.3s, transform 0.3s; 
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .btn-accent:hover {
-    background-color: #f3f2ea; /* Màu nền mới khi hover */
-    color: #ffffff; /* Màu chữ */
-    transform: scale(1.05); 
+    background-color: #f3f2ea;
+    /* Màu nền mới khi hover */
+    color: #ffffff;
+    /* Màu chữ */
+    transform: scale(1.05);
+}
+
+/* Custom styles for the carousel control icons */
+
+
+
+
+.product-carousel .carousel-item {
+    display: flex;
+    justify-content: center;
 }
