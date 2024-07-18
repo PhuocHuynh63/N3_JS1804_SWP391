@@ -60,27 +60,33 @@ public class ProductService implements IProductService {
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Reduce Update Quantity Product By Id">
-    public void reduceProductQuantity(int quanti, int prId) throws AppException {
+    public boolean reduceProductQuantity(int quanti, int prId) throws AppException {
         Product product = getProductById(prId);
         int updateQuantity = product.getQuantity() - quanti;
 
         if (updateQuantity < 0) {
-            throw new AppException(ErrorCode.PRODUCT_QUANTITY_END);
+            return false;
         }else if (updateQuantity == 0){
             String outStock = "Hết hàng";
             setStatus(prId, outStock);
         }
         product.setQuantity(updateQuantity);
         iProductRespository.save(product);
+        return true;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="reduce Product Quantity List">
-    public void reduceProductQuantityList(List<OrderDetailsRequest> items) {
+    public boolean reduceProductQuantityList(List<OrderDetailsRequest> items) {
+        boolean check = true;
         for (OrderDetailsRequest item : items) {
             Product product = getProductById(item.getProductId());
             //trừ số lượng trong product
-            reduceProductQuantity(item.getQuantity(), product.getProductId());
+            check = reduceProductQuantity(item.getQuantity(), product.getProductId());
+            if(!check){
+                return check;
+            }
         }
+        return check ;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Increase Quantity Product By Id">
