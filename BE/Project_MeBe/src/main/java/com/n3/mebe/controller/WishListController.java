@@ -16,6 +16,28 @@ public class WishListController {
     @Autowired
     private IWishListService wishListService;
 
+
+    /**
+     * Request from client
+     *
+     */
+    @PostMapping("/create")
+    String createWishList(@RequestBody WishListRequest wishListRequest) {
+        String msg;
+        if (wishListService.addWishList(wishListRequest)) {
+            msg = "Create WishList successfully ";
+        } else {
+            msg = "Create WishList failed";
+        }
+        return msg;
+    }
+
+
+    /**
+     * Response from client
+     *
+     */
+
     @GetMapping("/list")
     List<WishListResponse> getWishList() {
         return wishListService.getWishListResponsesAll();
@@ -26,15 +48,10 @@ public class WishListController {
         return wishListService.getWishListResponse(id);
     }
 
-    @PostMapping("/create")
-    String createWishList(@RequestBody WishListRequest wishListRequest) {
-        String msg;
-        if (wishListService.addWishList(wishListRequest)) {
-            msg = "Create WishList successfully ";
-        } else {
-            msg = "Create WishList failed";
-        }
-        return msg;
+    // L
+    @GetMapping("/productId={id}")
+    List<WishListResponse> getWishListByWLId(@PathVariable("id") int productId) {
+        return wishListService.getWishListResponse(productId);
     }
 
 }

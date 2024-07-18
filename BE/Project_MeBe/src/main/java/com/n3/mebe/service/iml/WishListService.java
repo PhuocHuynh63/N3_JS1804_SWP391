@@ -109,6 +109,31 @@ public class WishListService implements IWishListService {
         return wishListResponses;
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="Get WishList Response By productId">
+    @Override
+    public List<WishListResponse> getWishListResponseByWLID(int productId) {
+        List<WishList> list = wishListRepository.findByProductProductIdOrderByCreatedAtDesc(productId);
+
+        List<WishListResponse> wishListResponses = new ArrayList<>();
+        for (WishList wishList : list) {
+            WishListResponse response = new WishListResponse();
+
+            response.setUser(getWishListUser(wishList.getUser()));
+
+            ProductResponse productResponse = productService.getProductByIdResponse(wishList.getProduct().getProductId());
+            response.setProduct(productResponse);
+
+            response.setStatus(wishList.getStatus());
+            response.setQuantity(wishList.getQuantity());
+            response.setTotalAmount(wishList.getTotalAmount());
+            response.setEstimatedDate(wishList.getEstimatedDate());
+            response.setCreatedAt(wishList.getCreatedAt());
+            response.setUpdatedAt(wishList.getUpdatedAt());
+            wishListResponses.add(response);
+        }
+        return wishListResponses;
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="add WishList">
     @Override
     public boolean addWishList(WishListRequest request) {
