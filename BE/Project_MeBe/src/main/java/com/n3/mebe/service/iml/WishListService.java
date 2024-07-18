@@ -109,10 +109,11 @@ public class WishListService implements IWishListService {
         return wishListResponses;
     }// </editor-fold>
 
-    // <editor-fold default state="collapsed" desc="Get WishList Response By productId">
+    // <editor-fold default state="collapsed" desc="Get WishList Response By productId and status Chờ thông báo">
     @Override
-    public List<WishListResponse> getWishListResponseByWLID(int productId) {
-        List<WishList> list = wishListRepository.findByProductProductIdOrderByCreatedAtDesc(productId);
+    public List<WishListResponse> getWishListResponseByProductID(int productId) {
+        String status = "Chờ thông báo";
+        List<WishList> list = wishListRepository.findWishListsByProduct(productId, status);
 
         List<WishListResponse> wishListResponses = new ArrayList<>();
         for (WishList wishList : list) {

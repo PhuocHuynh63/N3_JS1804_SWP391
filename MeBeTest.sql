@@ -292,7 +292,7 @@ VALUES
 -- Thêm dữ liệu vào bảng wishlist
 INSERT INTO wishlist ([user_id], product_id, [status], quantity, total_amount, estimated_date)
 VALUES
-(1, 2, N'active', 1, 32000.00, '2024-08-05 00:00:00');
+(1, 2, N'Đã có hàng', 1, 32000.00, '2024-08-05 00:00:00');
 
 
 

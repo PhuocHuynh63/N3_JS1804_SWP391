@@ -23,5 +23,4 @@ public interface IWishListRepository extends JpaRepository<WishList, Integer> {
     @Query("SELECT w FROM WishList w WHERE w.product.productId = :productId and w.status = :status")
     List<WishList> findWishListsByProduct(@Param("productId") int productId, @Param("status") String status);
 
-    List<WishList> findByProductProductIdOrderByCreatedAtDesc(int productId);
 }
