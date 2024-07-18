@@ -4,10 +4,12 @@ package com.n3.mebe.controller.payment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.n3.mebe.dto.TransactionStatusDTO;
 import com.n3.mebe.dto.request.order.OrderRequest;
-import com.n3.mebe.dto.request.payment.PaymentRequest;
+
 
 import com.n3.mebe.dto.response.payment.PaymentResponse;
 
+
+import com.n3.mebe.service.iml.ProductService;
 import com.n3.mebe.service.iml.paymentOrder.VNPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,11 +31,15 @@ public class VnpayController {
     @Autowired
     private VNPayService paymentService;
 
+    @Autowired
+    private ProductService productService;
+
     @PostMapping("/create")
     ResponseEntity<?> createPayment(@RequestBody OrderRequest request) throws UnsupportedEncodingException, JsonProcessingException {
 
         PaymentResponse response = paymentService.createPaymentUrl(request);
 
+        productService.reduceProductQuantityList(request.getItem()); // Trừ số lượng Product
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

@@ -24,6 +24,7 @@ public class WishListController {
     @PostMapping("/create")
     String createWishList(@RequestBody WishListRequest wishListRequest) {
         String msg;
+        
         if (wishListService.addWishList(wishListRequest)) {
             msg = "Create WishList successfully ";
         } else {
