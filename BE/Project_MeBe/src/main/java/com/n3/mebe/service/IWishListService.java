@@ -11,7 +11,7 @@ public interface IWishListService {
 
     List<WishListResponse> getWishListResponse(int userId);
 
-    List<WishListResponse> getWishListResponseByWLID(int productId);
+    List<WishListResponse> getWishListResponseByProductID(int productId);
 
     boolean addWishList(WishListRequest request);
 

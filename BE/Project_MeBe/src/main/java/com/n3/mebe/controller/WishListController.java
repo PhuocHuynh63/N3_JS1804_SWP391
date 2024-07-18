@@ -52,7 +52,7 @@ public class WishListController {
     // L
     @GetMapping("/productId={id}")
     List<WishListResponse> getWishListByWLId(@PathVariable("id") int productId) {
-        return wishListService.getWishListResponse(productId);
+        return wishListService.getWishListResponseByProductID(productId);
     }
 
 }
