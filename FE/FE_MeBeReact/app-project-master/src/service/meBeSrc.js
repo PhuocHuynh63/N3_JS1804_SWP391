@@ -214,4 +214,7 @@ export const meBeSrc = {
         return https.get(`/wishlist/list`);
     },
 
+    getBestSeller: () => {
+        return https.get(`/product/list/best_seller`);
+    }
 }

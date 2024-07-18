@@ -15,14 +15,23 @@ export default function HomePage() {
     useEffect(() => {
         meBeSrc.getProductLastest()
             .then((res) => {
-                setProducts(res.data.slice(0, 20));
+                setProducts(res.data.slice(0, 5));
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
     }, []);
 
+    //GET - Bestseller
+    const [bestseller, setBestseller] = useState([]);
+    useEffect(() => {
+        meBeSrc.getBestSeller()
+            .then((res) => {
+                setBestseller(res.data.slice(0, 8));
+            }).catch((err) => {
+                console.log('Error fetching products', err);
+            });
+    }, []);
     //CART
-
     const showModalnotify = (message) => {
         setModalMessage(message);
         setIsModalVisible(true);
@@ -85,6 +94,13 @@ export default function HomePage() {
 
     const filterProduct = products.filter((product) => product.status !== 'Không còn bán');
 
+    const productsPerSlide = 3;
+    const slides = [];
+    for (let i = 0; i < filterProduct.length; i += productsPerSlide) {
+      slides.push(filterProduct.slice(i, i + productsPerSlide));
+    }
+    
+
     return (
         <div className='homepage'>
 
@@ -120,13 +136,66 @@ export default function HomePage() {
                 </Carousel.Item>
             </Carousel>
 
+            {/* policy */}
+            <div class="container-fluid featurs py-3">
+                <div class="container py-5">
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="featurs-item text-center rounded bg-light p-4">
+                                <div class="featurs-icon mb-5 mx-auto">
+                                    <img src='https://theme.hstatic.net/200000692427/1001117622/14/home_policy_item_image_1.png?v=4899'></img>
+                                </div>
+                                <div class="featurs-content text-center">
+                                    <h5>Giao hàng nhanh, miễn phí</h5>
+                                    <p class="mb-0">Đăng ký thành viên để hưởng nhiều ưu đãi</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="featurs-item text-center rounded bg-light p-4">
+                                <div class="featurs-icon mb-5 mx-auto">
+                                    <img src='https://theme.hstatic.net/200000692427/1001117622/14/home_policy_item_image_2.png?v=4899'></img>
+                                </div>
+                                <div class="featurs-content text-center">
+                                    <h5>Trả hàng, Bảo hành</h5>
+                                    <p class="mb-0">Đổi trả và bảo hành miễn phí lên đến 30 ngày</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="featurs-item text-center rounded bg-light p-4">
+                                <div class="featurs-icon mb-5 mx-auto">
+                                    <img src='https://theme.hstatic.net/200000692427/1001117622/14/home_policy_item_image_3.png?v=4899'></img>
+                                </div>
+                                <div class="featurs-content text-center">
+                                    <h5>Thành viên</h5>
+                                    <p class="mb-0">Đăng ký thành viên để nhận được nhiều ưu đãi độc quyền</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="featurs-item text-center rounded bg-light p-4">
+                                <div class="featurs-icon mb-5 mx-auto">
+                                    <img src='https://theme.hstatic.net/200000692427/1001117622/14/home_policy_item_image_4.png?v=4899'></img>
+                                </div>
+                                <div class="featurs-content text-center">
+                                    <h5>Chính hãng</h5>
+                                    <p class="mb-0">Sản phẩm nguồn gốc xuất xứ rõ ràng - an toàn - thoải mái</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             {/* Product lastest */}
 
-            <div class="pb-3 mt-5 pb-md-5 pb-xl-8">
+            <div className="pb-3 mt-5 pb-md-5 pb-xl-8">
                 <div class="container">
                     <div class="row justify-content-md-center">
                         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                            <h2 class="mb-4 display-5 text-center">Sản phẩm mới về </h2>
+                            <h2 class="mb-4 display-5 text-center">Sản phẩm bán chạy nhất</h2>
                             <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
                         </div>
                     </div>
@@ -134,33 +203,78 @@ export default function HomePage() {
 
                 <div class="container overflow-hidden">
                     <div class="row gy-4 gy-xxl-5">
-                    {filterProduct.map((product) => {
-                                const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(0);
-                                return (
-                                    <div className="product" key={product.id}>
-                                        <a href={`/product/${product.productId}`}>
-                                            <img src={`${product.images}`} alt={product.name} />
-                                            <span className={discount < 100 &&(discount >0) ? "discount" : "not-discount"}>{discount}%</span>
-                                            <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
-                                            <p>{product.name}</p>
-                                            <div className="product-price-container">
-                                                {product.salePrice > 0 ? (
-                                                    <>
-                                                        <span className="sale-price">{product.salePrice.toLocaleString('vi-VN')}₫</span>
-                                                        <span className="price-line_through">{product.price.toLocaleString('vi-VN')}₫</span>
-                                                    </>
-                                                ) : (
-                                                    <span className="normal-price">{product.price.toLocaleString('vi-VN')}₫</span>
-                                                )}
-                                            </div>
-                                        </a>
-                                    </div>
-                                );
-                            })}
+                        {filterProduct.map((product) => {
+                            const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(0);
+                            return (
+                                <div className="product" key={product.id}>
+                                    <a href={`/product/${product.productId}`}>
+                                        <img src={`${product.images}`} alt={product.name} />
+                                        <span className={discount < 100 && (discount > 0) ? "discount" : "not-discount"}>{discount}%</span>
+                                        <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
+                                        <p>{product.name}</p>
+                                        <div className="product-price-container">
+                                            {product.salePrice > 0 ? (
+                                                <>
+                                                    <span className="sale-price">{product.salePrice.toLocaleString('vi-VN')}₫</span>
+                                                    <span className="price-line_through">{product.price.toLocaleString('vi-VN')}₫</span>
+                                                </>
+                                            ) : (
+                                                <span className="normal-price">{product.price.toLocaleString('vi-VN')}₫</span>
+                                            )}
+                                        </div>
+                                    </a>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
             </div>
+            
+            <div class="container-fluid featurs py-3">
+                    <img src="https://file.hstatic.net/200000692427/file/kv_bst_t7_size_1440x400px.jpg" class="d-block w-100" alt="..." />
+            </div>
+
+            <div className="pb-3 mt-5 pb-md-5 pb-xl-8">
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                            <h2 class="mb-4 display-5 text-center">Sản phẩm bán chạy nhất</h2>
+                            <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container overflow-hidden">
+                    <div class="row gy-4 gy-xxl-5">
+                        {bestseller.map((product) => {
+                            const discount = ((1 - (product.salePrice / product.price)) * 100).toFixed(0);
+                            return (
+                                <div className="product" key={product.id}>
+                                    <a href={`/product/${product.productId}`}>
+                                        <img src={`${product.images}`} alt={product.name} />
+                                        <span className={discount < 100 && (discount > 0) ? "discount" : "not-discount"}>{discount}%</span>
+                                        <img id='cart' src='https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg' onClick={(e) => handleClickCart(e, product)} alt="Add to cart" />
+                                        <p>{product.name}</p>
+                                        <div className="product-price-container">
+                                            {product.salePrice > 0 ? (
+                                                <>
+                                                    <span className="sale-price">{product.salePrice.toLocaleString('vi-VN')}₫</span>
+                                                    <span className="price-line_through">{product.price.toLocaleString('vi-VN')}₫</span>
+                                                </>
+                                            ) : (
+                                                <span className="normal-price">{product.price.toLocaleString('vi-VN')}₫</span>
+                                            )}
+                                        </div>
+                                    </a>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+            </div>
+
             <Modal
                 title="Notification"
                 visible={isModalVisible}
