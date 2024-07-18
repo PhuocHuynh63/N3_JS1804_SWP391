@@ -31,15 +31,12 @@ public class VnpayController {
     @Autowired
     private VNPayService paymentService;
 
-    @Autowired
-    private ProductService productService;
+
 
     @PostMapping("/create")
     ResponseEntity<?> createPayment(@RequestBody OrderRequest request) throws UnsupportedEncodingException, JsonProcessingException {
 
         PaymentResponse response = paymentService.createPaymentUrl(request);
-
-        productService.reduceProductQuantityList(request.getItem()); // Trừ số lượng Product
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
