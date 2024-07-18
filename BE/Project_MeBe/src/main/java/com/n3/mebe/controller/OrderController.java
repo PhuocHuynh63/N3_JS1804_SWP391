@@ -72,8 +72,6 @@ public class OrderController {
             return;
         }
 
-        productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
-
         // Lấy paymentId từ params
         String paymentId = vnp_Params.get("vnp_TxnRef");
         String transactionReference = vnp_Params.get("vnp_OrderInfo");
