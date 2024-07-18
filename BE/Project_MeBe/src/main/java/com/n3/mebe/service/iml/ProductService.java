@@ -87,6 +87,10 @@ public class ProductService implements IProductService {
     public void increaseProductQuantity(int quanti, int prId) throws AppException {
         Product product = getProductById(prId);
         int updateQuantity = product.getQuantity() + quanti;
+        String out = "Hết hàng";
+        if(product.getStatus().equals(out)){
+            String inStock = "Còn hàng";
+        }
 
         product.setQuantity(updateQuantity);
         iProductRespository.save(product);
