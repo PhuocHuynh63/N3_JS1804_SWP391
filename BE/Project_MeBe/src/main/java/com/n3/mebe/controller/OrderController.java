@@ -65,7 +65,6 @@ public class OrderController {
 
         OrderRequest orderRequest;
 
-
         try {
             orderRequest = new ObjectMapper().readValue(orderRequestJson, OrderRequest.class);
         } catch (JsonProcessingException e) {
@@ -74,7 +73,12 @@ public class OrderController {
             return;
         }
 
-        productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
+        boolean check = productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
+        if(!check){
+            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found");
+            return;
+        }
+
         // Lấy paymentId từ params
         String paymentId = vnp_Params.get("vnp_TxnRef");
         String transactionReference = vnp_Params.get("vnp_OrderInfo");
@@ -119,10 +123,17 @@ public class OrderController {
 
     // Create order
     @PostMapping("/create_cod")
-    public ResponseEntity<TransactionStatusDTO> createOrderByCOD(@RequestBody OrderRequest orderRequest) {
-
-        productService.reduceProductQuantityList(orderRequest.getItem()); // trừ số lượng Product
+    public ResponseEntity<TransactionStatusDTO> createOrderByCOD(@RequestBody OrderRequest orderRequest, HttpServletResponse response) throws IOException {
         TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();
+
+        boolean check = productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
+        if(!check){
+            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found");
+            transactionStatusDTO.setStatus("No");
+            transactionStatusDTO.setMessage("Product quantity out");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transactionStatusDTO);
+        }
+
         // lưu order vào cơ sở dữ liệu
 
         String type = "COD";
