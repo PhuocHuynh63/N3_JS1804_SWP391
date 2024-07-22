@@ -26,7 +26,8 @@ export default function HomePage() {
     useEffect(() => {
         meBeSrc.getBestSeller()
             .then((res) => {
-                setBestseller(res.data.slice(0, 10).filter((product) => product.status !== 'Không còn bán'))
+                setBestseller(res.data.slice(0, 11).filter((product) => product.status !== 'Không còn bán'))
+                console.log('Bestseller', bestseller);
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
