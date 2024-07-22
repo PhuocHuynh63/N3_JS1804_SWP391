@@ -62,7 +62,7 @@ public class LoginController {
             responseData.setRole(role);
         } else {
             responseData.setData("");
-            responseData.setDescription("username or password incorrect");
+            responseData.setDescription("Tên đăng nhập và password không đúng!");
             responseData.setSuccess(false);
         }
 

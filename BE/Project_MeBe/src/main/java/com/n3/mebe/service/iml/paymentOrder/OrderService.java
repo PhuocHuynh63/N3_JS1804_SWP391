@@ -2,6 +2,7 @@ package com.n3.mebe.service.iml.paymentOrder;
 
 
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
+import com.n3.mebe.dto.request.order.OrderRefundRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.order.OrderStatusRequest;
 import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
@@ -138,6 +139,7 @@ public class OrderService implements IOrderService {
             //trả lại số lượng đã bán
             int quantity = product.getQuantity() + item.getQuantity();
             product.setQuantity(quantity);
+            product.setStatus("Còn hàng");
             productRespository.save(product);
     }
     }// </editor-fold>
@@ -252,6 +254,27 @@ public class OrderService implements IOrderService {
         return orderRepository.save(order);
     }// </editor-fold>
 
+    // <editor-fold default state="collapsed" desc="refund Orders">
+    @Override
+    @Transactional
+    public Order refundOrder(OrderRefundRequest request) {
+        Order order = orderRepository.findByOrderCode(request.getOrderCode());
+
+
+        //   order.setVoucher(); --> chua them vao
+        String refund = "Hoàn trả";
+        order.setStatus(refund);
+
+        order.setTotalAmount(request.getTotalAmount());
+
+        order.setNote(request.getNote());
+
+        Date now = new Date();
+        order.setUpdatedAt(now);
+        saveOrderDetails(request.getOrderDetails() , order);
+        return orderRepository.save(order);
+    }// </editor-fold>
+
     // <editor-fold default state="collapsed" desc="Cancel Order">
     @Override
     @Transactional
@@ -265,6 +288,9 @@ public class OrderService implements IOrderService {
             status = "Đã hủy";
             msg = "Hủy thành công";
             order.setStatus(status);
+            Payment payment = paymentRepository.findByOrderOrderId(orderId);
+            payment.setPaymentStatus("Hủy thanh toán");
+            paymentRepository.save(payment);
             order.setNote(request.getNote());
             List<OrderDetail> orderDetails = orderDetailsRepository.findByOrderOrderId(orderId);
 
@@ -295,11 +321,13 @@ public class OrderService implements IOrderService {
        }
 
        // Nếu set status là đa giao thì cập nhập thanh toán thành công
-        if(request.equals("Đã giao")){
+        if(request.getStatus().equals("Đã giao")){
             order.setStatus(request.getStatus());
             order.setPaymentStatus(status);
+            order.setUpdatedAt( new Date());
             Payment payment = paymentRepository.findByOrderOrderId(request.getOrderId());
             payment.setPaymentStatus(status);
+            paymentRepository.save(payment);
         }else {
             order.setStatus(request.getStatus());
         }

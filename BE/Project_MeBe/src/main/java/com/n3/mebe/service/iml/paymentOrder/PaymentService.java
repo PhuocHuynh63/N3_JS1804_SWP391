@@ -30,7 +30,7 @@ public class PaymentService implements IPaymentService {
         payment.setCreateAt(now);
         payment.setUpdateAt(now);
         if(order.getOrderType().equals("COD")){
-            payment.setPaymentStatus("pending");
+            payment.setPaymentStatus("Chưa thanh toán");
             payment.setTransactionReference(DataUtils.generateTempPwd(8));
         }else if(order.getOrderType().equals("Online")){
             payment.setPaymentStatus("Đã thanh toán");
