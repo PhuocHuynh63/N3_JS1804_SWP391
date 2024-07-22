@@ -15,7 +15,7 @@ export default function HomePage() {
     useEffect(() => {
         meBeSrc.getProductLastest()
             .then((res) => {
-                setProducts(res.data.slice(0, 5));
+                setProducts(res.data.slice(0, 5).filter((product) => product.status !== 'Không còn bán'));
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
@@ -26,7 +26,7 @@ export default function HomePage() {
     useEffect(() => {
         meBeSrc.getBestSeller()
             .then((res) => {
-                setBestseller(res.data.slice(0, 8).filter((product) => product.status !== 'Không còn bán'))
+                setBestseller(res.data.slice(0, 10).filter((product) => product.status !== 'Không còn bán'))
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });

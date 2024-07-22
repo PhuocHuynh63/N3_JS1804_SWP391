@@ -12,9 +12,9 @@ export default function AddressPage() {
     const [addresses, setAddresses] = useState([]);
     const [newAddress, setNewAddress] = useState({ title: "", address: "", default: false });
     const [editAddressId, setEditAddressId] = useState(null);
-    const [showAddForm, setShowAddForm] = useState(false); // State to control the visibility of the add address form
-    const [errors, setErrors] = useState({}); // State to hold validation errors
-    const [formSubmitted, setFormSubmitted] = useState(false); // State to track if form was submitted
+    const [showAddForm, setShowAddForm] = useState(false); 
+    const [errors, setErrors] = useState({}); 
+    const [formSubmitted, setFormSubmitted] = useState(false); 
 
     useEffect(() => {
         const token = localStorage.getItem('USER_INFO');

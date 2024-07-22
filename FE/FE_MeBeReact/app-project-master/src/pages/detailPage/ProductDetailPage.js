@@ -217,6 +217,7 @@ export default function DetailPage() {
                                 </span>
                             )}
                         </div>
+                        <p>Số lượt bán: {product.totalSold}</p>
                         <div className="product-quantity mb-3">
                             {
                             product.status === 'Hết hàng' ? (

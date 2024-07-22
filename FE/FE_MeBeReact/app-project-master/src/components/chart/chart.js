@@ -6,12 +6,14 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const RevenueChart = ({ data }) => {
+  const recentData = data.slice(-7);
+
   const chartData = {
-    labels: data.map(entry => entry.date),
+    labels: recentData.map(entry => entry.date),
     datasets: [
       {
         label: 'Doanh thu',
-        data: data.map(entry => entry.revenue),
+        data: recentData.map(entry => entry.revenue),
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
       },
@@ -28,7 +30,7 @@ const RevenueChart = ({ data }) => {
       },
       title: {
         display: true,
-        text: 'Doanh thu theo ngày',
+        text: 'Doanh thu 7 ngày gần nhất',
       },
     },
     scales: {
