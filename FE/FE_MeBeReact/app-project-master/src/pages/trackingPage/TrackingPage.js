@@ -74,12 +74,6 @@ export default function TrackingPage() {
                 return 'btn-cancel';
             case 'pending':
                 return 'btn-cancel';
-            case 'shipping':
-                return 'btn-cancel';
-            case 'success':
-                return 'btn-buy-again';
-            case 'cancel':
-                return 'btn-buy-again';
             default:
                 break;
         }
@@ -91,12 +85,6 @@ export default function TrackingPage() {
                 return 'Hủy đơn hàng';
             case 'pending':
                 return 'Hủy đơn hàng';
-            case 'shipping':
-                return 'Hủy đơn hàng';
-            case 'success':
-                return 'Mua lại';
-            case 'cancel':
-                return 'Mua lại';
             default:
                 break;
         }
@@ -125,7 +113,7 @@ export default function TrackingPage() {
             ) : (
                 filteredData.map((order, index) => (
                     <div className="tracking-body" key={index}>
-                        <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
+                        <p style={{ marginLeft: "30px", fontSize: "17px", fontStyle: "italic" }}>Ngày tạo đơn hàng: {new Date(order.createdAt).toLocaleString()}</p>
 
                         {order.items.map((item) => (
                             <NavLink to={`/product/${item.product.productId}`}>
