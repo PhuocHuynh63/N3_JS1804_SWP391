@@ -288,6 +288,9 @@ public class OrderService implements IOrderService {
             status = "Đã hủy";
             msg = "Hủy thành công";
             order.setStatus(status);
+            Payment payment = paymentRepository.findByOrderOrderId(orderId);
+            payment.setPaymentStatus("Hủy thanh toán");
+            paymentRepository.save(payment);
             order.setNote(request.getNote());
             List<OrderDetail> orderDetails = orderDetailsRepository.findByOrderOrderId(orderId);
 
@@ -318,11 +321,13 @@ public class OrderService implements IOrderService {
        }
 
        // Nếu set status là đa giao thì cập nhập thanh toán thành công
-        if(request.equals("Đã giao")){
+        if(request.getStatus().equals("Đã giao")){
             order.setStatus(request.getStatus());
             order.setPaymentStatus(status);
+            order.setUpdatedAt( new Date());
             Payment payment = paymentRepository.findByOrderOrderId(request.getOrderId());
             payment.setPaymentStatus(status);
+            paymentRepository.save(payment);
         }else {
             order.setStatus(request.getStatus());
         }
