@@ -26,7 +26,7 @@ export default function HomePage() {
     useEffect(() => {
         meBeSrc.getBestSeller()
             .then((res) => {
-                setBestseller(res.data.slice(0, 8));
+                setBestseller(res.data.slice(0, 8).filter((product) => product.status !== 'Không còn bán'))
             }).catch((err) => {
                 console.log('Error fetching products', err);
             });
@@ -97,9 +97,9 @@ export default function HomePage() {
     const productsPerSlide = 3;
     const slides = [];
     for (let i = 0; i < filterProduct.length; i += productsPerSlide) {
-      slides.push(filterProduct.slice(i, i + productsPerSlide));
+        slides.push(filterProduct.slice(i, i + productsPerSlide));
     }
-    
+
 
     return (
         <div className='homepage'>
@@ -195,7 +195,7 @@ export default function HomePage() {
                 <div class="container">
                     <div class="row justify-content-md-center">
                         <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                            <h2 class="mb-4 display-5 text-center">Sản phẩm bán chạy nhất</h2>
+                            <h2 class="mb-4 display-5 text-center">Sản phẩm mới nhất</h2>
                             <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
                         </div>
                     </div>
@@ -230,9 +230,9 @@ export default function HomePage() {
                 </div>
 
             </div>
-            
+
             <div class="container-fluid featurs py-3">
-                    <img src="https://file.hstatic.net/200000692427/file/kv_bst_t7_size_1440x400px.jpg" class="d-block w-100" alt="..." />
+                <img src="https://file.hstatic.net/200000692427/file/kv_bst_t7_size_1440x400px.jpg" class="d-block w-100" alt="..." />
             </div>
 
             <div className="pb-3 mt-5 pb-md-5 pb-xl-8">
