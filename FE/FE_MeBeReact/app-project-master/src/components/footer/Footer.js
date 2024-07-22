@@ -10,7 +10,7 @@ export default function Footer() {
                     <div className="col-md-6">
                         <h3>GIỚI THIỆU</h3>
                         <p>
-                            Chúng tôi là một nhóm sinh viên đại học làm việc trong dự án này giống như đó là công việc toàn thời gian của chúng tôi. Bất kỳ số tiền nào cũng sẽ giúp hỗ trợ và tiếp tục phát triển dự án này và được đánh giá rất cao..
+                            Chúng tôi là một nhóm 3 thuộc lớp JS1802
                         </p>
                     </div>
                     <div className="col-md-6">

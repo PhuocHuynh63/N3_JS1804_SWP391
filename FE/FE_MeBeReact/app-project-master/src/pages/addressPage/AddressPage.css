@@ -62,9 +62,9 @@ p.address-title {
 
 .address-item_right {
     display: flex;
-    flex-direction: row; /* Thay đổi từ column sang row để sắp xếp các nút theo hàng ngang */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    gap: 10px; /* Khoảng cách giữa các nút */
+    flex-direction: row; 
+    align-items: center; 
+    gap: 10px;
 }
 
 .address-btn_update {
