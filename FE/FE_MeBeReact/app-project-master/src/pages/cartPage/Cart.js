@@ -4,6 +4,46 @@ import "./Cart.css";
 import { NavLink } from "react-router-dom";
 
 const CartPage = ({ show, handleClose }) => {
+
+    /**
+     * Handle quantity change
+     */
+    const [quantity, setQuantity] = useState('');
+
+    const handleQuantityChange = (e, productId) => {
+        const value = parseInt(e.target.value);
+        if (value < 1) {
+            setQuantity(0);
+        } else {
+            setQuantity(value);
+        }
+
+        setCartItems(prevCartItems => {
+            const updatedCartItems = prevCartItems.map(item => {
+                if (item.productId === productId) {
+                    const newQuantity = value;
+                    if (newQuantity > 0) {
+                        if (newQuantity >= item.max) {
+                            item.quantity = item.max
+                        } else {
+                            item.quantity = newQuantity;
+                            item.totalPrice = (item.salePrice || item.price) * newQuantity;
+                        }
+                    }
+                }
+                return item;
+            }).filter(item => item.quantity > 0); // Remove items with 0 quantity
+
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+            return updatedCartItems;
+        });
+    };
+    //-----End-----//
+
+
+    /**
+     * Cart
+     */
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
@@ -13,19 +53,22 @@ const CartPage = ({ show, handleClose }) => {
 
     // Update quantity of an item in the cart
     const updateQuantity = (productId, change) => {
-        const updatedCartItems = cartItems.map(item => {
-            if (item.productId === productId) {
-                const newQuantity = item.quantity + change;
-                if (newQuantity > 0 && newQuantity <= item.max) {
-                    item.quantity = newQuantity;
-                    item.totalPrice = (item.salePrice || item.price) * newQuantity;
+        setCartItems(prevCartItems => {
+            const updatedCartItems = prevCartItems.map(item => {
+                if (item.productId === productId) {
+                    const newQuantity = item.quantity + change;
+                    if (newQuantity > 0 && newQuantity <= item.max) {
+                        item.quantity = newQuantity;
+                        item.totalPrice = (item.salePrice || item.price) * newQuantity;
+                    }
                 }
-            }
-            return item;
-        }).filter(item => item.quantity > 0); // Remove items with 0 quantity
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-    }
+                return item;
+            }).filter(item => item.quantity > 0); // Remove items with 0 quantity
+
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+            return updatedCartItems;
+        });
+    };
 
     // Get total quantity of items in the cart
     const getTotalQuantity = () => {
@@ -39,10 +82,12 @@ const CartPage = ({ show, handleClose }) => {
 
     // Remove item from cart
     const handleRemoveItem = (productId) => {
-        const updatedCartItems = cartItems.filter(item => item.productId !== productId);
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-    }
+        setCartItems(prevCartItems => {
+            const updatedCartItems = prevCartItems.filter(item => item.productId !== productId);
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+            return updatedCartItems;
+        });
+    };
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -83,7 +128,7 @@ const CartPage = ({ show, handleClose }) => {
                                     <td>
                                         <div className="quantity-control">
                                             <button className="minus-btn" onClick={() => updateQuantity(item.productId, -1)}>-</button>
-                                            <input type="text" className="cart-quantity" value={item.quantity} readOnly />
+                                            <input type="text" className="cart-quantity" value={item.quantity} onChange={(e) => handleQuantityChange(e, item.productId)} />
                                             <button className="plus-btn" onClick={() => updateQuantity(item.productId, 1)}>+</button>
                                         </div>
                                     </td>
@@ -107,6 +152,6 @@ const CartPage = ({ show, handleClose }) => {
             </div>
         </Modal>
     );
-}
+};
 
 export default CartPage;

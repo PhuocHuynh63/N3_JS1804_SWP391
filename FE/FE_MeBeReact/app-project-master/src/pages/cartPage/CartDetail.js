@@ -4,6 +4,42 @@ import './CartDetail.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function CartDetail() {
+  /**
+    * Handle quantity change
+    */
+  const [quantity, setQuantity] = useState('');
+
+  const handleQuantityChange = (e, productId) => {
+    const value = parseInt(e.target.value);
+    if (value < 1) {
+      setQuantity(0);
+    } else {
+      setQuantity(value);
+    }
+
+    setCartItems(prevCartItems => {
+      const updatedCartItems = prevCartItems.map(item => {
+        if (item.productId === productId) {
+          const newQuantity = value;
+          if (newQuantity > 0) {
+            if (newQuantity >= item.max) {
+              item.quantity = item.max
+            } else {
+              item.quantity = newQuantity;
+              item.totalPrice = (item.salePrice || item.price) * newQuantity;
+            }
+          }
+        }
+        return item;
+      }).filter(item => item.quantity > 0);
+
+      localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+      return updatedCartItems;
+    });
+  };
+  //-----End-----//
+
+  //---------------------------Cart--------------------------------//
   const [cartItems, setCartItems] = useState([]);
 
   /**
@@ -20,18 +56,18 @@ export default function CartDetail() {
    */
   const updateQuantity = (productId, change) => {
     const updatedCartItems = cartItems.map(item => {
-        if (item.productId === productId) {
-            const newQuantity = item.quantity + change;
-            if (newQuantity > 0 && newQuantity <= item.max) {
-                item.quantity = newQuantity;
-                item.totalPrice = (item.salePrice || item.price) * newQuantity;
-            }
+      if (item.productId === productId) {
+        const newQuantity = item.quantity + change;
+        if (newQuantity > 0 && newQuantity <= item.max) {
+          item.quantity = newQuantity;
+          item.totalPrice = (item.salePrice || item.price) * newQuantity;
         }
-        return item;
+      }
+      return item;
     }).filter(item => item.quantity > 0); // Remove items with 0 quantity
     setCartItems(updatedCartItems);
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-}
+  }
 
   /** 
    * *Get total quantity of items in the cart
@@ -51,6 +87,7 @@ export default function CartDetail() {
     setCartItems(updatedCartItems);
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   }
+  //---------------------------End--------------------------------//
 
   return (
     <section className="cart-details container py-5 mt-5">
@@ -110,7 +147,7 @@ export default function CartDetail() {
                             -
                           </button>
                         </div>
-                        <input type="text" className="form-control" value={item.quantity} readOnly />
+                        <input type="text" className="form-control" value={item.quantity} onChange={(e) => handleQuantityChange(e, item.productId)} />
                         <div className="input-group-append">
                           <button className="btn btn-outline-secondary" type="button" onClick={() => updateQuantity(item.productId, 1)}>
                             +
@@ -135,7 +172,7 @@ export default function CartDetail() {
                 <h5 id='summary'>
                   Tổng cộng: <span className="price">{getTotalPrice()}₫</span>
                 </h5>
-                <NavLink to={"/checkout"} className="btn btn-primary">
+                <NavLink to={"/checkout"}>
                   ĐẶT HÀNG
                 </NavLink>
               </div>

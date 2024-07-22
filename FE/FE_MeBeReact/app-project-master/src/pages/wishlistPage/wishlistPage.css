@@ -81,10 +81,13 @@ tbody.tbody-wishlist tr.wishlist-tr {
     border: 1px solid #ddd;
     padding: 5px;
     cursor: pointer;
+    border-radius: 3px;
+    width: 30px;
 }
 
 .quantity-control input[type="text"] {
-    width: 30px;
+    width: 60px;
+    height: 37px;
     text-align: center;
     border: 1px solid #ddd;
     margin: 0 5px;
