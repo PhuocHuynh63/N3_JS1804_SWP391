@@ -22,7 +22,7 @@ const RevenueChart = ({ data }) => {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, 
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -30,7 +30,7 @@ const RevenueChart = ({ data }) => {
       },
       title: {
         display: true,
-        text: 'Doanh thu 7 ngày gần nhất',
+        text: 'Doanh thu gần đây',
       },
     },
     scales: {

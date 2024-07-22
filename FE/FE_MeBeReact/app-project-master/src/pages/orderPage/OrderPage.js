@@ -110,7 +110,7 @@ export default function OrderPage() {
                 status: selectedPaymentMethod === 'COD' ? "Chờ xác nhận" : "Đang được xử lý",
                 totalAmount: parseFloat(getTotalPrice().replace(/\./g, '')),
                 orderType: selectedPaymentMethod,
-                paymentStatus: selectedPaymentMethod === 'COD' ? "pending" : "unpaid",
+                paymentStatus: selectedPaymentMethod === 'COD' ? "Chưa thanh toán" : "Đã thanh toán",
                 note: formData.note,
                 item: cartItems.map(item => ({
                     productId: item.productId,
