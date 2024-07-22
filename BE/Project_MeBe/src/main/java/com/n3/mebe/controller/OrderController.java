@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.dto.TransactionStatusDTO;
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
+import com.n3.mebe.dto.request.order.OrderRefundRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.order.OrderStatusRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
@@ -155,6 +156,12 @@ public class OrderController {
     @PutMapping("/update/orId={id}")
     public Order updateOrder(@PathVariable("id") int orId, @RequestBody OrderRequest orderRequest) {
         return orderService.updateOrder(orId, orderRequest);
+    }
+
+    // Update order by id
+    @PutMapping("/refund")
+    public Order updateOrder(@RequestBody OrderRefundRequest request) {
+        return orderService.refundOrder(request);
     }
 
     // Cancel order by id

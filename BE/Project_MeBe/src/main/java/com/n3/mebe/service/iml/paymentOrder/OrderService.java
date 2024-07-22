@@ -2,6 +2,7 @@ package com.n3.mebe.service.iml.paymentOrder;
 
 
 import com.n3.mebe.dto.request.order.CancelOrderRequest;
+import com.n3.mebe.dto.request.order.OrderRefundRequest;
 import com.n3.mebe.dto.request.order.OrderRequest;
 import com.n3.mebe.dto.request.order.OrderStatusRequest;
 import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
@@ -138,6 +139,7 @@ public class OrderService implements IOrderService {
             //trả lại số lượng đã bán
             int quantity = product.getQuantity() + item.getQuantity();
             product.setQuantity(quantity);
+            product.setStatus("Còn hàng");
             productRespository.save(product);
     }
     }// </editor-fold>
@@ -249,6 +251,27 @@ public class OrderService implements IOrderService {
         Date now = new Date();
         order.setUpdatedAt(now);
 
+        return orderRepository.save(order);
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="refund Orders">
+    @Override
+    @Transactional
+    public Order refundOrder(OrderRefundRequest request) {
+        Order order = orderRepository.findByOrderCode(request.getOrderCode());
+
+
+        //   order.setVoucher(); --> chua them vao
+        String refund = "Hoàn trả";
+        order.setStatus(refund);
+
+        order.setTotalAmount(request.getTotalAmount());
+
+        order.setNote(request.getNote());
+
+        Date now = new Date();
+        order.setUpdatedAt(now);
+        saveOrderDetails(request.getOrderDetails() , order);
         return orderRepository.save(order);
     }// </editor-fold>
 
