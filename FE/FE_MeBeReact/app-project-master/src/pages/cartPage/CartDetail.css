@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     margin: 0 -12px;
-    width: 120%;
+    /* width: 120%; */
 }
 
 .cart-item {
@@ -173,7 +173,7 @@
     background-color: #2980b9;
 }
 
-.cart-summary a {
+.cart-details .cart-summary a {
     width: 95%;
     background-color: #c4c659d5;
     color: white;
