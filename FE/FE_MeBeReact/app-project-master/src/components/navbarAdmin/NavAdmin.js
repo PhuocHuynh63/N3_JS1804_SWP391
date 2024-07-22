@@ -73,7 +73,7 @@ export default function NavAdmin() {
         </li>
 
         <li className="nav-item">
-          <NavLink
+          {/* <NavLink
             className={`nav-link ${isCollapsedCategory ? "collapsed" : ""}`}
             // onClick={handleToggleCategory}
             aria-expanded={!isCollapsedCategory}
@@ -82,7 +82,7 @@ export default function NavAdmin() {
           >
             <i class="fa-solid fa-layer-group"></i>
             <span>Danh mục</span>
-          </NavLink>
+          </NavLink> */}
 
           {/* <div
             id="collapseCategory"

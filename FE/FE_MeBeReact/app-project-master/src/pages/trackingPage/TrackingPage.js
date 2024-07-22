@@ -134,7 +134,7 @@ export default function TrackingPage() {
 
                         <div className="tracking-body_bot">
                             <div className="total">
-                                <span>Total Price: </span>
+                                <span>Tổng giá tiền: </span>
                                 <span>
                                     {order.items.reduce((total, item) => total + item.price * item.quantity, 0).toLocaleString()}đ
                                 </span>
