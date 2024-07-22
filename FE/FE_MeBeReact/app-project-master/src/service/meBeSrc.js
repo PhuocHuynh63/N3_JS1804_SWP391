@@ -134,8 +134,8 @@ export const meBeSrc = {
         return https.get(`/order/list`);
     },
 
-    getSearchOrderByEmailOrPhone: (email, phoneNumber) => {
-        return https.get(`/order/search_order?email=${email || ''}&phoneNumber=${phoneNumber || ''}`);
+    getSearchOrderByCode: (code) => {
+        return https.get(`/order/code=${code}`);
     },
 
     createOrder: (data) => {

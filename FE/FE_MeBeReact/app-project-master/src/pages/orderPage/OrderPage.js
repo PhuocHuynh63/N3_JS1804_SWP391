@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './OrderPage.css'; // Import CSS file
+import './OrderPage.css';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { meBeSrc } from '../../service/meBeSrc'; // Không cần destructuring vì meBeSrc không phải là named export
+import { meBeSrc } from '../../service/meBeSrc';
 import { jwtDecode } from 'jwt-decode';
 import Loading from '../../components/loading/Loading';
 

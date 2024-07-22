@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./AdminOrder.css";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Pagination from "../../../components/pagination/Pagination";
-import { Link } from "react-router-dom";
 import TrackingPopup from "../../trackingPopup/TrackingPopup";
 
 export default function AdminOrder() {
@@ -24,7 +23,7 @@ export default function AdminOrder() {
   //-----End-----//
 
 
-  //---------------------------------OrderDetail----------------------------``-----//
+  //---------------------------------OrderDetail----------------------------`-----//
   const [showModalOrderDetail, setShowModalOrderDetail] = useState(false);
 
   /**
@@ -53,24 +52,19 @@ export default function AdminOrder() {
    * Search Order
    */
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchedOrder, setSearchedOrder] = useState(null);
 
   useEffect(() => {
     if (searchTerm) {
-      meBeSrc.getSearchOrderByEmailOrPhone(searchTerm)
+      meBeSrc.getSearchOrderByCode(searchTerm)
         .then((res) => {
-          setOrders(res.data);
+          setSearchedOrder(res.data);
         })
         .catch((err) => {
           console.log("Error fetching product", err);
         });
     } else {
-      meBeSrc.getListUser()
-        .then((res) => {
-          // setOrders(res.data);
-        })
-        .catch((err) => {
-          console.log("Error fetching product", err);
-        });
+      setSearchedOrder(null);
     }
   }, [searchTerm]);
 
@@ -90,7 +84,7 @@ export default function AdminOrder() {
     setCurrentPage(pageNumber);
   };
 
-  const currentUsers = orders.slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage);
+  const currentOrders = orders.slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage);
   const totalPages = Math.ceil(orders.length / ordersPerPage);
   //-----End-----//
 
@@ -129,7 +123,7 @@ export default function AdminOrder() {
 
       <div className="admin-order_action">
         <div className="admin-order_search">
-          <input type="text" className="admin-order_searchinput" placeholder="Nhập id hoặc email, số điện thoại" onChange={handleSearchChange} value={searchTerm} />
+          <input type="text" className="admin-order_searchinput" placeholder="Nhập mã đơn hàng" onChange={handleSearchChange} value={searchTerm} />
           <i id="search" className="fa-solid fa-magnifying-glass"></i>
         </div>
       </div>
@@ -148,17 +142,17 @@ export default function AdminOrder() {
           </thead>
 
           <tbody>
-            {currentUsers.map((order, index) => (
-              <tr key={index}>
-                <td>{order.orderId}</td>
-                <td style={{ textAlign: "left" }}>{order?.firstName} {order?.lastName}</td>
-                <td style={{ textAlign: "left" }}>{order?.email}</td>
-                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+            {searchedOrder ? (
+              <tr key={searchedOrder.orderId}>
+                <td>{searchedOrder.orderId}</td>
+                <td style={{ textAlign: "left" }}>{searchedOrder?.firstName} {searchedOrder?.lastName}</td>
+                <td style={{ textAlign: "left" }}>{searchedOrder?.email}</td>
+                <td>{new Date(searchedOrder.createdAt).toLocaleDateString()}</td>
                 <td>
                   <select
                     className="custom-select"
-                    value={order.status}
-                    onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
+                    value={searchedOrder.status}
+                    onChange={(e) => handleStatusChange(searchedOrder.orderId, e.target.value)}
                   >
                     <option value="Chờ xác nhận">Chờ xác nhận</option>
                     <option value="Đang được xử lý">Đang được xử lý</option>
@@ -168,21 +162,50 @@ export default function AdminOrder() {
                   </select>
                 </td>
                 <td>
-                  <a className="view btn btn-warning btn-sm" onClick={() => handleOrderDetail(order.orderId)}>
+                  <a className="view btn btn-warning btn-sm" onClick={() => handleOrderDetail(searchedOrder.orderId)}>
                     <i className="fa-solid fa-eye"></i>
                   </a>
                 </td>
               </tr>
-            ))}
+            ) : (
+              currentOrders.map((order, index) => (
+                <tr key={index}>
+                  <td>{order.orderId}</td>
+                  <td style={{ textAlign: "left" }}>{order?.firstName} {order?.lastName}</td>
+                  <td style={{ textAlign: "left" }}>{order?.email}</td>
+                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <select
+                      className="custom-select"
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
+                    >
+                      <option value="Chờ xác nhận">Chờ xác nhận</option>
+                      <option value="Đang được xử lý">Đang được xử lý</option>
+                      <option value="Đang giao">Đang giao</option>
+                      <option value="Đã giao">Đã giao</option>
+                      <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                  </td>
+                  <td>
+                    <a className="view btn btn-warning btn-sm" onClick={() => handleOrderDetail(order.orderId)}>
+                      <i className="fa-solid fa-eye"></i>
+                    </a>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {!searchedOrder && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }

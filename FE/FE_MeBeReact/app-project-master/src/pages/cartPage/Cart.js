@@ -21,18 +21,17 @@ const CartPage = ({ show, handleClose }) => {
         setCartItems(prevCartItems => {
             const updatedCartItems = prevCartItems.map(item => {
                 if (item.productId === productId) {
-                    const newQuantity = value;
+                    let newQuantity = value;
+                    if (newQuantity > item.max) {
+                        newQuantity = item.max;
+                    }
                     if (newQuantity > 0) {
-                        if (newQuantity >= item.max) {
-                            item.quantity = item.max
-                        } else {
-                            item.quantity = newQuantity;
-                            item.totalPrice = (item.salePrice || item.price) * newQuantity;
-                        }
+                        item.quantity = newQuantity;
+                        item.totalPrice = (item.salePrice || item.price) * newQuantity;
                     }
                 }
                 return item;
-            }).filter(item => item.quantity > 0); // Remove items with 0 quantity
+            }).filter(item => item.quantity > 0);
 
             localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
             return updatedCartItems;
@@ -56,14 +55,17 @@ const CartPage = ({ show, handleClose }) => {
         setCartItems(prevCartItems => {
             const updatedCartItems = prevCartItems.map(item => {
                 if (item.productId === productId) {
-                    const newQuantity = item.quantity + change;
-                    if (newQuantity > 0 && newQuantity <= item.max) {
+                    let newQuantity = item.quantity + change;
+                    if (newQuantity > item.max) {
+                        newQuantity = item.max;
+                    }
+                    if (newQuantity > 0) {
                         item.quantity = newQuantity;
                         item.totalPrice = (item.salePrice || item.price) * newQuantity;
                     }
                 }
                 return item;
-            }).filter(item => item.quantity > 0); // Remove items with 0 quantity
+            }).filter(item => item.quantity > 0);
 
             localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
             return updatedCartItems;
@@ -88,6 +90,7 @@ const CartPage = ({ show, handleClose }) => {
             return updatedCartItems;
         });
     };
+    //-----End-----//
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
