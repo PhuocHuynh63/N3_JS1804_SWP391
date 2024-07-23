@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Pagination from "../../../components/pagination/Pagination";
 import PopupDeleteProduct from "./deleteProduct/PopupDeleteProduct";
+import User from "../../../components/user/User";
 
 export default function AdminProduct() {
 
@@ -81,6 +82,7 @@ export default function AdminProduct() {
 
   return (
     <div className="admin-product">
+      <User />
       <PopupDeleteProduct show={showModalDelete} handleClose={() => setShowModalDelete(false)} productId={activeProductId} />
 
       <h1 className="header-product">Quản lý sản phẩm</h1>

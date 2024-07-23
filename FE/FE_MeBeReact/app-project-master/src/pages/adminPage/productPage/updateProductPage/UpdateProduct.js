@@ -3,6 +3,7 @@ import "./UpdateProduct.css";
 import { meBeSrc } from "../../../../service/meBeSrc";
 import Successful from "../../../../components/popupSuccessful/Successful";
 import { Link } from "react-router-dom";
+import User from "../../../../components/user/User";
 
 export default function UpdateProduct() {
     const productId = window.location.pathname.split("/").pop();
@@ -183,6 +184,7 @@ export default function UpdateProduct() {
 
     return (
         <div className="admin-product-add">
+            <User/>
             <Successful show={showModal} onHide={() => setShowModal(false)} message={"Sản phẩm đã được cập nhật thành công"} />
             <h1>Cập nhật sản phẩm</h1>
             <form onSubmit={handleSubmit}>

@@ -3,6 +3,7 @@ import "./AdminProductAdd.css";
 import { meBeSrc } from "../../../../service/meBeSrc";
 import Successful from "../../../../components/popupSuccessful/Successful";
 import { Link } from "react-router-dom";
+import User from "../../../../components/user/User";
 
 export default function AdminProductAdd() {
 
@@ -154,6 +155,7 @@ export default function AdminProductAdd() {
 
   return (
     <div className="admin-product-add">
+      <User />
       <Successful show={showModal} onHide={() => setShowModal(false)} message={"Sản phẩm đã được thêm thành công"} />
       <h1>Thêm sản phẩm mới</h1>
       <form onSubmit={handleSubmit}>

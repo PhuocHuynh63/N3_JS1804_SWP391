@@ -5,6 +5,7 @@ import Pagination from '../../../components/pagination/Pagination';
 import PopupAddUser from "./addUser/PopupAddUser";
 import PopupUpdateUser from "./updateUser/PopupUpdateUser";
 import PopupDetailUser from "./detailUser/PopupDetailUser";
+import User from "../../../components/user/User";
 
 export default function AdminUser() {
   const [showAddUser, setShowAddUser] = useState(false);
@@ -111,6 +112,7 @@ export default function AdminUser() {
 
   return (
     <div className="admin-user">
+      <User />
       <PopupAddUser show={showAddUser} handleClose={() => setShowAddUser(false)} />
       <PopupUpdateUser show={showUpdateUser} handleClose={() => setShowUpdateUser(false)} user_id={selectedUserId} />
       <PopupDetailUser show={showDetailUser} handleClose={() => setShowDetailUser(false)} user_id={selectedUserId} />

@@ -27,6 +27,9 @@ const User = () => {
         }
     }, [navigate]);
 
+    if (!user) {
+        return null
+    }
 
 }
 

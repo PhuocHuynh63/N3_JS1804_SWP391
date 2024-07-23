@@ -3,6 +3,7 @@ import "./AdminOrder.css";
 import { meBeSrc } from "../../../service/meBeSrc";
 import Pagination from "../../../components/pagination/Pagination";
 import TrackingPopup from "../../trackingPopup/TrackingPopup";
+import User from "../../../components/user/User";
 
 export default function AdminOrder() {
 
@@ -117,6 +118,7 @@ export default function AdminOrder() {
 
   return (
     <div className="admin-order">
+      <User />
       <TrackingPopup show={showModalOrderDetail} handleClose={() => setShowModalOrderDetail(false)} orderId={activeOrderId} />
 
       <h1>Quản lý đơn hàng</h1>
