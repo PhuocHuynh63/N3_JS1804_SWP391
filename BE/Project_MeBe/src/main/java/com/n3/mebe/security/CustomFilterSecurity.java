@@ -42,15 +42,13 @@ public class CustomFilterSecurity {
                 "/api/payment/**", "/wishlist/**", "/voucher/**",
                 "/signingoogle", "/oauth2/**" };
 
-        // http: là nơi định nghĩa cái rule, tức là link nào được phép hoặc không được
-        // phép
+        // http: là nơi định nghĩa cái rule, tức là link nào được phép hoặc không được phép
         // csrf: là lợi dụng người dùng đăng nhập vào trang web hợp lệ để gửi những yêu
         // cầu trái phép
         http.cors().disable()
                  // Kích hoạt quản lý phiên cho OAuth2;
                 .csrf().disable() // Chống tấn công Token
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Khai báo ứng dụng không
-                // được dùng session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Khai báo ứng dụng không được dùng session
                 .and()
                 .authorizeHttpRequests() // authorizeHttpRequests: Can thiệp người dùng truy cập
                 .requestMatchers(list) // requestMatchers: Chỉ định đường dẫn người dùng không được truy cập
@@ -62,14 +60,11 @@ public class CustomFilterSecurity {
 //                .oauth2Login(Customizer.withDefaults());
 
 
-
-
         // Cấu hình OAuth2 login nếu cần
 
         http.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

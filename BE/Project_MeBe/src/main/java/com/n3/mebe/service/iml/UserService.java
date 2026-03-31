@@ -9,6 +9,10 @@ import com.n3.mebe.dto.response.user.tracking.UserOrderForTrackingResponse;
 import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.mapper.AddressMapper;
+import com.n3.mebe.mapper.GuestMapper;
+import com.n3.mebe.mapper.UserMapper;
+import com.n3.mebe.mapper.UserProductMapper;
 import com.n3.mebe.repository.*;
 import com.n3.mebe.service.ICloudinaryService;
 import com.n3.mebe.service.IUserService;
@@ -45,6 +49,18 @@ public class UserService implements IUserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private AddressMapper addressMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserProductMapper userProductMapper;
+
+    @Autowired
+    private GuestMapper guestMapper;
+
 
     // <editor-fold default state="collapsed" desc="Get User By Id">
     @Override
@@ -74,51 +90,7 @@ public class UserService implements IUserService {
 
     // <editor-fold default state="collapsed" desc="Get List Addresses of User Response">
     public List<UserAddressResponse> getUserAddresses(int userId) {
-
-        List<Address> addresses = iAddressRepository.findByUserUserId(userId);
-
-        List<UserAddressResponse> addressResponsesList = new ArrayList<>();
-
-        for (Address address : addresses) {
-            UserAddressResponse response = new UserAddressResponse();
-
-            //add địa chỉ của user dể response
-            response.setAddressId(address.getAddressId());
-            response.setDefault(address.isDefault());
-            response.setTitle(address.getTitle());
-            response.setAddress(address.getAddress());
-
-
-            addressResponsesList.add(response);
-        }
-
-        return addressResponsesList;
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="Get List Orders By UserID">
-    private List<UserOrderResponse> getOrdersList(int userId) {
-        List<Order> list = iOrderRepository.findByUserUserId(userId);
-        List<UserOrderResponse> orderResponseList = new ArrayList<>();
-
-        for (Order order : list) {
-            UserOrderResponse response = new UserOrderResponse();
-
-            response.setOrderId(order.getOrderId());
-            response.setVoucher(order.getVoucher());
-            response.setStatus(order.getStatus());
-
-            response.setTotalAmount(order.getTotalAmount());
-
-            response.setOrderType(order.getOrderType());
-            response.setPaymentStatus(order.getPaymentStatus());
-            response.setNote(order.getNote());
-            response.setCreatedAt(order.getCreatedAt());
-            response.setUpdatedAt(order.getUpdatedAt());
-
-            orderResponseList.add(response);
-        }
-
-        return orderResponseList;
+        return addressMapper.toUserAddressResponseList(iAddressRepository.findByUserUserId(userId));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Orders For Tracking By UserID">
@@ -147,7 +119,7 @@ public class UserService implements IUserService {
             UserOrderDetailsResponse response = new UserOrderDetailsResponse();
 
             response.setOdId(orderDetail.getOdId());
-            response.setProduct(getUserProductResponseForTrackingList(orderDetail.getProduct()));
+            response.setProduct(userProductMapper.toUserProductResponse(orderDetail.getProduct()));
             response.setQuantity(orderDetail.getQuantity());
             response.setPrice(orderDetail.getPrice());
             response.setSalePrice(orderDetail.getSalePrice());
@@ -155,18 +127,6 @@ public class UserService implements IUserService {
         }
 
         return orderResponseList;
-    }// </editor-fold>
-
-    // <editor-fold default state="collapsed" desc="Get Product Response For Tracking By OrderId">
-    private UserProductResponse getUserProductResponseForTrackingList(Product product) {
-
-        UserProductResponse response = new UserProductResponse();
-
-        response.setProductId(product.getProductId());
-        response.setSlug(product.getSlug());
-        response.setName(product.getName());
-        response.setImages(product.getImages());
-        return response;
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Check Password Redis">
@@ -556,71 +516,13 @@ public class UserService implements IUserService {
     // <editor-fold default state="collapsed" desc="Get All User">
     @Override
     public List<UserResponse> getAllUser(){
-        List<User> users = iUserRepository.findAll();
-        List<UserResponse> userResponses = new ArrayList<>();
-        for (User user : users){
-
-            UserResponse userResponse = new UserResponse();
-
-            userResponse.setId(user.getUserId());
-            userResponse.setAvatar(user.getAvatar());
-            userResponse.setUsername(user.getUsername());
-            userResponse.setFirstName(user.getFirstName());
-            userResponse.setLastName(user.getLastName());
-            userResponse.setEmail(user.getEmail());
-            userResponse.setPassword(user.getPassword());
-            userResponse.setRole(user.getRole());
-            userResponse.setBirthOfDate(user.getBirthOfDate());
-            userResponse.setPhoneNumber(user.getPhoneNumber());
-            userResponse.setPoint(user.getPoint());
-            userResponse.setStatus(user.getStatus());
-
-            List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
-            userResponse.setListAddress(addressResponses);
-
-            List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
-            userResponse.setOrder(orderResponses);
-
-            userResponse.setCreateAt(user.getCreateAt());
-            userResponse.setUpdateAt(user.getUpdateAt());
-            userResponse.setDeleteAt(user.getDeleteAt());
-            userResponses.add(userResponse);
-        }
-        return userResponses;
+        return iUserRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get User By Id Response">
     @Override
     public UserResponse getUserByIdResponse(int id){
-
-        UserResponse userResponse = new UserResponse();
-
-        User user = getUserById(id);
-
-        userResponse.setId(user.getUserId());
-        userResponse.setAvatar(user.getAvatar());
-        userResponse.setUsername(user.getUsername());
-        userResponse.setFirstName(user.getFirstName());
-        userResponse.setLastName(user.getLastName());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setPassword(user.getPassword());
-        userResponse.setRole(user.getRole());
-        userResponse.setBirthOfDate(user.getBirthOfDate());
-        userResponse.setPhoneNumber(user.getPhoneNumber());
-        userResponse.setPoint(user.getPoint());
-        userResponse.setStatus(user.getStatus());
-
-        List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
-        userResponse.setListAddress(addressResponses);
-
-        List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
-        userResponse.setOrder(orderResponses);
-
-        userResponse.setCreateAt(user.getCreateAt());
-        userResponse.setUpdateAt(user.getUpdateAt());
-        userResponse.setDeleteAt(user.getDeleteAt());
-
-        return userResponse;
+        return userMapper.toUserResponse(getUserById(id));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get User For Tracking By Id Response">
@@ -636,67 +538,13 @@ public class UserService implements IUserService {
     // <editor-fold default state="collapsed" desc="Get User By Username Response">
     @Override
     public UserResponse getUserByUserNameResponse(String username){
-        UserResponse userResponse = new UserResponse();
-
-        User user = getUserByUserName(username);
-
-        userResponse.setId(user.getUserId());
-        userResponse.setAvatar(user.getAvatar());
-        userResponse.setUsername(user.getUsername());
-        userResponse.setFirstName(user.getFirstName());
-        userResponse.setLastName(user.getLastName());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setPassword(user.getPassword());
-        userResponse.setRole(user.getRole());
-        userResponse.setBirthOfDate(user.getBirthOfDate());
-        userResponse.setPhoneNumber(user.getPhoneNumber());
-        userResponse.setPoint(user.getPoint());
-        userResponse.setStatus(user.getStatus());
-
-        List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
-        userResponse.setListAddress(addressResponses);
-
-        List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
-        userResponse.setOrder(orderResponses);
-
-        userResponse.setCreateAt(user.getCreateAt());
-        userResponse.setUpdateAt(user.getUpdateAt());
-        userResponse.setDeleteAt(user.getDeleteAt());
-
-        return userResponse;
+        return userMapper.toUserResponse(getUserByUserName(username));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get User By Email Response">
     @Override
     public UserResponse getUserByEmailResponse(String email) {
-        //lấy ra user by email
-        User user = getUserByEmail(email);
-        UserResponse response =  new UserResponse();
-
-        response.setId(user.getUserId());
-        response.setAvatar(user.getAvatar());
-        response.setUsername(user.getUsername());
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
-        response.setEmail(user.getEmail());
-        response.setPassword(user.getPassword());
-        response.setRole(user.getRole());
-        response.setBirthOfDate(user.getBirthOfDate());
-        response.setPhoneNumber(user.getPhoneNumber());
-        response.setPoint(user.getPoint());
-        response.setStatus(user.getStatus());
-
-        List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
-        response.setListAddress(addressResponses);
-
-        List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
-        response.setOrder(orderResponses);
-
-        response.setCreateAt(user.getCreateAt());
-        response.setUpdateAt(user.getUpdateAt());
-        response.setDeleteAt(user.getDeleteAt());
-
-        return response;
+        return userMapper.toUserResponse(getUserByEmail(email));
     }
     // </editor-fold>
 
@@ -709,51 +557,14 @@ public class UserService implements IUserService {
         if(order == null){
             throw new AppException(ErrorCode.EMAIL_NO_EXIST);
         }
-        GuestResponse response =  new GuestResponse();
-
-        response.setFirstName(order.getFirstName());
-        response.setLastName(order.getLastName());
-        response.setEmail(order.getEmail());
-        response.setPhoneNumber(order.getPhoneNumber());
-
-        return response;
+        return guestMapper.toGuestResponse(order);
     }
     // </editor-fold>
 
     // <editor-fold default state="collapsed" desc="search User By Name For Admin">
     @Override
     public List<UserResponse> searchUserByNameForAdmin(String name) {
-        List<User> users = iUserRepository.findByName(name);
-        List<UserResponse> userResponses = new ArrayList<>();
-        for (User user : users){
-
-            UserResponse userResponse = new UserResponse();
-
-            userResponse.setId(user.getUserId());
-            userResponse.setAvatar(user.getAvatar());
-            userResponse.setUsername(user.getUsername());
-            userResponse.setFirstName(user.getFirstName());
-            userResponse.setLastName(user.getLastName());
-            userResponse.setEmail(user.getEmail());
-            userResponse.setPassword(user.getPassword());
-            userResponse.setRole(user.getRole());
-            userResponse.setBirthOfDate(user.getBirthOfDate());
-            userResponse.setPhoneNumber(user.getPhoneNumber());
-            userResponse.setPoint(user.getPoint());
-            userResponse.setStatus(user.getStatus());
-
-            List<UserAddressResponse> addressResponses = getUserAddresses(user.getUserId());
-            userResponse.setListAddress(addressResponses);
-
-            List<UserOrderResponse> orderResponses = getOrdersList(user.getUserId());
-            userResponse.setOrder(orderResponses);
-
-            userResponse.setCreateAt(user.getCreateAt());
-            userResponse.setUpdateAt(user.getUpdateAt());
-            userResponse.setDeleteAt(user.getDeleteAt());
-            userResponses.add(userResponse);
-        }
-        return userResponses;
+        return iUserRepository.findByName(name).stream().map(userMapper::toUserResponse).toList();
     }// </editor-fold>
 
 

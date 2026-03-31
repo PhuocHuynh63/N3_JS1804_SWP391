@@ -8,5 +8,4 @@ public class TransactionStatusDTO {
     private String message;
     private String data;
 
-
 }

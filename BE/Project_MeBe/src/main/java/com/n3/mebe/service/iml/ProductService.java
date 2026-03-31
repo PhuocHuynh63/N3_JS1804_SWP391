@@ -11,6 +11,7 @@ import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
 import com.n3.mebe.repository.IProductRespository;
 import com.n3.mebe.repository.ISubCategoryRepository;
+import com.n3.mebe.mapper.ProductMapper;
 import com.n3.mebe.repository.IWishListRepository;
 import com.n3.mebe.service.ICloudinaryService;
 import com.n3.mebe.service.IProductService;
@@ -21,7 +22,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +43,8 @@ public class ProductService implements IProductService {
     @Autowired
     private SendMailService sendMailService;
 
+    @Autowired
+    private ProductMapper productMapper;
 
 
     // <editor-fold default state="collapsed" desc="Send Email Wish List Done">
@@ -131,15 +133,7 @@ public class ProductService implements IProductService {
                 SubCategory subCategory = iSubCategoryRepository.findBySubCateId(request.getSubCategoryId());
                 product.setSubCategory(subCategory);
 
-                product.setSlug(request.getSlug());
-                product.setName(request.getName());
-                product.setDescription(request.getDescription());
-                product.setPrice(request.getPrice());
-                product.setSalePrice(request.getSalePrice());
-                product.setStatus(request.getStatus());
-                product.setTotalSold(request.getTotalSold());
-                product.setQuantity(request.getQuantity());
-                product.setProductView(request.getProductView());
+                productMapper.applyRequestToProduct(request, product, true);
 
                 Date now = new Date();
                 product.setCreateAt(now);
@@ -174,18 +168,7 @@ public class ProductService implements IProductService {
             SubCategory subCategory = iSubCategoryRepository.findBySubCateId(request.getSubCategoryId());
             product.setSubCategory(subCategory);
 
-            product.setSlug(request.getSlug());
-            product.setName(request.getName());
-            product.setDescription(request.getDescription());
-            product.setPrice(request.getPrice());
-            product.setSalePrice(request.getSalePrice());
-
-            product.setTotalSold(request.getTotalSold());
-
-            product.setQuantity(request.getQuantity());
-
-
-            product.setProductView(request.getProductView());
+            productMapper.applyRequestToProduct(request, product, false);
 
             Date now = new Date();
             product.setCreateAt(now);
@@ -252,31 +235,7 @@ public class ProductService implements IProductService {
     // <editor-fold default state="collapsed" desc="Get List Product">
     @Override
     public List<ProductResponse> getListProduct() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAll();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAll());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="GetList Product Id">
@@ -290,54 +249,13 @@ public class ProductService implements IProductService {
     public ProductResponse getProductByIdResponse(int id) {
         Product product = getProductById(id);
 
-        ProductResponse productResponse = new ProductResponse();
-
-        productResponse.setProductId(product.getProductId());
-        productResponse.setSubCategory(product.getSubCategory());
-        productResponse.setSlug(product.getSlug());
-        productResponse.setName(product.getName());
-        productResponse.setImages(product.getImages());
-        productResponse.setDescription(product.getDescription());
-        productResponse.setPrice(product.getPrice());
-        productResponse.setSalePrice(product.getSalePrice());
-        productResponse.setStatus(product.getStatus());
-        productResponse.setTotalSold(product.getTotalSold());
-        productResponse.setQuantity(product.getQuantity());
-        productResponse.setProductView(product.getProductView());
-        productResponse.setCreateAt(product.getCreateAt());
-        productResponse.setUpdateAt(product.getUpdateAt());
-
-        return productResponse;
+        return productMapper.toResponse(product);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product Response By SubCate">
     @Override
     public List<ProductResponse> getProductResponseList(String slug) {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findBySubCategorySlug(slug);
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findBySubCategorySlug(slug));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product By Id Or Name">
@@ -349,268 +267,55 @@ public class ProductService implements IProductService {
             throw new AppException(ErrorCode.PRODUCT_NO_EXIST);
         }
 
-        List<ProductResponse> productResponseList = new ArrayList<>();
-        for(Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(productList);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product Created At Desc">
     @Override
     public List<ProductResponse> getListProductCreatedAtDesc() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAllProductByCreatedAtDesc();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAllProductByCreatedAtDesc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product Created At Asc">
     @Override
     public List<ProductResponse> getListProductCreatedAtAsc() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAllProductByCreatedAtAsc();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAllProductByCreatedAtAsc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product By Price Desc">
     @Override
     public List<ProductResponse> getListProductByPriceDesc() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAllProductByPriceDesc();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAllProductByPriceDesc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product By Price Acs">
     @Override
     public List<ProductResponse> getListProductByPriceAcs() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAllProductByPriceAsc();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAllProductByPriceAsc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="sort Product By Price Min To Max">
     @Override
     public List<ProductResponse> sortProductByPriceMinToMax(float min, float max) {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.sortProductByPriceMinToMax(min, max);
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.sortProductByPriceMinToMax(min, max));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="sort Product By A -> Z">
     @Override
     public List<ProductResponse> sortProductByAToZ() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAllByOrderByNameAsc();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAllByOrderByNameAsc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="sort Product By Z -> A">
     @Override
     public List<ProductResponse> sortProductByZToA() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAllByOrderByNameDesc();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAllByOrderByNameDesc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get Product Best Seller">
     @Override
     public List<ProductResponse> getProductBestSeller() {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        List<Product> productList = iProductRespository.findAllByOrderByTotalSoldDesc();
-        for (Product product : productList) {
-            ProductResponse productResponse = new ProductResponse();
-
-            productResponse.setProductId(product.getProductId());
-            productResponse.setSubCategory(product.getSubCategory());
-            productResponse.setSlug(product.getSlug());
-            productResponse.setName(product.getName());
-            productResponse.setImages(product.getImages());
-            productResponse.setDescription(product.getDescription());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setSalePrice(product.getSalePrice());
-            productResponse.setStatus(product.getStatus());
-            productResponse.setTotalSold(product.getTotalSold());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setProductView(product.getProductView());
-            productResponse.setCreateAt(product.getCreateAt());
-            productResponse.setUpdateAt(product.getUpdateAt());
-
-            //add vào list
-            productResponseList.add(productResponse);
-        }
-        return productResponseList;
+        return productMapper.toResponseList(iProductRespository.findAllByOrderByTotalSoldDesc());
     }// </editor-fold>
 
 

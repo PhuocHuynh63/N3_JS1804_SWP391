@@ -28,7 +28,8 @@ public class AddressController {
      */
 
     @PostMapping("/create/{userId}")
-    ResponseEntity<ResponseData> createAddress(@RequestBody CreateAddressRequest request,
+    ResponseEntity<ResponseData> createAddress(
+            @RequestBody CreateAddressRequest request,
             @PathVariable("userId") int userId) {
         boolean check = addressSerivce.createAddress(userId, request);
         ResponseData responseData = new ResponseData();

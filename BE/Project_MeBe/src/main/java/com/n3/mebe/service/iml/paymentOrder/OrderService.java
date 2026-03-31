@@ -8,10 +8,11 @@ import com.n3.mebe.dto.request.order.OrderStatusRequest;
 import com.n3.mebe.dto.request.order.details.OrderDetailsRequest;
 import com.n3.mebe.dto.response.order.OrderResponse;
 import com.n3.mebe.dto.response.order.OrderUserResponse;
-import com.n3.mebe.dto.response.user.UserAddressResponse;
 import com.n3.mebe.entity.*;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.mapper.OrderMapper;
+import com.n3.mebe.mapper.UserMapper;
 import com.n3.mebe.repository.*;
 import com.n3.mebe.service.IOrderService;
 import com.n3.mebe.service.IPaymentService;
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
-import javax.management.Query;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +62,12 @@ public class OrderService implements IOrderService {
     @Autowired
     private IPaymentRepository paymentRepository;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private OrderMapper orderMapper;
+
 
     @Override
     public Order getOrder(int orderId) {
@@ -70,34 +76,9 @@ public class OrderService implements IOrderService {
     }
 
 
-    // <editor-fold default state="collapsed" desc="Get UserOrderResponse By Id Response">
-    public OrderUserResponse getUserByIdResponse(int id){
-
-        OrderUserResponse userResponse = new OrderUserResponse();
-
-        User user = userService.getUserById(id);
-
-        userResponse.setId(user.getUserId());
-        userResponse.setAvatar(user.getAvatar());
-        userResponse.setUsername(user.getUsername());
-        userResponse.setFirstName(user.getFirstName());
-        userResponse.setLastName(user.getLastName());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setPassword(user.getPassword());
-        userResponse.setRole(user.getRole());
-        userResponse.setBirthOfDate(user.getBirthOfDate());
-        userResponse.setPhoneNumber(user.getPhoneNumber());
-        userResponse.setPoint(user.getPoint());
-
-        List<UserAddressResponse> addressResponses = userService.getUserAddresses(user.getUserId());
-        userResponse.setListAddress(addressResponses);
-
-        userResponse.setCreateAt(user.getCreateAt());
-        userResponse.setUpdateAt(user.getUpdateAt());
-        userResponse.setDeleteAt(user.getDeleteAt());
-
-        return userResponse;
-    }// </editor-fold>
+    private OrderUserResponse resolveOrderUser(Order order) {
+        return order.getUser() != null ? userMapper.toOrderUserResponse(order.getUser()) : null;
+    }
 
     // <editor-fold default state="collapsed" desc="save OrderDetails">
     private void saveOrderDetails(List<OrderDetailsRequest> items, Order order) {
@@ -282,6 +263,8 @@ public class OrderService implements IOrderService {
         Order order = getOrder(orderId);
         String status = order.getStatus();
         String msg = "";
+
+        // Chỉ cho phép hủy đơn hàng khi đơn hàng đang ở trạng thái "Chờ xác nhận", "Đang được xử lý" hoặc "Đang thanh toán"
         if (!status.equals("Chờ xác nhận") && !status.equals("Đang được xử lý") && !status.equals("Đang thanh toán")) {
             throw new AppException(ErrorCode.ORDER_NOT_CANCEL);
         }else {
@@ -350,41 +333,9 @@ public class OrderService implements IOrderService {
     public List<OrderResponse> getOrdersList() {
         List<Order> list = orderRepository.findAll();
         List<OrderResponse> orderResponseList = new ArrayList<>();
-
         for (Order order : list) {
-            OrderResponse orderResponse = new OrderResponse();
-
-            orderResponse.setOrderId(order.getOrderId());
-
-            if(order.getUser() != null){
-                orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
-            }else {
-                orderResponse.setUser(null);
-            }
-
-
-            orderResponse.setVoucher(order.getVoucher());
-            orderResponse.setStatus(order.getStatus());
-            orderResponse.setOrderCode(order.getOrderCode());
-
-            orderResponse.setFirstName(order.getFirstName());
-            orderResponse.setLastName(order.getLastName());
-            orderResponse.setEmail(order.getEmail());
-            orderResponse.setPhoneNumber(order.getPhoneNumber());
-
-            orderResponse.setShipAddress(order.getShipAddress());
-
-            orderResponse.setTotalAmount(order.getTotalAmount());
-
-            orderResponse.setOrderType(order.getOrderType());
-            orderResponse.setPaymentStatus(order.getPaymentStatus());
-            orderResponse.setNote(order.getNote());
-            orderResponse.setCreatedAt(order.getCreatedAt());
-            orderResponse.setUpdatedAt(order.getUpdatedAt());
-
-            orderResponseList.add(orderResponse);
+            orderResponseList.add(orderMapper.toResponse(order, resolveOrderUser(order)));
         }
-
         return orderResponseList;
     }// </editor-fold>
 
@@ -393,41 +344,9 @@ public class OrderService implements IOrderService {
     public List<OrderResponse> getOrdersListEmail(String email) {
         List<Order> list = orderRepository.findByUserEmail(email);
         List<OrderResponse> orderResponseList = new ArrayList<>();
-
         for (Order order : list) {
-            OrderResponse orderResponse = new OrderResponse();
-
-            orderResponse.setOrderId(order.getOrderId());
-
-
-            if(order.getUser() != null){
-                orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
-            }else {
-                orderResponse.setUser(null);
-            }
-
-
-            orderResponse.setVoucher(order.getVoucher());
-            orderResponse.setStatus(order.getStatus());
-            orderResponse.setOrderCode(order.getOrderCode());
-
-            orderResponse.setFirstName(order.getFirstName());
-            orderResponse.setLastName(order.getLastName());
-            orderResponse.setEmail(order.getEmail());
-            orderResponse.setPhoneNumber(order.getPhoneNumber());
-            orderResponse.setShipAddress(order.getShipAddress());
-
-            orderResponse.setTotalAmount(order.getTotalAmount());
-
-            orderResponse.setOrderType(order.getOrderType());
-            orderResponse.setPaymentStatus(order.getPaymentStatus());
-            orderResponse.setNote(order.getNote());
-            orderResponse.setCreatedAt(order.getCreatedAt());
-            orderResponse.setUpdatedAt(order.getUpdatedAt());
-
-            orderResponseList.add(orderResponse);
+            orderResponseList.add(orderMapper.toResponse(order, resolveOrderUser(order)));
         }
-
         return orderResponseList;
     }// </editor-fold>
 
@@ -436,40 +355,9 @@ public class OrderService implements IOrderService {
     public List<OrderResponse> getOrdersListPhone(String phone) {
         List<Order> list = orderRepository.findByUserPhoneNumber(phone);
         List<OrderResponse> orderResponseList = new ArrayList<>();
-
         for (Order order : list) {
-            OrderResponse orderResponse = new OrderResponse();
-
-            orderResponse.setOrderId(order.getOrderId());
-
-
-            if(order.getUser() != null){
-                orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
-            }else {
-                orderResponse.setUser(null);
-            }
-            orderResponse.setVoucher(order.getVoucher());
-            orderResponse.setStatus(order.getStatus());
-            orderResponse.setOrderCode(order.getOrderCode());
-
-            orderResponse.setFirstName(order.getFirstName());
-            orderResponse.setLastName(order.getLastName());
-            orderResponse.setEmail(order.getEmail());
-            orderResponse.setPhoneNumber(order.getPhoneNumber());
-
-            orderResponse.setShipAddress(order.getShipAddress());
-
-            orderResponse.setTotalAmount(order.getTotalAmount());
-
-            orderResponse.setOrderType(order.getOrderType());
-            orderResponse.setPaymentStatus(order.getPaymentStatus());
-            orderResponse.setNote(order.getNote());
-            orderResponse.setCreatedAt(order.getCreatedAt());
-            orderResponse.setUpdatedAt(order.getUpdatedAt());
-
-            orderResponseList.add(orderResponse);
+            orderResponseList.add(orderMapper.toResponse(order, resolveOrderUser(order)));
         }
-
         return orderResponseList;
     }// </editor-fold>
 
@@ -477,36 +365,7 @@ public class OrderService implements IOrderService {
     @Override
     public OrderResponse getOrderResponse(int orId) {
         Order order = getOrder(orId);
-
-        OrderResponse orderResponse = new OrderResponse();
-
-        orderResponse.setOrderId(order.getOrderId());
-
-        if(order.getUser() != null){
-            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
-        }else {
-            orderResponse.setUser(null);
-        }
-
-        orderResponse.setVoucher(order.getVoucher());
-        orderResponse.setStatus(order.getStatus());
-        orderResponse.setOrderCode(order.getOrderCode());
-
-        orderResponse.setFirstName(order.getFirstName());
-        orderResponse.setLastName(order.getLastName());
-        orderResponse.setEmail(order.getEmail());
-        orderResponse.setPhoneNumber(order.getPhoneNumber());
-        orderResponse.setShipAddress(order.getShipAddress());
-
-        orderResponse.setTotalAmount(order.getTotalAmount());
-
-        orderResponse.setOrderType(order.getOrderType());
-        orderResponse.setPaymentStatus(order.getPaymentStatus());
-        orderResponse.setNote(order.getNote());
-        orderResponse.setCreatedAt(order.getCreatedAt());
-        orderResponse.setUpdatedAt(order.getUpdatedAt());
-
-        return orderResponse;
+        return orderMapper.toResponse(order, resolveOrderUser(order));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get Order Code Response">
@@ -516,35 +375,7 @@ public class OrderService implements IOrderService {
             throw new AppException(ErrorCode.ORDER_NO_EXIST);
         }
         Order order = orderRepository.findByOrderCode(code);
-
-        OrderResponse orderResponse = new OrderResponse();
-
-        orderResponse.setOrderId(order.getOrderId());
-
-        if(order.getUser() != null){
-            orderResponse.setUser(getUserByIdResponse(order.getUser().getUserId()));
-        }else {
-            orderResponse.setUser(null);
-        }
-
-        orderResponse.setVoucher(order.getVoucher());
-        orderResponse.setStatus(order.getStatus());
-        orderResponse.setOrderCode(order.getOrderCode());
-
-        orderResponse.setFirstName(order.getFirstName());
-        orderResponse.setLastName(order.getLastName());
-        orderResponse.setEmail(order.getEmail());
-        orderResponse.setPhoneNumber(order.getPhoneNumber());
-        orderResponse.setShipAddress(order.getShipAddress());
-
-        orderResponse.setTotalAmount(order.getTotalAmount());
-
-        orderResponse.setOrderType(order.getOrderType());
-        orderResponse.setPaymentStatus(order.getPaymentStatus());
-        orderResponse.setNote(order.getNote());
-        orderResponse.setCreatedAt(order.getCreatedAt());
-        orderResponse.setUpdatedAt(order.getUpdatedAt());
-        return orderResponse;
+        return orderMapper.toResponse(order, resolveOrderUser(order));
     }// </editor-fold>
 
 

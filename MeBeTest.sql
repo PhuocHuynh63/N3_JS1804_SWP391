@@ -294,6 +294,3 @@ INSERT INTO wishlist ([user_id], product_id, [status], quantity, total_amount, e
 VALUES
 (1, 2, N'Đã có hàng', 1, 32000.00, '2024-08-05 00:00:00');
 
-
-
-
