@@ -1,16 +1,12 @@
 package com.n3.mebe.service.iml;
 
 import com.n3.mebe.dto.request.review.ReviewRequest;
-import com.n3.mebe.dto.request.subcategory.SubCategoryRequest;
 import com.n3.mebe.dto.response.review.ReviewResponse;
 import com.n3.mebe.dto.response.user.UserResponse;
-import com.n3.mebe.dto.response.user.UserReviewResponse;
-import com.n3.mebe.entity.Category;
 import com.n3.mebe.entity.Review;
-import com.n3.mebe.entity.SubCategory;
-import com.n3.mebe.entity.User;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.mapper.ReviewMapper;
 import com.n3.mebe.repository.IReviewRepository;
 import com.n3.mebe.service.IReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +27,9 @@ public class ReviewService implements IReviewService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ReviewMapper reviewMapper;
 
 
     @Override
@@ -95,20 +94,8 @@ public class ReviewService implements IReviewService {
     @Override
     public ReviewResponse getReviewResponse(int id) {
         Review review = getReview(id);
-
-        ReviewResponse reviewResponse = new ReviewResponse();
-
-        reviewResponse.setReviewId(review.getReviewId());
-
         UserResponse userResponse = userService.getUserByIdResponse(review.getUser().getUserId());
-        reviewResponse.setUser(userResponse);
-        reviewResponse.setProduct(review.getProduct());
-        reviewResponse.setRate(review.getRate());
-        reviewResponse.setComment(review.getComment());
-        reviewResponse.setCreateAt(review.getCreateAt());
-        reviewResponse.setUpdateAt(review.getUpdateAt());
-
-        return reviewResponse;
+        return reviewMapper.toResponse(review, userResponse);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get Review By UserID">
@@ -118,20 +105,8 @@ public class ReviewService implements IReviewService {
 
         List<ReviewResponse> reviewResponseList = new ArrayList<>();
         for (Review review : list) {
-            ReviewResponse reviewResponse = new ReviewResponse();
-
-            reviewResponse.setReviewId(review.getReviewId());
-
             UserResponse response = userService.getUserByIdResponse(userId);
-            reviewResponse.setUser(response);
-
-            reviewResponse.setProduct(review.getProduct());
-
-            reviewResponse.setRate(review.getRate());
-            reviewResponse.setComment(review.getComment());
-            reviewResponse.setCreateAt(review.getCreateAt());
-            reviewResponse.setUpdateAt(review.getUpdateAt());
-            reviewResponseList.add(reviewResponse);
+            reviewResponseList.add(reviewMapper.toResponse(review, response));
         }
 
         return reviewResponseList;
@@ -145,20 +120,8 @@ public class ReviewService implements IReviewService {
 
         List<ReviewResponse> reviewResponseList = new ArrayList<>();
         for (Review review : list) {
-            ReviewResponse reviewResponse = new ReviewResponse();
-
-            reviewResponse.setReviewId(review.getReviewId());
-
             UserResponse response = userService.getUserByIdResponse(review.getUser().getUserId());
-            reviewResponse.setUser(response);
-
-            reviewResponse.setProduct(review.getProduct());
-
-            reviewResponse.setRate(review.getRate());
-            reviewResponse.setComment(review.getComment());
-            reviewResponse.setCreateAt(review.getCreateAt());
-            reviewResponse.setUpdateAt(review.getUpdateAt());
-            reviewResponseList.add(reviewResponse);
+            reviewResponseList.add(reviewMapper.toResponse(review, response));
         }
 
         return reviewResponseList;

@@ -2,14 +2,15 @@ package com.n3.mebe.service.iml;
 
 
 import com.n3.mebe.dto.request.wishList.WishListRequest;
-import com.n3.mebe.dto.response.product.ProductResponse;
 import com.n3.mebe.dto.response.wishList.WishListResponse;
-import com.n3.mebe.dto.response.wishList.WishListUserResponse;
 import com.n3.mebe.entity.Product;
 import com.n3.mebe.entity.User;
 import com.n3.mebe.entity.WishList;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.mapper.ProductMapper;
+import com.n3.mebe.mapper.UserMapper;
+import com.n3.mebe.mapper.WishListMapper;
 import com.n3.mebe.repository.IWishListRepository;
 import com.n3.mebe.service.IProductService;
 import com.n3.mebe.service.IUserService;
@@ -40,22 +41,21 @@ public class WishListService implements IWishListService {
     @Autowired
     private SendMailService sendMailService;
 
-    // <editor-fold default state="collapsed" desc="get WishList User Responses All">
-    public WishListUserResponse getWishListUser(User user) {
-        WishListUserResponse response = new WishListUserResponse();
+    @Autowired
+    private WishListMapper wishListMapper;
 
-        response.setId(user.getUserId());
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
-        response.setUsername(user.getUsername());
-        response.setEmail(user.getEmail());
-        response.setPassword(user.getPassword());
-        response.setBirthOfDate(user.getBirthOfDate());
-        response.setPhoneNumber(user.getPhoneNumber());
-        response.setPoint(user.getPoint());
+    @Autowired
+    private UserMapper userMapper;
 
-        return response;
-    }// </editor-fold>
+    @Autowired
+    private ProductMapper productMapper;
+
+    private WishListResponse toWishListResponse(WishList wishList) {
+        return wishListMapper.toResponse(
+                wishList,
+                userMapper.toWishListUserResponse(wishList.getUser()),
+                productMapper.toResponse(wishList.getProduct()));
+    }
 
     // <editor-fold default state="collapsed" desc="get WishList Responses All">
     @Override
@@ -65,20 +65,7 @@ public class WishListService implements IWishListService {
 
         List<WishListResponse> wishListResponses = new ArrayList<>();
         for (WishList wishList : list) {
-            WishListResponse response = new WishListResponse();
-
-            response.setUser(getWishListUser(wishList.getUser()));
-
-            ProductResponse productResponse = productService.getProductByIdResponse(wishList.getProduct().getProductId());
-            response.setProduct(productResponse);
-
-            response.setStatus(wishList.getStatus());
-            response.setQuantity(wishList.getQuantity());
-            response.setTotalAmount(wishList.getTotalAmount());
-            response.setEstimatedDate(wishList.getEstimatedDate());
-            response.setCreatedAt(wishList.getCreatedAt());
-            response.setUpdatedAt(wishList.getUpdatedAt());
-            wishListResponses.add(response);
+            wishListResponses.add(toWishListResponse(wishList));
         }
         return wishListResponses;
     }// </editor-fold>
@@ -91,20 +78,7 @@ public class WishListService implements IWishListService {
 
         List<WishListResponse> wishListResponses = new ArrayList<>();
         for (WishList wishList : list) {
-            WishListResponse response = new WishListResponse();
-
-            response.setUser(getWishListUser(wishList.getUser()));
-
-            ProductResponse productResponse = productService.getProductByIdResponse(wishList.getProduct().getProductId());
-            response.setProduct(productResponse);
-
-            response.setStatus(wishList.getStatus());
-            response.setQuantity(wishList.getQuantity());
-            response.setTotalAmount(wishList.getTotalAmount());
-            response.setEstimatedDate(wishList.getEstimatedDate());
-            response.setCreatedAt(wishList.getCreatedAt());
-            response.setUpdatedAt(wishList.getUpdatedAt());
-            wishListResponses.add(response);
+            wishListResponses.add(toWishListResponse(wishList));
         }
         return wishListResponses;
     }// </editor-fold>
@@ -117,20 +91,7 @@ public class WishListService implements IWishListService {
 
         List<WishListResponse> wishListResponses = new ArrayList<>();
         for (WishList wishList : list) {
-            WishListResponse response = new WishListResponse();
-
-            response.setUser(getWishListUser(wishList.getUser()));
-
-            ProductResponse productResponse = productService.getProductByIdResponse(wishList.getProduct().getProductId());
-            response.setProduct(productResponse);
-
-            response.setStatus(wishList.getStatus());
-            response.setQuantity(wishList.getQuantity());
-            response.setTotalAmount(wishList.getTotalAmount());
-            response.setEstimatedDate(wishList.getEstimatedDate());
-            response.setCreatedAt(wishList.getCreatedAt());
-            response.setUpdatedAt(wishList.getUpdatedAt());
-            wishListResponses.add(response);
+            wishListResponses.add(toWishListResponse(wishList));
         }
         return wishListResponses;
     }// </editor-fold>

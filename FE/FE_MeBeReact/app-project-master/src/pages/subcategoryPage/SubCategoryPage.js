@@ -16,6 +16,18 @@ export default function SubCategoryPage() {
     const { subCategoryId } = useParams();
     const location = useLocation();
     const parentCategory = location.state?.parentCategory;
+    const normalizeProducts = (payload) => {
+        if (Array.isArray(payload)) {
+            return payload;
+        }
+        if (Array.isArray(payload?.data)) {
+            return payload.data;
+        }
+        if (Array.isArray(payload?.content)) {
+            return payload.content;
+        }
+        return [];
+    };
 
     /**
      * Call API to get products by subcategory
@@ -24,7 +36,7 @@ export default function SubCategoryPage() {
         if (subCategoryId) {
             meBeSrc.getProductBySubCategory(subCategoryId)
                 .then(res => {
-                    setProducts(res.data);
+                    setProducts(normalizeProducts(res.data));
                 }).catch(err => {
                     console.log(err);
                 });
@@ -118,7 +130,8 @@ export default function SubCategoryPage() {
     //Sort products
     const sortProducts = (products) => {
         console.log('Sorting with option:', sortOption);
-        return products.slice().sort((a, b) => {  // Use slice() to avoid mutating the original array
+        const productList = Array.isArray(products) ? products : [];
+        return productList.slice().sort((a, b) => {  // Use slice() to avoid mutating the original array
             const aPrice = a.salePrice || a.price;
             const bPrice = b.salePrice || b.price;
 

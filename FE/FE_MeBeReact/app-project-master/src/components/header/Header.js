@@ -11,6 +11,18 @@ import logo from "../../images/Logo_Header_RemoveBackground.png";
 import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
+    const normalizeProducts = (payload) => {
+        if (Array.isArray(payload)) {
+            return payload;
+        }
+        if (Array.isArray(payload?.data)) {
+            return payload.data;
+        }
+        if (Array.isArray(payload?.content)) {
+            return payload.content;
+        }
+        return [];
+    };
 
     /**
      * Take user info (username) from local storage by token
@@ -97,7 +109,7 @@ export default function Header() {
         if (searchTerm) {
             meBeSrc.getProductBySearch(searchTerm)
                 .then((res) => {
-                    setSuggestions(res.data);
+                    setSuggestions(normalizeProducts(res.data));
                 })
                 .catch((err) => {
                     console.log("Error fetching product", err);

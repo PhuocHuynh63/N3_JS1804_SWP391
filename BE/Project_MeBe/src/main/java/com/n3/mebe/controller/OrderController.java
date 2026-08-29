@@ -43,12 +43,18 @@ public class OrderController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    private static final String URL = "http://14.225.253.116";
+
     /**
      * Request from Client
      *
      */
 
-    // Create order
+
+
+
+
+    // Create order vnpay
     @GetMapping("/create_vnpay")
     public void createOrderByVNPay(
             @RequestParam Map<String, String> vnp_Params,
@@ -60,7 +66,7 @@ public class OrderController {
         String orderRequestJson = stringRedisTemplate.opsForValue().get(orderRequestKey);
         if (orderRequestJson == null) {
             // Xử lý khi không tìm thấy OrderRequest
-            response.sendRedirect("http://14.225.253.116/order-error?message=Order request not found or expired");
+            response.sendRedirect(URL + "/order-error?message=Order request not found or expired");
             return;
         }
 
@@ -70,13 +76,13 @@ public class OrderController {
             orderRequest = new ObjectMapper().readValue(orderRequestJson, OrderRequest.class);
         } catch (JsonProcessingException e) {
             // Xử lý khi không thể parse OrderRequest
-            response.sendRedirect("http://14.225.253.116/order-error?message=Failed to parse order request");
+            response.sendRedirect(URL + "/order-error?message=Failed to parse order request");
             return;
         }
 
         boolean check = productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
         if(!check){
-            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found");
+            response.sendRedirect(URL + "/order-error?message=Payment information not found");
             return;
         }
 
@@ -86,7 +92,7 @@ public class OrderController {
         if (paymentId == null) {
             // Không có paymentId trong params
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
-            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found");
+            response.sendRedirect(URL + "/order-error?message=Payment information not found");
             return;
         }
 
@@ -97,7 +103,7 @@ public class OrderController {
         if (paymentStatus == null) {
             // Thông tin thanh toán không tồn tại hoặc đã hết hạn
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
-            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found or expired");
+            response.sendRedirect(URL + "/order-error?message=Payment information not found or expired");
             return;
         }
 
@@ -113,30 +119,29 @@ public class OrderController {
             stringRedisTemplate.delete(paymentKey);
 
             // Chuyển hướng đến trang thành công
-            response.sendRedirect("http://14.225.253.116/order-success");
+            response.sendRedirect(URL + "/order-success");
         } else {
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
             // Chuyển hướng đến trang thất bại
-            response.sendRedirect("http://14.225.253.116/order-error?message=Payment failed");
+            response.sendRedirect(URL + "/order-error?message=Payment failed");
         }
     }
 
 
-    // Create order
+    // Create order cod
     @PostMapping("/create_cod")
     public ResponseEntity<TransactionStatusDTO> createOrderByCOD(@RequestBody OrderRequest orderRequest, HttpServletResponse response) throws IOException {
         TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();
 
         boolean check = productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
         if(!check){
-            response.sendRedirect("http://14.225.253.116/order-error?message=Payment information not found");
+            response.sendRedirect(URL + "/order-error?message=Payment information not found");
             transactionStatusDTO.setStatus("No");
             transactionStatusDTO.setMessage("Product quantity out");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transactionStatusDTO);
         }
 
         // lưu order vào cơ sở dữ liệu
-
         String type = "COD";
         orderRequest.setOrderType(type);
         boolean success = orderService.createOrder(orderRequest);

@@ -1,5 +1,6 @@
 package com.n3.mebe.service.iml;
 
+import com.n3.mebe.mapper.OrderDetailsMapper;
 import com.n3.mebe.dto.response.order.details.OrderDetailsResponse;
 import com.n3.mebe.entity.OrderDetail;
 import com.n3.mebe.repository.IOrderDetailsRepository;
@@ -18,15 +19,10 @@ public class OrderDetailsService implements IOrderDetailsService {
     private OrderService orderService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ProductService productService;
-
-
-    @Autowired
     private IOrderDetailsRepository orderDetailsRepository;
 
+    @Autowired
+    private OrderDetailsMapper orderDetailsMapper;
 
 
     /**
@@ -41,21 +37,11 @@ public class OrderDetailsService implements IOrderDetailsService {
 
         List<OrderDetail> list = orderDetailsRepository.findByOrderOrderId(orderId);
 
+        var orderResponse = orderService.getOrderResponse(orderId);
         List<OrderDetailsResponse> responses = new ArrayList<>();
         for (OrderDetail orderDetail : list) {
-            OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
-
-            orderDetailsResponse.setOdId(orderDetail.getOdId());
-
-            orderDetailsResponse.setOrder(orderService.getOrderResponse(orderId));
-            orderDetailsResponse.setProduct(orderDetail.getProduct());
-            orderDetailsResponse.setQuantity(orderDetail.getQuantity());
-            orderDetailsResponse.setPrice(orderDetail.getPrice());
-            orderDetailsResponse.setSalePrice(orderDetail.getSalePrice());
-            responses.add(orderDetailsResponse);
+            responses.add(orderDetailsMapper.toResponse(orderDetail, orderResponse));
         }
-
-
         return responses;
     }// </editor-fold>
 

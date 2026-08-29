@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./AdminProduct.css";
 import { useEffect, useState } from "react";
 import { meBeSrc } from "../../../service/meBeSrc";
@@ -6,6 +6,12 @@ import Pagination from "../../../components/pagination/Pagination";
 import PopupDeleteProduct from "./deleteProduct/PopupDeleteProduct";
 
 export default function AdminProduct() {
+  const normalizeProducts = (payload) => {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.data)) return payload.data;
+    if (Array.isArray(payload?.content)) return payload.content;
+    return [];
+  };
 
   /**
    * Call API to get products
@@ -14,7 +20,7 @@ export default function AdminProduct() {
   useEffect(() => {
     meBeSrc.getProduct()
       .then((res) => {
-        setProducts(res.data);
+        setProducts(normalizeProducts(res.data));
       })
   }, []);
   //-----End-----//
@@ -29,7 +35,7 @@ export default function AdminProduct() {
     if (searchTerm) {
       meBeSrc.getProductBySearch(searchTerm)
         .then((res) => {
-          setProducts(res.data);
+          setProducts(normalizeProducts(res.data));
         })
         .catch((err) => {
           console.log("Error fetching product", err);
@@ -37,7 +43,7 @@ export default function AdminProduct() {
     } else {
       meBeSrc.getProduct()
         .then((res) => {
-          setProducts(res.data);
+          setProducts(normalizeProducts(res.data));
         })
         .catch((err) => {
           console.log("Error fetching product", err);
@@ -74,8 +80,9 @@ export default function AdminProduct() {
     setCurrentPage(pageNumber);
   };
 
-  const currentProducts = products.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const productList = Array.isArray(products) ? products : [];
+  const currentProducts = productList.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
+  const totalPages = Math.ceil(productList.length / productsPerPage);
   //-----End-----//
 
 

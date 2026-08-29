@@ -6,6 +6,7 @@ import com.n3.mebe.dto.response.voucher.VoucherResponse;
 import com.n3.mebe.entity.Voucher;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.mapper.VoucherMapper;
 import com.n3.mebe.repository.IOrderRepository;
 import com.n3.mebe.repository.IVoucherRepository;
 import com.n3.mebe.service.IVoucherService;
@@ -13,7 +14,6 @@ import com.n3.mebe.util.DataUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +26,9 @@ public class VoucherService implements IVoucherService {
 
     @Autowired
     private IOrderRepository orderRepository;
+
+    @Autowired
+    private VoucherMapper voucherMapper;
 
     // <editor-fold default state="collapsed" desc="get Voucher By Id">
     @Override
@@ -183,117 +186,25 @@ public class VoucherService implements IVoucherService {
     // <editor-fold default state="collapsed" desc="get Voucher By Id Response">
     @Override
     public VoucherResponse getVoucherByIdResponse(int id) {
-
-        Voucher voucher = getVoucherById(id);
-
-        VoucherResponse voucherResponse = new VoucherResponse();
-
-        voucherResponse.setVoucherId(voucher.getVoucherId());
-        voucherResponse.setVoucherCode(voucher.getVoucherCode());
-        voucherResponse.setDiscountType(voucher.getDiscountType());
-        voucherResponse.setDiscountValue(voucherResponse.getDiscountValue());
-        voucherResponse.setName(voucher.getName());
-        voucherResponse.setCost(voucher.getCost());
-        voucherResponse.setQuantity(voucher.getQuantity());
-        voucherResponse.setMinimumApply(voucher.getMinimumApply());
-        voucherResponse.setMaxDiscount(voucher.getMaxDiscount());
-        voucherResponse.setActive(voucher.isActive());
-        voucherResponse.setPublic(voucher.isPublic());
-        voucherResponse.setStartDate(voucher.getStartDate());
-        voucherResponse.setEndDate(voucher.getEndDate());
-        voucherResponse.setCreateAt(voucher.getCreateAt());
-        voucherResponse.setUpdateAt(voucher.getUpdateAt());
-
-        return voucherResponse;
+        return voucherMapper.toResponse(getVoucherById(id));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get Voucher By Code Response">
     @Override
     public VoucherResponse getVoucherByCodeResponse(String code) {
-
-        Voucher voucher = getVoucherByCode(code);
-
-        VoucherResponse voucherResponse = new VoucherResponse();
-
-        voucherResponse.setVoucherId(voucher.getVoucherId());
-        voucherResponse.setVoucherCode(voucher.getVoucherCode());
-        voucherResponse.setDiscountType(voucher.getDiscountType());
-        voucherResponse.setDiscountValue(voucherResponse.getDiscountValue());
-        voucherResponse.setName(voucher.getName());
-        voucherResponse.setCost(voucher.getCost());
-        voucherResponse.setQuantity(voucher.getQuantity());
-        voucherResponse.setMinimumApply(voucher.getMinimumApply());
-        voucherResponse.setMaxDiscount(voucher.getMaxDiscount());
-        voucherResponse.setActive(voucher.isActive());
-        voucherResponse.setPublic(voucher.isPublic());
-        voucherResponse.setStartDate(voucher.getStartDate());
-        voucherResponse.setEndDate(voucher.getEndDate());
-        voucherResponse.setCreateAt(voucher.getCreateAt());
-        voucherResponse.setUpdateAt(voucher.getUpdateAt());
-
-        return voucherResponse;
+        return voucherMapper.toResponse(getVoucherByCode(code));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Search Voucher By Name">
     @Override
     public List<VoucherResponse> searchVoucherByName(String name) {
-        List<Voucher> list = iVoucherRepository.searchByName(name);
-
-        List<VoucherResponse> responseList = new ArrayList<>();
-
-        for(Voucher voucher :list){
-            VoucherResponse voucherResponse = new VoucherResponse();
-
-            voucherResponse.setVoucherId(voucher.getVoucherId());
-            voucherResponse.setVoucherCode(voucher.getVoucherCode());
-            voucherResponse.setDiscountType(voucher.getDiscountType());
-            voucherResponse.setDiscountValue(voucherResponse.getDiscountValue());
-            voucherResponse.setName(voucher.getName());
-            voucherResponse.setCost(voucher.getCost());
-            voucherResponse.setQuantity(voucher.getQuantity());
-            voucherResponse.setMinimumApply(voucher.getMinimumApply());
-            voucherResponse.setMaxDiscount(voucher.getMaxDiscount());
-            voucherResponse.setActive(voucher.isActive());
-            voucherResponse.setPublic(voucher.isPublic());
-            voucherResponse.setStartDate(voucher.getStartDate());
-            voucherResponse.setEndDate(voucher.getEndDate());
-            voucherResponse.setCreateAt(voucher.getCreateAt());
-            voucherResponse.setUpdateAt(voucher.getUpdateAt());
-
-            responseList.add(voucherResponse);
-        }
-        return responseList;
+        return voucherMapper.toResponseList(iVoucherRepository.searchByName(name));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get List Voucher Response All">
     @Override
     public List<VoucherResponse> getListVoucherResponseAll() {
-        List<Voucher> list = iVoucherRepository.findAll();
-
-        List<VoucherResponse> responseList = new ArrayList<>();
-
-        for(Voucher voucher :list){
-            VoucherResponse voucherResponse = new VoucherResponse();
-
-            voucherResponse.setVoucherId(voucher.getVoucherId());
-            voucherResponse.setVoucherCode(voucher.getVoucherCode());
-            voucherResponse.setDiscountType(voucher.getDiscountType());
-            voucherResponse.setDiscountValue(voucherResponse.getDiscountValue());
-            voucherResponse.setName(voucher.getName());
-            voucherResponse.setCost(voucher.getCost());
-            voucherResponse.setQuantity(voucher.getQuantity());
-            voucherResponse.setMinimumApply(voucher.getMinimumApply());
-            voucherResponse.setMaxDiscount(voucher.getMaxDiscount());
-            voucherResponse.setActive(voucher.isActive());
-            voucherResponse.setPublic(voucher.isPublic());
-            voucherResponse.setStartDate(voucher.getStartDate());
-            voucherResponse.setEndDate(voucher.getEndDate());
-            voucherResponse.setCreateAt(voucher.getCreateAt());
-            voucherResponse.setUpdateAt(voucher.getUpdateAt());
-
-            responseList.add(voucherResponse);
-        }
-        return responseList;
+        return voucherMapper.toResponseList(iVoucherRepository.findAll());
     }// </editor-fold>
 
 

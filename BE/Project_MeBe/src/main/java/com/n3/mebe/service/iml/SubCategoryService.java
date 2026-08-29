@@ -7,6 +7,7 @@ import com.n3.mebe.entity.Category;
 import com.n3.mebe.entity.SubCategory;
 import com.n3.mebe.exception.AppException;
 import com.n3.mebe.exception.ErrorCode;
+import com.n3.mebe.mapper.SubCategoryMapper;
 import com.n3.mebe.repository.ICategoryRepository;
 import com.n3.mebe.repository.ISubCategoryRepository;
 import com.n3.mebe.service.ICloudinaryService;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +30,9 @@ public class SubCategoryService implements ISubCategoryService {
 
     @Autowired
     private ICloudinaryService cloudinaryService;
+
+    @Autowired
+    private SubCategoryMapper subCategoryMapper;
 
 
     // <editor-fold default state="collapsed" desc="get SubCategory By Id">
@@ -163,24 +166,7 @@ public class SubCategoryService implements ISubCategoryService {
     // <editor-fold default state="collapsed" desc="Get SubCategories Response">
     @Override
     public List<SubCategoryResponse> getSubCategoriesResponse() {
-       List<SubCategory> subCategories = subCategoryRepository.findAll();
-       List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
-
-       for (SubCategory subCategory : subCategories) {
-           SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
-
-
-           subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
-           //lấy ra category tên cha
-           subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
-           subCategoryResponse.setSlug(subCategory.getSlug());
-           subCategoryResponse.setName(subCategory.getName());
-           subCategoryResponse.setImage(subCategory.getImage());
-           subCategoryResponse.setImage2(subCategory.getImage2());
-           subCategoryResponses.add(subCategoryResponse);
-       }
-
-        return subCategoryResponses;
+        return subCategoryMapper.toResponseList(subCategoryRepository.findAll());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get SubCategories Response By cateParent Name">
@@ -190,65 +176,19 @@ public class SubCategoryService implements ISubCategoryService {
         Category category = icategoryRepository.findByName(categoryParentName);
 
         List<SubCategory> subCategories = subCategoryRepository.findByCategory(category);
-
-        List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
-
-        for (SubCategory subCategory : subCategories) {
-            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
-
-            //lấy ra category tên cha
-            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
-
-            subCategoryResponse.setSlug(subCategory.getSlug());
-            subCategoryResponse.setName(subCategory.getName());
-            subCategoryResponse.setImage(subCategory.getImage());
-            subCategoryResponse.setImage2(subCategory.getImage2());
-            subCategoryResponses.add(subCategoryResponse);
-        }
-
-        return subCategoryResponses;
+        return subCategoryMapper.toResponseList(subCategories);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get SubCategories Response By Slug">
         @Override
         public List<SubCategoryResponse> getSubCategoriesBySlug(String slug) {
         List<SubCategory> subCategories = subCategoryRepository.findBySlug(slug);
-
-        List<SubCategoryResponse> subCategoryResponses = new ArrayList<>();
-
-        for (SubCategory subCategory : subCategories) {
-            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
-
-            subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
-            //lấy ra category tên cha
-            subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
-
-            subCategoryResponse.setSlug(subCategory.getSlug());
-            subCategoryResponse.setName(subCategory.getName());
-            subCategoryResponse.setImage(subCategory.getImage());
-            subCategoryResponse.setImage2(subCategory.getImage2());
-            subCategoryResponses.add(subCategoryResponse);
-        }
-
-        return subCategoryResponses;
+        return subCategoryMapper.toResponseList(subCategories);
         }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get SubCategories By Id Response">
     @Override
     public SubCategoryResponse getSubCategoriesByIdResponse(int subCateId) {
-        SubCategory subCategory = getSubCategoryById(subCateId);
-
-        SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
-
-        subCategoryResponse.setSubCategoryId(subCategory.getSubCateId());
-        //lấy ra category tên cha
-        subCategoryResponse.setCategory_parent(subCategory.getCategory().getName());
-
-        subCategoryResponse.setSlug(subCategory.getSlug());
-        subCategoryResponse.setName(subCategory.getName());
-        subCategoryResponse.setImage(subCategory.getImage());
-        subCategoryResponse.setImage2(subCategory.getImage2());
-
-        return subCategoryResponse;
+        return subCategoryMapper.toResponse(getSubCategoryById(subCateId));
     }// </editor-fold>
 }
