@@ -353,12 +353,10 @@ public class OrderService implements IOrderService {
     // <editor-fold default state="collapsed" desc="Get List Orders Phone">
     @Override
     public List<OrderResponse> getOrdersListPhone(String phone) {
-        List<Order> list = orderRepository.findByUserPhoneNumber(phone);
-        List<OrderResponse> orderResponseList = new ArrayList<>();
-        for (Order order : list) {
-            orderResponseList.add(orderMapper.toResponse(order, resolveOrderUser(order)));
-        }
-        return orderResponseList;
+        return orderRepository.findByUserPhoneNumber(phone)
+                .stream()
+                .map(order -> orderMapper.toResponse(order, resolveOrderUser(order)))
+                .toList(); // Dùng .collect(Collectors.toList()) nếu bạn đang dùng Java bản cũ hơn 16
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get Order by orderId">

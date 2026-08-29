@@ -15,12 +15,24 @@ export default function SearchPage() {
     const [showModal, setShowModal] = useState(false);
 
     const { name } = useParams();
+    const normalizeProducts = (payload) => {
+        if (Array.isArray(payload)) {
+            return payload;
+        }
+        if (Array.isArray(payload?.data)) {
+            return payload.data;
+        }
+        if (Array.isArray(payload?.content)) {
+            return payload.content;
+        }
+        return [];
+    };
 
     useEffect(() => {
         if (name) {
             meBeSrc.getProductBySearch(name)
                 .then(res => {
-                    setProducts(res.data);
+                    setProducts(normalizeProducts(res.data));
                 }).catch(err => {
                     console.log(err);
                 });
@@ -109,7 +121,8 @@ export default function SearchPage() {
     //Sort products
     const sortProducts = (products) => {
         console.log('Sorting with option:', sortOption);
-        return products.slice().sort((a, b) => {  // Use slice() to avoid mutating the original array
+        const productList = Array.isArray(products) ? products : [];
+        return productList.slice().sort((a, b) => {  // Use slice() to avoid mutating the original array
             const aPrice = a.salePrice || a.price;
             const bPrice = b.salePrice || b.price;
 

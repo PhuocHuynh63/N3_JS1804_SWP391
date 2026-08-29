@@ -41,8 +41,7 @@ public class VnpayController {
     }
 
     @GetMapping("/payment_info")
-    ResponseEntity<?> transaction(
-            @RequestParam Map<String, String> params) {
+    ResponseEntity<?> transaction(@RequestParam Map<String, String> params) {
 
         TransactionStatusDTO transactionStatusDTO = new TransactionStatusDTO();
         Map<String, String> vnp_Params = new HashMap<>(params);
@@ -70,8 +69,4 @@ public class VnpayController {
 
         return ResponseEntity.status(HttpStatus.OK).body(transactionStatusDTO);
     }
-
-
-
-
 }

@@ -1,4 +1,3 @@
-import { Link, NavLink } from "react-router-dom";
 import "./AdminWishlist.css";
 import { useEffect, useState } from "react";
 import { meBeSrc } from "../../../service/meBeSrc";
@@ -6,6 +5,12 @@ import Pagination from "../../../components/pagination/Pagination";
 import PopupWishlist from "./PopupWishlist/PopupWishlist";
 
 export default function AdminWishlist() {
+  const normalizeProducts = (payload) => {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.data)) return payload.data;
+    if (Array.isArray(payload?.content)) return payload.content;
+    return [];
+  };
 
   /**
    * Call API to get products
@@ -14,7 +19,7 @@ export default function AdminWishlist() {
   useEffect(() => {
     meBeSrc.getWishlist()
       .then((res) => {
-        setWishlists(res.data);
+        setWishlists(normalizeProducts(res.data));
       })
   }, []);
   //-----End-----//
@@ -29,7 +34,7 @@ export default function AdminWishlist() {
     if (searchTerm) {
       meBeSrc.getProductBySearch(searchTerm)
         .then((res) => {
-          setWishlists(res.data);
+          setWishlists(normalizeProducts(res.data));
         })
         .catch((err) => {
           console.log("Error fetching product", err);
@@ -37,7 +42,7 @@ export default function AdminWishlist() {
     } else {
       meBeSrc.getProduct()
         .then((res) => {
-          setWishlists(res.data);
+          setWishlists(normalizeProducts(res.data));
         })
         .catch((err) => {
           console.log("Error fetching product", err);
@@ -54,29 +59,10 @@ export default function AdminWishlist() {
   /**
    * Handle Delete Product Id
    */
-  const [activeProductId, setActiveProductId] = useState(null);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-
-  const handleDeleteProduct = (id) => {
-    setActiveProductId(id);
-    setShowModalDelete(true);
-  }
-  //-----End-----//
-
-
-  /**
-   * 
-   */
   const [showModal, setShowModal] = useState(false);
-  const handlePopupWishlist = (userId) => {
+  const handlePopupWishlist = () => {
     setShowModal(true);
-    // meBeSrc.get
-  }
-
-  /**
-    * Filter Product
-    * */
-  const filterStockOut = wishlists.filter(product => product.status === 'Hết hàng');
+  };
   //-----End-----//
 
 
@@ -90,8 +76,9 @@ export default function AdminWishlist() {
     setCurrentPage(pageNumber);
   };
 
-  const currentProducts = wishlists.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
-  const totalPages = Math.ceil(wishlists.length / productsPerPage);
+  const wishlistItems = Array.isArray(wishlists) ? wishlists : [];
+  const currentProducts = wishlistItems.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
+  const totalPages = Math.ceil(wishlistItems.length / productsPerPage);
   //-----End-----//
 
 
@@ -124,7 +111,7 @@ export default function AdminWishlist() {
               <th>Thao tác</th>
             </tr>
           </thead>
-          {currentPage.length === 0 ? (
+          {currentProducts.length === 0 ? (
             <>
               <span className="no-product">Không có sản phẩm nào</span>
             </>
@@ -133,7 +120,7 @@ export default function AdminWishlist() {
               <tr>
                 <td>{product.productId}</td>
                 <td>
-                  <img className="product-image" src={product.images}></img>
+                  <img className="product-image" src={product.images} alt={product.name} />
                 </td>
                 <td style={{ textAlign: "left" }}>{product.name}</td>
                 <td style={{ color: product.status === 'Hết hàng' ? 'red' : 'black' }}>
@@ -141,9 +128,9 @@ export default function AdminWishlist() {
                 </td>
                 <td style={{ textAlign: "end" }}>
                   <div className="action">
-                    <a className="view btn btn-warning btn-sm">
+                    <button type="button" className="view btn btn-warning btn-sm" onClick={handlePopupWishlist}>
                       <i className="fa-solid fa-eye"></i>
-                    </a>
+                    </button>
                   </div>
                 </td>
               </tr>
