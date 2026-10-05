@@ -1,0 +1,210 @@
+package com.n3.mebe.voucher.service.impl;
+
+import lombok.RequiredArgsConstructor;
+
+
+import com.n3.mebe.voucher.dto.request.VoucherRequest;
+import com.n3.mebe.voucher.dto.response.VoucherResponse;
+import com.n3.mebe.voucher.entity.Voucher;
+import com.n3.mebe.shared.exception.AppException;
+import com.n3.mebe.shared.exception.ErrorCode;
+import com.n3.mebe.voucher.mapper.VoucherMapper;
+import com.n3.mebe.order.repository.IOrderRepository;
+import com.n3.mebe.voucher.repository.IVoucherRepository;
+import com.n3.mebe.voucher.service.IVoucherService;
+import com.n3.mebe.shared.util.DataUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class VoucherService implements IVoucherService {
+
+
+    private final IVoucherRepository iVoucherRepository;
+
+    private final IOrderRepository orderRepository;
+
+    private final VoucherMapper voucherMapper;
+
+    // <editor-fold default state="collapsed" desc="get Voucher By Id">
+    @Override
+    public Voucher getVoucherById(int id) {
+        return iVoucherRepository.findById(id)
+                .orElseThrow(()-> new AppException(ErrorCode.VOUCHER_NO_EXIST));
+    }
+    // </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="get Voucher By Code">
+    @Override
+    public Voucher getVoucherByCode(String code) {
+        Voucher voucher = iVoucherRepository.findByVoucherCode(code);
+        if(voucher != null){
+            return voucher;
+        }else {
+            throw new AppException(ErrorCode.VOUCHER_CODE_NO_EXIST);
+        }
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Check Used Voucher">
+    @Override
+    public boolean checkUsedVoucher(String code, int userId) {
+        boolean check = orderRepository.existsByVoucherVoucherCodeAndUserUserId(code, userId);
+        if (check){
+            throw new AppException(ErrorCode.VOUCHER_USED);
+        }else
+            return check;
+    }
+    // </editor-fold>
+
+
+    /**
+     *  Request from Client
+     *
+     */
+
+    // <editor-fold default state="collapsed" desc="Create Voucher">
+    @Override
+    public boolean createVoucher(VoucherRequest request) {
+        Voucher voucher = new Voucher();
+
+        //Nếu code bằng null thì tự tạo mã rồi add vào request để save
+        if(request.getCode() == null){
+            String code;
+            do {
+                code = DataUtils.generateCode(10);
+            } while (iVoucherRepository.existsByVoucherCode(code));
+            request.setCode(code);
+        }else {
+            if(iVoucherRepository.existsByVoucherCode(request.getCode())){
+                throw new AppException(ErrorCode.VOUCHER_CODE_EXIST);
+            }
+        }
+        voucher.setVoucherCode(request.getCode());
+        voucher.setDiscountType(request.getDiscountType());
+        voucher.setDiscountValue(request.getDiscountValue());
+        voucher.setCost(request.getCost());
+        voucher.setQuantity(request.getQuantity());
+        voucher.setMinimumApply(request.getMinimumApply());
+        voucher.setMaxDiscount(request.getMaxDiscount());
+        voucher.setActive(request.isActive());
+        voucher.setPublic(request.isPublic());
+        voucher.setStartDate(request.getStartDate());
+        voucher.setEndDate(request.getEndDate());
+        Date now = new Date();
+        voucher.setCreateAt(now);
+        voucher.setUpdateAt(now);
+        iVoucherRepository.save(voucher);
+        return true;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Update Voucher">
+    @Override
+    public boolean updateVoucher(int id, VoucherRequest request) {
+        Voucher voucher = getVoucherById(id);
+        boolean check = false;
+
+        if(voucher != null){
+            //Nếu code bằng null thì tự tạo mã rồi add vào request để save
+            if(request.getCode() == null){
+                String code;
+                do {
+                    code = DataUtils.generateCode(10);
+                } while (iVoucherRepository.existsByVoucherCode(code));
+                request.setCode(code);
+            }else {
+                if(iVoucherRepository.existsByVoucherCode(request.getCode())){
+                    throw new AppException(ErrorCode.VOUCHER_CODE_EXIST);
+                }
+            }
+            voucher.setVoucherCode(request.getCode());
+            voucher.setDiscountType(request.getDiscountType());
+            voucher.setDiscountValue(request.getDiscountValue());
+            voucher.setCost(request.getCost());
+            voucher.setQuantity(request.getQuantity());
+            voucher.setMinimumApply(request.getMinimumApply());
+            voucher.setMaxDiscount(request.getMaxDiscount());
+            voucher.setActive(request.isActive());
+            voucher.setPublic(request.isPublic());
+            voucher.setStartDate(request.getStartDate());
+            voucher.setEndDate(request.getEndDate());
+            Date now = new Date();
+            voucher.setCreateAt(now);
+            voucher.setUpdateAt(now);
+            iVoucherRepository.save(voucher);
+            check = true;
+        }
+        return check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Set Active">
+    @Override
+    public boolean setActive(int id, boolean status) {
+        boolean check = false;
+        Voucher voucher = getVoucherById(id);
+        if(voucher != null){
+            voucher.setActive(status);
+            Date now = new Date();
+            voucher.setUpdateAt(now);
+            iVoucherRepository.save(voucher);
+            check = true;
+        }
+        return check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Set Public">
+    @Override
+    public boolean setPublic(int id, boolean status) {
+        boolean check = false;
+        Voucher voucher = getVoucherById(id);
+        if(voucher != null){
+            voucher.setPublic(status);
+            Date now = new Date();
+            voucher.setUpdateAt(now);
+            iVoucherRepository.save(voucher);
+            check = true;
+        }
+        return check;
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Delete Voucher">
+    @Override
+    public void deleteVoucher(int id) {
+        iVoucherRepository.deleteById(id);
+    }// </editor-fold>
+
+
+
+    /**
+     *  Response from Client
+     *
+     */
+
+    // <editor-fold default state="collapsed" desc="get Voucher By Id Response">
+    @Override
+    public VoucherResponse getVoucherByIdResponse(int id) {
+        return voucherMapper.toResponse(getVoucherById(id));
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="get Voucher By Code Response">
+    @Override
+    public VoucherResponse getVoucherByCodeResponse(String code) {
+        return voucherMapper.toResponse(getVoucherByCode(code));
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="Search Voucher By Name">
+    @Override
+    public List<VoucherResponse> searchVoucherByName(String name) {
+        return voucherMapper.toResponseList(iVoucherRepository.searchByName(name));
+    }// </editor-fold>
+
+    // <editor-fold default state="collapsed" desc="get List Voucher Response All">
+    @Override
+    public List<VoucherResponse> getListVoucherResponseAll() {
+        return voucherMapper.toResponseList(iVoucherRepository.findAll());
+    }// </editor-fold>
+
+
+}

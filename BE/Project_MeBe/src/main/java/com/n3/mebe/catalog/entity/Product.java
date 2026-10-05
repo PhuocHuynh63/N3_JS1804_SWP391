@@ -1,0 +1,67 @@
+package com.n3.mebe.catalog.entity;
+
+import java.math.BigDecimal;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.Set;
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name ="product")
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
+    private int productId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subcategory_id")
+    private SubCategory subCategory;
+
+    private String slug;
+
+    @Column(name = "[name]")
+    private String name;
+
+    private String images;
+
+    @Column(name = "[description]")
+    private String description;
+
+    private BigDecimal price;
+
+    @Column(name ="sale_price")
+    private BigDecimal salePrice;
+
+    @Column(name ="[status]")
+    @Convert(converter = ProductStatus.JpaConverter.class)
+    private ProductStatus status;
+
+    @Column(name = "total_sold")
+    private int totalSold;
+
+    @Column(name = "quantity")
+    private int quantity;
+
+    @Column(name = "product_view")
+    private int productView;
+
+    @Column(name = "created_at")
+    private Date createAt;
+
+    @Column(name = "updated_at")
+    private Date updateAt;
+
+    @OneToMany(mappedBy = "product")
+    private Set<Review> reviewsProducts;
+
+}

@@ -1,0 +1,72 @@
+package com.n3.mebe.user.entity;
+
+import com.n3.mebe.order.entity.Order;
+import com.n3.mebe.catalog.entity.Review;
+
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.util.*;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "[user]")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "[user_id]")
+    int userId;
+
+     String avatar;
+    @Column(name = "first_name")
+     String firstName;
+
+    @Column(name = "last_name")
+     String lastName;
+
+     String username;
+     String email;
+
+     String password;
+
+    @Column(name = "[birth_date]")
+     Date birthOfDate;
+
+     @Convert(converter = UserRole.JpaConverter.class)
+     UserRole role;
+
+    @Column(name = "phone")
+     String phoneNumber;
+
+     int point;
+
+    @Column(name = "[status]")
+     @Convert(converter = UserStatus.JpaConverter.class)
+     UserStatus status;
+
+    @Column(name = "created_at")
+     Date createAt;
+
+    @Column(name = "updated_at")
+     Date updateAt;
+
+    @Column(name = "deleted_at")
+     Date deleteAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Address> listAddress = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    List<Review> reviewsUser = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    List<Order> orders = new ArrayList<>();
+}
