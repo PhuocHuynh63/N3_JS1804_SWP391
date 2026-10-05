@@ -20,6 +20,11 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
   `/c/Users/vipha/.m2/wrapper/dists/apache-maven-3.9.6/834f1afe40575b70b4b2527f4b12df8e/bin/mvn`
 - Code gốc KHÔNG compile được: `interceptor/RateLimitInterceptor.java` dòng 16.
 
+## Git
+
+- Commit/push bằng account `thuanhd2102` (repo-local user.name/email đã set). Commit message không có dòng `Co-Authored-By`.
+- Nhánh: `dev` (đã gồm Phase 0), `refactor/phase-N` tách từ `dev` rồi merge lại vào `dev`.
+
 ## Lệnh hay dùng (chạy trong `BE/Project_MeBe`)
 
 - Build: `./mvnw -DskipTests package` (hoặc Maven cache ở trên nếu không có mạng)
@@ -49,7 +54,7 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
 - [x] 1.1 Entity: `@Data` → `@Getter @Setter` (11 entity). Không override equals/hashCode (dùng identity mặc định).
 - [x] 1.2 Mọi `@ManyToOne` → LAZY, bỏ EAGER ở User (3 list) và Order.orderDetails. `hibernate.default_batch_fetch_size=50`. `spring.jpa.open-in-view=true` khai báo rõ (mục tiêu sau: tắt). `@Transactional` cho job `ProductService.updateProductStatus`, `WishListService.updateWishListStatus`. User→orders/reviews bỏ cascade ALL (xóa user không xóa lịch sử đơn).
 - [x] 1.3 DTO không chứa entity nữa: record `catalog/dto/response/ProductSummaryResponse` (thay `Product` trong ReviewResponse, OrderDetailsResponse, UserReviewResponse), `ProductSubCategoryResponse` (thay `SubCategory` trong ProductResponse, giữ field FE dùng: subCateId, name, slug, image, category.name), `VoucherResponse` thay `Voucher` trong OrderResponse/UserOrderResponse. ModelMapper skip `ProductResponse.subCategory`, map tay trong ProductMapper. `PUT /order/update/orId=`, `PUT /order/refund` trả `OrderResponse` (trước trả entity → đệ quy JSON). Sửa bug: updateOrder với guest tạo `new User()` chưa lưu; refund với code không tồn tại → NPE.
-- [ ] 1.4 Sửa N+1 (JOIN FETCH / @EntityGraph) ở list order, review, tracking, wishlist
+- [x] 1.4 N+1: `IOrderRepository.findAll` @EntityGraph(user, voucher); `findWithDetailsByUserId` JOIN FETCH (tracking trong UserService); `IReviewRepository` @EntityGraph(user, product) + ReviewService dùng UserMapper (không gọi getUserByIdResponse trong vòng lặp); `IProductRepository.findAll` @EntityGraph(subCategory.category); `IWishListRepository` findAll/findByUserUserId @EntityGraph; `UserMapper` dùng `user.getListAddress()/getOrders()` (batch fetch) thay vì query repo cho từng user. Test `persistence/RepositoryQueryTest` (@DataJpaTest + H2 MODE=MSSQLServer, Hibernate Statistics đếm số câu SQL) — 6 test pass, không cần Docker.
 - [ ] 1.5 Trừ tồn kho bằng UPDATE có điều kiện + @Transactional rollback cả danh sách
 - [ ] 1.6 `@Version` (Product, Order) + migration V3 + handler 409
 - [ ] 1.7 API phân trang + lọc bằng Specification cho product

@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import java.math.BigDecimal;
 
 import com.n3.mebe.catalog.entity.Product;
@@ -12,6 +13,11 @@ import java.util.List;
 
 @Repository
 public interface IProductRepository extends JpaRepository<Product, Integer> {
+
+    // ProductResponse cần subCategory + category -> load cùng lúc
+    @Override
+    @EntityGraph(attributePaths = {"subCategory", "subCategory.category"})
+    List<Product> findAll();
 
 
     boolean existsByName(String name);

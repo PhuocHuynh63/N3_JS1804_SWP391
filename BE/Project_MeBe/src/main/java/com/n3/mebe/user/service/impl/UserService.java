@@ -50,8 +50,6 @@ public class UserService implements IUserService {
 
     private final IOrderRepository iOrderRepository;
 
-    private final IOrderDetailsRepository iOrderDetailsRepository;
-
     private final ICloudinaryService cloudinaryService;
     private final StringRedisTemplate stringRedisTemplate;
 
@@ -97,7 +95,8 @@ public class UserService implements IUserService {
 
     // <editor-fold default state="collapsed" desc="Get List Orders For Tracking By UserID">
     private List<UserOrderForTrackingResponse> getOrdersForTrackingList(int userId) {
-        List<Order> list = iOrderRepository.findByUserUserId(userId);
+        // 1 query lấy đơn + chi tiết + sản phẩm (trước: 1 query cho mỗi đơn)
+        List<Order> list = iOrderRepository.findWithDetailsByUserId(userId);
         List<UserOrderForTrackingResponse> orderResponseList = new ArrayList<>();
 
         for (Order order : list) {
@@ -105,7 +104,7 @@ public class UserService implements IUserService {
             response.setOrderId(order.getOrderId());
             response.setStatus(order.getStatus());
             response.setCreatedAt(order.getCreatedAt());
-            response.setItems(getOrderDetailsForTrackingList(order.getOrderId()));
+            response.setItems(toOrderDetailsForTracking(order.getOrderDetails()));
             orderResponseList.add(response);
         }
 
@@ -113,8 +112,7 @@ public class UserService implements IUserService {
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List OrderDetails For Tracking By OrderId">
-    private List<UserOrderDetailsResponse> getOrderDetailsForTrackingList(int orderId) {
-        List<OrderDetail> list = iOrderDetailsRepository.findByOrderOrderId(orderId);
+    private List<UserOrderDetailsResponse> toOrderDetailsForTracking(List<OrderDetail> list) {
         List<UserOrderDetailsResponse> orderResponseList = new ArrayList<>();
 
         for (OrderDetail orderDetail : list) {

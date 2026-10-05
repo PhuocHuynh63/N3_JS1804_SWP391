@@ -1,5 +1,6 @@
 package com.n3.mebe.wishlist.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import com.n3.mebe.wishlist.entity.WishList;
 import com.n3.mebe.wishlist.entity.WishListStatus;
@@ -15,6 +16,15 @@ import java.util.List;
 
 @Repository
 public interface IWishListRepository extends JpaRepository<WishList, Integer> {
+
+    @Override
+
+    @EntityGraph(attributePaths = {"user", "product", "product.subCategory", "product.subCategory.category"})
+
+    List<WishList> findAll();
+
+
+    @EntityGraph(attributePaths = {"user", "product", "product.subCategory", "product.subCategory.category"})
 
     List<WishList> findByUserUserId(int userId);
 
