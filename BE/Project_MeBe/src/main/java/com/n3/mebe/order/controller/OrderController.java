@@ -11,6 +11,8 @@ import com.n3.mebe.order.dto.request.OrderRequest;
 import com.n3.mebe.order.dto.request.OrderStatusRequest;
 import com.n3.mebe.order.dto.response.OrderResponse;
 import com.n3.mebe.order.entity.Order;
+import com.n3.mebe.payment.entity.PaymentMethod;
+import com.n3.mebe.payment.entity.PaymentStatus;
 import com.n3.mebe.order.service.IOrderDetailsService;
 import com.n3.mebe.order.service.IOrderService;
 import com.n3.mebe.catalog.service.impl.ProductService;
@@ -110,7 +112,7 @@ public class OrderController {
         if (paymentSuccess) {
             // Lưu order vào cơ sở dữ liệu
             orderRequest.setTransactionReference(transactionReference);
-            orderRequest.setPaymentStatus("Đã thanh toán");
+            orderRequest.setPaymentStatus(PaymentStatus.PAID);
             boolean success = orderService.createOrder(orderRequest);
 
             // Sau khi lưu order, xóa thông tin thanh toán khỏi Redis
@@ -140,8 +142,7 @@ public class OrderController {
         }
 
         // lưu order vào cơ sở dữ liệu
-        String type = "COD";
-        orderRequest.setOrderType(type);
+        orderRequest.setOrderType(PaymentMethod.COD);
         boolean success = orderService.createOrder(orderRequest);
         if (success) {
             transactionStatusDTO.setStatus("Ok");

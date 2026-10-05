@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.n3.mebe.user.dto.response.UserResponse;
 import com.n3.mebe.user.entity.User;
+import com.n3.mebe.user.entity.UserStatus;
 import com.n3.mebe.shared.exception.AppException;
 import com.n3.mebe.shared.exception.ErrorCode;
 import com.n3.mebe.user.mapper.UserMapper;
@@ -33,8 +34,7 @@ public class LoginService implements ILoginService {
     @Override
     public boolean checkLogin(String userName, String password) {
         User user = userRepository.findByUsername(userName);
-        String ban = "ban";
-        if(user.getStatus().equalsIgnoreCase(ban)){
+        if (user.getStatus() == UserStatus.BANNED) {
             throw new AppException(ErrorCode.BAN_ACCOUNT);
         }else {
             //Tham số đầu tiên là chưa được mã hoá, tham số sau đã được mã hoá
@@ -46,7 +46,7 @@ public class LoginService implements ILoginService {
     public String getUserRole(String username) {
         User user = userRepository.findByUsername(username);
         if (user != null) {
-            return user.getRole(); // Giả sử User có phương thức getRole để lấy vai trò của người dùng
+            return user.getRole() != null ? user.getRole().getLabel() : null;
         }
         return null;
     }

@@ -38,7 +38,8 @@ public class User {
     @Column(name = "[birth_date]")
      Date birthOfDate;
 
-     String role;
+     @Convert(converter = UserRole.JpaConverter.class)
+     UserRole role;
 
     @Column(name = "phone")
      String phoneNumber;
@@ -46,7 +47,8 @@ public class User {
      int point;
 
     @Column(name = "[status]")
-     String status;
+     @Convert(converter = UserStatus.JpaConverter.class)
+     UserStatus status;
 
     @Column(name = "created_at")
      Date createAt;

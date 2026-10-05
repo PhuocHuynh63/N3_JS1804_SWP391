@@ -5,6 +5,8 @@ import com.n3.mebe.user.dto.response.GuestResponse;
 import com.n3.mebe.user.dto.response.UserResponse;
 import com.n3.mebe.user.dto.response.UserForTrackingResponse;
 import com.n3.mebe.user.entity.User;
+import com.n3.mebe.user.entity.UserRole;
+import com.n3.mebe.user.entity.UserStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -33,9 +35,9 @@ public interface IUserService {
 
     boolean updateUserByIdForAdmin(int id, UserUpdateForAdminRequest request);
 
-    boolean updateRoleForAdmin(int id, String role);
+    boolean updateRoleForAdmin(int id, UserRole role);
 
-    boolean setStatusUserForAdmin(int id, String status);
+    boolean setStatusUserForAdmin(int id, UserStatus status);
 
     void deleteUserById(int id);
 

@@ -2,6 +2,7 @@ package com.n3.mebe.wishlist.repository;
 
 
 import com.n3.mebe.wishlist.entity.WishList;
+import com.n3.mebe.wishlist.entity.WishListStatus;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,11 +18,11 @@ public interface IWishListRepository extends JpaRepository<WishList, Integer> {
 
     List<WishList> findByUserUserId(int userId);
 
-    @Query("SELECT w FROM WishList w WHERE w.estimatedDate <= :currentDate and w.status ='Chờ thông báo'")
-    List<WishList> findWishListsByEstimatedDate(@Param("currentDate") Date currentDate);
+    @Query("SELECT w FROM WishList w WHERE w.estimatedDate <= :currentDate and w.status = :status")
+    List<WishList> findWishListsByEstimatedDate(@Param("currentDate") Date currentDate, @Param("status") WishListStatus status);
 
 
     @Query("SELECT w FROM WishList w WHERE w.product.productId = :productId and w.status = :status")
-    List<WishList> findWishListsByProduct(@Param("productId") int productId, @Param("status") String status);
+    List<WishList> findWishListsByProduct(@Param("productId") int productId, @Param("status") WishListStatus status);
 
 }

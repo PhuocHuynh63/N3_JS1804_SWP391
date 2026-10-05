@@ -1,5 +1,7 @@
 package com.n3.mebe.order.dto.response;
 
+import com.n3.mebe.user.entity.UserRole;
+
 import com.n3.mebe.user.dto.response.UserAddressResponse;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -19,7 +21,7 @@ public class OrderUserResponse {
     String username;
     String email;
     String password;
-    String role;
+    UserRole role;
     Date birthOfDate;
     String phoneNumber;
     int point;

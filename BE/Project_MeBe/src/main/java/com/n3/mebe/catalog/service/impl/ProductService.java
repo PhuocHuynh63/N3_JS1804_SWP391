@@ -7,6 +7,8 @@ import com.n3.mebe.order.dto.request.OrderDetailsRequest;
 import com.n3.mebe.catalog.dto.request.ProductRequest;
 import com.n3.mebe.catalog.dto.response.ProductResponse;
 import com.n3.mebe.catalog.entity.Product;
+import com.n3.mebe.catalog.entity.ProductStatus;
+import com.n3.mebe.wishlist.entity.WishListStatus;
 import com.n3.mebe.catalog.entity.SubCategory;
 import com.n3.mebe.wishlist.entity.WishList;
 import com.n3.mebe.shared.exception.AppException;
@@ -30,7 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
 
-    private final IProductRepository iProductRespository;
+    private final IProductRepository productRepository;
 
     private final ICloudinaryService cloudinaryService;
 
@@ -45,11 +47,10 @@ public class ProductService implements IProductService {
 
     // <editor-fold default state="collapsed" desc="Send Email Wish List Done">
     public void sendEmailWishListDone(int productId) {
-        String status = "Chờ thông báo";
-        List<WishList> wishLists = wishListRepository.findWishListsByProduct(productId, status);
+        List<WishList> wishLists = wishListRepository.findWishListsByProduct(productId, WishListStatus.WAITING);
         for (WishList wishList : wishLists) {
 
-            wishList.setStatus("Đã có hàng");
+            wishList.setStatus(WishListStatus.AVAILABLE);
             //gửi mail thông báo đã có hàng
             wishList.setUpdatedAt(new Date());
             wishListRepository.save(wishList);
@@ -65,11 +66,10 @@ public class ProductService implements IProductService {
         if (updateQuantity < 0) {
             return false;
         }else if (updateQuantity == 0){
-            String outStock = "Hết hàng";
-            setStatus(prId, outStock);
+            product.setStatus(ProductStatus.OUT_OF_STOCK);
         }
         product.setQuantity(updateQuantity);
-        iProductRespository.save(product);
+        productRepository.save(product);
         return true;
     }// </editor-fold>
 
@@ -91,13 +91,12 @@ public class ProductService implements IProductService {
     public void increaseProductQuantity(int quanti, int prId) throws AppException {
         Product product = getProductById(prId);
         int updateQuantity = product.getQuantity() + quanti;
-        String out = "Hết hàng";
-        if(product.getStatus().equals(out)){
-            String inStock = "Còn hàng";
+        if (product.getStatus() == ProductStatus.OUT_OF_STOCK && updateQuantity > 0) {
+            product.setStatus(ProductStatus.IN_STOCK);
         }
 
         product.setQuantity(updateQuantity);
-        iProductRespository.save(product);
+        productRepository.save(product);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="increase Product Quantity List">
@@ -135,7 +134,7 @@ public class ProductService implements IProductService {
                 product.setCreateAt(now);
                 product.setUpdateAt(now);
 
-                iProductRespository.save(product);
+                productRepository.save(product);
                 isInsertedSuccess = true;
             }
         } catch (Exception e) {
@@ -147,7 +146,7 @@ public class ProductService implements IProductService {
     //  <editor-fold default state="collapsed" desc="Update Product">
     @Override
     public boolean updateProduct(int id, MultipartFile file, ProductRequest request) {
-        Product product = iProductRespository.findById(id).
+        Product product = productRepository.findById(id).
                 orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
         boolean isInsertedSuccess = false;
         try {
@@ -171,12 +170,12 @@ public class ProductService implements IProductService {
             product.setUpdateAt(now);
 
             //gửi mail báo có hàng cho người dùng đặt trước
-            if(product.getStatus().equals("Hết hàng") && request.getQuantity() != 0){
+            if (product.getStatus() == ProductStatus.OUT_OF_STOCK && request.getQuantity() != 0) {
                 sendEmailWishListDone(product.getProductId());
             }
             //set status này thành còn hàng sau khi cập nhập
             product.setStatus(request.getStatus());
-            iProductRespository.save(product);
+            productRepository.save(product);
             isInsertedSuccess = true;
 
         } catch (Exception e) {
@@ -187,12 +186,12 @@ public class ProductService implements IProductService {
 
     // <editor-fold default state="collapsed" desc="Set Status Product">
     @Override
-    public boolean setStatus(int prId, String status) {
+    public boolean setStatus(int prId, ProductStatus status) {
 
         Product product = getProductById(prId);
         product.setStatus(status);
         product.setUpdateAt(new Date());
-        iProductRespository.save(product);
+        productRepository.save(product);
         return true;
     }// </editor-fold>
 
@@ -200,26 +199,26 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProduct(int id) {
         Product product = getProductById(id);
-        String status = "Không còn bán";
-        product.setStatus(status);
+        product.setStatus(ProductStatus.DISCONTINUED);
+        product.setUpdateAt(new Date());
+        productRepository.save(product);
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Delete Product">
     @Override
     public void deleteProductReal(int id) {
-        iProductRespository.deleteById(id);
+        productRepository.deleteById(id);
     }// </editor-fold>
 
 
     @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Ho_Chi_Minh") // Chạy hàng ngày vào lúc nửa đêm
     public void updateProductStatus() {
         Date currentDate = new Date();
-        String status = "Hết hàng";
-        List<Product> productList = iProductRespository.findAllByOrderByQuantityOut();
+        List<Product> productList = productRepository.findAllByOrderByQuantityOut();
         for (Product product : productList) {
-            product.setStatus(status);
+            product.setStatus(ProductStatus.OUT_OF_STOCK);
             product.setUpdateAt(currentDate);
-            iProductRespository.save(product);
+            productRepository.save(product);
         }
     }
 
@@ -231,13 +230,13 @@ public class ProductService implements IProductService {
     // <editor-fold default state="collapsed" desc="Get List Product">
     @Override
     public List<ProductResponse> getListProduct() {
-        return productMapper.toResponseList(iProductRespository.findAll());
+        return productMapper.toResponseList(productRepository.findAll());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="GetList Product Id">
     @Override
     public Product getProductById(int id) {
-        return iProductRespository.findById(id).orElseThrow( () -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
+        return productRepository.findById(id).orElseThrow( () -> new AppException(ErrorCode.PRODUCT_NO_EXIST));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get Product By Id Response">
@@ -251,13 +250,13 @@ public class ProductService implements IProductService {
     // <editor-fold default state="collapsed" desc="Get List Product Response By SubCate">
     @Override
     public List<ProductResponse> getProductResponseList(String slug) {
-        return productMapper.toResponseList(iProductRespository.findBySubCategorySlug(slug));
+        return productMapper.toResponseList(productRepository.findBySubCategorySlug(slug));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product By Id Or Name">
     @Override
     public List<ProductResponse> getListProductByName(String name) {
-        List<Product> productList = iProductRespository.findProductByName(name);
+        List<Product> productList = productRepository.findProductByName(name);
 
         if(productList == null) {
             throw new AppException(ErrorCode.PRODUCT_NO_EXIST);
@@ -269,49 +268,49 @@ public class ProductService implements IProductService {
     // <editor-fold default state="collapsed" desc="Get List Product Created At Desc">
     @Override
     public List<ProductResponse> getListProductCreatedAtDesc() {
-        return productMapper.toResponseList(iProductRespository.findAllProductByCreatedAtDesc());
+        return productMapper.toResponseList(productRepository.findAllProductByCreatedAtDesc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product Created At Asc">
     @Override
     public List<ProductResponse> getListProductCreatedAtAsc() {
-        return productMapper.toResponseList(iProductRespository.findAllProductByCreatedAtAsc());
+        return productMapper.toResponseList(productRepository.findAllProductByCreatedAtAsc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product By Price Desc">
     @Override
     public List<ProductResponse> getListProductByPriceDesc() {
-        return productMapper.toResponseList(iProductRespository.findAllProductByPriceDesc());
+        return productMapper.toResponseList(productRepository.findAllProductByPriceDesc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Get List Product By Price Acs">
     @Override
     public List<ProductResponse> getListProductByPriceAcs() {
-        return productMapper.toResponseList(iProductRespository.findAllProductByPriceAsc());
+        return productMapper.toResponseList(productRepository.findAllProductByPriceAsc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="sort Product By Price Min To Max">
     @Override
     public List<ProductResponse> sortProductByPriceMinToMax(float min, float max) {
-        return productMapper.toResponseList(iProductRespository.sortProductByPriceMinToMax(min, max));
+        return productMapper.toResponseList(productRepository.sortProductByPriceMinToMax(min, max));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="sort Product By A -> Z">
     @Override
     public List<ProductResponse> sortProductByAToZ() {
-        return productMapper.toResponseList(iProductRespository.findAllByOrderByNameAsc());
+        return productMapper.toResponseList(productRepository.findAllByOrderByNameAsc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="sort Product By Z -> A">
     @Override
     public List<ProductResponse> sortProductByZToA() {
-        return productMapper.toResponseList(iProductRespository.findAllByOrderByNameDesc());
+        return productMapper.toResponseList(productRepository.findAllByOrderByNameDesc());
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="get Product Best Seller">
     @Override
     public List<ProductResponse> getProductBestSeller() {
-        return productMapper.toResponseList(iProductRespository.findAllByOrderByTotalSoldDesc());
+        return productMapper.toResponseList(productRepository.findAllByOrderByTotalSoldDesc());
     }// </editor-fold>
 
 

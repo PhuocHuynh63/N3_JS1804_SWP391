@@ -30,7 +30,9 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
 - [x] 0.5 Field injection → constructor injection (`@RequiredArgsConstructor` + `private final`), 31 file. `lombok.config` copy `@Value` sang tham số constructor. `SendMailService` bỏ field trùng (`IUserRepository IUserRepository`)
 - [x] 0.6 `jakarta.transaction.Transactional` → Spring `@Transactional`
 - [x] 0.7 CORS global: `shared/config/CorsConfig` (bean `CorsConfigurationSource`, đọc `app.cors.allowed-origins`), xóa mọi `@CrossOrigin("*")`. `OrderController` URL cứng → `app.frontend-url`
-- [ ] 0.8 Status string → enum (giữ nguyên giá trị DB/JSON bằng converter)
+- [x] 0.8 Status string → enum. Hạ tầng: `shared/enums/LabeledEnum` (label = giá trị DB/JSON cũ, `fromLabel` không phân biệt hoa thường, rỗng→null, sai→IllegalArgumentException) + `LabeledEnumConverter` (JPA). Mỗi enum có `@JsonValue`/`@JsonCreator` + nested `JpaConverter`, entity dùng `@Convert(converter = X.JpaConverter.class)`. `shared/config/WebConfig` cho @RequestParam nhận label. Enum: `catalog.entity.ProductStatus`, `order.entity.OrderStatus` (gồm "Đang giao" FE dùng), `payment.entity.PaymentStatus`, `payment.entity.PaymentMethod` (COD, VNPay, Online + `isOnline()`), `wishlist.entity.WishListStatus`, `user.entity.UserStatus`, `user.entity.UserRole` (admin/staff/member/guest). DTO đổi type tương ứng → JSON API giữ nguyên. GlobalExceptionHandler: JSON/enum sai → 400. Đổi biến `iProductRespository`→`productRepository`.
+  - Sửa bug đi kèm: VNPay order trước đây không lưu transactionReference (FE gửi "VNPay", code chỉ check "Online"); `increaseProductQuantity` giờ set lại "Còn hàng"; `deleteProduct` giờ có save; `createUserForAdmin` điều kiện status bị đảo.
+  - Nghi vấn giữ nguyên hành vi: `UserService.updateRoleForAdmin` chỉ đổi role khi user ĐANG là admin (có lẽ phải ngược lại) → xem ở Phase 2.
 - [ ] 0.9 Tiền `float` → `BigDecimal`
 - [ ] 0.10 Flyway (baseline từ `MeBeTest.sql`)
 - [ ] 0.11 Unit tests cho service chính
@@ -63,10 +65,11 @@ Script dùng để di chuyển: chạy 1 lần bằng Node (không lưu trong re
   - OTP/mật khẩu tạm lưu Redis với key = chính giá trị OTP (`OTP:123456`) → không gắn với email/user.
   - `@CrossOrigin("*")` ở mọi controller.
 - **Phase 1 / JPA:** `@Data` trên entity có quan hệ 2 chiều; `User` EAGER 3 collection; `Order` EAGER orderDetails; N+1 trong ReviewService/UserService; `deleteProduct` set status nhưng không save.
-- **Bug nhỏ:** `ProductService.increaseProductQuantity` không set lại "Còn hàng"; `UserService.createUserForAdmin` điều kiện status bị đảo (`isEmpty()`); `AddressService.updateAddress` vòng lặp so sánh sai biến.
+- **Bug nhỏ còn lại:** `AddressService.updateAddress` vòng lặp so sánh sai biến; `VNPayService` ép kiểu `(long) totalAmount*100` (sẽ sửa khi đổi BigDecimal).
 
 ## Nhật ký chi tiết
 
 - `3058ede` fix: RateLimitInterceptor compile được + tạo file notes.
 - `b0d7479` refactor: tái cấu trúc package-by-module. `mvn compile` OK.
-- (commit tiếp) chore: secrets→env, constructor injection, CORS global, Spring @Transactional, pom/mvnw fix.
+- `f536c47` chore: secrets→env, constructor injection, CORS global, Spring @Transactional, pom/mvnw fix.
+- (commit tiếp) refactor: status/role/type → enum (0.8).

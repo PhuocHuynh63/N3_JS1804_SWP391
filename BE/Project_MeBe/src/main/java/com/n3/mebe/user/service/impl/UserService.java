@@ -165,11 +165,11 @@ public class UserService implements IUserService {
     public boolean createUser(UserCreateRequest request){
         boolean check = false;
         User user = new User();
-        String role = "member";
+        UserRole role = UserRole.MEMBER;
 
         String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
         int point = 0;
-        String status = "active";
+        UserStatus status = UserStatus.ACTIVE;
 
         if (iUserRepository.existsByEmail(request.getEmail())){
             throw new AppException(ErrorCode.EMAIL_EXIST);
@@ -219,10 +219,10 @@ public class UserService implements IUserService {
             }else {
 
                 user = new User();
-                String role = "member";
+                UserRole role = UserRole.MEMBER;
 
                 int point = 0;
-                String status = "active";
+                UserStatus status = UserStatus.ACTIVE;
 
                 user.setFirstName(request.getName());
                 user.setLastName(request.getFamilyName());
@@ -256,11 +256,11 @@ public class UserService implements IUserService {
     public boolean createUserForAdmin(UserCreateForAdminRequest request) {
         boolean check = false;
         User user = new User();
-        String role = "member";
+        UserRole role = UserRole.MEMBER;
 
         String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
         int point = 0;
-        String status = "active";
+        UserStatus status = UserStatus.ACTIVE;
 
         if (iUserRepository.existsByEmail(request.getEmail())){
             throw new AppException(ErrorCode.EMAIL_EXIST);
@@ -278,7 +278,7 @@ public class UserService implements IUserService {
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
             user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-            if(!request.getRole().isEmpty()){
+            if (request.getRole() != null) {
                 user.setRole(request.getRole());
             }else {
                 user.setRole(role);
@@ -294,7 +294,7 @@ public class UserService implements IUserService {
                 user.setPoint(point);
             }
 
-            if(request.getStatus().isEmpty()){
+            if (request.getStatus() != null) {
                 user.setStatus(request.getStatus());
             }else {
                 user.setStatus(status);
@@ -360,11 +360,11 @@ public class UserService implements IUserService {
     public boolean updateGuestToUser(UserCreateRequest request){
         boolean check = false;
         User user = new User();
-        String role = "member";
+        UserRole role = UserRole.MEMBER;
 
         String avatar = "https://i.pinimg.com/564x/ed/da/65/edda65c3e3f12f2c75500c4296d3fced.jpg";
         int point = 0;
-        String status = "active";
+        UserStatus status = UserStatus.ACTIVE;
         //check xem Username da ton tai chua
         if (iUserRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USERNAME_EXIST);
@@ -431,13 +431,12 @@ public class UserService implements IUserService {
 
     // <editor-fold default state="collapsed" desc="Update User Role By Id For Admin">
     @Override
-    public boolean updateRoleForAdmin(int id, String role){
+    public boolean updateRoleForAdmin(int id, UserRole role){
         boolean check = false;
 
         User user = getUserById(id);
-        String admin = "admin";
 
-        if(user != null && user.getRole().equalsIgnoreCase(admin)){
+        if (user != null && user.getRole() == UserRole.ADMIN) {
             user.setRole(role);
 
             Date now = new Date();
@@ -451,11 +450,10 @@ public class UserService implements IUserService {
 
     // <editor-fold default state="collapsed" desc="Set Status User For Admin">
     @Override
-    public boolean setStatusUserForAdmin(int id, String status) {
+    public boolean setStatusUserForAdmin(int id, UserStatus status) {
         boolean check = false;
-        String admin = "admin";
         User user = getUserById(id);
-        if(user != null && !user.getRole().equalsIgnoreCase(admin)){
+        if (user != null && user.getRole() != UserRole.ADMIN) {
             user.setStatus(status);
             Date now = new Date();
             user.setUpdateAt(now);
@@ -479,11 +477,8 @@ public class UserService implements IUserService {
         String msg;
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean check = passwordEncoder.matches(oldPassword, user.getPassword());
-
-        String status = "forgot";
-        String active = "active";
         // Nếu trạng thái là quên thì mới vào
-        if (user.getStatus().equals(status)){
+        if (user.getStatus() == UserStatus.FORGOT_PASSWORD) {
             boolean checkRedis = checkPasswordRedis(oldPassword);
             //check xem redis mật khẩu còn hạn không
             if(!checkRedis){
@@ -492,7 +487,7 @@ public class UserService implements IUserService {
 
                 //nếu còn hạn thì save mật khẩu mới và set lại status là active
                 user.setPassword(passwordEncoder.encode(newPassword));
-                user.setStatus(active);
+                user.setStatus(UserStatus.ACTIVE);
                 iUserRepository.save(user);
                 return "Thay đổi mật khẩu thành công";
             }

@@ -1,5 +1,9 @@
 package com.n3.mebe.order.service.impl;
 
+import com.n3.mebe.catalog.entity.ProductStatus;
+import com.n3.mebe.order.entity.OrderStatus;
+import com.n3.mebe.payment.entity.PaymentStatus;
+import com.n3.mebe.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 
 
@@ -38,11 +42,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService implements IOrderService {
+
+    // Chỉ cho phép hủy đơn hàng khi đơn đang ở các trạng thái này
+    private static final Set<OrderStatus> CANCELLABLE_STATUSES =
+            EnumSet.of(OrderStatus.PENDING_CONFIRMATION, OrderStatus.PROCESSING, OrderStatus.AWAITING_PAYMENT);
 
     private final IOrderRepository orderRepository;
 
@@ -60,7 +70,7 @@ public class OrderService implements IOrderService {
 
     private final IPaymentService paymentService;
 
-    private final IProductRepository productRespository;
+    private final IProductRepository productRepository;
 
     private final IPaymentRepository paymentRepository;
 
@@ -90,7 +100,7 @@ public class OrderService implements IOrderService {
             //cộng số lượng đã bán
             int totalSold = product.getTotalSold() + item.getQuantity();
             product.setTotalSold(totalSold);
-            productRespository.save(product);
+            productRepository.save(product);
 
             orderDetail.setProduct(product);
             orderDetail.setQuantity(item.getQuantity());
@@ -120,8 +130,8 @@ public class OrderService implements IOrderService {
             //trả lại số lượng đã bán
             int quantity = product.getQuantity() + item.getQuantity();
             product.setQuantity(quantity);
-            product.setStatus("Còn hàng");
-            productRespository.save(product);
+            product.setStatus(ProductStatus.IN_STOCK);
+            productRepository.save(product);
     }
     }// </editor-fold>
 
@@ -140,7 +150,6 @@ public class OrderService implements IOrderService {
 
         User user = new User();
         Order order = new Order();
-        String status = "Chờ xác nhận"; // trạng thái đầu tiên khi mới tạo order
 
         // Neu khong phai la guest thi kiem User bang ID
         if (orderRequest.getGuest() != null){
@@ -160,12 +169,10 @@ public class OrderService implements IOrderService {
         }
 
 
-        if(orderRequest.getStatus() != null){
-            if(orderRequest.getStatus().equals("Đang được xử lý")){
-                order.setStatus(orderRequest.getStatus());
-            }else if(orderRequest.getStatus().equals("Chờ xác nhận")){
-                order.setStatus(status);
-            }
+        // Chỉ chấp nhận trạng thái ban đầu "Chờ xác nhận" (COD) hoặc "Đang được xử lý" (VNPay)
+        if (orderRequest.getStatus() == OrderStatus.PENDING_CONFIRMATION
+                || orderRequest.getStatus() == OrderStatus.PROCESSING) {
+            order.setStatus(orderRequest.getStatus());
         }
         //   order.setVoucher(); --> chua them vao
 
@@ -207,14 +214,13 @@ public class OrderService implements IOrderService {
 
         // Neu khong phai la guess thi kiem User bang ID
         if (orderRequest.getGuest() != null){
-            String roll = "guest";
 
             // lay guess tu request de tao ra USER moi
             user.setFirstName(orderRequest.getGuest().getFirstName());
             user.setLastName(orderRequest.getGuest().getLastName());
             user.setEmail(orderRequest.getGuest().getEmail());
             user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
-            user.setRole(roll);
+            user.setRole(UserRole.GUEST);
         }else {
             user = userService.getUserById(orderRequest.getUserId());
         }
@@ -243,8 +249,7 @@ public class OrderService implements IOrderService {
 
 
         //   order.setVoucher(); --> chua them vao
-        String refund = "Hoàn trả";
-        order.setStatus(refund);
+        order.setStatus(OrderStatus.REFUNDED);
 
         order.setTotalAmount(request.getTotalAmount());
 
@@ -261,18 +266,17 @@ public class OrderService implements IOrderService {
     @Transactional
     public String cancelOrder(int orderId, CancelOrderRequest request) {
         Order order = getOrder(orderId);
-        String status = order.getStatus();
+        OrderStatus status = order.getStatus();
         String msg = "";
 
         // Chỉ cho phép hủy đơn hàng khi đơn hàng đang ở trạng thái "Chờ xác nhận", "Đang được xử lý" hoặc "Đang thanh toán"
-        if (!status.equals("Chờ xác nhận") && !status.equals("Đang được xử lý") && !status.equals("Đang thanh toán")) {
+        if (!CANCELLABLE_STATUSES.contains(status)) {
             throw new AppException(ErrorCode.ORDER_NOT_CANCEL);
         }else {
-            status = "Đã hủy";
             msg = "Hủy thành công";
-            order.setStatus(status);
+            order.setStatus(OrderStatus.CANCELLED);
             Payment payment = paymentRepository.findByOrderOrderId(orderId);
-            payment.setPaymentStatus("Hủy thanh toán");
+            payment.setPaymentStatus(PaymentStatus.CANCELLED);
             paymentRepository.save(payment);
             order.setNote(request.getNote());
             List<OrderDetail> orderDetails = orderDetailsRepository.findByOrderOrderId(orderId);
@@ -298,18 +302,17 @@ public class OrderService implements IOrderService {
     public String setStatusOrder(OrderStatusRequest request) {
        Order order = getOrder(request.getOrderId());
        String msg = "";
-       String status = "Đã thanh toán";
-       if(order.getStatus().isEmpty()){
+       if (order.getStatus() == null) {
            return "Update Status không thành công";
        }
 
        // Nếu set status là đa giao thì cập nhập thanh toán thành công
-        if(request.getStatus().equals("Đã giao")){
+        if (request.getStatus() == OrderStatus.DELIVERED) {
             order.setStatus(request.getStatus());
-            order.setPaymentStatus(status);
+            order.setPaymentStatus(PaymentStatus.PAID);
             order.setUpdatedAt( new Date());
             Payment payment = paymentRepository.findByOrderOrderId(request.getOrderId());
-            payment.setPaymentStatus(status);
+            payment.setPaymentStatus(PaymentStatus.PAID);
             paymentRepository.save(payment);
         }else {
             order.setStatus(request.getStatus());
@@ -317,7 +320,7 @@ public class OrderService implements IOrderService {
 
        orderRepository.save(order);
 
-       return "Update status "+ request.getStatus() + "thành công";
+       return "Update status " + request.getStatus().getLabel() + " thành công";
     }// </editor-fold>
 
 

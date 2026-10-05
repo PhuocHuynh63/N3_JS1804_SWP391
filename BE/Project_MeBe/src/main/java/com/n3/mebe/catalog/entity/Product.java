@@ -40,7 +40,8 @@ public class Product {
     private float salePrice;
 
     @Column(name ="[status]")
-    private String status;
+    @Convert(converter = ProductStatus.JpaConverter.class)
+    private ProductStatus status;
 
     @Column(name = "total_sold")
     private int totalSold;

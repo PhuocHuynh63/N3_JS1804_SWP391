@@ -34,7 +34,7 @@ public class VNPayService {
     @Transactional
     public PaymentResponse createPaymentUrl(OrderRequest orderRequest) throws UnsupportedEncodingException, JsonProcessingException {
 
-        String orderType = orderRequest.getOrderType();
+        String orderType = orderRequest.getOrderType() != null ? orderRequest.getOrderType().getLabel() : null;
         long amount =  (long) orderRequest.getTotalAmount()*100L; // Định dạng của VNPay 100L = 10000
         String bankCode = "NCB";
 

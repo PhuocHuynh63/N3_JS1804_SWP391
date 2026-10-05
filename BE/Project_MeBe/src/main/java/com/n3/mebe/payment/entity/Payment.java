@@ -30,10 +30,12 @@ public class Payment {
     private float amount;
 
     @Column(name = "payment_type")
-    private String paymentType;
+    @Convert(converter = PaymentMethod.JpaConverter.class)
+    private PaymentMethod paymentType;
 
     @Column(name = "payment_status")
-    private String paymentStatus;
+    @Convert(converter = PaymentStatus.JpaConverter.class)
+    private PaymentStatus paymentStatus;
 
     @Column(name = "transaction_reference")
     private String transactionReference;

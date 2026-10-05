@@ -8,6 +8,8 @@ import com.n3.mebe.wishlist.dto.response.WishListResponse;
 import com.n3.mebe.catalog.entity.Product;
 import com.n3.mebe.user.entity.User;
 import com.n3.mebe.wishlist.entity.WishList;
+import com.n3.mebe.wishlist.entity.WishListStatus;
+import com.n3.mebe.catalog.entity.ProductStatus;
 import com.n3.mebe.shared.exception.AppException;
 import com.n3.mebe.shared.exception.ErrorCode;
 import com.n3.mebe.catalog.mapper.ProductMapper;
@@ -81,8 +83,7 @@ public class WishListService implements IWishListService {
     // <editor-fold default state="collapsed" desc="Get WishList Response By productId and status Chờ thông báo">
     @Override
     public List<WishListResponse> getWishListResponseByProductID(int productId) {
-        String status = "Chờ thông báo";
-        List<WishList> list = wishListRepository.findWishListsByProduct(productId, status);
+        List<WishList> list = wishListRepository.findWishListsByProduct(productId, WishListStatus.WAITING);
 
         List<WishListResponse> wishListResponses = new ArrayList<>();
         for (WishList wishList : list) {
@@ -95,7 +96,6 @@ public class WishListService implements IWishListService {
     @Override
     public boolean addWishList(WishListRequest request) {
         boolean check = false;
-        String status = "Chờ thông báo";
         if (request != null) {
             WishList wishList = new WishList();
 
@@ -103,12 +103,12 @@ public class WishListService implements IWishListService {
             wishList.setUser(user);
             Product product = productService.getProductById(request.getProductId());
             wishList.setProduct(product);
-            wishList.setStatus(status);
+            wishList.setStatus(WishListStatus.WAITING);
             wishList.setQuantity(request.getQuantity());
             wishList.setTotalAmount(request.getTotalAmount());
 
             // Kiểm tra trạng thái của sản phẩm
-            if ("Hết hàng".equalsIgnoreCase(product.getStatus())) {
+            if (product.getStatus() == ProductStatus.OUT_OF_STOCK) {
                 wishList.setEstimatedDate(calculateEstimatedDate()); // Tính toán thời gian dự kiến
             }else {
                 throw new AppException(ErrorCode.PRODUCT_QUANTITY_NOT_OUT);
@@ -141,13 +141,13 @@ public class WishListService implements IWishListService {
     @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Ho_Chi_Minh")// Chạy hàng ngày vào lúc nửa đêm
     public void updateWishListStatus() {
         Date currentDate = new Date();
-        List<WishList> wishLists = wishListRepository.findWishListsByEstimatedDate(currentDate);
+        List<WishList> wishLists = wishListRepository.findWishListsByEstimatedDate(currentDate, WishListStatus.WAITING);
         for (WishList wishList : wishLists) {
             if(wishList.getProduct().getQuantity() < wishList.getQuantity()){
                 wishList.setEstimatedDate(calculateEstimatedDate());
                 wishList.setUpdatedAt(new Date());
             }
-            wishList.setStatus("Đã có hàng");
+            wishList.setStatus(WishListStatus.AVAILABLE);
             //gửi mail thông báo đã có hàng
             wishList.setUpdatedAt(new Date());
             wishListRepository.save(wishList);
