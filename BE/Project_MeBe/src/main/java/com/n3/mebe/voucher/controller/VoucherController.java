@@ -1,5 +1,7 @@
 package com.n3.mebe.voucher.controller;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.user.dto.request.CreateAddressRequest;
 import com.n3.mebe.voucher.dto.request.VoucherRequest;
@@ -7,21 +9,19 @@ import com.n3.mebe.shared.dto.ResponseData;
 import com.n3.mebe.user.dto.response.AddressResponse;
 import com.n3.mebe.voucher.dto.response.VoucherResponse;
 import com.n3.mebe.voucher.service.IVoucherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/voucher")
+@RequiredArgsConstructor
 public class VoucherController {
 
 
-    @Autowired
-    private IVoucherService iVoucherService;
+    private final IVoucherService iVoucherService;
 
 
     /**

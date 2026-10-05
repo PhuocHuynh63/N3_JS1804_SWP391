@@ -1,21 +1,22 @@
 package com.n3.mebe.payment.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.order.entity.Order;
 import com.n3.mebe.payment.entity.Payment;
 import com.n3.mebe.payment.repository.IPaymentRepository;
 import com.n3.mebe.payment.service.IPaymentService;
 import com.n3.mebe.shared.util.DataUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 
 @Service
+@RequiredArgsConstructor
 public class PaymentService implements IPaymentService {
 
-    @Autowired
-    private IPaymentRepository paymentRepository;
+    private final IPaymentRepository paymentRepository;
 
     @Override
     public void savePayment(Order order, String transactionReference) {

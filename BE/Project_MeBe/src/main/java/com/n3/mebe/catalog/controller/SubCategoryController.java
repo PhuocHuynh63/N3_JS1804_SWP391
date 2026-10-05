@@ -1,5 +1,7 @@
 package com.n3.mebe.catalog.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.catalog.dto.request.CategoryRequest;
 import com.n3.mebe.catalog.dto.request.ProductRequest;
@@ -9,7 +11,6 @@ import com.n3.mebe.catalog.dto.response.CategoryResponse;
 import com.n3.mebe.catalog.dto.response.SubCategoryResponse;
 import com.n3.mebe.catalog.service.ISubCategoryService;
 import com.n3.mebe.catalog.service.impl.SubCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/sub_category")
+@RequiredArgsConstructor
 public class SubCategoryController  {
 
-    @Autowired
-    private ISubCategoryService subCategoryService;
+    private final ISubCategoryService subCategoryService;
 
 
     @PostMapping(value = "/create_sub_cate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

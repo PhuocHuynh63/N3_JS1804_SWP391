@@ -1,5 +1,7 @@
 package com.n3.mebe.payment.controller;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.n3.mebe.shared.dto.TransactionStatusDTO;
@@ -11,7 +13,6 @@ import com.n3.mebe.payment.dto.response.PaymentResponse;
 
 import com.n3.mebe.catalog.service.impl.ProductService;
 import com.n3.mebe.payment.service.impl.VNPayService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +23,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 ;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/payment")
+@RequiredArgsConstructor
 public class VnpayController {
 
 
-    @Autowired
-    private VNPayService paymentService;
+    private final VNPayService paymentService;
 
 
 

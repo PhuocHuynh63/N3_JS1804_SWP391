@@ -1,28 +1,27 @@
 package com.n3.mebe.order.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.order.mapper.OrderDetailsMapper;
 import com.n3.mebe.order.dto.response.OrderDetailsResponse;
 import com.n3.mebe.order.entity.OrderDetail;
 import com.n3.mebe.order.repository.IOrderDetailsRepository;
 import com.n3.mebe.order.service.IOrderDetailsService;
 import com.n3.mebe.order.service.impl.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderDetailsService implements IOrderDetailsService {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    @Autowired
-    private IOrderDetailsRepository orderDetailsRepository;
+    private final IOrderDetailsRepository orderDetailsRepository;
 
-    @Autowired
-    private OrderDetailsMapper orderDetailsMapper;
+    private final OrderDetailsMapper orderDetailsMapper;
 
 
     /**

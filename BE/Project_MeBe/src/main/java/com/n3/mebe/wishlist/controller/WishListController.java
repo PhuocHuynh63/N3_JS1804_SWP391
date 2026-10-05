@@ -1,20 +1,20 @@
 package com.n3.mebe.wishlist.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.wishlist.dto.request.WishListRequest;
 import com.n3.mebe.wishlist.dto.response.WishListResponse;
 import com.n3.mebe.wishlist.service.IWishListService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/wishlist")
+@RequiredArgsConstructor
 public class WishListController {
 
-    @Autowired
-    private IWishListService wishListService;
+    private final IWishListService wishListService;
 
 
     /**

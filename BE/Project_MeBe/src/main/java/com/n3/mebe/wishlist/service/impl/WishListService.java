@@ -1,5 +1,7 @@
 package com.n3.mebe.wishlist.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.wishlist.dto.request.WishListRequest;
 import com.n3.mebe.wishlist.dto.response.WishListResponse;
@@ -16,7 +18,6 @@ import com.n3.mebe.catalog.service.IProductService;
 import com.n3.mebe.user.service.IUserService;
 import com.n3.mebe.wishlist.service.IWishListService;
 import com.n3.mebe.notification.service.impl.SendMailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -26,29 +27,23 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class WishListService implements IWishListService {
 
 
-    @Autowired
-    private IWishListRepository wishListRepository;
+    private final IWishListRepository wishListRepository;
 
-    @Autowired
-    private IUserService userService;
+    private final IUserService userService;
 
-    @Autowired
-    private IProductService productService;
+    private final IProductService productService;
 
-    @Autowired
-    private SendMailService sendMailService;
+    private final SendMailService sendMailService;
 
-    @Autowired
-    private WishListMapper wishListMapper;
+    private final WishListMapper wishListMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductMapper productMapper;
 
     private WishListResponse toWishListResponse(WishList wishList) {
         return wishListMapper.toResponse(

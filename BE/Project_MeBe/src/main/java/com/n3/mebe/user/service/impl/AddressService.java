@@ -1,5 +1,7 @@
 package com.n3.mebe.user.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.user.dto.request.CreateAddressRequest;
 import com.n3.mebe.user.dto.request.UpdateAddressRequest;
 import com.n3.mebe.user.dto.response.AddressResponse;
@@ -13,21 +15,18 @@ import com.n3.mebe.user.repository.IAddressRepository;
 
 import com.n3.mebe.user.repository.IUserRepository;
 import com.n3.mebe.user.service.IAddressService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
+@RequiredArgsConstructor
 public class AddressService implements IAddressService {
 
 
-    @Autowired
-    private IAddressRepository addressRepository;
-    @Autowired
-    private IUserRepository userRepository;
+    private final IAddressRepository addressRepository;
+    private final IUserRepository userRepository;
 
-    @Autowired
-    private AddressMapper addressMapper;
+    private final AddressMapper addressMapper;
 
     /**
      *  Request from Client

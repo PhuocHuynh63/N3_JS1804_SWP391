@@ -1,12 +1,13 @@
 package com.n3.mebe.auth.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.user.dto.request.GoogleUser;
 import com.n3.mebe.shared.dto.ResponseData;
 import com.n3.mebe.auth.service.ILoginService;
 import com.n3.mebe.user.service.IUserService;
 
 import com.n3.mebe.auth.security.JwtUtilHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,20 +23,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/login")
+@RequiredArgsConstructor
 public class LoginController {
 
-    @Autowired
-    private ILoginService loginServiceImp;
+    private final ILoginService loginServiceImp;
 
-    @Autowired
-    private JwtUtilHelper jwtUtilHelper;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    private IUserService userService;
+    private final JwtUtilHelper jwtUtilHelper;
+    private final StringRedisTemplate stringRedisTemplate;
+    private final IUserService userService;
 
     @PostMapping()
     ResponseEntity<?> signin(@RequestParam String username,
@@ -43,7 +40,7 @@ public class LoginController {
         ResponseData responseData = new ResponseData();
 
         if (loginServiceImp.checkLogin(username, password)) {
-            String token = jwtUtilHelper.genarateToken(username);
+            String token = jwtUtilHelper.generateToken(username);
 
             // Tạo khóa Redis để lưu trữ token
             String tokenKey = "TOKEN:" + token;
@@ -107,7 +104,7 @@ public class LoginController {
 //        if (!googleUserCheck) {
 //            return new ResponseEntity<>(Collections.singletonMap("error", "Failed to create user"), HttpStatus.INTERNAL_SERVER_ERROR);
 //        }else {
-//            String token = jwtUtilHelper.genarateToken(googleUser.getEmail());
+//            String token = jwtUtilHelper.generateToken(googleUser.getEmail());
 //
 //            // Tạo khóa Redis để lưu trữ token
 //            String tokenKey = "TOKEN:" + token;

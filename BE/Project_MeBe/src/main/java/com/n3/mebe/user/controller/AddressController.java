@@ -1,5 +1,7 @@
 package com.n3.mebe.user.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.user.dto.request.CreateAddressRequest;
 import com.n3.mebe.user.dto.request.UpdateAddressRequest;
 import com.n3.mebe.user.dto.request.UserCreateRequest;
@@ -8,19 +10,17 @@ import com.n3.mebe.user.dto.response.AddressResponse;
 import com.n3.mebe.user.entity.Address;
 import com.n3.mebe.user.service.IAddressService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/address")
+@RequiredArgsConstructor
 public class AddressController {
 
-    @Autowired
-    private IAddressService addressSerivce;
+    private final IAddressService addressSerivce;
 
     /**
      * Request from client

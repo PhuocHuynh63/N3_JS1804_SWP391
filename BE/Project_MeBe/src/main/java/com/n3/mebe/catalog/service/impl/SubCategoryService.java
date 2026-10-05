@@ -1,5 +1,7 @@
 package com.n3.mebe.catalog.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.catalog.dto.request.SubCategoryRequest;
 import com.n3.mebe.catalog.dto.response.SubCategoryResponse;
@@ -12,27 +14,23 @@ import com.n3.mebe.catalog.repository.ICategoryRepository;
 import com.n3.mebe.catalog.repository.ISubCategoryRepository;
 import com.n3.mebe.shared.storage.service.ICloudinaryService;
 import com.n3.mebe.catalog.service.ISubCategoryService;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SubCategoryService implements ISubCategoryService {
 
-    @Autowired
-    private ISubCategoryRepository subCategoryRepository;
+    private final ISubCategoryRepository subCategoryRepository;
 
-    @Autowired
-    private ICategoryRepository icategoryRepository;
+    private final ICategoryRepository icategoryRepository;
 
-    @Autowired
-    private ICloudinaryService cloudinaryService;
+    private final ICloudinaryService cloudinaryService;
 
-    @Autowired
-    private SubCategoryMapper subCategoryMapper;
+    private final SubCategoryMapper subCategoryMapper;
 
 
     // <editor-fold default state="collapsed" desc="get SubCategory By Id">

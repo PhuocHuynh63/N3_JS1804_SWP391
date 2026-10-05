@@ -24,12 +24,12 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
 
 - [x] 0.1 Sửa lỗi compile `RateLimitInterceptor` (viết lại: Redis fixed-window 20 req/phút/IP, CHƯA đăng ký vào WebMvc)
 - [x] 0.M Tái cấu trúc package → modular monolith (xem "Cấu trúc module" bên dưới)
-- [ ] 0.2 Sửa `pom.xml` (`maven.compiler.source=-17`), sửa mvnw CRLF
-- [ ] 0.3 Secrets → biến môi trường (`application.properties` dùng `${...}`), thêm `.env.example`; VNPay key trong `payment/config/VNPayConfig`; Redis IP hardcode trong `shared/config/RedisConfig`
-- [~] 0.4 Đổi tên sai chính tả — ĐÃ: `iml`→`impl`, `IProductRespository`→`IProductRepository`, `AddressSerivce`→`AddressService`, `CloundinaryService`→`CloudinaryService`, `Config`→`VNPayConfig`, xóa `ApiRespones` (không dùng). CÒN: `genarateToken`
-- [ ] 0.5 Field injection → constructor injection (`@RequiredArgsConstructor` + `final`)
-- [ ] 0.6 `jakarta.transaction.Transactional` → `org.springframework.transaction.annotation.Transactional`
-- [ ] 0.7 CORS: bỏ `@CrossOrigin("*")` từng controller → cấu hình global; URL hardcode → property
+- [x] 0.2 Sửa `pom.xml` (`maven.compiler.source=-17`→`17`); mvnw + wrapper.properties về LF, thêm `BE/Project_MeBe/.gitattributes` (mvnw giờ chạy được, chỉ cần mạng để tải Maven)
+- [x] 0.3 Secrets → biến môi trường. `application.properties` dùng `${...}` + `spring.config.import=optional:file:.env[.properties]`. File `BE/Project_MeBe/.env` (git-ignored, đã tạo sẵn trên máy với giá trị cũ) + `.env.example`. VNPay → `payment/config/VNPayProperties` (record `@ConfigurationProperties("vnpay")`) + helper tĩnh `payment/util/VNPayUtils`. `RedisConfig` bỏ IP hardcode (dùng auto-config). Dockerfile/docker-compose bỏ mật khẩu cứng. ⚠️ Secrets cũ vẫn nằm trong lịch sử git → user cần đổi (rotate) mật khẩu Gmail, Cloudinary secret, JWT key, VNPay secret, DB password.
+- [x] 0.4 Đổi tên sai chính tả: `iml`→`impl`, `IProductRespository`→`IProductRepository`, `AddressSerivce`→`AddressService`, `CloundinaryService`→`CloudinaryService`, `Config`→`VNPayUtils`, `genarateToken`→`generateToken`, xóa `ApiRespones` (không dùng)
+- [x] 0.5 Field injection → constructor injection (`@RequiredArgsConstructor` + `private final`), 31 file. `lombok.config` copy `@Value` sang tham số constructor. `SendMailService` bỏ field trùng (`IUserRepository IUserRepository`)
+- [x] 0.6 `jakarta.transaction.Transactional` → Spring `@Transactional`
+- [x] 0.7 CORS global: `shared/config/CorsConfig` (bean `CorsConfigurationSource`, đọc `app.cors.allowed-origins`), xóa mọi `@CrossOrigin("*")`. `OrderController` URL cứng → `app.frontend-url`
 - [ ] 0.8 Status string → enum (giữ nguyên giá trị DB/JSON bằng converter)
 - [ ] 0.9 Tiền `float` → `BigDecimal`
 - [ ] 0.10 Flyway (baseline từ `MeBeTest.sql`)
@@ -68,4 +68,5 @@ Script dùng để di chuyển: chạy 1 lần bằng Node (không lưu trong re
 ## Nhật ký chi tiết
 
 - `3058ede` fix: RateLimitInterceptor compile được + tạo file notes.
-- (commit tiếp) refactor: tái cấu trúc package-by-module. `mvn compile` OK.
+- `b0d7479` refactor: tái cấu trúc package-by-module. `mvn compile` OK.
+- (commit tiếp) chore: secrets→env, constructor injection, CORS global, Spring @Transactional, pom/mvnw fix.

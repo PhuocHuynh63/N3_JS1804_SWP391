@@ -1,5 +1,7 @@
 package com.n3.mebe.auth.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.user.dto.response.UserResponse;
 import com.n3.mebe.user.entity.User;
 import com.n3.mebe.shared.exception.AppException;
@@ -7,7 +9,6 @@ import com.n3.mebe.shared.exception.ErrorCode;
 import com.n3.mebe.user.mapper.UserMapper;
 import com.n3.mebe.user.repository.IUserRepository;
 import com.n3.mebe.auth.service.ILoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +16,14 @@ import java.util.List;
 
 @Service
 
+@RequiredArgsConstructor
 public class LoginService implements ILoginService {
 
-    @Autowired
-    IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @Override
     public List<UserResponse> getAllUser() {

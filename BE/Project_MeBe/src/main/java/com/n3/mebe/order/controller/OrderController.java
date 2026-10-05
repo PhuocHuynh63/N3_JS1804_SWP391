@@ -1,5 +1,7 @@
 package com.n3.mebe.order.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.shared.dto.TransactionStatusDTO;
@@ -14,7 +16,7 @@ import com.n3.mebe.order.service.IOrderService;
 import com.n3.mebe.catalog.service.impl.ProductService;
 import com.n3.mebe.payment.service.impl.VNPayService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,26 +26,22 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/order")
+@RequiredArgsConstructor
 public class OrderController {
 
-    @Autowired
-    private IOrderService orderService;
+    private final IOrderService orderService;
 
-    @Autowired
-    private IOrderDetailsService orderDetailsService;
+    private final IOrderDetailsService orderDetailsService;
 
-    @Autowired
-    private VNPayService vnPayService;
+    private final VNPayService vnPayService;
 
-    @Autowired
-    private ProductService productService;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private final ProductService productService;
+    private final StringRedisTemplate stringRedisTemplate;
 
-    private static final String URL = "http://14.225.253.116";
+    @Value("${app.frontend-url}")
+    private final String frontendUrl;
 
     /**
      * Request from Client
@@ -66,7 +64,7 @@ public class OrderController {
         String orderRequestJson = stringRedisTemplate.opsForValue().get(orderRequestKey);
         if (orderRequestJson == null) {
             // Xử lý khi không tìm thấy OrderRequest
-            response.sendRedirect(URL + "/order-error?message=Order request not found or expired");
+            response.sendRedirect(frontendUrl + "/order-error?message=Order request not found or expired");
             return;
         }
 
@@ -76,13 +74,13 @@ public class OrderController {
             orderRequest = new ObjectMapper().readValue(orderRequestJson, OrderRequest.class);
         } catch (JsonProcessingException e) {
             // Xử lý khi không thể parse OrderRequest
-            response.sendRedirect(URL + "/order-error?message=Failed to parse order request");
+            response.sendRedirect(frontendUrl + "/order-error?message=Failed to parse order request");
             return;
         }
 
         boolean check = productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
         if(!check){
-            response.sendRedirect(URL + "/order-error?message=Payment information not found");
+            response.sendRedirect(frontendUrl + "/order-error?message=Payment information not found");
             return;
         }
 
@@ -92,7 +90,7 @@ public class OrderController {
         if (paymentId == null) {
             // Không có paymentId trong params
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
-            response.sendRedirect(URL + "/order-error?message=Payment information not found");
+            response.sendRedirect(frontendUrl + "/order-error?message=Payment information not found");
             return;
         }
 
@@ -103,7 +101,7 @@ public class OrderController {
         if (paymentStatus == null) {
             // Thông tin thanh toán không tồn tại hoặc đã hết hạn
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
-            response.sendRedirect(URL + "/order-error?message=Payment information not found or expired");
+            response.sendRedirect(frontendUrl + "/order-error?message=Payment information not found or expired");
             return;
         }
 
@@ -119,11 +117,11 @@ public class OrderController {
             stringRedisTemplate.delete(paymentKey);
 
             // Chuyển hướng đến trang thành công
-            response.sendRedirect(URL + "/order-success");
+            response.sendRedirect(frontendUrl + "/order-success");
         } else {
             productService.increaseProductQuantityList(orderRequest.getItem()); // Cộng lại Product
             // Chuyển hướng đến trang thất bại
-            response.sendRedirect(URL + "/order-error?message=Payment failed");
+            response.sendRedirect(frontendUrl + "/order-error?message=Payment failed");
         }
     }
 
@@ -135,7 +133,7 @@ public class OrderController {
 
         boolean check = productService.reduceProductQuantityList(orderRequest.getItem()); // Trừ số lượng Product
         if(!check){
-            response.sendRedirect(URL + "/order-error?message=Payment information not found");
+            response.sendRedirect(frontendUrl + "/order-error?message=Payment information not found");
             transactionStatusDTO.setStatus("No");
             transactionStatusDTO.setMessage("Product quantity out");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(transactionStatusDTO);

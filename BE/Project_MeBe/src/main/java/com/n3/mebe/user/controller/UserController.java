@@ -1,5 +1,7 @@
 package com.n3.mebe.user.controller;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.user.dto.request.UserCreateForAdminRequest;
 import com.n3.mebe.user.dto.request.UserCreateRequest;
@@ -14,7 +16,6 @@ import com.n3.mebe.notification.service.ISendMailService;
 
 import com.n3.mebe.user.service.IUserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private IUserService userService;
+    private final IUserService userService;
 
-    @Autowired
-    private ISendMailService sendMailService;
+    private final ISendMailService sendMailService;
 
 
 

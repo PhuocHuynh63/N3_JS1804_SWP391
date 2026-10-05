@@ -1,5 +1,7 @@
 package com.n3.mebe.voucher.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.voucher.dto.request.VoucherRequest;
 import com.n3.mebe.voucher.dto.response.VoucherResponse;
@@ -11,24 +13,21 @@ import com.n3.mebe.order.repository.IOrderRepository;
 import com.n3.mebe.voucher.repository.IVoucherRepository;
 import com.n3.mebe.voucher.service.IVoucherService;
 import com.n3.mebe.shared.util.DataUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VoucherService implements IVoucherService {
 
 
-    @Autowired
-    private IVoucherRepository  iVoucherRepository;
+    private final IVoucherRepository iVoucherRepository;
 
-    @Autowired
-    private IOrderRepository orderRepository;
+    private final IOrderRepository orderRepository;
 
-    @Autowired
-    private VoucherMapper voucherMapper;
+    private final VoucherMapper voucherMapper;
 
     // <editor-fold default state="collapsed" desc="get Voucher By Id">
     @Override
