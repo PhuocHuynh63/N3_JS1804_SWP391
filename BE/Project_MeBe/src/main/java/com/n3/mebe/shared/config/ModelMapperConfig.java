@@ -1,5 +1,7 @@
 package com.n3.mebe.shared.config;
 
+import com.n3.mebe.catalog.entity.Product;
+import com.n3.mebe.catalog.dto.response.ProductResponse;
 import com.n3.mebe.order.dto.response.OrderResponse;
 import com.n3.mebe.order.dto.response.OrderUserResponse;
 import com.n3.mebe.catalog.dto.response.ReviewResponse;
@@ -25,6 +27,7 @@ public class ModelMapperConfig {
                 .setAmbiguityIgnored(true)
                 .setMatchingStrategy(MatchingStrategies.STANDARD);
 
+        modelMapper.typeMap(Product.class, ProductResponse.class).addMappings(m -> m.skip(ProductResponse::setSubCategory));
         modelMapper.typeMap(Order.class, OrderResponse.class).addMappings(m -> m.skip(OrderResponse::setUser));
 
         modelMapper.typeMap(User.class, OrderUserResponse.class).addMappings(m -> {

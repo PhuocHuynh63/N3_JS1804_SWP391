@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.service.impl;
 
+import com.n3.mebe.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 
 import com.n3.mebe.user.service.impl.UserService;
@@ -30,6 +31,8 @@ public class ReviewService implements IReviewService {
     private final ProductService productService;
 
     private final ReviewMapper reviewMapper;
+
+    private final UserMapper userMapper;
 
 
     @Override
@@ -94,7 +97,7 @@ public class ReviewService implements IReviewService {
     @Override
     public ReviewResponse getReviewResponse(int id) {
         Review review = getReview(id);
-        UserResponse userResponse = userService.getUserByIdResponse(review.getUser().getUserId());
+        UserResponse userResponse = userMapper.toUserResponse(review.getUser());
         return reviewMapper.toResponse(review, userResponse);
     }// </editor-fold>
 
@@ -102,10 +105,11 @@ public class ReviewService implements IReviewService {
     @Override
     public List<ReviewResponse> getReviewResponseByUserId(int userId) {
         List<Review> list = reviewRepository.findByUserUserId(userId);
+        // Cùng một user cho mọi review -> map 1 lần thay vì query lại trong vòng lặp
+        UserResponse response = list.isEmpty() ? null : userMapper.toUserResponse(list.get(0).getUser());
 
         List<ReviewResponse> reviewResponseList = new ArrayList<>();
         for (Review review : list) {
-            UserResponse response = userService.getUserByIdResponse(userId);
             reviewResponseList.add(reviewMapper.toResponse(review, response));
         }
 
@@ -120,7 +124,7 @@ public class ReviewService implements IReviewService {
 
         List<ReviewResponse> reviewResponseList = new ArrayList<>();
         for (Review review : list) {
-            UserResponse response = userService.getUserByIdResponse(review.getUser().getUserId());
+            UserResponse response = userMapper.toUserResponse(review.getUser());
             reviewResponseList.add(reviewMapper.toResponse(review, response));
         }
 

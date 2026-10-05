@@ -158,13 +158,13 @@ public class OrderController {
 
     // Update order by id
     @PutMapping("/update/orId={id}")
-    public Order updateOrder(@PathVariable("id") int orId, @RequestBody OrderRequest orderRequest) {
+    public OrderResponse updateOrder(@PathVariable("id") int orId, @RequestBody OrderRequest orderRequest) {
         return orderService.updateOrder(orId, orderRequest);
     }
 
     // Update order by id
     @PutMapping("/refund")
-    public Order updateOrder(@RequestBody OrderRefundRequest request) {
+    public OrderResponse refundOrder(@RequestBody OrderRefundRequest request) {
         return orderService.refundOrder(request);
     }
 

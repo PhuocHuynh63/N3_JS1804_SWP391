@@ -4,28 +4,22 @@ import com.n3.mebe.order.dto.response.OrderUserResponse;
 import com.n3.mebe.user.dto.response.UserResponse;
 import com.n3.mebe.wishlist.dto.response.WishListUserResponse;
 import com.n3.mebe.user.entity.User;
-import com.n3.mebe.user.repository.IAddressRepository;
-import com.n3.mebe.order.repository.IOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+// Collection (listAddress, orders) là LAZY; nhờ hibernate.default_batch_fetch_size,
+// map nhiều user chỉ tốn vài câu IN (...) thay vì 2 query cho mỗi user.
 public class UserMapper {
 
     private final ModelMapper modelMapper;
-    private final IAddressRepository addressRepository;
-    private final IOrderRepository orderRepository;
     private final AddressMapper addressMapper;
     private final UserOrderMapper userOrderMapper;
 
     public UserMapper(ModelMapper modelMapper,
-                      IAddressRepository addressRepository,
-                      IOrderRepository orderRepository,
                       AddressMapper addressMapper,
                       UserOrderMapper userOrderMapper) {
         this.modelMapper = modelMapper;
-        this.addressRepository = addressRepository;
-        this.orderRepository = orderRepository;
         this.addressMapper = addressMapper;
         this.userOrderMapper = userOrderMapper;
     }
@@ -35,17 +29,14 @@ public class UserMapper {
             return null;
         }
         OrderUserResponse response = modelMapper.map(user, OrderUserResponse.class);
-        response.setListAddress(addressMapper.toUserAddressResponseList(
-                addressRepository.findByUserUserId(user.getUserId())));
+        response.setListAddress(addressMapper.toUserAddressResponseList(user.getListAddress()));
         return response;
     }
 
     public UserResponse toUserResponse(User user) {
         UserResponse response = modelMapper.map(user, UserResponse.class);
-        response.setListAddress(addressMapper.toUserAddressResponseList(
-                addressRepository.findByUserUserId(user.getUserId())));
-        response.setOrder(userOrderMapper.toUserOrderResponseList(
-                orderRepository.findByUserUserId(user.getUserId())));
+        response.setListAddress(addressMapper.toUserAddressResponseList(user.getListAddress()));
+        response.setOrder(userOrderMapper.toUserOrderResponseList(user.getOrders()));
         return response;
     }
 

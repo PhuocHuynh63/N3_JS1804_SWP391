@@ -1,6 +1,6 @@
 package com.n3.mebe.user.dto.response;
 
-import com.n3.mebe.catalog.entity.Product;
+import com.n3.mebe.catalog.dto.response.ProductSummaryResponse;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Date;
 public class UserReviewResponse {
 
     private int reviewId;
-    private Product product;
+    private ProductSummaryResponse product;
     private String rate;
     private String comment;
     private Date createAt;

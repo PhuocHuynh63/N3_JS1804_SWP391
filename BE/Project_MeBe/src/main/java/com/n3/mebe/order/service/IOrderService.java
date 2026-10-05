@@ -15,9 +15,9 @@ public interface IOrderService {
 
     boolean createOrder(OrderRequest orderRequest);
 
-    Order updateOrder(int orId, OrderRequest orderRequest);
+    OrderResponse updateOrder(int orId, OrderRequest orderRequest);
 
-    Order refundOrder(OrderRefundRequest request);
+    OrderResponse refundOrder(OrderRefundRequest request);
 
     String cancelOrder(int orderId , CancelOrderRequest cancelOrderRequest);
 

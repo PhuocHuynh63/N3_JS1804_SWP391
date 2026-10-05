@@ -11,14 +11,22 @@ public class ReviewMapper {
 
     private final ModelMapper modelMapper;
 
-    public ReviewMapper(ModelMapper modelMapper) {
+
+    private final ProductMapper productMapper;
+
+
+    public ReviewMapper(ModelMapper modelMapper, ProductMapper productMapper) {
+
         this.modelMapper = modelMapper;
+
+        this.productMapper = productMapper;
+
     }
 
     public ReviewResponse toResponse(Review review, UserResponse userResponse) {
         ReviewResponse response = modelMapper.map(review, ReviewResponse.class);
         response.setUser(userResponse);
-        response.setProduct(review.getProduct());
+        response.setProduct(productMapper.toSummary(review.getProduct()));
         return response;
     }
 }

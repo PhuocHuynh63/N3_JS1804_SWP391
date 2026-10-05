@@ -3,7 +3,6 @@ package com.n3.mebe.catalog.dto.response;
 import java.math.BigDecimal;
 import com.n3.mebe.catalog.entity.ProductStatus;
 
-import com.n3.mebe.catalog.entity.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ import java.util.Date;
 public class ProductResponse {
 
     private int productId;
-    private SubCategory subCategory;
+    private ProductSubCategoryResponse subCategory;
     private String slug;
     private String name;
     private String images;
