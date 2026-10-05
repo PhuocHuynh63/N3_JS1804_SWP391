@@ -1,6 +1,8 @@
 package com.n3.mebe.order.entity;
 
 import com.n3.mebe.user.entity.User;
+import com.n3.mebe.payment.entity.PaymentMethod;
+import com.n3.mebe.payment.entity.PaymentStatus;
 import com.n3.mebe.voucher.entity.Voucher;
 
 import jakarta.persistence.*;
@@ -53,16 +55,19 @@ public class Order {
     String shipAddress;
 
     @Column(name = "[status]")
-    String status;
+    @Convert(converter = OrderStatus.JpaConverter.class)
+    OrderStatus status;
 
     @Column(name = "total_amount")
     float totalAmount;
 
     @Column(name = "order_type")
-    String orderType;
+    @Convert(converter = PaymentMethod.JpaConverter.class)
+    PaymentMethod orderType;
 
     @Column(name = "payment_status")
-    String paymentStatus;
+    @Convert(converter = PaymentStatus.JpaConverter.class)
+    PaymentStatus paymentStatus;
 
     String note;
 

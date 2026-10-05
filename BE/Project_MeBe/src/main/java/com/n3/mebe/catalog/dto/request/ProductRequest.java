@@ -1,5 +1,7 @@
 package com.n3.mebe.catalog.dto.request;
 
+import com.n3.mebe.catalog.entity.ProductStatus;
+
 import com.n3.mebe.catalog.entity.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +18,7 @@ public class ProductRequest {
     private String description;
     private float price;
     private float salePrice;
-    private String status;
+    private ProductStatus status;
     private int totalSold;
     private int quantity;
     private int productView;

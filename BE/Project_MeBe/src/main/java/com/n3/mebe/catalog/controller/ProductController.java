@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.catalog.dto.request.ProductRequest;
 import com.n3.mebe.shared.dto.ResponseData;
 import com.n3.mebe.catalog.dto.response.ProductResponse;
+import com.n3.mebe.catalog.entity.ProductStatus;
 import com.n3.mebe.catalog.service.IProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -70,7 +71,7 @@ public class ProductController {
     }
 
     @PutMapping("/update_status/product_id={prId}")
-    boolean updateStatus(@PathVariable("prId") int prId, @RequestParam String status) {
+    boolean updateStatus(@PathVariable("prId") int prId, @RequestParam ProductStatus status) {
         return productService.setStatus(prId, status);
     }
 

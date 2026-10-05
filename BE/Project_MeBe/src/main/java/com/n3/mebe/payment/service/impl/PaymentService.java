@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 
 import com.n3.mebe.order.entity.Order;
 import com.n3.mebe.payment.entity.Payment;
+import com.n3.mebe.payment.entity.PaymentMethod;
+import com.n3.mebe.payment.entity.PaymentStatus;
 import com.n3.mebe.payment.repository.IPaymentRepository;
 import com.n3.mebe.payment.service.IPaymentService;
 import com.n3.mebe.shared.util.DataUtils;
@@ -30,11 +32,11 @@ public class PaymentService implements IPaymentService {
         Date now = new Date();
         payment.setCreateAt(now);
         payment.setUpdateAt(now);
-        if(order.getOrderType().equals("COD")){
-            payment.setPaymentStatus("Chưa thanh toán");
+        if (order.getOrderType() == PaymentMethod.COD) {
+            payment.setPaymentStatus(PaymentStatus.UNPAID);
             payment.setTransactionReference(DataUtils.generateTempPwd(8));
-        }else if(order.getOrderType().equals("Online")){
-            payment.setPaymentStatus("Đã thanh toán");
+        } else if (order.getOrderType() != null && order.getOrderType().isOnline()) {
+            payment.setPaymentStatus(PaymentStatus.PAID);
             payment.setTransactionReference(transactionReference);
         }
         paymentRepository.save(payment);

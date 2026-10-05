@@ -1,5 +1,7 @@
 package com.n3.mebe.user.controller;
 
+import com.n3.mebe.user.entity.UserRole;
+import com.n3.mebe.user.entity.UserStatus;
 import lombok.RequiredArgsConstructor;
 
 
@@ -162,7 +164,7 @@ public class UserController {
     }
 
     @PutMapping("/update_role/uId={user_id}")
-    public String updateRoleForAdmin(@PathVariable("user_id") int user_id, @RequestParam String role) {
+    public String updateRoleForAdmin(@PathVariable("user_id") int user_id, @RequestParam UserRole role) {
         String msg;
         boolean check = userService.updateRoleForAdmin(user_id , role);
         if (check){
@@ -181,26 +183,15 @@ public class UserController {
     }
 
     @PutMapping("/set_status/uId={user_id}")
-    public String setStatusForAdmin(@PathVariable("user_id") int user_id, @RequestParam String status) {
+    public String setStatusForAdmin(@PathVariable("user_id") int user_id, @RequestParam UserStatus status) {
         String msg= "";
 
         boolean check = userService.setStatusUserForAdmin(user_id , status);
 
-        switch (status) {
-            case "ban":
-                if (check){
-                    msg = "Khóa tài khoản thành công";
-                }else {
-                    msg = "Khóa tài khoản thất bại";
-                }
-                break;
-            case "active":
-                if (check){
-                    msg = "Mở khóa tài khoản thành công";
-                }else {
-                    msg = "Mở khóa tài khoản thất bại";
-                }
-                break;
+        if (status == UserStatus.BANNED) {
+            msg = check ? "Khóa tài khoản thành công" : "Khóa tài khoản thất bại";
+        } else if (status == UserStatus.ACTIVE) {
+            msg = check ? "Mở khóa tài khoản thành công" : "Mở khóa tài khoản thất bại";
         }
         return msg;
     }

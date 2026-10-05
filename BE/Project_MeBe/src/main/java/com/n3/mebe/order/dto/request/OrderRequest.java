@@ -1,5 +1,9 @@
 package com.n3.mebe.order.dto.request;
 
+import com.n3.mebe.order.entity.OrderStatus;
+import com.n3.mebe.payment.entity.PaymentMethod;
+import com.n3.mebe.payment.entity.PaymentStatus;
+
 
 import com.n3.mebe.order.dto.request.OrderDetailsRequest;
 import lombok.Data;
@@ -16,10 +20,10 @@ public class OrderRequest {
     //lay voucherId tu request
     private int voucherId;
     private String shipAddress;
-    private String status;
+    private OrderStatus status;
     private float totalAmount;
-    private String orderType;
-    private String paymentStatus;
+    private PaymentMethod orderType;
+    private PaymentStatus paymentStatus;
     private String note;
     private List<OrderDetailsRequest> item;
     private String transactionReference;

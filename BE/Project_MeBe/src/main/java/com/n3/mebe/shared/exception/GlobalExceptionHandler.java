@@ -3,8 +3,10 @@ package com.n3.mebe.shared.exception;
 
 import com.n3.mebe.shared.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -22,6 +24,19 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }
+    // JSON sai định dạng hoặc giá trị enum không hợp lệ (vd. status = "abc")
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
+    ResponseEntity<ApiResponse<Object>> handleBadRequest(Exception e) {
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message("Dữ liệu gửi lên không hợp lệ")
+                .data(null)
+                .pageSize(null)
+                .currentPage(null)
+                .build();
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import com.n3.mebe.notification.dto.GmailSendResponse;
 import com.n3.mebe.order.entity.Order;
 import com.n3.mebe.user.entity.User;
+import com.n3.mebe.user.entity.UserStatus;
 import com.n3.mebe.wishlist.entity.WishList;
 import com.n3.mebe.shared.exception.AppException;
 import com.n3.mebe.shared.exception.ErrorCode;
@@ -53,9 +54,7 @@ public class SendMailService implements ISendMailService {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             String encodedPassword = encoder.encode(password);
             user.setPassword(encodedPassword);
-
-            String status = "forgot";
-            user.setStatus(status);
+            user.setStatus(UserStatus.FORGOT_PASSWORD);
             iUserRepository.save(user);
 
             Map<String, Object> props = new HashMap<>();
@@ -120,7 +119,7 @@ public class SendMailService implements ISendMailService {
             props.put("firstName", user.getFirstName());
             props.put("lastName", user.getLastName());
             props.put("email", user.getEmail());
-            props.put("status", wishList.getStatus());
+            props.put("status", wishList.getStatus().getLabel());
 
 
             props.put("wishListId", wishList.getWishlistId());
@@ -155,7 +154,7 @@ public class SendMailService implements ISendMailService {
             props.put("firstName", wishList.getUser().getFirstName());
             props.put("lastName", wishList.getUser().getLastName());
             props.put("email", wishList.getUser().getEmail());
-            props.put("status", wishList.getStatus());
+            props.put("status", wishList.getStatus().getLabel());
 
             props.put("wishListId", wishList.getWishlistId());
 

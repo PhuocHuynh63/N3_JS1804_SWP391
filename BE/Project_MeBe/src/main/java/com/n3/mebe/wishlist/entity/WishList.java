@@ -29,7 +29,8 @@ public class WishList {
     private Product product;
 
     @Column(name = "[status]")
-    private String status;
+    @Convert(converter = WishListStatus.JpaConverter.class)
+    private WishListStatus status;
 
     private int quantity;
 

@@ -1,5 +1,8 @@
 package com.n3.mebe.user.dto.response;
 
+import com.n3.mebe.user.entity.UserRole;
+import com.n3.mebe.user.entity.UserStatus;
+
 
 import jakarta.persistence.Column;
 import lombok.Data;
@@ -19,11 +22,11 @@ public class UserResponse {
     private String username;
     private String email;
     private String password;
-    private String role;
+    private UserRole role;
     private Date birthOfDate;
     private String phoneNumber;
     private int point;
-    private String status;
+    private UserStatus status;
 
     private Date createAt;
     private Date updateAt;
