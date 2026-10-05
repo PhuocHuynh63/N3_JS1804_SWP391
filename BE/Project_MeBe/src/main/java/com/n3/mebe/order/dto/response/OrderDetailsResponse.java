@@ -1,5 +1,6 @@
 package com.n3.mebe.order.dto.response;
 
+import java.math.BigDecimal;
 
 import com.n3.mebe.order.dto.response.OrderResponse;
 import com.n3.mebe.catalog.entity.Product;
@@ -13,6 +14,6 @@ public class OrderDetailsResponse {
     private OrderResponse order;
     private Product product;
     private int quantity;
-    private float price;
-    private float salePrice;
+    private BigDecimal price;
+    private BigDecimal salePrice;
 }

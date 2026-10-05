@@ -1,5 +1,6 @@
 package com.n3.mebe.voucher.dto.request;
 
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -14,10 +15,10 @@ public class VoucherRequest {
     private String discountType;
     private int discountValue;
     private String name;
-    private float cost;
+    private BigDecimal cost;
     private float quantity;
-    private float minimumApply;
-    private float maxDiscount;
+    private BigDecimal minimumApply;
+    private BigDecimal maxDiscount;
     private boolean isActive;
     private boolean isPublic;
 

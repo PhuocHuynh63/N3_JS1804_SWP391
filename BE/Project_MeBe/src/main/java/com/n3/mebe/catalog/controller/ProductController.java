@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.controller;
 
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -142,7 +143,7 @@ public class ProductController {
 
     // chua can
     @GetMapping("/list/sort_min_max")
-    List<ProductResponse> sortProductByPriceAsc(@RequestParam float min, @RequestParam float max) {
+    List<ProductResponse> sortProductByPriceAsc(@RequestParam BigDecimal min, @RequestParam BigDecimal max) {
         return productService.sortProductByPriceMinToMax(min, max);
     }
 

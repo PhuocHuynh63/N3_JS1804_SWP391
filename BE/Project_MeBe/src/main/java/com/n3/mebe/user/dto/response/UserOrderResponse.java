@@ -1,5 +1,6 @@
 package com.n3.mebe.user.dto.response;
 
+import java.math.BigDecimal;
 import com.n3.mebe.order.entity.OrderStatus;
 import com.n3.mebe.payment.entity.PaymentMethod;
 import com.n3.mebe.payment.entity.PaymentStatus;
@@ -18,9 +19,9 @@ public class UserOrderResponse {
     private OrderStatus status;
     private String orderCode;
     private String shipAddress;
-    private float deliveryFee;
-    private float totalAmount;
-    private float depositeAmount;
+    private BigDecimal deliveryFee;
+    private BigDecimal totalAmount;
+    private BigDecimal depositeAmount;
     private PaymentMethod orderType;
     private PaymentStatus paymentStatus;
     private String note;

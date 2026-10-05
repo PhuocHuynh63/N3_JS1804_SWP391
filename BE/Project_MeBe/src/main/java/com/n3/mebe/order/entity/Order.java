@@ -1,5 +1,6 @@
 package com.n3.mebe.order.entity;
 
+import java.math.BigDecimal;
 import com.n3.mebe.user.entity.User;
 import com.n3.mebe.payment.entity.PaymentMethod;
 import com.n3.mebe.payment.entity.PaymentStatus;
@@ -59,7 +60,7 @@ public class Order {
     OrderStatus status;
 
     @Column(name = "total_amount")
-    float totalAmount;
+    BigDecimal totalAmount;
 
     @Column(name = "order_type")
     @Convert(converter = PaymentMethod.JpaConverter.class)

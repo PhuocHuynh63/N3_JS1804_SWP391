@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.service;
 
+import java.math.BigDecimal;
 import com.n3.mebe.catalog.dto.request.ProductRequest;
 import com.n3.mebe.catalog.dto.response.ProductResponse;
 import com.n3.mebe.catalog.entity.Product;
@@ -42,7 +43,7 @@ public interface IProductService {
 
     List<ProductResponse> getListProductByPriceAcs();
 
-    List<ProductResponse> sortProductByPriceMinToMax(float min, float max);
+    List<ProductResponse> sortProductByPriceMinToMax(BigDecimal min, BigDecimal max);
 
     List<ProductResponse> sortProductByAToZ();
 

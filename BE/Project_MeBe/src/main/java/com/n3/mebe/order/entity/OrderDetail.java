@@ -1,5 +1,6 @@
 package com.n3.mebe.order.entity;
 
+import java.math.BigDecimal;
 import com.n3.mebe.catalog.entity.Product;
 
 import jakarta.persistence.*;
@@ -29,9 +30,9 @@ public class OrderDetail {
 
     private int quantity;
 
-    private float price;
+    private BigDecimal price;
 
     @JoinColumn(name = "sale_price")
-    private float salePrice;
+    private BigDecimal salePrice;
 
 }

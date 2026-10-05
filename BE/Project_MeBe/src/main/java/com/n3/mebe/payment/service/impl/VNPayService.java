@@ -1,5 +1,6 @@
 package com.n3.mebe.payment.service.impl;
 
+import java.math.BigDecimal;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n3.mebe.payment.config.VNPayProperties;
@@ -35,7 +36,7 @@ public class VNPayService {
     public PaymentResponse createPaymentUrl(OrderRequest orderRequest) throws UnsupportedEncodingException, JsonProcessingException {
 
         String orderType = orderRequest.getOrderType() != null ? orderRequest.getOrderType().getLabel() : null;
-        long amount =  (long) orderRequest.getTotalAmount()*100L; // Định dạng của VNPay 100L = 10000
+        long amount = orderRequest.getTotalAmount().multiply(BigDecimal.valueOf(100)).longValue(); // Định dạng của VNPay 100L = 10000
         String bankCode = "NCB";
 
         String vnp_TxnRef = VNPayUtils.getRandomNumber(8);

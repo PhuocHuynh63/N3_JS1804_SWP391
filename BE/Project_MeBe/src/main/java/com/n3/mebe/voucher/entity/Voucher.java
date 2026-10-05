@@ -1,5 +1,6 @@
 package com.n3.mebe.voucher.entity;
 
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,15 +34,15 @@ public class Voucher {
     private String name;
 
     @Column(name = "cost")
-    private float cost;
+    private BigDecimal cost;
 
     private float quantity;
 
     @Column(name = "minimum_apply")
-    private float minimumApply;
+    private BigDecimal minimumApply;
 
     @Column(name = "max_discount")
-    private float maxDiscount;
+    private BigDecimal maxDiscount;
 
 
     @Column(name = "is_active")
