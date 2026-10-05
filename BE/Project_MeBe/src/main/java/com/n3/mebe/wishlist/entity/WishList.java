@@ -6,13 +6,15 @@ import com.n3.mebe.user.entity.User;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "wishlist")
 public class WishList {
 
@@ -21,11 +23,11 @@ public class WishList {
     @Column(name = "wishlist_id")
     private int wishlistId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 

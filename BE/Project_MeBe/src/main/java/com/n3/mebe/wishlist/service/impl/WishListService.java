@@ -1,5 +1,6 @@
 package com.n3.mebe.wishlist.service.impl;
 
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 
@@ -139,6 +140,7 @@ public class WishListService implements IWishListService {
 
 
     @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Ho_Chi_Minh")// Chạy hàng ngày vào lúc nửa đêm
+    @Transactional // job chạy ngoài HTTP request -> không có OSIV, cần transaction để lazy-load
     public void updateWishListStatus() {
         Date currentDate = new Date();
         List<WishList> wishLists = wishListRepository.findWishListsByEstimatedDate(currentDate, WishListStatus.WAITING);

@@ -6,14 +6,16 @@ import com.n3.mebe.catalog.entity.Review;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "[user]")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
@@ -59,12 +61,12 @@ public class User {
     @Column(name = "deleted_at")
      Date deleteAt;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Address> listAddress = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     List<Review> reviewsUser = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     List<Order> orders = new ArrayList<>();
 }

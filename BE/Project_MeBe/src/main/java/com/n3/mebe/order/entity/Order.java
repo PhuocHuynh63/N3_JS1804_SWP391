@@ -9,7 +9,8 @@ import com.n3.mebe.voucher.entity.Voucher;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
@@ -18,7 +19,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -30,7 +32,7 @@ public class Order {
     @Column(name = "order_id")
     int orderId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     User user;
 
@@ -45,7 +47,7 @@ public class Order {
     @Column(name = "phone")
     String phoneNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voucher_id")
     Voucher voucher;
 
@@ -78,6 +80,6 @@ public class Order {
     @Column(name = "updated_at")
     Date updatedAt;
 
-    @OneToMany(mappedBy = "order" ,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;
 }

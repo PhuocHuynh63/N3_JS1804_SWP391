@@ -6,7 +6,7 @@ import com.n3.mebe.payment.entity.PaymentMethod;
 import com.n3.mebe.payment.entity.PaymentStatus;
 
 
-import com.n3.mebe.voucher.entity.Voucher;
+import com.n3.mebe.voucher.dto.response.VoucherResponse;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,7 +15,7 @@ import java.util.Date;
 public class UserOrderResponse {
 
     private int orderId;
-    private Voucher voucher;
+    private VoucherResponse voucher;
     private OrderStatus status;
     private String orderCode;
     private String shipAddress;

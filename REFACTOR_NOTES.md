@@ -7,7 +7,7 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
 | Phase | Nội dung | Trạng thái |
 |---|---|---|
 | 0 | Dọn nền + modular monolith: secrets, constructor injection, enum, BigDecimal, Flyway, tests, đổi tên | ✅ Xong |
-| 1 | Java core + JPA (entity, N+1, paging, Specification, @Version) | ⏳ |
+| 1 | Java core + JPA (entity, N+1, paging, Specification, @Version) | 🔄 Đang làm (branch `refactor/phase-1` từ `dev`) |
 | 2 | Spring Security (JWT role/expiry, refresh token, @PreAuthorize, server tính giá) | ⏳ |
 | 3 | Clean Architecture (package-by-feature, ports & adapters, modular monolith) | ⏳ |
 | 4 | Event-driven (ApplicationEvent → Outbox → Kafka) | ⏳ |
@@ -43,6 +43,17 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
 - [x] 0.9 Tiền `float` → `BigDecimal` (DB là DECIMAL(10,2)): Product, OrderDetail, Order, Payment, Voucher (cost/minimumApply/maxDiscount), WishList + mọi DTO tương ứng + filter giá min/max. VNPay: `totalAmount.multiply(100).longValue()`. `Voucher.quantity` vẫn float (không phải tiền). Lưu ý: BigDecimal mặc định null (float mặc định 0).
 - [x] 0.10 Flyway (flyway-core + flyway-sqlserver 10.10). `src/main/resources/db/migration/V1__init_schema.sql` (10 bảng) + `V2__seed_data.sql` (dữ liệu mẫu), tách từ `MeBeTest.sql` (file gốc giữ lại để tham khảo). `baseline-on-migrate=true`, `baseline-version=2` → DB cũ bỏ qua V1/V2, DB trống chạy đủ. Thay đổi schema sau này: thêm `V3__...sql`, KHÔNG sửa V1/V2.
 - [x] 0.11 Tests: 18 unit test (JUnit5 + Mockito + AssertJ) — `LabeledEnumTest`, `PaymentServiceTest` (có test hồi quy bug VNPay), `OrderServiceTest` (hủy đơn), `ProductServiceTest` (tồn kho), `JwtUtilHelperTest`. Integration test `ProjectMeBeApplicationTests` (Testcontainers SQL Server + Flyway, `@Tag("integration")`, profile `test` với `src/test/resources/application-test.properties`) — mặc định bị loại; CHƯA chạy được vì Docker Desktop chưa bật.
+
+## Phase 1 — Checklist (JPA)
+
+- [x] 1.1 Entity: `@Data` → `@Getter @Setter` (11 entity). Không override equals/hashCode (dùng identity mặc định).
+- [x] 1.2 Mọi `@ManyToOne` → LAZY, bỏ EAGER ở User (3 list) và Order.orderDetails. `hibernate.default_batch_fetch_size=50`. `spring.jpa.open-in-view=true` khai báo rõ (mục tiêu sau: tắt). `@Transactional` cho job `ProductService.updateProductStatus`, `WishListService.updateWishListStatus`. User→orders/reviews bỏ cascade ALL (xóa user không xóa lịch sử đơn).
+- [x] 1.3 DTO không chứa entity nữa: record `catalog/dto/response/ProductSummaryResponse` (thay `Product` trong ReviewResponse, OrderDetailsResponse, UserReviewResponse), `ProductSubCategoryResponse` (thay `SubCategory` trong ProductResponse, giữ field FE dùng: subCateId, name, slug, image, category.name), `VoucherResponse` thay `Voucher` trong OrderResponse/UserOrderResponse. ModelMapper skip `ProductResponse.subCategory`, map tay trong ProductMapper. `PUT /order/update/orId=`, `PUT /order/refund` trả `OrderResponse` (trước trả entity → đệ quy JSON). Sửa bug: updateOrder với guest tạo `new User()` chưa lưu; refund với code không tồn tại → NPE.
+- [ ] 1.4 Sửa N+1 (JOIN FETCH / @EntityGraph) ở list order, review, tracking, wishlist
+- [ ] 1.5 Trừ tồn kho bằng UPDATE có điều kiện + @Transactional rollback cả danh sách
+- [ ] 1.6 `@Version` (Product, Order) + migration V3 + handler 409
+- [ ] 1.7 API phân trang + lọc bằng Specification cho product
+- [ ] 1.8 Tests
 
 ## Cấu trúc module (sau bước 0.M)
 

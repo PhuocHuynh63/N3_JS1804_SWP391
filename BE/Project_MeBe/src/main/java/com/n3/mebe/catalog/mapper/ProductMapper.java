@@ -1,5 +1,9 @@
 package com.n3.mebe.catalog.mapper;
 
+import com.n3.mebe.catalog.dto.response.ProductSubCategoryResponse;
+import com.n3.mebe.catalog.dto.response.ProductSummaryResponse;
+import com.n3.mebe.catalog.entity.Category;
+import com.n3.mebe.catalog.entity.SubCategory;
 import com.n3.mebe.catalog.dto.request.ProductRequest;
 import com.n3.mebe.catalog.dto.response.ProductResponse;
 import com.n3.mebe.catalog.entity.Product;
@@ -18,7 +22,28 @@ public class ProductMapper {
     }
 
     public ProductResponse toResponse(Product product) {
-        return modelMapper.map(product, ProductResponse.class);
+        ProductResponse response = modelMapper.map(product, ProductResponse.class);
+        response.setSubCategory(toSubCategoryResponse(product.getSubCategory()));
+        return response;
+    }
+
+    public ProductSummaryResponse toSummary(Product product) {
+        if (product == null) {
+            return null;
+        }
+        return new ProductSummaryResponse(product.getProductId(), product.getName(), product.getSlug(),
+                product.getImages(), product.getPrice(), product.getSalePrice(), product.getStatus());
+    }
+
+    private ProductSubCategoryResponse toSubCategoryResponse(SubCategory subCategory) {
+        if (subCategory == null) {
+            return null;
+        }
+        Category category = subCategory.getCategory();
+        ProductSubCategoryResponse.Category categoryResponse = category == null ? null
+                : new ProductSubCategoryResponse.Category(category.getCategoryId(), category.getName(), category.getSlug());
+        return new ProductSubCategoryResponse(subCategory.getSubCateId(), subCategory.getName(), subCategory.getSlug(),
+                subCategory.getImage(), subCategory.getImage2(), categoryResponse);
     }
 
     public List<ProductResponse> toResponseList(List<Product> products) {

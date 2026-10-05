@@ -3,7 +3,6 @@ package com.n3.mebe.order.service.impl;
 import com.n3.mebe.catalog.entity.ProductStatus;
 import com.n3.mebe.order.entity.OrderStatus;
 import com.n3.mebe.payment.entity.PaymentStatus;
-import com.n3.mebe.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 
 
@@ -208,24 +207,20 @@ public class OrderService implements IOrderService {
     // <editor-fold default state="collapsed" desc="Update Orders">
     @Override
     @Transactional
-    public Order updateOrder(int orId, OrderRequest orderRequest) {
+    public OrderResponse updateOrder(int orId, OrderRequest orderRequest) {
         Order order = getOrder(orId);
-        User user =  new User();
 
-        // Neu khong phai la guess thi kiem User bang ID
-        if (orderRequest.getGuest() != null){
-
-            // lay guess tu request de tao ra USER moi
-            user.setFirstName(orderRequest.getGuest().getFirstName());
-            user.setLastName(orderRequest.getGuest().getLastName());
-            user.setEmail(orderRequest.getGuest().getEmail());
-            user.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
-            user.setRole(UserRole.GUEST);
-        }else {
-            user = userService.getUserById(orderRequest.getUserId());
+        // Guest: không tạo User mới (trước đây tạo User chưa lưu -> lỗi TransientPropertyValueException),
+        // thông tin người nhận được lưu thẳng trên Order giống như createOrder
+        if (orderRequest.getGuest() != null) {
+            order.setUser(null);
+            order.setFirstName(orderRequest.getGuest().getFirstName());
+            order.setLastName(orderRequest.getGuest().getLastName());
+            order.setEmail(orderRequest.getGuest().getEmail());
+            order.setPhoneNumber(orderRequest.getGuest().getPhoneNumber());
+        } else {
+            order.setUser(userService.getUserById(orderRequest.getUserId()));
         }
-
-        order.setUser(user);
         //   order.setVoucher(); --> chua them vao
 
         order.setStatus(orderRequest.getStatus());
@@ -238,14 +233,18 @@ public class OrderService implements IOrderService {
         Date now = new Date();
         order.setUpdatedAt(now);
 
-        return orderRepository.save(order);
+        Order saved = orderRepository.save(order);
+        return orderMapper.toResponse(saved, resolveOrderUser(saved));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="refund Orders">
     @Override
     @Transactional
-    public Order refundOrder(OrderRefundRequest request) {
+    public OrderResponse refundOrder(OrderRefundRequest request) {
         Order order = orderRepository.findByOrderCode(request.getOrderCode());
+        if (order == null) {
+            throw new AppException(ErrorCode.ORDER_NO_EXIST);
+        }
 
 
         //   order.setVoucher(); --> chua them vao
@@ -258,7 +257,8 @@ public class OrderService implements IOrderService {
         Date now = new Date();
         order.setUpdatedAt(now);
         saveOrderDetails(request.getOrderDetails() , order);
-        return orderRepository.save(order);
+        Order saved = orderRepository.save(order);
+        return orderMapper.toResponse(saved, resolveOrderUser(saved));
     }// </editor-fold>
 
     // <editor-fold default state="collapsed" desc="Cancel Order">

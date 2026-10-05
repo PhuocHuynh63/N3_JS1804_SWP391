@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.service.impl;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 
@@ -213,6 +214,7 @@ public class ProductService implements IProductService {
 
 
     @Scheduled(cron = "0 0 0 * * ?", zone = "Asia/Ho_Chi_Minh") // Chạy hàng ngày vào lúc nửa đêm
+    @Transactional // job chạy ngoài HTTP request -> không có OSIV, cần transaction để lazy-load
     public void updateProductStatus() {
         Date currentDate = new Date();
         List<Product> productList = productRepository.findAllByOrderByQuantityOut();

@@ -7,7 +7,7 @@ import com.n3.mebe.payment.entity.PaymentStatus;
 
 
 import com.n3.mebe.user.entity.User;
-import com.n3.mebe.voucher.entity.Voucher;
+import com.n3.mebe.voucher.dto.response.VoucherResponse;
 import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class OrderResponse {
     private String email;
     private String phoneNumber;
 
-    private Voucher voucher;
+    private VoucherResponse voucher;
     private String orderCode;
     private String shipAddress;
     private OrderStatus status;
