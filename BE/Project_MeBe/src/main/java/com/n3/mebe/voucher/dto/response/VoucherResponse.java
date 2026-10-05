@@ -1,5 +1,6 @@
 package com.n3.mebe.voucher.dto.response;
 
+import java.math.BigDecimal;
 
 
 import lombok.Data;
@@ -13,10 +14,10 @@ public class VoucherResponse {
     private String discountType;
     private int discountValue;
     private String name;
-    private float cost;
+    private BigDecimal cost;
     private float quantity;
-    private float minimumApply;
-    private float maxDiscount;
+    private BigDecimal minimumApply;
+    private BigDecimal maxDiscount;
     private boolean isActive;
     private boolean isPublic;
     private Date startDate;

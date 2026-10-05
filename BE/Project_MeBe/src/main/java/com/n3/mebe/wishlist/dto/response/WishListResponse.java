@@ -1,5 +1,6 @@
 package com.n3.mebe.wishlist.dto.response;
 
+import java.math.BigDecimal;
 import com.n3.mebe.wishlist.entity.WishListStatus;
 
 import com.n3.mebe.catalog.dto.response.ProductResponse;
@@ -16,7 +17,7 @@ public class WishListResponse {
 
     private WishListStatus status;
     private int quantity;
-    private float totalAmount;
+    private BigDecimal totalAmount;
     private Date estimatedDate;
     private Date createdAt;
     private Date updatedAt;

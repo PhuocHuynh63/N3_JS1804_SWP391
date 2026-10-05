@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.repository;
 
+import java.math.BigDecimal;
 
 import com.n3.mebe.catalog.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,7 +37,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllProductByPriceDesc();
 
     @Query("SELECT p FROM Product p WHERE p.price > :min AND p.price < :max")
-    List<Product> sortProductByPriceMinToMax(@Param("min") float min, @Param("max") float max);
+    List<Product> sortProductByPriceMinToMax(@Param("min") BigDecimal min, @Param("max") BigDecimal max);
 
     List<Product> findAllByOrderByNameAsc();
 

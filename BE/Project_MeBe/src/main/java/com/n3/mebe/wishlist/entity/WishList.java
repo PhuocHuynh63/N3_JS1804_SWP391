@@ -1,5 +1,6 @@
 package com.n3.mebe.wishlist.entity;
 
+import java.math.BigDecimal;
 import com.n3.mebe.catalog.entity.Product;
 import com.n3.mebe.user.entity.User;
 
@@ -35,7 +36,7 @@ public class WishList {
     private int quantity;
 
     @Column(name = "total_amount")
-    private float totalAmount;
+    private BigDecimal totalAmount;
 
     @Column(name = "estimated_date")
     private Date estimatedDate;

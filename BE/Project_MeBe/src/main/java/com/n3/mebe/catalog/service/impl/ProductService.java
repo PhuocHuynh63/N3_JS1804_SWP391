@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.service.impl;
 
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 
 
@@ -291,7 +292,7 @@ public class ProductService implements IProductService {
 
     // <editor-fold default state="collapsed" desc="sort Product By Price Min To Max">
     @Override
-    public List<ProductResponse> sortProductByPriceMinToMax(float min, float max) {
+    public List<ProductResponse> sortProductByPriceMinToMax(BigDecimal min, BigDecimal max) {
         return productMapper.toResponseList(productRepository.sortProductByPriceMinToMax(min, max));
     }// </editor-fold>
 

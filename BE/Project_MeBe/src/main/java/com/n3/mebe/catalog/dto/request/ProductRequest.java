@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.dto.request;
 
+import java.math.BigDecimal;
 import com.n3.mebe.catalog.entity.ProductStatus;
 
 import com.n3.mebe.catalog.entity.SubCategory;
@@ -16,8 +17,8 @@ public class ProductRequest {
     private String slug;
     private String name;
     private String description;
-    private float price;
-    private float salePrice;
+    private BigDecimal price;
+    private BigDecimal salePrice;
     private ProductStatus status;
     private int totalSold;
     private int quantity;

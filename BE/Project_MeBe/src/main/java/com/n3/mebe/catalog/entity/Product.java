@@ -1,5 +1,6 @@
 package com.n3.mebe.catalog.entity;
 
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,10 +35,10 @@ public class Product {
     @Column(name = "[description]")
     private String description;
 
-    private float price;
+    private BigDecimal price;
 
     @Column(name ="sale_price")
-    private float salePrice;
+    private BigDecimal salePrice;
 
     @Column(name ="[status]")
     @Convert(converter = ProductStatus.JpaConverter.class)

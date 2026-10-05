@@ -1,5 +1,6 @@
 package com.n3.mebe.payment.entity;
 
+import java.math.BigDecimal;
 import com.n3.mebe.order.entity.Order;
 
 import jakarta.persistence.*;
@@ -27,7 +28,7 @@ public class Payment {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private float amount;
+    private BigDecimal amount;
 
     @Column(name = "payment_type")
     @Convert(converter = PaymentMethod.JpaConverter.class)

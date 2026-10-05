@@ -1,5 +1,6 @@
 package com.n3.mebe.order.dto.response;
 
+import java.math.BigDecimal;
 import com.n3.mebe.order.entity.OrderStatus;
 import com.n3.mebe.payment.entity.PaymentMethod;
 import com.n3.mebe.payment.entity.PaymentStatus;
@@ -28,7 +29,7 @@ public class OrderResponse {
     private String orderCode;
     private String shipAddress;
     private OrderStatus status;
-    private float totalAmount;
+    private BigDecimal totalAmount;
     private PaymentMethod orderType;
     private PaymentStatus paymentStatus;
     private String note;
