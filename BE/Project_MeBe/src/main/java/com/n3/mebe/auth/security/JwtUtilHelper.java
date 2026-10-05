@@ -14,7 +14,7 @@ public class JwtUtilHelper {
     @Value("${jwt.privateKey}") //Anotation Value: Cho phép gọi lấy giá trị của key
     private String privateKey;
 
-    public String genarateToken(String data) {
+    public String generateToken(String data) {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(privateKey));
         String jws = Jwts.builder().subject(data).signWith(key).compact();
         return jws;

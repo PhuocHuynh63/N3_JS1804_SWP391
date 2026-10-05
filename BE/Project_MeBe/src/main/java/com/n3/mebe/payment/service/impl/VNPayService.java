@@ -2,13 +2,12 @@ package com.n3.mebe.payment.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.n3.mebe.payment.config.VNPayConfig;
+import com.n3.mebe.payment.config.VNPayProperties;
+import com.n3.mebe.payment.util.VNPayUtils;
 import com.n3.mebe.order.dto.request.OrderRequest;
-import com.n3.mebe.payment.dto.request.PaymentRequest;
 import com.n3.mebe.payment.dto.response.PaymentResponse;
-import com.n3.mebe.order.service.IOrderService;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,15 +22,12 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class VNPayService {
 
-    @Autowired
-    private IOrderService orderService;
+    private final StringRedisTemplate redisTemplate;
 
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
+    private final VNPayProperties vnPayProperties;
 
 
     // <editor-fold default state="collapsed" desc="createPaymentUrl">
@@ -43,14 +38,14 @@ public class VNPayService {
         long amount =  (long) orderRequest.getTotalAmount()*100L; // Định dạng của VNPay 100L = 10000
         String bankCode = "NCB";
 
-        String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
-        String vnp_IpAddr = VNPayConfig.getIpAddress();
+        String vnp_TxnRef = VNPayUtils.getRandomNumber(8);
+        String vnp_IpAddr = VNPayUtils.getIpAddress();
 
-        String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
+        String vnp_TmnCode = vnPayProperties.tmnCode();
 
         Map<String, String> vnp_Params = new HashMap<>();
-        vnp_Params.put("vnp_Version", VNPayConfig.vnp_Version);
-        vnp_Params.put("vnp_Command", VNPayConfig.vnp_Command);
+        vnp_Params.put("vnp_Version", vnPayProperties.version());
+        vnp_Params.put("vnp_Command", vnPayProperties.command());
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
@@ -72,7 +67,7 @@ public class VNPayService {
         redisTemplate.opsForValue().set(orderRequestKey, objectMapper.writeValueAsString(orderRequest), 15, TimeUnit.MINUTES);
 
         // thêm orderId vào link return để lấy ra bẳng redis
-        vnp_Params.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl + "?orderRequestId=" + URLEncoder.encode(orderRequestId, StandardCharsets.UTF_8));
+        vnp_Params.put("vnp_ReturnUrl", vnPayProperties.returnUrl() + "?orderRequestId=" + URLEncoder.encode(orderRequestId, StandardCharsets.UTF_8));
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         // Đặt múi giờ TP. Hồ Chí Minh
@@ -110,7 +105,7 @@ public class VNPayService {
             }
         }
         String queryUrl = query.toString();
-        String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
+        String vnp_SecureHash = VNPayUtils.hmacSHA512(vnPayProperties.secretKey(), hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 
 
@@ -123,7 +118,7 @@ public class VNPayService {
         PaymentResponse paymentResponse = new PaymentResponse();
         paymentResponse.setStatus("OK");
         paymentResponse.setMessage("Successfully created payment");
-        paymentResponse.setURL(VNPayConfig.vnp_PayUrl + "?" + queryUrl);
+        paymentResponse.setURL(vnPayProperties.payUrl() + "?" + queryUrl);
         paymentResponse.setPaymentID(vnp_TxnRef); // Set Payment ID
         paymentResponse.setOrderRequestId(orderRequestId); // Set Payment ID
 

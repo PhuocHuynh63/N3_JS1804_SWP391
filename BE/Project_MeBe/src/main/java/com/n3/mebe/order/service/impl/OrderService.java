@@ -1,5 +1,7 @@
 package com.n3.mebe.order.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.order.dto.request.CancelOrderRequest;
 import com.n3.mebe.order.dto.request.OrderRefundRequest;
@@ -30,8 +32,7 @@ import com.n3.mebe.notification.service.ISendMailService;
 import com.n3.mebe.catalog.service.impl.ProductService;
 import com.n3.mebe.user.service.impl.UserService;
 import com.n3.mebe.shared.util.DataUtils;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.stereotype.Service;
 
@@ -40,43 +41,32 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService implements IOrderService {
 
-    @Autowired
-    private IOrderRepository orderRepository;
+    private final IOrderRepository orderRepository;
 
-    @Autowired
-    private IOrderDetailsRepository orderDetailsRepository;
+    private final IOrderDetailsRepository orderDetailsRepository;
 
-    @Autowired
-    private IAddressRepository addressRepository;
+    private final IAddressRepository addressRepository;
 
-    @Autowired
-    private IUserRepository iUserRepository;
+    private final IUserRepository iUserRepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
-    private ISendMailService sendMailService;
+    private final ISendMailService sendMailService;
 
-    @Autowired
-    private IPaymentService paymentService;
+    private final IPaymentService paymentService;
 
-    @Autowired
-    private IProductRepository productRespository;
+    private final IProductRepository productRespository;
 
-    @Autowired
-    private IPaymentRepository paymentRepository;
+    private final IPaymentRepository paymentRepository;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private OrderMapper orderMapper;
+    private final OrderMapper orderMapper;
 
 
     @Override

@@ -1,5 +1,7 @@
 package com.n3.mebe.catalog.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.catalog.dto.request.CategoryRequest;
 import com.n3.mebe.shared.dto.ResponseData;
 import com.n3.mebe.catalog.dto.response.CategoryResponse;
@@ -7,19 +9,17 @@ import com.n3.mebe.catalog.dto.response.CategoryResponse;
 import com.n3.mebe.catalog.entity.Category;
 import com.n3.mebe.catalog.service.ICategoryService;
 import com.n3.mebe.catalog.service.impl.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/category")
+@RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private ICategoryService categoryService;
+    private final ICategoryService categoryService;
 
 
     /**

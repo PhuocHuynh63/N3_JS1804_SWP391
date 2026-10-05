@@ -1,5 +1,7 @@
 package com.n3.mebe.catalog.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.order.dto.request.OrderDetailsRequest;
 import com.n3.mebe.catalog.dto.request.ProductRequest;
@@ -17,7 +19,6 @@ import com.n3.mebe.shared.storage.service.ICloudinaryService;
 import com.n3.mebe.catalog.service.IProductService;
 import com.n3.mebe.wishlist.service.IWishListService;
 import com.n3.mebe.notification.service.impl.SendMailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,25 +27,20 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService {
 
-    @Autowired
-    private IProductRepository iProductRespository;
+    private final IProductRepository iProductRespository;
 
-    @Autowired
-    private ICloudinaryService cloudinaryService;
+    private final ICloudinaryService cloudinaryService;
 
-    @Autowired
-    private ISubCategoryRepository iSubCategoryRepository;
+    private final ISubCategoryRepository iSubCategoryRepository;
 
-    @Autowired
-    private IWishListRepository wishListRepository;
+    private final IWishListRepository wishListRepository;
 
-    @Autowired
-    private SendMailService sendMailService;
+    private final SendMailService sendMailService;
 
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductMapper productMapper;
 
 
     // <editor-fold default state="collapsed" desc="Send Email Wish List Done">

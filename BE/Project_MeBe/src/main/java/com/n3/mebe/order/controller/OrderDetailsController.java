@@ -1,23 +1,23 @@
 package com.n3.mebe.order.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.order.dto.request.OrderDetailsRequest;
 import com.n3.mebe.order.dto.request.UpdateOrderDetailsRequest;
 import com.n3.mebe.order.dto.response.OrderDetailsResponse;
 import com.n3.mebe.order.entity.OrderDetail;
 import com.n3.mebe.order.service.IOrderDetailsService;
 import com.n3.mebe.order.service.impl.OrderDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/order_details")
+@RequiredArgsConstructor
 public class OrderDetailsController {
 
-    @Autowired
-    private IOrderDetailsService orderDetailsService;
+    private final IOrderDetailsService orderDetailsService;
 
     /**
      * Response from Client

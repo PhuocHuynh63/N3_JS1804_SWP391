@@ -3,7 +3,6 @@ package com.n3.mebe.shared.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -11,19 +10,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-
-
+    // RedisConnectionFactory được Spring Boot tự tạo từ spring.data.redis.host / port
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        // return new LettuceConnectionFactory("localhost", 6379);
-        return new LettuceConnectionFactory("14.225.253.116", 6379);
-        // return new LettuceConnectionFactory("192.168.1.7", 6379);
-    }
-
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory());
+        template.setConnectionFactory(redisConnectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return template;

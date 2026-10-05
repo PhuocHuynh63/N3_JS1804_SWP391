@@ -1,5 +1,7 @@
 package com.n3.mebe.user.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.n3.mebe.user.dto.request.*;
 import com.n3.mebe.user.dto.response.*;
@@ -27,7 +29,6 @@ import com.n3.mebe.wishlist.repository.*;
 import com.n3.mebe.shared.storage.service.ICloudinaryService;
 import com.n3.mebe.user.service.IUserService;
 import com.n3.mebe.notification.service.impl.SendMailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,36 +41,27 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    @Autowired
-    private IUserRepository iUserRepository;
+    private final IUserRepository iUserRepository;
 
-    @Autowired
-    private IAddressRepository iAddressRepository;
+    private final IAddressRepository iAddressRepository;
 
-    @Autowired
-    private IOrderRepository iOrderRepository;
+    private final IOrderRepository iOrderRepository;
 
-    @Autowired
-    private IOrderDetailsRepository iOrderDetailsRepository;
+    private final IOrderDetailsRepository iOrderDetailsRepository;
 
-    @Autowired
-    private ICloudinaryService cloudinaryService;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private final ICloudinaryService cloudinaryService;
+    private final StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
-    private AddressMapper addressMapper;
+    private final AddressMapper addressMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private UserProductMapper userProductMapper;
+    private final UserProductMapper userProductMapper;
 
-    @Autowired
-    private GuestMapper guestMapper;
+    private final GuestMapper guestMapper;
 
 
     // <editor-fold default state="collapsed" desc="Get User By Id">

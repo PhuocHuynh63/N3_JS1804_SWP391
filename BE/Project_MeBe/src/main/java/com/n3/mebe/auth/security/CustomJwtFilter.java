@@ -1,11 +1,12 @@
 package com.n3.mebe.auth.security;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.auth.security.JwtUtilHelper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @Component
+@RequiredArgsConstructor
 public class CustomJwtFilter extends OncePerRequestFilter {
 
-    @Autowired
-    JwtUtilHelper jwtUtilHelper;
+    private final JwtUtilHelper jwtUtilHelper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

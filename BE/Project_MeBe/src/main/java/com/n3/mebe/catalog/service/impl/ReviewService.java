@@ -1,5 +1,7 @@
 package com.n3.mebe.catalog.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.user.service.impl.UserService;
 
 import com.n3.mebe.catalog.dto.request.ReviewRequest;
@@ -11,7 +13,6 @@ import com.n3.mebe.shared.exception.ErrorCode;
 import com.n3.mebe.catalog.mapper.ReviewMapper;
 import com.n3.mebe.catalog.repository.IReviewRepository;
 import com.n3.mebe.catalog.service.IReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,19 +20,16 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewService implements IReviewService {
 
-    @Autowired
-    private IReviewRepository reviewRepository;
+    private final IReviewRepository reviewRepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
-    private ReviewMapper reviewMapper;
+    private final ReviewMapper reviewMapper;
 
 
     @Override

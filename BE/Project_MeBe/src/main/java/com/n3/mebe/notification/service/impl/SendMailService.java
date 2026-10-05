@@ -1,5 +1,7 @@
 package com.n3.mebe.notification.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.notification.dto.GmailSendResponse;
 import com.n3.mebe.order.entity.Order;
 import com.n3.mebe.user.entity.User;
@@ -14,7 +16,6 @@ import com.n3.mebe.user.service.impl.UserService;
 import com.n3.mebe.notification.constant.ConstEmail;
 import com.n3.mebe.shared.util.DataUtils;
 import jakarta.mail.MessagingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,27 +26,18 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class SendMailService implements ISendMailService {
-    @Autowired
-    private MailService mailService;
+    private final MailService mailService;
 
-    @Autowired
-    private IUserRepository iUserRepository;
+    private final IUserRepository iUserRepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final IOrderDetailsRepository orderDetailsRepository;
 
-    @Autowired
-    private IUserRepository IUserRepository;
+    private final StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
-    private IOrderDetailsRepository IOrderDetailsRepository;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
-    @Autowired
-    private IOrderRepository orderRepository;
+    private final IOrderRepository orderRepository;
 
     // <editor-fold default state="collapsed" desc="create Send Email Forgot">
     @Override
@@ -64,7 +56,7 @@ public class SendMailService implements ISendMailService {
 
             String status = "forgot";
             user.setStatus(status);
-            IUserRepository.save(user);
+            iUserRepository.save(user);
 
             Map<String, Object> props = new HashMap<>();
             props.put("firstName", user.getFirstName());
@@ -103,7 +95,7 @@ public class SendMailService implements ISendMailService {
             props.put("orderCode", order.getOrderCode());
             props.put("shipAddress", order.getShipAddress());
 
-            props.put("orderDetails", IOrderDetailsRepository.findByOrderOrderId(order.getOrderId()));
+            props.put("orderDetails", orderDetailsRepository.findByOrderOrderId(order.getOrderId()));
             props.put("totalAmount",  order.getTotalAmount());
             response.setProps(props);
 

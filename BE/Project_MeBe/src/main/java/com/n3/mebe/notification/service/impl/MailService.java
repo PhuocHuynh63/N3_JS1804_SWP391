@@ -1,11 +1,12 @@
 package com.n3.mebe.notification.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 import com.n3.mebe.notification.dto.GmailSendResponse;
 import com.n3.mebe.notification.service.IMailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,11 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MailService implements IMailService {
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
-    @Autowired
-    private SpringTemplateEngine templateEngine;
+    private final SpringTemplateEngine templateEngine;
 
     @Override
     public void sendHtmlMail(GmailSendResponse response, String templateName) throws MessagingException {

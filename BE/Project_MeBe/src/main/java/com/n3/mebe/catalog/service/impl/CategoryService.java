@@ -1,5 +1,7 @@
 package com.n3.mebe.catalog.service.impl;
 
+import lombok.RequiredArgsConstructor;
+
 
 
 import com.n3.mebe.catalog.dto.request.CategoryRequest;
@@ -13,20 +15,18 @@ import com.n3.mebe.catalog.mapper.CategoryMapper;
 import com.n3.mebe.catalog.repository.ICategoryRepository;
 
 import com.n3.mebe.catalog.service.ICategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
 
-    @Autowired
-    private ICategoryRepository icategoryRepository;
+    private final ICategoryRepository icategoryRepository;
 
-    @Autowired
-    private CategoryMapper categoryMapper;
+    private final CategoryMapper categoryMapper;
 
     // <editor-fold default state="collapsed" desc="Get Category By Id">
     Category getCategoryById (int id) throws AppException {
