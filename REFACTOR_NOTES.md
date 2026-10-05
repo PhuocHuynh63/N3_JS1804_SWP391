@@ -6,7 +6,7 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
 
 | Phase | Nội dung | Trạng thái |
 |---|---|---|
-| 0 | Dọn nền: secrets, constructor injection, enum, BigDecimal, Flyway, tests, đổi tên | 🔄 Đang làm |
+| 0 | Dọn nền + modular monolith: secrets, constructor injection, enum, BigDecimal, Flyway, tests, đổi tên | ✅ Xong |
 | 1 | Java core + JPA (entity, N+1, paging, Specification, @Version) | ⏳ |
 | 2 | Spring Security (JWT role/expiry, refresh token, @PreAuthorize, server tính giá) | ⏳ |
 | 3 | Clean Architecture (package-by-feature, ports & adapters, modular monolith) | ⏳ |
@@ -19,6 +19,13 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
 - `./mvnw` lỗi (CRLF trong `.mvn/wrapper/maven-wrapper.properties`). Dùng Maven cache:
   `/c/Users/vipha/.m2/wrapper/dists/apache-maven-3.9.6/834f1afe40575b70b4b2527f4b12df8e/bin/mvn`
 - Code gốc KHÔNG compile được: `interceptor/RateLimitInterceptor.java` dòng 16.
+
+## Lệnh hay dùng (chạy trong `BE/Project_MeBe`)
+
+- Build: `./mvnw -DskipTests package` (hoặc Maven cache ở trên nếu không có mạng)
+- Unit test: `./mvnw test`
+- Cả integration test (cần Docker): `./mvnw test -DexcludedTestGroups=none`
+- Chạy app: cần file `.env` (copy từ `.env.example`), rồi `./mvnw spring-boot:run`
 
 ## Phase 0 — Checklist
 
@@ -34,8 +41,8 @@ Nhật ký refactor dự án Me&Be (BE: `BE/Project_MeBe`). Đọc file này đ�
   - Sửa bug đi kèm: VNPay order trước đây không lưu transactionReference (FE gửi "VNPay", code chỉ check "Online"); `increaseProductQuantity` giờ set lại "Còn hàng"; `deleteProduct` giờ có save; `createUserForAdmin` điều kiện status bị đảo.
   - Nghi vấn giữ nguyên hành vi: `UserService.updateRoleForAdmin` chỉ đổi role khi user ĐANG là admin (có lẽ phải ngược lại) → xem ở Phase 2.
 - [x] 0.9 Tiền `float` → `BigDecimal` (DB là DECIMAL(10,2)): Product, OrderDetail, Order, Payment, Voucher (cost/minimumApply/maxDiscount), WishList + mọi DTO tương ứng + filter giá min/max. VNPay: `totalAmount.multiply(100).longValue()`. `Voucher.quantity` vẫn float (không phải tiền). Lưu ý: BigDecimal mặc định null (float mặc định 0).
-- [ ] 0.10 Flyway (baseline từ `MeBeTest.sql`)
-- [ ] 0.11 Unit tests cho service chính
+- [x] 0.10 Flyway (flyway-core + flyway-sqlserver 10.10). `src/main/resources/db/migration/V1__init_schema.sql` (10 bảng) + `V2__seed_data.sql` (dữ liệu mẫu), tách từ `MeBeTest.sql` (file gốc giữ lại để tham khảo). `baseline-on-migrate=true`, `baseline-version=2` → DB cũ bỏ qua V1/V2, DB trống chạy đủ. Thay đổi schema sau này: thêm `V3__...sql`, KHÔNG sửa V1/V2.
+- [x] 0.11 Tests: 18 unit test (JUnit5 + Mockito + AssertJ) — `LabeledEnumTest`, `PaymentServiceTest` (có test hồi quy bug VNPay), `OrderServiceTest` (hủy đơn), `ProductServiceTest` (tồn kho), `JwtUtilHelperTest`. Integration test `ProjectMeBeApplicationTests` (Testcontainers SQL Server + Flyway, `@Tag("integration")`, profile `test` với `src/test/resources/application-test.properties`) — mặc định bị loại; CHƯA chạy được vì Docker Desktop chưa bật.
 
 ## Cấu trúc module (sau bước 0.M)
 
@@ -67,10 +74,17 @@ Script dùng để di chuyển: chạy 1 lần bằng Node (không lưu trong re
 - **Phase 1 / JPA:** `@Data` trên entity có quan hệ 2 chiều; `User` EAGER 3 collection; `Order` EAGER orderDetails; N+1 trong ReviewService/UserService; `deleteProduct` set status nhưng không save.
 - **Bug nhỏ còn lại:** `AddressService.updateAddress` vòng lặp so sánh sai biến.
 
+## Việc tiếp theo (gợi ý)
+
+1. Bật Docker, chạy `./mvnw test -DexcludedTestGroups=none` để kiểm tra Flyway trên SQL Server thật.
+2. User tự đổi (rotate) các secret đã lộ trong lịch sử git.
+3. Phase 1 (JPA) hoặc Phase 2 (Security — nhiều lỗ hổng nghiêm trọng, xem mục "Vấn đề phát hiện").
+
 ## Nhật ký chi tiết
 
 - `3058ede` fix: RateLimitInterceptor compile được + tạo file notes.
 - `b0d7479` refactor: tái cấu trúc package-by-module. `mvn compile` OK.
 - `f536c47` chore: secrets→env, constructor injection, CORS global, Spring @Transactional, pom/mvnw fix.
 - `e77a193` refactor: status/role/type → enum (0.8).
-- (commit tiếp) refactor: float → BigDecimal (0.9).
+- `d53a70f` refactor: float → BigDecimal (0.9).
+- (commit tiếp) Flyway + tests (0.10, 0.11). Phase 0 xong.
